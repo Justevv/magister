@@ -95,6 +95,12 @@ public class OpenWindow extends JDialog {
 //        }
     }
 
+    public static void main() {
+        OpenWindow dialog = new OpenWindow();
+        dialog.pack();
+        dialog.setVisible(true);
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
