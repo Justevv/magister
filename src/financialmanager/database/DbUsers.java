@@ -13,11 +13,8 @@ import java.util.logging.Logger;
 
 public class DbUsers {
     public static Integer nId;
-    public static Integer dSum;
     public static String sName;
     public static ArrayList<Users> users;
-    public static String sPhone;
-    public static Integer balance;
     public static String sEmail;
 
     public static void main(String[] args) {

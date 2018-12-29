@@ -1,7 +1,8 @@
 package financialmanager.gui;
 
-import financialmanager.data.Expenses;
+import financialmanager.data.Users;
 import financialmanager.database.DbExpenses;
+import financialmanager.database.DbUsers;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,20 +13,20 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static financialmanager.database.DbExpenses.expenses;
-import static financialmanager.gui.WindowExpenses.tModel;
+import static financialmanager.database.DbUsers.users;
+import static financialmanager.gui.WindowUsers.modelUsers;
 
 public class AddUser extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textFieldDate;
-    private JTextField textFieldCategory;
-    private JTextField textFieldPlaces;
-    private JTextField textField5PaymentType;
-    private JTextField textFieldSum;
-    private JComboBox comboBox1;
-    public static int filternId = 50000;
+    private JTextField textFieldSurname;
+    private JTextField textFieldName;
+    private JTextField textFieldBirthday;
+    private JTextField textFieldPhone;
+    private JTextField textFieldSex;
+    private JTextField textFieldEmail;
+    public static int filternId = 0;
 
     public AddUser() {
         setTitle("Финансовый менеджер");
@@ -33,18 +34,9 @@ public class AddUser extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        String[] items = {
-                "Элемент списка 1",
-                "Элемент списка 2",
-                "Элемент списка 3"
-        };
-        JComboBox editComboBox = new JComboBox(items);
-        editComboBox.setEditable(true);
-
         buttonOK.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-
                 onOK();
             }
         });
@@ -93,61 +85,37 @@ public class AddUser extends JDialog {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String dtDate = new String(textFieldDate.getText());
-            Integer dSum = new Integer(textFieldSum.getText());
-            //  Integer nUserId = new Integer(textFieldUser.getText());
-            Integer nCategoryId = new Integer(textFieldCategory.getText());
-            Integer nPlaceId = new Integer(textFieldPlaces.getText());
-            Integer nPaymentTypeId = new Integer(textField5PaymentType.getText());
-            String insertSQLString = ("insert into t_Expenses( dtDate ,dSum,nUserId, nCategoryId ,nPlaceId,nPaymentTypeId) values ('%1$s',%2$s,%3$s,%4$s,%5$s,%6$s)");
-            String insertSQL = String.format(insertSQLString, dtDate, dSum, OpenWindow.userLogin, nCategoryId, nPlaceId, nPaymentTypeId);
+            String Surname = new String(textFieldSurname.getText());
+            String Name = new String(textFieldName.getText());
+            String Birthday = new String(textFieldBirthday.getText());
+            String Sex = new String(textFieldSex.getText());
+            String Phone = new String(textFieldPhone.getText());
+            String Email = new String(textFieldEmail.getText());
+            String insertSQLString = ("insert into t_dicUsers( sSurname ,sName, dtBirthday, sSex, sPhone, sEmail) values ('%1$s','%2$s','%3$s','%4$s','%5$s','%6$s')");
+            String insertSQL = String.format(insertSQLString, Surname, Name, Birthday, Sex, Phone, Email);
             // System.out.println(insertSQL);
             stmt.executeUpdate(insertSQL);
-//            expenses.add(new Expenses(1, dtDate, nUserId.toString(), nCategoryId.toString(), nPlaceId.toString(), nPaymentTypeId.toString(), dSum));
-//            tModel.fireTableDataChanged();
-//            ResultSet executeQuery =  stmt.executeUpdate(insertSQL;
-//            executeQuery.updateRow();
-            // Закрываем соединение
-            //executeQuery.close();
 
-            // Подключение к базе данных
-            //   Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
-            //   Statement stmt = con.createStatement();
-
-            //  System.out.println("SUP " + DbExpenses.nId);
-            if (DbExpenses.nId != null && filternId < DbExpenses.nId) {
-                filternId = DbExpenses.nId;
+            if (filternId < DbUsers.nId) {
+                filternId = DbUsers.nId;
             }
-            //   System.out.println("UP " + filternId);
-            ResultSet executeQuery = stmt.executeQuery("SELECT e.nId as nId, dtDate, sSurname, c.sName as CategoriesName,p.sName as nPlaceName, pt.sName as nPaymentTypeName, dSum " +
-                    "FROM t_Expenses e join t_dicUsers u on e.nUserId=u.nId " +
-                    "join t_dicCategories c on e.nCategoryId=c.nId " +
-                    "join t_dicPlaces p on e.nPlaceId=p.nId " +
-                    "join t_dicPaymentTypes pt on e.nPaymentTypeId=pt.nId " +
-                    "where e.nUserId=" + OpenWindow.userLogin + "and e.nId>" + filternId
+            System.out.println(filternId);
+            ResultSet executeQuery = stmt.executeQuery("SELECT * " +
+                    "FROM t_dicUsers where nId>" + filternId
             );
+            // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
-                dtDate = executeQuery.getString("dtDate");
-                String nUserSurname = executeQuery.getString("sSurname");
-                String nCategoryName = executeQuery.getString("CategoriesName");
-                String nPlaceName = executeQuery.getString("nPlaceName");
-                String nPaymentTypeName = executeQuery.getString("nPaymentTypeName");
-                dSum = executeQuery.getInt("dSum");
-                expenses.add(new Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum));
-                tModel.fireTableDataChanged();
+                String sSurname = executeQuery.getString("sSurname");
+                String sName = executeQuery.getString("sName");
+                String dtBirthday = executeQuery.getString("dtBirthday");
+                String sSex = executeQuery.getString("sSex");
+                String sPhone = executeQuery.getString("sPhone");
+                String sEmail = executeQuery.getString("sEmail");
+                users.add(new Users(nId, sSurname, sName, dtBirthday, sSex, sPhone, sEmail));
+                modelUsers.fireTableDataChanged();
                 filternId = nId;
-                //     System.out.println("Down " + filternId);
             }
-            ResultSet executeQuery2 = stmt.executeQuery("select sum(dSum) as dSum, count(dSum) as dCount from t_Expenses where nUserId=" + OpenWindow.userLogin);
-            while (executeQuery2.next()) {
-                long balance = executeQuery2.getLong("dSum");
-                Integer dCount = executeQuery2.getInt("dCount");
-            }
-
-            // Закрываем соединение
-            executeQuery.close();
 
             stmt.close();
             con.close();
@@ -155,10 +123,6 @@ public class AddUser extends JDialog {
             // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
-        // dispose();
-        //  setVisible(false);
-        DbExpenses.balance = DbExpenses.balance + new Integer(textFieldSum.getText());
-        WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
     }
 
     private void onCancel() {
@@ -214,41 +178,47 @@ public class AddUser extends JDialog {
         buttonCancel.setText("Cancel");
         panel2.add(buttonCancel, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
-        panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(6, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(7, 2, new Insets(0, 0, 0, 0), -1, -1));
         contentPane.add(panel3, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        panel3.setBorder(BorderFactory.createTitledBorder("Добавить расход"));
+        panel3.setBorder(BorderFactory.createTitledBorder("Добавить пользователя"));
         final JLabel label1 = new JLabel();
-        label1.setText("Дата");
+        label1.setText("Фамилия");
         panel3.add(label1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
-        panel3.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        textFieldDate = new JTextField();
-        textFieldDate.setText("20171010");
-        panel3.add(textFieldDate, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel3.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(6, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        textFieldSurname = new JTextField();
+        textFieldSurname.setText("Попов");
+        panel3.add(textFieldSurname, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label2 = new JLabel();
-        label2.setText("Категория");
+        label2.setText("Имя");
         panel3.add(label2, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
-        label3.setText("Место");
+        label3.setText("Дата рождения");
         panel3.add(label3, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
-        label4.setText("Тип оплаты");
+        label4.setText("Пол");
         panel3.add(label4, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label5 = new JLabel();
-        label5.setText("Сумма");
+        label5.setText("Телефон");
         panel3.add(label5, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        textFieldCategory = new JTextField();
-        textFieldCategory.setText("1");
-        panel3.add(textFieldCategory, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        textFieldPlaces = new JTextField();
-        textFieldPlaces.setText("3");
-        panel3.add(textFieldPlaces, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        textField5PaymentType = new JTextField();
-        textField5PaymentType.setText("2");
-        panel3.add(textField5PaymentType, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        textFieldSum = new JTextField();
-        textFieldSum.setText("1000");
-        panel3.add(textFieldSum, new com.intellij.uiDesigner.core.GridConstraints(4, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        textFieldName = new JTextField();
+        textFieldName.setText("Роман");
+        panel3.add(textFieldName, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        textFieldBirthday = new JTextField();
+        textFieldBirthday.setText("19851101");
+        panel3.add(textFieldBirthday, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        textFieldPhone = new JTextField();
+        textFieldPhone.setText("+79202222222");
+        panel3.add(textFieldPhone, new com.intellij.uiDesigner.core.GridConstraints(4, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label6 = new JLabel();
+        label6.setText("Email");
+        panel3.add(label6, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        textFieldSex = new JTextField();
+        textFieldSex.setText("M");
+        panel3.add(textFieldSex, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        textFieldEmail = new JTextField();
+        textFieldEmail.setText("popov@mail.ru");
+        panel3.add(textFieldEmail, new com.intellij.uiDesigner.core.GridConstraints(5, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     }
 
     /**

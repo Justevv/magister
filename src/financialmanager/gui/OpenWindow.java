@@ -14,14 +14,11 @@ public class OpenWindow extends JDialog {
     private JLabel LRegister;
     private JLabel LError;
     public static String userLogin;
-    // public  int test[] = new int[5];
-//    public static boolean test = false;
 
     public OpenWindow() {
         setContentPane(contentPane);
         setModal(true);
         setTitle("Финансовый менеджер");
-        // WindowExpenses w = new WindowExpenses();
         getRootPane().setDefaultButton(buttonOK);
         LError.setVisible(false);
 
@@ -58,8 +55,6 @@ public class OpenWindow extends JDialog {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 System.out.println("Register");
-
-
             }
         });
     }
@@ -93,6 +88,12 @@ public class OpenWindow extends JDialog {
 //        if (test = true) {
 //            dialog.setVisible(false);
 //        }
+    }
+
+    public static void main() {
+        OpenWindow dialog = new OpenWindow();
+        dialog.pack();
+        dialog.setVisible(true);
     }
 
     private void createUIComponents() {

@@ -27,16 +27,13 @@ public class WindowExpenses extends JFrame {
     private JCheckBox check = new JCheckBox("Check", false);
     public static ExpensesTable tModel = new ExpensesTable(expenses);
     private static JTable jTabPeople = new JTable(tModel);
-    static JScrollPane jscrlp = new JScrollPane(jTabPeople);
-    final static boolean shouldWeightX = true;
-//    int nullcolumn;
-    //Проверка гита
+   // static JScrollPane jscrlp = new JScrollPane(jTabPeople);
 
     public WindowExpenses() {
 
 
         super("Финансовый менеджер");
-        this.setBounds(100, 100, 750, 500);
+        this.setBounds(100, 100, 650, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DbExpenses.main();
@@ -89,14 +86,14 @@ public class WindowExpenses extends JFrame {
         JScrollPane jscrlp = new JScrollPane(jTabPeople);
         //    tModel.fireTableDataChanged();
         //Устаналиваем размеры прокручиваемой области
-        jTabPeople.setPreferredScrollableViewportSize(new Dimension(350, 200));
+        jTabPeople.setPreferredScrollableViewportSize(new Dimension(450, 250));
         //Добавляем в контейнер нашу панель прокрути и таблицу вместе с ней
         jfrm.getContentPane().add(jscrlp);
 
-        ButtonGroup group = new ButtonGroup();
-        group.add(radio1);
-        group.add(radio2);
-        group.add(radio3);
+//        ButtonGroup group = new ButtonGroup();
+//        group.add(radio1);
+//        group.add(radio2);
+//        group.add(radio3);
 
 //        if (shouldWeightX) {
 //            c.weightx = 0.5;
@@ -135,8 +132,6 @@ public class WindowExpenses extends JFrame {
         c.gridx = 0;
         c.gridy = 3;
         container.add(button, c);
-        //  container.add(button);
-
 
         buttonAddUser.addActionListener(new ActionListener() {
             //   private JInternalFrame dialog;
@@ -201,7 +196,6 @@ public class WindowExpenses extends JFrame {
         c.gridx = 1;
         c.gridy = 0;
         container.add(jscrlp, c);
-
         //container.add(jscrlp);
     }
 
@@ -229,7 +223,5 @@ public class WindowExpenses extends JFrame {
     public static void go() {
         WindowExpenses app = new WindowExpenses();
         app.setVisible(true);
-        //jscrlp.repaint();
-
-    }
+            }
 }
