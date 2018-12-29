@@ -33,7 +33,7 @@ public class WindowExpenses extends JFrame {
 
 
         super("Финансовый менеджер");
-        this.setBounds(100, 100, 750, 500);
+        this.setBounds(100, 100, 650, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DbExpenses.main();
@@ -86,7 +86,7 @@ public class WindowExpenses extends JFrame {
         JScrollPane jscrlp = new JScrollPane(jTabPeople);
         //    tModel.fireTableDataChanged();
         //Устаналиваем размеры прокручиваемой области
-        jTabPeople.setPreferredScrollableViewportSize(new Dimension(350, 200));
+        jTabPeople.setPreferredScrollableViewportSize(new Dimension(450, 250));
         //Добавляем в контейнер нашу панель прокрути и таблицу вместе с ней
         jfrm.getContentPane().add(jscrlp);
 
