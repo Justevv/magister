@@ -30,7 +30,6 @@ public class WindowExpenses extends JFrame {
     static JScrollPane jscrlp = new JScrollPane(jTabPeople);
     final static boolean shouldWeightX = true;
 //    int nullcolumn;
-    //test 1
 
     public WindowExpenses() {
 
