@@ -58,10 +58,10 @@ public class DbExpenses {
             );
             // Обход результатов выборки
             expenses = new ArrayList<>();
-            users = new ArrayList<String>();
-            AddExpenses.comboBoxPlace = new JComboBox();
+             AddExpenses.comboBoxPlace = new JComboBox();
+            AddExpenses.comboBoxPaymentType = new JComboBox();
+            AddExpenses.comboBoxCategory = new JComboBox();
 
-            int i = 0;
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
                 String dtDate = executeQuery.getString("dtDate");
@@ -80,14 +80,19 @@ public class DbExpenses {
                 Integer dCount = executeQuery2.getInt("dCount");
             }
 
-            ResultSet executeQuery3 = stmt.executeQuery("select * from t_dicPlaces");
-            while (executeQuery3.next()) {
-                items[i] = executeQuery3.getString("nId");
-                users.add(executeQuery3.getString("nId"));
-                AddExpenses.comboBoxPlace.addItem(executeQuery3.getString("sName"));
-                System.out.println(users);
-                i++;
-                // Integer dCount = executeQuery3.getInt("dCount");
+            ResultSet executeQueryNamePlaces = stmt.executeQuery("select * from t_dicPlaces");
+            while (executeQueryNamePlaces.next()) {
+                AddExpenses.comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
+            }
+
+            ResultSet executeQueryNamePaymentTypes = stmt.executeQuery("select * from t_dicPaymentTypes");
+            while (executeQueryNamePaymentTypes.next()) {
+                AddExpenses.comboBoxPaymentType.addItem(executeQueryNamePaymentTypes.getString("sName"));
+            }
+
+            ResultSet executeQueryNameCategories = stmt.executeQuery("select * from t_dicCategories");
+            while (executeQueryNameCategories.next()) {
+                AddExpenses.comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
             }
 
             // System.out.println(users.get(0));

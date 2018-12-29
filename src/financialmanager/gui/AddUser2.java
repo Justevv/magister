@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbExpenses.expenses;
 import static financialmanager.gui.WindowExpenses.tModel;
 
-public class AddExpenses3 extends JDialog {
+public class AddUser2 extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -27,11 +27,19 @@ public class AddExpenses3 extends JDialog {
     private JComboBox comboBox1;
     public static int filternId = 50000;
 
-    public AddExpenses3() {
+    public AddUser2() {
         setTitle("Финансовый менеджер");
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+
+        String[] items = {
+                "Элемент списка 1",
+                "Элемент списка 2",
+                "Элемент списка 3"
+        };
+        JComboBox editComboBox = new JComboBox(items);
+        editComboBox.setEditable(true);
 
         buttonOK.addActionListener(new ActionListener() {
 
@@ -161,14 +169,14 @@ public class AddExpenses3 extends JDialog {
     }
 
     public static void main(String[] args) {
-        AddExpenses3 dialog = new AddExpenses3();
+        AddUser2 dialog = new AddUser2();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
     }
 
     public static void go() {
-        AddExpenses3 dialog = new AddExpenses3();
+        AddUser2 dialog = new AddUser2();
         dialog.pack();
         dialog.setVisible(true);
         //   System.exit(0);
@@ -215,7 +223,7 @@ public class AddExpenses3 extends JDialog {
         final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
         panel3.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         textFieldDate = new JTextField();
-        textFieldDate.setText("20181010");
+        textFieldDate.setText("20171010");
         panel3.add(textFieldDate, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("Категория");
@@ -235,11 +243,12 @@ public class AddExpenses3 extends JDialog {
         textFieldPlaces = new JTextField();
         textFieldPlaces.setText("3");
         panel3.add(textFieldPlaces, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        textField5PaymentType = new JTextField();
+        textField5PaymentType.setText("2");
+        panel3.add(textField5PaymentType, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         textFieldSum = new JTextField();
         textFieldSum.setText("1000");
         panel3.add(textFieldSum, new com.intellij.uiDesigner.core.GridConstraints(4, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        comboBox1 = new JComboBox();
-        panel3.add(comboBox1, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
