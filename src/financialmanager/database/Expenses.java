@@ -2,7 +2,6 @@ package financialmanager.database;
 
 import financialmanager.gui.OpenWindow;
 
-import javax.swing.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.*;
@@ -13,9 +12,7 @@ import static financialmanager.database.DbExpenses.expenses;
 import static financialmanager.gui.WindowExpenses.tModel;
 
 public class Expenses {
-    private static JTextField textFieldDate = new JTextField("20181010", 5);
-    private static JTextField textFieldSum = new JTextField("100", 5);
-    public static int filternId = 50000;
+    public static int filternId = 0000;
     static String Place;
     static String PaymentType;
     static String Category;
@@ -42,8 +39,8 @@ public class Expenses {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String dtDate = new String(textFieldDate.getText());
-            Integer dSum = new Integer(textFieldSum.getText());
+            String dtDate = new String(financialmanager.gui.Expenses.textFieldDate.getText());
+            Integer dSum = new Integer(financialmanager.gui.Expenses.textFieldSum.getText());
             String insertSQLString = ("insert into t_Expenses( dtDate ,dSum,nUserId, nCategoryId ,nPlaceId,nPaymentTypeId) " +
                     "values " +
                     "('%1$s',%2$s,%3$s," +
@@ -80,11 +77,6 @@ public class Expenses {
                 tModel.fireTableDataChanged();
                 filternId = nId;
 //                     System.out.println("Down " + filternId);
-            }
-            ResultSet executeQuery2 = stmt.executeQuery("select sum(dSum) as dSum, count(dSum) as dCount from t_Expenses where nUserId=" + OpenWindow.userLogin);
-            while (executeQuery2.next()) {
-                long balance = executeQuery2.getLong("dSum");
-                Integer dCount = executeQuery2.getInt("dCount");
             }
 
             // Закрываем соединение

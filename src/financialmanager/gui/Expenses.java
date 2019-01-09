@@ -13,14 +13,13 @@ public class Expenses extends JFrame {
     private JLabel labelPlace = new JLabel("Место:");
     private JLabel labelPaymentType = new JLabel("Тип оплаты:");
     private JLabel labelSum = new JLabel("Сумма:");
-    private JTextField textFieldDate = new JTextField("20181010", 5);
+    public static JTextField textFieldDate = new JTextField("20181010", 5);
+    public static JTextField textFieldSum = new JTextField("100", 5);
     public static JComboBox comboBoxCategory;
     public static JComboBox comboBoxPlace;
     public static JComboBox comboBoxPaymentType;
-    private JTextField textFieldSum = new JTextField("100", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
-    public static int filternId = 50000;
 
     public Expenses() {
 
@@ -117,9 +116,7 @@ public class Expenses extends JFrame {
         container.add(textFieldSum, c);
 
         buttonOK.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
-
                 onOK();
             }
         });
@@ -149,9 +146,8 @@ public class Expenses extends JFrame {
     }
 
     private void onOK() {
-
         financialmanager.database.Expenses.main();
-              DbExpenses.balance = DbExpenses.balance + new Integer(textFieldSum.getText());
+        DbExpenses.balance = DbExpenses.balance + new Integer(textFieldSum.getText());
         WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
     }
 

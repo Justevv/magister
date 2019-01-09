@@ -49,11 +49,11 @@ public class DbExpenses {
                     "join t_dicCategories c on e.nCategoryId=c.nId " +
                     "join t_dicPlaces p on e.nPlaceId=p.nId " +
                     "join t_dicPaymentTypes pt on e.nPaymentTypeId=pt.nId " +
-                    "where e.nUserId=" + OpenWindow.userLogin + "and e.nId>" + Expenses.filternId
+                    "where e.nUserId=" + OpenWindow.userLogin + "and e.nId>" + financialmanager.database.Expenses.filternId
             );
             // Обход результатов выборки
             expenses = new ArrayList<>();
-             Expenses.comboBoxPlace = new JComboBox();
+            Expenses.comboBoxPlace = new JComboBox();
             Expenses.comboBoxPaymentType = new JComboBox();
             Expenses.comboBoxCategory = new JComboBox();
 

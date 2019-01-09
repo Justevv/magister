@@ -3,9 +3,10 @@ package financialmanager.gui;
 import financialmanager.database.DbExpenses;
 import financialmanager.table.ExpensesTable;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import static financialmanager.database.DbExpenses.expenses;
 
@@ -26,7 +27,6 @@ public class WindowExpenses extends JFrame {
     private JCheckBox check = new JCheckBox("Check", false);
     public static ExpensesTable tModel = new ExpensesTable(expenses);
     private static JTable jTabPeople = new JTable(tModel);
-   // static JScrollPane jscrlp = new JScrollPane(jTabPeople);
 
     public WindowExpenses() {
 
@@ -78,12 +78,10 @@ public class WindowExpenses extends JFrame {
 
         JFrame jfrm = new JFrame("JTableExample");
         tModel = new ExpensesTable(expenses);
-        //    tModel.fireTableDataChanged();
         //На основе модели, создадим новую JTable
         jTabPeople = new JTable(tModel);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
         JScrollPane jscrlp = new JScrollPane(jTabPeople);
-        //    tModel.fireTableDataChanged();
         //Устаналиваем размеры прокручиваемой области
         jTabPeople.setPreferredScrollableViewportSize(new Dimension(450, 250));
         //Добавляем в контейнер нашу панель прокрути и таблицу вместе с ней
@@ -133,8 +131,6 @@ public class WindowExpenses extends JFrame {
         container.add(button, c);
 
         buttonAddUser.addActionListener(new ActionListener() {
-            //   private JInternalFrame dialog;
-
             public void actionPerformed(ActionEvent e) {
                 WindowUsers.go();
             }
@@ -222,5 +218,5 @@ public class WindowExpenses extends JFrame {
     public static void go() {
         WindowExpenses app = new WindowExpenses();
         app.setVisible(true);
-            }
+    }
 }
