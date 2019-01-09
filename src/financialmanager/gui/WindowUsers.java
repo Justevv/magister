@@ -1,6 +1,5 @@
 package financialmanager.gui;
 
-import financialmanager.database.DbExpenses;
 import financialmanager.database.DbUsers;
 import financialmanager.table.UsersTable;
 
@@ -50,7 +49,7 @@ public class WindowUsers extends JFrame implements ActionListener {
 
             public void actionPerformed(ActionEvent e) {
 
-                AddUser.go();
+                User.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;

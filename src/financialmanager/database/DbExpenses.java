@@ -1,7 +1,6 @@
 package financialmanager.database;
 
-import financialmanager.data.Expenses;
-import financialmanager.gui.AddExpenses;
+import financialmanager.gui.Expenses;
 import financialmanager.gui.OpenWindow;
 import financialmanager.gui.WindowExpenses;
 
@@ -16,7 +15,7 @@ import java.util.logging.Logger;
 public class DbExpenses {
     public static Integer nId;
     public static Integer dSum;
-    public static ArrayList<Expenses> expenses;
+    public static ArrayList<financialmanager.data.Expenses> expenses;
     public static Long balance;
     public static String nUserSurname;
 
@@ -50,13 +49,13 @@ public class DbExpenses {
                     "join t_dicCategories c on e.nCategoryId=c.nId " +
                     "join t_dicPlaces p on e.nPlaceId=p.nId " +
                     "join t_dicPaymentTypes pt on e.nPaymentTypeId=pt.nId " +
-                    "where e.nUserId=" + OpenWindow.userLogin + "and e.nId>" + AddExpenses.filternId
+                    "where e.nUserId=" + OpenWindow.userLogin + "and e.nId>" + financialmanager.database.Expenses.filternId
             );
             // Обход результатов выборки
             expenses = new ArrayList<>();
-             AddExpenses.comboBoxPlace = new JComboBox();
-            AddExpenses.comboBoxPaymentType = new JComboBox();
-            AddExpenses.comboBoxCategory = new JComboBox();
+            Expenses.comboBoxPlace = new JComboBox();
+            Expenses.comboBoxPaymentType = new JComboBox();
+            Expenses.comboBoxCategory = new JComboBox();
 
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
@@ -66,7 +65,7 @@ public class DbExpenses {
                 String nPlaceName = executeQuery.getString("nPlaceName");
                 String nPaymentTypeName = executeQuery.getString("nPaymentTypeName");
                 dSum = executeQuery.getInt("dSum");
-                expenses.add(new Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum));
+                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum));
                 WindowExpenses.tModel.fireTableDataChanged();
             }
             ResultSet executeQuery2 = stmt.executeQuery("select sum(dSum) as dSum, count(dSum) as dCount from t_Expenses where nUserId=" + OpenWindow.userLogin
@@ -78,17 +77,17 @@ public class DbExpenses {
 
             ResultSet executeQueryNamePlaces = stmt.executeQuery("select * from t_dicPlaces");
             while (executeQueryNamePlaces.next()) {
-                AddExpenses.comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
+                Expenses.comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
             }
 
             ResultSet executeQueryNamePaymentTypes = stmt.executeQuery("select * from t_dicPaymentTypes");
             while (executeQueryNamePaymentTypes.next()) {
-                AddExpenses.comboBoxPaymentType.addItem(executeQueryNamePaymentTypes.getString("sName"));
+                Expenses.comboBoxPaymentType.addItem(executeQueryNamePaymentTypes.getString("sName"));
             }
 
             ResultSet executeQueryNameCategories = stmt.executeQuery("select * from t_dicCategories");
             while (executeQueryNameCategories.next()) {
-                AddExpenses.comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
+                Expenses.comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
             }
 
             // System.out.println(users.get(0));
