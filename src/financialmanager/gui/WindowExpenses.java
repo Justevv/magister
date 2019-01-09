@@ -1,6 +1,5 @@
 package financialmanager.gui;
 
-import financialmanager.data.Expenses;
 import financialmanager.database.DbExpenses;
 import financialmanager.table.ExpensesTable;
 
@@ -156,7 +155,7 @@ public class WindowExpenses extends JFrame {
         buttonAddPlace.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                expenses.add(new Expenses(1, "20151010", "12300123", "2", "5", "7", 1));
+                expenses.add(new financialmanager.data.Expenses(1, "20151010", "12300123", "2", "5", "7", 1));
                 tModel.fireTableDataChanged();
             }
         });
@@ -180,7 +179,7 @@ public class WindowExpenses extends JFrame {
             //   private JInternalFrame dialog;
 
             public void actionPerformed(ActionEvent e) {
-                AddExpenses.go();
+                Expenses.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;

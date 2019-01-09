@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbUsers.users;
 import static financialmanager.gui.WindowUsers.modelUsers;
 
-public class AddUser extends JDialog {
+public class User extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -28,7 +28,7 @@ public class AddUser extends JDialog {
     private JTextField textFieldEmail;
     public static int filternId = 0;
 
-    public AddUser() {
+    public User() {
         setTitle("Финансовый менеджер");
         setContentPane(contentPane);
         setModal(true);
@@ -133,14 +133,14 @@ public class AddUser extends JDialog {
     }
 
     public static void main(String[] args) {
-        AddUser dialog = new AddUser();
+        User dialog = new User();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
     }
 
     public static void go() {
-        AddUser dialog = new AddUser();
+        User dialog = new User();
         dialog.pack();
         dialog.setVisible(true);
         //   System.exit(0);
