@@ -23,7 +23,8 @@ public class DbExpenses {
         main();
     }
 
-    public static void main() {  // Формирование строки подключения
+    public static void main() {
+        // Формирование строки подключения
         String computername = null;
         try {
             computername = InetAddress.getLocalHost().getHostName();

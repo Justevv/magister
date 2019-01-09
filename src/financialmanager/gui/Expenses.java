@@ -88,21 +88,21 @@ public class Expenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(textFieldDate, c);
 
-        // comboBoxCategory = new JComboBox(DbExpenses.items);
+        // textFieldBirthday = new JComboBox(DbExpenses.items);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(comboBoxCategory, c);
 
-        //  comboBoxPaymentType = new JComboBox(DbExpenses.items);
+        //  textFieldEmail = new JComboBox(DbExpenses.items);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(comboBoxPaymentType, c);
 
-        // comboBoxPlace = new JComboBox();
+        // textFieldPhone = new JComboBox();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;

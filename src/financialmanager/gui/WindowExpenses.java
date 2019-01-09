@@ -32,7 +32,7 @@ public class WindowExpenses extends JFrame {
 
 
         super("Финансовый менеджер");
-        this.setBounds(100, 100, 650, 400);
+        this.setBounds(100, 100, 700, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DbExpenses.main();

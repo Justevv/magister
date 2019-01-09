@@ -9,13 +9,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static financialmanager.database.DbUsers.users;
-import financialmanager.gui.User.*;
+import static financialmanager.gui.User.*;
 import static financialmanager.gui.WindowUsers.modelUsers;
 
 public class User {
     public static int filternId = 0;
 
-    public void main() {
+    public static void main() {
     // Формирование строки подключения
     String computername = null;
         try {
