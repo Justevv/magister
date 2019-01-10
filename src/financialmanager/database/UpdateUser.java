@@ -47,6 +47,7 @@ public class UpdateUser {
             String insertSQLString = ("update t_dicUsers set  sSurname ='%1$s',sName='%2$s', dtBirthday='%3$s', sSex='%4$s', sPhone='%5$s', sEmail='%6$s'where nId=" + WindowUsers.result);
             String insertSQL = String.format(insertSQLString, Surname, Name, Birthday, Sex, Phone, Email);
             stmt.executeUpdate(insertSQL);
+            modelUsers.fireTableDataChanged();
 
             if (filternId < DbUsers.nId) {
                 filternId = DbUsers.nId;

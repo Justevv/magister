@@ -18,7 +18,6 @@ public class WindowUsers extends JFrame implements ActionListener {
     private JButton buttonUpdateUser = new JButton("Редактировать пользователя");
     public static UsersTable modelUsers;
     private JTable jTabPeople;
-    private JTextField sSurname = new JTextField("", 5);
     public static String result;
     public static int[] selectedRows;
     public static int[] selectedColumns;
