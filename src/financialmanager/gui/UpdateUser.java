@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class User extends JFrame {
+public class UpdateUser extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelSurname = new JLabel("Фамилия:");
     private JLabel labelName = new JLabel("Имя:");
@@ -12,20 +12,27 @@ public class User extends JFrame {
     private JLabel labelPhone = new JLabel("Телефон:");
     private JLabel labelSex = new JLabel("Пол:");
     private JLabel labelEmail = new JLabel("Email:");
-    public static JTextField textFieldSurname = new JTextField("Коровин", 5);
-    public static JTextField textFieldName = new JTextField("Михаил", 5);
-    public static JTextField textFieldBirthday = new JTextField("20010101", 5);
-    public static JTextField textFieldPhone = new JTextField("+79203336699", 5);
-    public static JTextField textFieldSex = new JTextField("F", 5);
-    public static JTextField textFieldEmail = new JTextField("korovin@mail.ru", 5);
+    public static JTextField textFieldSurname;
+    public static JTextField textFieldName;
+    public static JTextField textFieldBirthday;
+    public static JTextField textFieldSex;
+    public static JTextField textFieldPhone;
+    public static JTextField textFieldEmail;
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public User() {
+    public UpdateUser() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        textFieldSurname = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 1)), 5);
+        textFieldName = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 2)), 5);
+        textFieldBirthday = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 3)), 5);
+        textFieldSex = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 4)), 5);
+        textFieldPhone = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 5)), 5);
+        textFieldEmail = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 6)), 5);
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -150,13 +157,13 @@ public class User extends JFrame {
     }
 
     public static void go() {
-        financialmanager.gui.User app = new financialmanager.gui.User();
+        UpdateUser app = new UpdateUser();
         // app.pack();
         app.setVisible(true);
     }
 
     private void onOK() {
-        financialmanager.database.User.main();
+        financialmanager.database.UpdateUser.main();
     }
 
     private void onCancel() {

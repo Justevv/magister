@@ -175,7 +175,7 @@ public class WindowExpenses extends JFrame {
             //   private JInternalFrame dialog;
 
             public void actionPerformed(ActionEvent e) {
-                Expenses.go();
+                Expense.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;

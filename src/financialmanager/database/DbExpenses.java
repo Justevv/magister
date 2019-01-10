@@ -1,6 +1,6 @@
 package financialmanager.database;
 
-import financialmanager.gui.Expenses;
+import financialmanager.gui.Expense;
 import financialmanager.gui.OpenWindow;
 import financialmanager.gui.WindowExpenses;
 
@@ -54,9 +54,9 @@ public class DbExpenses {
             );
             // Обход результатов выборки
             expenses = new ArrayList<>();
-            Expenses.comboBoxPlace = new JComboBox();
-            Expenses.comboBoxPaymentType = new JComboBox();
-            Expenses.comboBoxCategory = new JComboBox();
+            Expense.comboBoxPlace = new JComboBox();
+            Expense.comboBoxPaymentType = new JComboBox();
+            Expense.comboBoxCategory = new JComboBox();
 
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
@@ -78,17 +78,17 @@ public class DbExpenses {
 
             ResultSet executeQueryNamePlaces = stmt.executeQuery("select * from t_dicPlaces");
             while (executeQueryNamePlaces.next()) {
-                Expenses.comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
+                Expense.comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
             }
 
             ResultSet executeQueryNamePaymentTypes = stmt.executeQuery("select * from t_dicPaymentTypes");
             while (executeQueryNamePaymentTypes.next()) {
-                Expenses.comboBoxPaymentType.addItem(executeQueryNamePaymentTypes.getString("sName"));
+                Expense.comboBoxPaymentType.addItem(executeQueryNamePaymentTypes.getString("sName"));
             }
 
             ResultSet executeQueryNameCategories = stmt.executeQuery("select * from t_dicCategories");
             while (executeQueryNameCategories.next()) {
-                Expenses.comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
+                Expense.comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
             }
 
             // System.out.println(users.get(0));

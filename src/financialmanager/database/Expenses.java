@@ -1,5 +1,6 @@
 package financialmanager.database;
 
+import financialmanager.gui.Expense;
 import financialmanager.gui.OpenWindow;
 
 import java.net.InetAddress;
@@ -18,9 +19,9 @@ public class Expenses {
     static String Category;
 
     public static void main() {
-        Place = (String) financialmanager.gui.Expenses.comboBoxPlace.getSelectedItem();
-        PaymentType = (String) financialmanager.gui.Expenses.comboBoxPaymentType.getSelectedItem();
-        Category = (String) financialmanager.gui.Expenses.comboBoxCategory.getSelectedItem();
+        Place = (String) Expense.comboBoxPlace.getSelectedItem();
+        PaymentType = (String) Expense.comboBoxPaymentType.getSelectedItem();
+        Category = (String) Expense.comboBoxCategory.getSelectedItem();
         String computername = null;
         try {
             computername = InetAddress.getLocalHost().getHostName();
@@ -39,8 +40,8 @@ public class Expenses {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String dtDate = new String(financialmanager.gui.Expenses.textFieldDate.getText());
-            Integer dSum = new Integer(financialmanager.gui.Expenses.textFieldSum.getText());
+            String dtDate = new String(Expense.textFieldDate.getText());
+            Integer dSum = new Integer(Expense.textFieldSum.getText());
             String insertSQLString = ("insert into t_Expenses( dtDate ,dSum,nUserId, nCategoryId ,nPlaceId,nPaymentTypeId) " +
                     "values " +
                     "('%1$s',%2$s,%3$s," +

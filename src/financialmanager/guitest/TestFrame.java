@@ -1,74 +1,87 @@
 package financialmanager.guitest;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableModel;
+import java.awt.*;
 
 public class TestFrame extends JFrame {
 
-    public TestFrame() {
+    public static void createGUI() {
+        JFrame frame = new JFrame("Test frame");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        super("Тестовое окно");
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        Font font = new Font("Verdana", Font.PLAIN, 18);
-
-        String[] items = {
-                "Элемент списка 1",
-                "Элемент списка 2",
-                "Элемент списка 3"
+        String[] columnNames = {
+                "Name",
+                "Last modified",
+                "Type",
+                "Size"
         };
 
-        Container content = getContentPane();
+        String[][] data = {
+                {"addins", "02.11.2006 19:15", "Folder", ""},
+                {"AppPatch", "03.10.2006 14:10", "Folder", ""},
+                {"assembly", "02.11.2006 14:20", "Folder", ""},
+                {"Boot", "13.10.2007 10:46", "Folder", ""},
+                {"Branding", "13.10.2007 12:10", "Folder", ""},
+                {"Cursors", "23.09.2006 16:34", "Folder", ""},
+                {"Debug", "07.12.2006 17:45", "Folder", ""},
+                {"Fonts", "03.10.2006 14:08", "Folder", ""},
+                {"Help", "08.11.2006 18:23", "Folder", ""}
+        };
 
-        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
 
-        final JLabel label = new JLabel(" ");
-        label.setAlignmentX(LEFT_ALIGNMENT);
-        label.setFont(font);
-        content.add(label);
+        final JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-        ActionListener actionListener = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JComboBox box = (JComboBox)e.getSource();
-                String item = (String)box.getSelectedItem();
-                label.setText(item);
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JLabel selLabel = new JLabel("Selected:");
+        bottomPanel.add(selLabel);
+
+        final JLabel currentSelectionLabel = new JLabel("");
+        currentSelectionLabel.setAutoscrolls(true);
+        bottomPanel.add(currentSelectionLabel);
+
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        ListSelectionModel selModel = table.getSelectionModel();
+
+        selModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                String result = "";
+                int[] selectedRows = table.getSelectedRows();
+                for(int i = 0; i < selectedRows.length; i++) {
+                    int selIndex = selectedRows[i];
+                    TableModel model = table.getModel();
+                    Object value = model.getValueAt(selIndex, 0);
+                    result = result + value;
+                    if(i != selectedRows.length - 1) {
+                        result += ", ";
+                    }
+                }
+                currentSelectionLabel.setText(result);
             }
-        };
+        });
 
-        JComboBox comboBox = new JComboBox(items);
-        comboBox.setFont(font);
-        comboBox.setAlignmentX(LEFT_ALIGNMENT);
-        comboBox.addActionListener(actionListener);
-        content.add(comboBox);
+        frame.getContentPane().add(mainPanel);
 
-        JComboBox editComboBox = new JComboBox(items);
-        editComboBox.setEditable(true);
-        editComboBox.setAlignmentX(LEFT_ALIGNMENT);
-        editComboBox.setFont(font);
-        editComboBox.addActionListener(actionListener);
-        content.add(editComboBox);
-
-        setPreferredSize(new Dimension(240, 130));
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
+        frame.setPreferredSize(new Dimension(550, 200));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame.setDefaultLookAndFeelDecorated(true);
-                new TestFrame();
+                createGUI();
             }
         });
     }

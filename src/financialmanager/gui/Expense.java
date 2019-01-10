@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Expenses extends JFrame {
+public class Expense extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelDate = new JLabel("Дата:");
     private JLabel labelCategory = new JLabel("Категория:");
@@ -21,7 +21,7 @@ public class Expenses extends JFrame {
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public Expenses() {
+    public Expense() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
@@ -135,12 +135,12 @@ public class Expenses extends JFrame {
     }
 
     public static void main(String[] args) {
-        Expenses app = new Expenses();
+        Expense app = new Expense();
         app.setVisible(true);
     }
 
     public static void go() {
-        Expenses app = new Expenses();
+        Expense app = new Expense();
         // app.pack();
         app.setVisible(true);
     }
