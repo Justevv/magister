@@ -144,10 +144,10 @@ public class User extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        Expense app = new Expense();
-        app.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        Expense app = new Expense();
+//        app.setVisible(true);
+//    }
 
     public static void go() {
         financialmanager.gui.User app = new financialmanager.gui.User();

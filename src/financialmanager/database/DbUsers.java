@@ -1,8 +1,6 @@
 package financialmanager.database;
 
-import financialmanager.data.Expenses;
 import financialmanager.data.Users;
-import financialmanager.gui.OpenWindow;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -16,6 +14,9 @@ public class DbUsers {
     public static String sName;
     public static ArrayList<Users> users;
     public static String sEmail;
+    public static ArrayList<String> sEmailList;
+  //  static String[] sEmailMas = new String[50];
+//    public static int i = 0;
 
     public static void main(String[] args) {
         main();
@@ -34,8 +35,8 @@ public class DbUsers {
         String pass = "supertest";
         String connectionUrl = "jdbc:sqlserver://%1$s;databaseName=%2$s;user=%3$s;password=%4$s;";
         String connectionString = String.format(connectionUrl, instanceName, databaseName, userName, pass);
-    //    Vector<Vector<Object>> retVector = new Vector<Vector<Object>>();
-   //     Vector<Object> newRow = null;
+        //    Vector<Vector<Object>> retVector = new Vector<Vector<Object>>();
+        //     Vector<Object> newRow = null;
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
@@ -46,6 +47,7 @@ public class DbUsers {
             );
             // Обход результатов выборки
             users = new ArrayList<>();
+            sEmailList = new ArrayList<>();
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
                 String sSurname = executeQuery.getString("sSurname");
@@ -55,7 +57,11 @@ public class DbUsers {
                 String sPhone = executeQuery.getString("sPhone");
                 sEmail = executeQuery.getString("sEmail");
                 users.add(new Users(nId, sSurname, sName, dtBirthday, sSex, sPhone, sEmail));
+                sEmailList.add(sEmail);
+//                sEmailMas[i] = sEmail;
+//                i++;
             }
+
 //            ResultSet executeQuery2 = stmt.executeQuery("select sum(dSum) as dSum, count(nId) as dCount from t_Expenses where nUserId=" + OpenWindow.userLogin);
 //            while (executeQuery2.next()) {
 //                balance = executeQuery2.getInt("dSum");

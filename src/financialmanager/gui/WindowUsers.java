@@ -23,7 +23,7 @@ public class WindowUsers extends JFrame implements ActionListener {
     public static int[] selectedColumns;
     public static int i;
     public static int selIndex;
-    static TableModel model;
+    public static TableModel model;
     public static Object value;
 
     public WindowUsers() {
@@ -91,12 +91,12 @@ public class WindowUsers extends JFrame implements ActionListener {
         container.add(buttonUpdateUser, c);
 
         final JLabel currentSelectionLabel = new JLabel("");
-        currentSelectionLabel.setAutoscrolls(true);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(currentSelectionLabel, c);
+//        currentSelectionLabel.setAutoscrolls(true);
+//        c.fill = GridBagConstraints.HORIZONTAL;
+//        c.weightx = 0.5;
+//        c.gridx = 0;
+//        c.gridy = GridBagConstraints.RELATIVE;
+//        container.add(currentSelectionLabel, c);
 
         ListSelectionModel selModel = jTabPeople.getSelectionModel();
         selModel.addListSelectionListener(new ListSelectionListener() {
@@ -108,7 +108,7 @@ public class WindowUsers extends JFrame implements ActionListener {
                     selIndex = selectedRows[i];
                     model = jTabPeople.getModel();
                     value = model.getValueAt(selIndex, 0);
-                    System.out.println(value);
+                   // System.out.println(value);
                     result = result + value;
                   //  System.out.println(selectedColumns[i]);
                     if (i != selectedRows.length - 1) {
