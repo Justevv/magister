@@ -50,6 +50,8 @@ public class Cluster {
      */
     public void addToCluster(Transaction transaction) {
         transactions.add(transaction);
+//        System.out.println(transaction);
+        System.out.println(transactions.size());
     }
 
     /**

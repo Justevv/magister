@@ -23,6 +23,7 @@ public class ConsoleIO implements Reader, Writer {
 
     @Override
     public void write(List<Cluster> clusters) {
+        System.out.println(clusters.size());
         System.out.println(clusters.toString());
     }
 }

@@ -35,6 +35,7 @@ public class Clope {
             }
             if (profitMax == profitFromNewCluster) {
                 clusters.add(clusterNew);
+                System.out.println(clusters.size());
             }
         }
         return clusters;

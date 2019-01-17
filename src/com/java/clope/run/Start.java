@@ -9,7 +9,14 @@ import com.java.clope.model.Clope;
  */
 public class Start {
     public static void main(String[] o) {
-        new ConsoleIO().write(new Clope().goClope(new FileIO(o[0]).read(), Double.parseDouble(o[1])));
-        System.out.println("run");
+        long startTime = System.currentTimeMillis();
+        long timeSpent;
+        String[] param = new String[2];
+        param[0] = "D:\\export2.txt";
+        param[1] = "2.6";
+        new ConsoleIO().write(new Clope().goClope(new FileIO(param[0]).read(), Double.parseDouble(param[1])));
+//        System.out.println(Cluster.transactions.size());
+        timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
+        System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
     }
 }
