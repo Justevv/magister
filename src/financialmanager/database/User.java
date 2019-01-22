@@ -26,33 +26,32 @@ public class User {
             }
         }
         if (containsName == false) {
-        // Формирование строки подключения
-        String computername = null;
-        try {
-            computername = InetAddress.getLocalHost().getHostName();
-        } catch (
-                UnknownHostException e) {
-            e.printStackTrace();
-        }
-        String instanceName = computername + "\\SQLEXPRESS";
-        String databaseName = "expenses";
-        String userName = "supertest";
-        String pass = "supertest";
-        String connectionUrl = "jdbc:sqlserver://%1$s;databaseName=%2$s;user=%3$s;password=%4$s;";
-        String connectionString = String.format(connectionUrl, instanceName, databaseName, userName, pass);
-
+            // Формирование строки подключения
+            String computername = null;
+            try {
+                computername = InetAddress.getLocalHost().getHostName();
+            } catch (
+                    UnknownHostException e) {
+                e.printStackTrace();
+            }
+            String instanceName = computername + "\\SQLEXPRESS";
+            String databaseName = "expenses";
+            String userName = "supertest";
+            String pass = "supertest";
+            String connectionUrl = "jdbc:sqlserver://%1$s;databaseName=%2$s;user=%3$s;password=%4$s;";
+            String connectionString = String.format(connectionUrl, instanceName, databaseName, userName, pass);
 
             try {
                 // Подключение к базе данных
                 Connection con = DriverManager.getConnection(connectionString);
                 // Отправка запроса на выборку и получение результатов
                 Statement stmt = con.createStatement();
-                String Surname = new String(financialmanager.gui.User.textFieldSurname.getText());
-                String Name = new String(financialmanager.gui.User.textFieldName.getText());
-                String Birthday = new String(textFieldBirthday.getText());
-                String Sex = new String(textFieldSex.getText());
-                String Phone = new String(textFieldPhone.getText());
-                String Email = new String(textFieldEmail.getText());
+                String Surname =financialmanager.gui.User.textFieldSurname.getText();
+                String Name =financialmanager.gui.User.textFieldName.getText();
+                String Birthday = textFieldBirthday.getText();
+                String Sex = textFieldSex.getText();
+                String Phone = textFieldPhone.getText();
+                String Email = textFieldEmail.getText();
                 String insertSQLString = ("insert into t_dicUsers( sSurname ,sName, dtBirthday, sSex, sPhone, sEmail) values ('%1$s','%2$s','%3$s','%4$s','%5$s','%6$s')");
                 String insertSQL = String.format(insertSQLString, Surname, Name, Birthday, Sex, Phone, Email);
                 // System.out.println(insertSQL);

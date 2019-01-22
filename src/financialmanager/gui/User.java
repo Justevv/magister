@@ -144,7 +144,7 @@ public class User extends JFrame {
 
     }
 
-//    public static void main(String[] args) {
+//    public static void view(String[] args) {
 //        Expense app = new Expense();
 //        app.setVisible(true);
 //    }
@@ -156,7 +156,7 @@ public class User extends JFrame {
     }
 
     private void onOK() {
-        financialmanager.database.User.main();
+        financialmanager.database.DbUsers.add();
     }
 
     private void onCancel() {

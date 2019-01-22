@@ -16,7 +16,7 @@
 //    JTable jTabPeople;
 //    ExpensesTable tModel;
 //    JTableExample() {
-//        DbExpenses.main();
+//        DbExpenses.view();
 //        //Создаем новый контейнер JFrame
 //        JFrame jfrm = new JFrame("JTableExample");
 //        //Устанавливаем диспетчер компоновки
@@ -41,8 +41,8 @@
 //        jfrm.setVisible(true);
 //    }
 //
-//    //Функция main, запускающаяся при старте приложения
-//    public static void main(String[] args) {
+//    //Функция view, запускающаяся при старте приложения
+//    public static void view(String[] args) {
 //        //Создаем фрейм в потоке обработки событий
 //        SwingUtilities.invokeLater(new Runnable() {
 //            @Override

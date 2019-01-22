@@ -13,31 +13,31 @@
 //            public int Width { get; set; }
 //            public int Size { get; set; }
 //            public void AddTransaction(List<int>
-//                                               transaction)
+//                                               transactions)
 //            {
-//                for (int i = 0; i < transaction.Count; i++)
+//                for (int i = 0; i < transactions.Count; i++)
 //                {
 //                    if
-//                    (!OccDict.ContainsKey(transaction[i]))
-//                        OccDict.Add(transaction[i], 1);
+//                    (!OccDict.ContainsKey(transactions[i]))
+//                        OccDict.Add(transactions[i], 1);
 //                    else
-//                        OccDict[transaction[i]] += 1;
+//                        OccDict[transactions[i]] += 1;
 //                }
 //                Width = OccDict.Count;
-//                Square += transaction.Count;
+//                Square += transactions.Count;
 //                Size++;
 //            }
 //            public void RemoveTransaction(List<int>
-//                                                  transaction)
+//                                                  transactions)
 //            {
-//                for (int i = 0; i < transaction.Count; i++)
+//                for (int i = 0; i < transactions.Count; i++)
 //                {
-//                    OccDict[transaction[i]] -= 1;
-//                    if (OccDict[transaction[i]] == 0)
-//                        OccDict.Remove(transaction[i]);
+//                    OccDict[transactions[i]] -= 1;
+//                    if (OccDict[transactions[i]] == 0)
+//                        OccDict.Remove(transactions[i]);
 //                }
 //                Width = OccDict.Count;
-//                Square -= transaction.Count;
+//                Square -= transactions.Count;
 //                Size--;
 //            }
 //        }
@@ -79,21 +79,21 @@
 //                    isMoving = false;
 //                    while (data.isReread())
 //                    {
-//                        Transaction transaction =
+//                        Transaction transactions =
 //                                data.GetNextTransaction();
 //                        double remove =
-//                                transaction.ClusterIndex == 0 ? 0 :
-//                                        DeltaRemove(dict_clusters[transaction.ClusterIndex],
-//                                                transaction.Params, r);
+//                                transactions.ClusterIndex == 0 ? 0 :
+//                                        DeltaRemove(dict_clusters[transactions.ClusterIndex],
+//                                                transactions.Params, r);
 //                        double maxDelta = 0;
 //                        double delta = 0;
 //                        int nextClusterIndex =
-//                                transaction.ClusterIndex;
+//                                transactions.ClusterIndex;
 //                        foreach (var cluster in
 //                                dict_clusters)
 //                        {
 //                            delta = DeltaAdd(cluster.Value,
-//                                    transaction.Params, r);
+//                                    transactions.Params, r);
 //                            if (delta + remove > maxDelta)
 //                            {
 //                                maxDelta = delta;
@@ -102,7 +102,7 @@
 //                            }
 //                        }
 //                        delta = DeltaAdd(null,
-//                                transaction.Params, r);
+//                                transactions.Params, r);
 //                                                if (delta + remove > maxDelta)
 //                        {
 //                            if (dict_clusters.Count == 0)
@@ -113,20 +113,20 @@
 //                            dict_clusters.Add(nextClusterIndex, new ClusterData());
 //                        }
 //                        if (nextClusterIndex !=
-//                                transaction.ClusterIndex)
+//                                transactions.ClusterIndex)
 //                        {
-//                            if (transaction.ClusterIndex !=
+//                            if (transactions.ClusterIndex !=
 //                                    0)
 //                            {
-//                                dict_clusters[transaction.ClusterIndex].RemoveTransactio
-//                                n(transaction.Params);
+//                                dict_clusters[transactions.ClusterIndex].RemoveTransactio
+//                                n(transactions.Params);
 //                            }
 //                            dict_clusters[nextClusterIndex].AddTransaction(transacti
 //                                    on.Params);
 //                            isMoving = true;
-//                            transaction.ClusterIndex =
+//                            transactions.ClusterIndex =
 //                                    nextClusterIndex;
-////data.WriteTransaction(transaction);
+////data.WriteTransaction(transactions);
 //                        }
 //                    }
 //                }
@@ -143,18 +143,18 @@
 //                        }
 //                    }
 //                    public double DeltaAdd(ClusterData cluster,
-//                        List<int> transaction, double r)
+//                        List<int> transactions, double r)
 //                    {
 //                        /**/
 //                        if (cluster == null)
-//                            return transaction.Count /
-//                                    Math.Pow(transaction.Count, r);
+//                            return transactions.Count /
+//                                    Math.Pow(transactions.Count, r);
 //                        int square = cluster.Square +
-//                                transaction.Count;
+//                                transactions.Count;
 //                        int width = cluster.Width;
-//                        for (int i = 0; i < transaction.Count; i++)
+//                        for (int i = 0; i < transactions.Count; i++)
 //                            if
-//                            (!cluster.OccDict.ContainsKey(transaction[i]))
+//                            (!cluster.OccDict.ContainsKey(transactions[i]))
 //                                width++;
 //                        return square * (cluster.Size + 1) /
 //                                Math.Pow(width, r)
@@ -162,14 +162,14 @@
 //                                Math.Pow(cluster.Width, r);
 //                    }
 //                    public double DeltaRemove(ClusterData cluster,
-//                        List<int> transaction, double r)
+//                        List<int> transactions, double r)
 //                    {
 //                        /**/
 //                        int squareNew = cluster.Square -
-//                                transaction.Count;
+//                                transactions.Count;
 //                        int widthNew = cluster.Width;
-//                        for (int i = 0; i < transaction.Count; i++)
-//                            if (cluster.OccDict[transaction[i]] ==
+//                        for (int i = 0; i < transactions.Count; i++)
+//                            if (cluster.OccDict[transactions[i]] ==
 //                                    1)
 //                                widthNew--;
 //                        return squareNew * (cluster.Size - 1) /

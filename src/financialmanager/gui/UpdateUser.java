@@ -163,7 +163,7 @@ public class UpdateUser extends JFrame {
     }
 
     private void onOK() {
-        financialmanager.database.UpdateUser.main();
+        financialmanager.database.DbUsers.update();
     }
 
     private void onCancel() {

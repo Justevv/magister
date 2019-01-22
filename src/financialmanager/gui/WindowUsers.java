@@ -1,7 +1,6 @@
 package financialmanager.gui;
 
 import financialmanager.database.DbUsers;
-import financialmanager.database.DeleteUser;
 import financialmanager.table.UsersTable;
 
 import javax.swing.*;
@@ -32,7 +31,7 @@ public class WindowUsers extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbUsers.main();
+        DbUsers.view();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -70,7 +69,7 @@ public class WindowUsers extends JFrame implements ActionListener {
 
         buttonDeleteUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DeleteUser.main();
+                DbUsers.delete();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
