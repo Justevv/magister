@@ -15,7 +15,6 @@ import static financialmanager.gui.UpdateUser.*;
 import static financialmanager.gui.User.textFieldEmail;
 import static financialmanager.gui.WindowUsers.modelUsers;
 
-
 public class DbUsers {
     public static Integer nId;
     public static String sName;
@@ -25,8 +24,6 @@ public class DbUsers {
     private static String connectionString;
     public static int filternId = 0;
     static String currentUserId = "0";
-    //  static String[] sEmailMas = new String[50];
-//    public static int i = 0;
 
     public static void main(String[] args) {
         view();
@@ -73,16 +70,7 @@ public class DbUsers {
                 sEmail = executeQuery.getString("sEmail");
                 users.add(new Users(nId, sSurname, sName, dtBirthday, sSex, sPhone, sEmail));
                 sEmailList.add(sEmail);
-//                sEmailMas[i] = sEmail;
-//                i++;
             }
-
-//            ResultSet executeQuery2 = stmt.executeQuery("select sum(dSum) as dSum, count(nId) as dCount from t_Expenses where nUserId=" + OpenWindow.userLogin);
-//            while (executeQuery2.next()) {
-//                balance = executeQuery2.getInt("dSum");
-//                Integer dCount = executeQuery2.getInt("dCount");
-//            }
-
             // Закрываем соединение
             executeQuery.close();
             stmt.close();
@@ -94,7 +82,8 @@ public class DbUsers {
     }
 
     public static void add() {
-        boolean containsName = false;//(DbUsers.sEmailList,textFieldEmail.getText())
+        boolean containsName = false;
+        //(DbUsers.sEmailList,textFieldEmail.getText())
         //  boolean contains = Arrays.stream(DbUsers.sEmailMas).anyMatch(textFieldEmail.getText()::equals);
         //        System.out.println(Arrays.asList(DbUsers.sEmailList).contains(textFieldEmail.getText()));
         for (String sEmailList : DbUsers.sEmailList) {
@@ -141,7 +130,6 @@ public class DbUsers {
                     filternId = nId;
                     DbUsers.sEmailList.add(sEmail);
                 }
-
                 stmt.close();
                 con.close();
             } catch (
@@ -190,7 +178,6 @@ public class DbUsers {
         } else {
             updateGo();
         }
-
     }
 
     public static void updateGo() {
@@ -200,12 +187,12 @@ public class DbUsers {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String Surname = new String(textFieldSurname.getText());
-            String Name = new String(textFieldName.getText());
-            String Birthday = new String(textFieldBirthday.getText());
-            String Sex = new String(textFieldSex.getText());
-            String Phone = new String(textFieldPhone.getText());
-            String Email = new String(UpdateUser.textFieldEmail.getText());
+            String Surname = textFieldSurname.getText();
+            String Name = textFieldName.getText();
+            String Birthday = textFieldBirthday.getText();
+            String Sex = textFieldSex.getText();
+            String Phone = textFieldPhone.getText();
+            String Email = UpdateUser.textFieldEmail.getText();
             DbUsers.sEmailList.add(Email);
             if (String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 0)) != null) {
                 currentUserId = String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 0));
@@ -213,7 +200,6 @@ public class DbUsers {
             String insertSQLString = ("update t_dicUsers set  sSurname ='%1$s',sName='%2$s', dtBirthday='%3$s', sSex='%4$s', sPhone='%5$s', sEmail='%6$s'where nId=%7$s");
             String insertSQL = String.format(insertSQLString, Surname, Name, Birthday, Sex, Phone, Email, currentUserId);
             stmt.executeUpdate(insertSQL);
-
             users.removeAll(users);
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicUsers"
@@ -230,7 +216,6 @@ public class DbUsers {
                 users.add(new Users(nId, sSurname, sName, dtBirthday, sSex, sPhone, sEmail));
                 modelUsers.fireTableDataChanged();
             }
-
             stmt.close();
             con.close();
         } catch (
