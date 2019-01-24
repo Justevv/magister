@@ -21,6 +21,8 @@ public class Clope {
         for (Transaction transaction : transactions) {
             Cluster clusterNew = new Cluster(transaction);
             clusters.add(clusterNew);
+//            System.out.println(clusters);
+//            System.out.println(clusters.size());
             double profitFromNewCluster = getProfit(clusters, repulsion);
             double profitMax = profitFromNewCluster;
             clusters.remove(clusterNew);
@@ -35,9 +37,10 @@ public class Clope {
             }
             if (profitMax == profitFromNewCluster) {
                 clusters.add(clusterNew);
-                System.out.println(clusters.size());
+//                System.out.println(clusters.size());
             }
         }
+//        System.out.println(clusters);
         return clusters;
     }
 

@@ -35,7 +35,7 @@ public class WindowExpenses extends JFrame {
         this.setBounds(100, 100, 700, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbExpenses.main();
+        DbExpenses.read();
 
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
@@ -149,10 +149,8 @@ public class WindowExpenses extends JFrame {
         container.add(buttonAddCategory, c);
 
         buttonAddPlace.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                expenses.add(new financialmanager.data.Expenses(1, "20151010", "12300123", "2", "5", "7", 1));
-                tModel.fireTableDataChanged();
+            public void actionPerformed(ActionEvent e) {
+                WindowPlaces.go();
             }
         });
         jfrm.add(buttonAddPlace);

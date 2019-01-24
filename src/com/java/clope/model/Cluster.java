@@ -15,8 +15,8 @@ public class Cluster {
      * @param transaction the transactions of a new cluster
      */
     public Cluster(Transaction transaction) {
-        this.transactions.add(transaction);
-
+        this.transactions.add(transaction); //добавление новой транзакции
+//        System.out.println(transaction);
     }
 
     /**
@@ -31,6 +31,7 @@ public class Cluster {
                 clusterHeight = height;
             }
         }
+//        System.out.println(Start.i++);
         return clusterHeight;
     }
 
@@ -40,6 +41,7 @@ public class Cluster {
      * @return the width of cluster
      */
     public double getWidth() {
+//        System.out.println(Start.i++);
         return getClusterMap().size();
     }
 
@@ -50,8 +52,9 @@ public class Cluster {
      */
     public void addToCluster(Transaction transaction) {
         transactions.add(transaction);
+//        System.out.println(Start.i++);
 //        System.out.println(transaction);
-        System.out.println(transactions.size());
+//        System.out.println(transactions.size());
     }
 
     /**
@@ -61,6 +64,7 @@ public class Cluster {
      */
     public void removeTransaction(Transaction transaction) {
         transactions.remove(transaction);
+//        System.out.println(transaction);
     }
 
     /**
@@ -80,7 +84,9 @@ public class Cluster {
     private Map<String, Integer> getClusterMap() {
         Map<String, Integer> clusterMap = new HashMap<>();
         for (Transaction transaction : transactions) {
+//            System.out.println(transaction);
             for (String string : transaction.getAllData()) {
+//                System.out.println(string);
                 if (clusterMap.containsKey(string)) {
                     clusterMap.put(string, clusterMap.get(string) + 1);
                 } else {
@@ -102,6 +108,7 @@ public class Cluster {
 
     @Override
     public String toString() {
+//        System.out.println("\n" + "{" + Arrays.toString(transactions.toArray()) + "}");
         return "\n" + "{" + Arrays.toString(transactions.toArray()) + "}";
     }
 }

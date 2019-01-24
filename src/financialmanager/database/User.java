@@ -1,6 +1,7 @@
 package financialmanager.database;
 
 import financialmanager.data.Users;
+import financialmanager.gui.AddUser;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -9,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static financialmanager.database.DbUsers.users;
-import static financialmanager.gui.User.*;
+import static financialmanager.gui.AddUser.*;
 import static financialmanager.gui.WindowUsers.modelUsers;
 
 public class User {
@@ -46,8 +47,8 @@ public class User {
                 Connection con = DriverManager.getConnection(connectionString);
                 // Отправка запроса на выборку и получение результатов
                 Statement stmt = con.createStatement();
-                String Surname =financialmanager.gui.User.textFieldSurname.getText();
-                String Name =financialmanager.gui.User.textFieldName.getText();
+                String Surname = AddUser.textFieldSurname.getText();
+                String Name = AddUser.textFieldName.getText();
                 String Birthday = textFieldBirthday.getText();
                 String Sex = textFieldSex.getText();
                 String Phone = textFieldPhone.getText();

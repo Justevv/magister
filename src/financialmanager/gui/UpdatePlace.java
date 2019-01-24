@@ -4,28 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class User extends JFrame {
+public class UpdatePlace extends JFrame {
     private JPanel contentPane = new JPanel();
-    private JLabel labelSurname = new JLabel("Фамилия:");
     private JLabel labelName = new JLabel("Имя:");
-    public static JLabel labelBirthday = new JLabel("Дата рождения:");
-    private JLabel labelPhone = new JLabel("Телефон:");
-    private JLabel labelSex = new JLabel("Пол:");
-    private JLabel labelEmail = new JLabel("Email:");
-    public static JTextField textFieldSurname = new JTextField("Коровин", 5);
-    public static JTextField textFieldName = new JTextField("Михаил", 5);
-    public static JTextField textFieldBirthday = new JTextField("20010101", 5);
-    public static JTextField textFieldPhone = new JTextField("+79203336699", 5);
-    public static JTextField textFieldSex = new JTextField("F", 5);
-    public static JTextField textFieldEmail = new JTextField("korovin@mail.ru", 5);
+    public static JLabel labelAddress = new JLabel("Адрес:");
+    public static JTextField textFieldName;
+    public static JTextField textFieldAddress;
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public User() {
+    public UpdatePlace() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        textFieldName = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 1)), 5);
+        textFieldAddress = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 2)), 5);
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -56,43 +51,13 @@ public class User extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelSurname, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
         container.add(labelName, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelBirthday, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelSex, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelPhone, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelEmail, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldSurname, c);
+        container.add(labelAddress, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -104,25 +69,7 @@ public class User extends JFrame {
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldBirthday, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldSex, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldPhone, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldEmail, c);
+        container.add(textFieldAddress, c);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -144,19 +91,19 @@ public class User extends JFrame {
 
     }
 
-//    public static void view(String[] args) {
-//        Expense app = new Expense();
-//        app.setVisible(true);
-//    }
+    public static void main(String[] args) {
+        Expense app = new Expense();
+        app.setVisible(true);
+    }
 
     public static void go() {
-        financialmanager.gui.User app = new financialmanager.gui.User();
+        UpdatePlace app = new UpdatePlace();
         // app.pack();
         app.setVisible(true);
     }
 
     private void onOK() {
-        financialmanager.database.DbUsers.add();
+        financialmanager.database.DbPlaces.update();
     }
 
     private void onCancel() {

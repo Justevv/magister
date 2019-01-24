@@ -1,6 +1,7 @@
 package financialmanager.database;
 
 import financialmanager.data.Users;
+import financialmanager.gui.AddUser;
 import financialmanager.gui.UpdateUser;
 import financialmanager.gui.WindowUsers;
 
@@ -12,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static financialmanager.gui.UpdateUser.*;
-import static financialmanager.gui.User.textFieldEmail;
+import static financialmanager.gui.AddUser.textFieldEmail;
 import static financialmanager.gui.WindowUsers.modelUsers;
 
 public class DbUsers {
@@ -24,10 +25,6 @@ public class DbUsers {
     private static String connectionString;
     public static int filternId = 0;
     static String currentUserId = "0";
-
-    public static void main(String[] args) {
-        view();
-    }
 
     public static void connect() {
         // Формирование строки подключения
@@ -99,12 +96,12 @@ public class DbUsers {
                 Connection con = DriverManager.getConnection(connectionString);
                 // Отправка запроса на выборку и получение результатов
                 Statement stmt = con.createStatement();
-                String Surname = financialmanager.gui.User.textFieldSurname.getText();
-                String Name = financialmanager.gui.User.textFieldName.getText();
-                String Birthday = financialmanager.gui.User.textFieldBirthday.getText();
-                String Sex = financialmanager.gui.User.textFieldSex.getText();
-                String Phone = financialmanager.gui.User.textFieldPhone.getText();
-                String Email = financialmanager.gui.User.textFieldEmail.getText();
+                String Surname = AddUser.textFieldSurname.getText();
+                String Name = AddUser.textFieldName.getText();
+                String Birthday = AddUser.textFieldBirthday.getText();
+                String Sex = AddUser.textFieldSex.getText();
+                String Phone = AddUser.textFieldPhone.getText();
+                String Email = AddUser.textFieldEmail.getText();
                 String insertSQLString = ("insert into t_dicUsers( sSurname ,sName, dtBirthday, sSex, sPhone, sEmail) values ('%1$s','%2$s','%3$s','%4$s','%5$s','%6$s')");
                 String insertSQL = String.format(insertSQLString, Surname, Name, Birthday, Sex, Phone, Email);
                 // System.out.println(insertSQL);

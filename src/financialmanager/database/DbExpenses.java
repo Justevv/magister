@@ -19,11 +19,7 @@ public class DbExpenses {
     public static Long balance;
     public static String nUserSurname;
 
-    public static void main(String[] args) {
-        main();
-    }
-
-    public static void main() {
+    public static void read() {
         // Формирование строки подключения
         String computername = null;
         try {
@@ -40,7 +36,6 @@ public class DbExpenses {
         //    Vector<Vector<Object>> retVector = new Vector<Vector<Object>>();
         //     Vector<Object> newRow = null;
         try {
-            Object[] deposit = null;
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
@@ -54,9 +49,6 @@ public class DbExpenses {
             );
             // Обход результатов выборки
             expenses = new ArrayList<>();
-            Expense.comboBoxPlace = new JComboBox();
-            Expense.comboBoxPaymentType = new JComboBox();
-            Expense.comboBoxCategory = new JComboBox();
 
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
@@ -69,12 +61,47 @@ public class DbExpenses {
                 expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum));
                 WindowExpenses.tModel.fireTableDataChanged();
             }
-            ResultSet executeQuery2 = stmt.executeQuery("select sum(dSum) as dSum, count(dSum) as dCount from t_Expenses where nUserId=" + OpenWindow.userLogin
+            ResultSet executeQuerySum = stmt.executeQuery("select sum(dSum) as dSum, count(dSum) as dCount from t_Expenses where nUserId=" + OpenWindow.userLogin
             );
-            while (executeQuery2.next()) {
-                balance = executeQuery2.getLong("dSum");
-                Integer dCount = executeQuery2.getInt("dCount");
+            while (executeQuerySum.next()) {
+                balance = executeQuerySum.getLong("dSum");
+                Integer dCount = executeQuerySum.getInt("dCount");
             }
+
+            // Закрываем соединение
+            executeQuery.close();
+            executeQuerySum.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            // Обработка исключений
+            Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void comboBoxRead() {
+        // Формирование строки подключения
+        String computername = null;
+        try {
+            computername = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        String instanceName = computername + "\\SQLEXPRESS";
+        String databaseName = "expenses";
+        String userName = "supertest";
+        String pass = "supertest";
+        String connectionUrl = "jdbc:sqlserver://%1$s;databaseName=%2$s;user=%3$s;password=%4$s;";
+        String connectionString = String.format(connectionUrl, instanceName, databaseName, userName, pass);
+        try {
+            // Подключение к базе данных
+            Connection con = DriverManager.getConnection(connectionString);
+            // Отправка запроса на выборку и получение результатов
+            Statement stmt = con.createStatement();
+
+            Expense.comboBoxPlace = new JComboBox();
+            Expense.comboBoxPaymentType = new JComboBox();
+            Expense.comboBoxCategory = new JComboBox();
 
             ResultSet executeQueryNamePlaces = stmt.executeQuery("select * from t_dicPlaces");
             while (executeQueryNamePlaces.next()) {
@@ -91,9 +118,10 @@ public class DbExpenses {
                 Expense.comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
             }
 
-            // System.out.println(users.get(0));
             // Закрываем соединение
-            executeQuery.close();
+            executeQueryNamePlaces.close();
+            executeQueryNamePaymentTypes.close();
+            executeQueryNameCategories.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {

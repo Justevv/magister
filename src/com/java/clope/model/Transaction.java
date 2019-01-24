@@ -1,6 +1,8 @@
 package com.java.clope.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * class of transaction
@@ -16,8 +18,14 @@ public class Transaction {
      */
     public Transaction(String... strings) {
         for (String s : strings) {
-            this.data.add(s);
+            this.data.add(s);   //чтение посимвольно транзакций и добавление в data
+//            System.out.println(data);
+//            System.out.println(Start.i);
+//            Start.i++;
         }
+//        System.out.println(Start.i);
+//        System.out.println(data);
+//        Start.i++;
     }
 
     /**

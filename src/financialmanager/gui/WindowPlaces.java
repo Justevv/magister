@@ -1,7 +1,7 @@
 package financialmanager.gui;
 
-import financialmanager.database.DbUsers;
-import financialmanager.table.UsersTable;
+import financialmanager.database.DbPlaces;
+import financialmanager.table.PlacesTable;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -11,12 +11,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class WindowUsers extends JFrame implements ActionListener {
-    private JButton buttonAddUser = new JButton("Добавить пользователя");
-    private JButton buttonDeleteUser = new JButton("Удалить пользователя");
-    private JButton buttonUpdateUser = new JButton("Редактировать пользователя");
-    public static UsersTable modelUsers;
-    private JTable jTabPeople;
+public class WindowPlaces extends JFrame implements ActionListener {
+    private JButton buttonAddPlace = new JButton("Добавить место");
+    private JButton buttonDeletePlace = new JButton("Удалить место");
+    private JButton buttonUpdatePlace = new JButton("Редактировать место");
+    public static PlacesTable modelPlaces;
+    private JTable jTabPlace;
     public static String result;
     public static int[] selectedRows;
     public static int[] selectedColumns;
@@ -25,26 +25,26 @@ public class WindowUsers extends JFrame implements ActionListener {
     public static TableModel model;
     public static Object value;
 
-    public WindowUsers() {
+    public WindowPlaces() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbUsers.view();
+        DbPlaces.view();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelUsers = new UsersTable(DbUsers.users);
+        modelPlaces = new PlacesTable(DbPlaces.places);
         //На основе модели, создадим новую JTable
-        jTabPeople = new JTable(modelUsers);
+        jTabPlace = new JTable(modelPlaces);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
-        JScrollPane jscrlp = new JScrollPane(jTabPeople);
+        JScrollPane jscrlp = new JScrollPane(jTabPlace);
         //Устаналиваем размеры прокручиваемой области
-        jTabPeople.setPreferredScrollableViewportSize(new Dimension(550, 200));
+        jTabPlace.setPreferredScrollableViewportSize(new Dimension(550, 200));
         //Добавляем в контейнер нашу панель прокрути и таблицу вместе с ней
         jfrm.getContentPane().add(jscrlp);
 
@@ -56,38 +56,38 @@ public class WindowUsers extends JFrame implements ActionListener {
         c.gridy = 0;
         container.add(jscrlp, c);
 
-        buttonAddUser.addActionListener(new ActionListener() {
+        buttonAddPlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddUser.go();
+                AddPlace.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(buttonAddUser, c);
+        container.add(buttonAddPlace, c);
 
-        buttonDeleteUser.addActionListener(new ActionListener() {
+        buttonDeletePlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbUsers.delete();
+                DbPlaces.delete();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(buttonDeleteUser, c);
+        container.add(buttonDeletePlace, c);
 
-        buttonUpdateUser.addActionListener(new ActionListener() {
+        buttonUpdatePlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                UpdateUser.go();
+                UpdatePlace.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(buttonUpdateUser, c);
+        container.add(buttonUpdatePlace, c);
 
         final JLabel currentSelectionLabel = new JLabel("");
 //        currentSelectionLabel.setAutoscrolls(true);
@@ -97,15 +97,15 @@ public class WindowUsers extends JFrame implements ActionListener {
 //        c.gridy = GridBagConstraints.RELATIVE;
 //        container.add(currentSelectionLabel, c);
 
-        ListSelectionModel selModel = jTabPeople.getSelectionModel();
+        ListSelectionModel selModel = jTabPlace.getSelectionModel();
         selModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 result = "";
-                selectedRows = jTabPeople.getSelectedRows();
-                selectedColumns = jTabPeople.getSelectedColumns();
+                selectedRows = jTabPlace.getSelectedRows();
+                selectedColumns = jTabPlace.getSelectedColumns();
                 for (i = 0; i < selectedRows.length; i++) {
                     selIndex = selectedRows[i];
-                    model = jTabPeople.getModel();
+                    model = jTabPlace.getModel();
                     value = model.getValueAt(selIndex, 0);
                     // System.out.println(value);
                     result = result + value;
@@ -125,12 +125,12 @@ public class WindowUsers extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        WindowUsers app = new WindowUsers();
+        WindowPlaces app = new WindowPlaces();
         app.setVisible(true);
     }
 
     public static void go() {
-        WindowUsers app = new WindowUsers();
+        WindowPlaces app = new WindowPlaces();
         app.setVisible(true);
     }
 }

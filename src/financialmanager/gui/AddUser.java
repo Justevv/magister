@@ -1,31 +1,31 @@
 package financialmanager.gui;
 
-import financialmanager.database.DbExpenses;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Expense extends JFrame {
+public class AddUser extends JFrame {
     private JPanel contentPane = new JPanel();
-    private JLabel labelDate = new JLabel("Дата:");
-    private JLabel labelCategory = new JLabel("Категория:");
-    private JLabel labelPlace = new JLabel("Место:");
-    private JLabel labelPaymentType = new JLabel("Тип оплаты:");
-    private JLabel labelSum = new JLabel("Сумма:");
-    public static JTextField textFieldDate = new JTextField("20181010", 5);
-    public static JTextField textFieldSum = new JTextField("100", 5);
-    public static JComboBox comboBoxCategory;
-    public static JComboBox comboBoxPlace;
-    public static JComboBox comboBoxPaymentType;
+    private JLabel labelSurname = new JLabel("Фамилия:");
+    private JLabel labelName = new JLabel("Имя:");
+    public static JLabel labelBirthday = new JLabel("Дата рождения:");
+    private JLabel labelPhone = new JLabel("Телефон:");
+    private JLabel labelSex = new JLabel("Пол:");
+    private JLabel labelEmail = new JLabel("Email:");
+    public static JTextField textFieldSurname = new JTextField("Коровин", 5);
+    public static JTextField textFieldName = new JTextField("Михаил", 5);
+    public static JTextField textFieldBirthday = new JTextField("20010101", 5);
+    public static JTextField textFieldPhone = new JTextField("+79203336699", 5);
+    public static JTextField textFieldSex = new JTextField("F", 5);
+    public static JTextField textFieldEmail = new JTextField("korovin@mail.ru", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public Expense() {
+    public AddUser() {
+
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        DbExpenses.comboBoxRead();
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -56,64 +56,73 @@ public class Expense extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelDate, c);
+        container.add(labelSurname, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelCategory, c);
+        container.add(labelName, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelPaymentType, c);
+        container.add(labelBirthday, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelPlace, c);
+        container.add(labelSex, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelSum, c);
+        container.add(labelPhone, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelEmail, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldDate, c);
-
-        // textFieldBirthday = new JComboBox(DbExpenses.items);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(comboBoxCategory, c);
-
-        //  textFieldEmail = new JComboBox(DbExpenses.items);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(comboBoxPaymentType, c);
-
-        // textFieldPhone = new JComboBox();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(comboBoxPlace, c);
+        container.add(textFieldSurname, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldSum, c);
+        container.add(textFieldName, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(textFieldBirthday, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(textFieldSex, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(textFieldPhone, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(textFieldEmail, c);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -123,32 +132,31 @@ public class Expense extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonOK, c);
 
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
-        c.gridy = 5;
+        c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonCancel, c);
+
     }
 
-    public static void main(String[] args) {
-        Expense app = new Expense();
-        app.setVisible(true);
-    }
+//    public static void view(String[] args) {
+//        Expense app = new Expense();
+//        app.setVisible(true);
+//    }
 
     public static void go() {
-        Expense app = new Expense();
+        AddUser app = new AddUser();
         // app.pack();
         app.setVisible(true);
     }
 
     private void onOK() {
-        financialmanager.database.Expenses.main();
-        DbExpenses.balance = DbExpenses.balance + new Integer(textFieldSum.getText());
-        WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
+        financialmanager.database.DbUsers.add();
     }
 
     private void onCancel() {
@@ -158,3 +166,5 @@ public class Expense extends JFrame {
         //System.exit(0);
     }
 }
+
+
