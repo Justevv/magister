@@ -7,7 +7,7 @@ import java.awt.event.*;
 public class AddPlace extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelName = new JLabel("Имя:");
-    private JLabel labelAdress = new JLabel("Адресс:");
+    private JLabel labelAdress = new JLabel("Адрес:");
     public static JTextField textFieldName = new JTextField("Макдональдс", 5);
     public static JTextField textFieldAddress = new JTextField("Есенина", 5);
     private JButton buttonOK = new JButton("OK");

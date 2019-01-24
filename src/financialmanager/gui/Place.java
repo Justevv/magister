@@ -4,23 +4,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class UpdatePlace extends JFrame {
+public class Place extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelName = new JLabel("Имя:");
     public static JLabel labelAddress = new JLabel("Адрес:");
-    public static JTextField textFieldName;
-    public static JTextField textFieldAddress;
+    public static JTextField textFieldName = new JTextField("Макдональдс", 5);
+    public static JTextField textFieldAddress = new JTextField("Есенина", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public UpdatePlace() {
+    public Place() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        textFieldName = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 1)), 5);
-        textFieldAddress = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 2)), 5);
+        if (WindowPlaces.action == "update") {
+            textFieldName = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 1)), 5);
+            textFieldAddress = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 2)), 5);
+        } else {
+//            textFieldName = new JTextField("", 5);
+//            textFieldAddress = new JTextField("", 5);
+        }
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -97,13 +101,18 @@ public class UpdatePlace extends JFrame {
     }
 
     public static void go() {
-        UpdatePlace app = new UpdatePlace();
+        Place app = new Place();
         // app.pack();
         app.setVisible(true);
     }
 
     private void onOK() {
-        financialmanager.database.DbPlaces.update();
+        if (WindowPlaces.action == "update") {
+            financialmanager.database.DbPlaces.update();
+        }
+        if (WindowPlaces.action == "add") {
+            financialmanager.database.DbPlaces.add();
+        }
     }
 
     private void onCancel() {

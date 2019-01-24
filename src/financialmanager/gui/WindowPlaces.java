@@ -18,6 +18,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
     public static PlacesTable modelPlaces;
     private JTable jTabPlace;
     public static String result;
+    public static String action;
     public static int[] selectedRows;
     public static int[] selectedColumns;
     public static int i;
@@ -58,7 +59,8 @@ public class WindowPlaces extends JFrame implements ActionListener {
 
         buttonAddPlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddPlace.go();
+                action="add";
+                Place.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -80,7 +82,8 @@ public class WindowPlaces extends JFrame implements ActionListener {
 
         buttonUpdatePlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                UpdatePlace.go();
+                action="update";
+                Place.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;

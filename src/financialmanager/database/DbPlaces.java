@@ -1,7 +1,7 @@
 package financialmanager.database;
 
 import financialmanager.data.Places;
-import financialmanager.gui.AddPlace;
+import financialmanager.gui.Place;
 import financialmanager.gui.WindowPlaces;
 
 import java.net.InetAddress;
@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static financialmanager.gui.UpdatePlace.textFieldAddress;
-import static financialmanager.gui.UpdatePlace.textFieldName;
+import static financialmanager.gui.Place.textFieldAddress;
+import static financialmanager.gui.Place.textFieldName;
 import static financialmanager.gui.WindowPlaces.modelPlaces;
 
 public class DbPlaces {
@@ -78,8 +78,8 @@ public class DbPlaces {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String Name = AddPlace.textFieldName.getText();
-            String Address = AddPlace.textFieldAddress.getText();
+            String Name = Place.textFieldName.getText();
+            String Address = Place.textFieldAddress.getText();
             String insertSQLString = ("insert into t_dicPlaces(sName, sAddress) values ('%1$s','%2$s')");
             String insertSQL = String.format(insertSQLString, Name, Address);
             stmt.executeUpdate(insertSQL);
