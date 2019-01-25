@@ -14,7 +14,7 @@
 //
 //    //Объект таблицы
 //    JTable jTabPeople;
-//    ExpensesTable tModel;
+//    ExpensesTable modelExpenses;
 //    JTableExample() {
 //        DbExpenses.view();
 //        //Создаем новый контейнер JFrame
@@ -26,9 +26,9 @@
 //        //Устанавливаем завершение программы при закрытии окна
 //        jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        //Создадим модель таблицы
-//        tModel = new ExpensesTable(DbExpenses.expenses);
+//        modelExpenses = new ExpensesTable(DbExpenses.expenses);
 ////На основе модели, создадим новую JTable
-//        jTabPeople = new JTable(tModel);
+//        jTabPeople = new JTable(modelExpenses);
 //        //Создаем новую таблицу на основе двумерного массива данных и заголовков
 //     //   jTabPeople = new JTable(new ExpensesTable(expenses));
 //        //Создаем панель прокрутки и включаем в ее состав нашу таблицу

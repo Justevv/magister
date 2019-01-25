@@ -4,6 +4,9 @@ import financialmanager.database.DbExpenses;
 import financialmanager.table.ExpensesTable;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +16,8 @@ import static financialmanager.database.DbExpenses.expenses;
 public class WindowExpenses extends JFrame {
     private JButton button = new JButton("Press");
     private JButton buttonAdd = new JButton("Добавить запись");
+    private JButton buttonDelete = new JButton("Удалить запись");
+    private JButton buttonUpdate = new JButton("Редактировать запись");
     private JButton buttonAddUser = new JButton("Пользователи");
     private JButton buttonAddCategory = new JButton("Категории");
     private JButton buttonAddPlace = new JButton("Места");
@@ -25,8 +30,16 @@ public class WindowExpenses extends JFrame {
     private JRadioButton radio2 = new JRadioButton("Select that");
     private JRadioButton radio3 = new JRadioButton("Select no that");
     private JCheckBox check = new JCheckBox("Check", false);
-    public static ExpensesTable tModel = new ExpensesTable(expenses);
-    private static JTable jTabPeople = new JTable(tModel);
+    public static ExpensesTable modelExpenses = new ExpensesTable(expenses);
+    public static int[] selectedRows;
+    public static int[] selectedColumns;
+    public static int i;
+    private static JTable jTabExpenses = new JTable(modelExpenses);
+    public static TableModel model;
+    public static int selIndex;
+    public static Object value;
+    public static Object Sum;
+    public static String action;
 
     public WindowExpenses() {
 
@@ -35,7 +48,7 @@ public class WindowExpenses extends JFrame {
         this.setBounds(100, 100, 700, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbExpenses.read();
+        DbExpenses.view();
 
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
@@ -77,15 +90,29 @@ public class WindowExpenses extends JFrame {
 //      //  container.add(input);
 
         JFrame jfrm = new JFrame("JTableExample");
-        tModel = new ExpensesTable(expenses);
+        modelExpenses = new ExpensesTable(expenses);
         //На основе модели, создадим новую JTable
-        jTabPeople = new JTable(tModel);
+        jTabExpenses = new JTable(modelExpenses);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
-        JScrollPane jscrlp = new JScrollPane(jTabPeople);
+        JScrollPane jscrlp = new JScrollPane(jTabExpenses);
         //Устаналиваем размеры прокручиваемой области
-        jTabPeople.setPreferredScrollableViewportSize(new Dimension(450, 250));
+        jTabExpenses.setPreferredScrollableViewportSize(new Dimension(450, 250));
         //Добавляем в контейнер нашу панель прокрути и таблицу вместе с ней
         jfrm.getContentPane().add(jscrlp);
+
+        ListSelectionModel selModel = jTabExpenses.getSelectionModel();
+        selModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                selectedRows = jTabExpenses.getSelectedRows();
+                selectedColumns = jTabExpenses.getSelectedColumns();
+                for (i = 0; i < selectedRows.length; i++) {
+                    selIndex = selectedRows[i];
+                    model = jTabExpenses.getModel();
+                    value = model.getValueAt(selIndex, 0);
+                    Sum = model.getValueAt(selIndex, 6);
+                }
+            }
+        });
 
 //        ButtonGroup group = new ButtonGroup();
 //        group.add(radio1);
@@ -123,12 +150,12 @@ public class WindowExpenses extends JFrame {
 //        container.add(check, c);
 //      //  container.add(check);
 
-        button.addActionListener(new ButtonEventListener());
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = 3;
-        container.add(button, c);
+//        button.addActionListener(new ButtonEventListener());
+//        c.fill = GridBagConstraints.HORIZONTAL;
+//        c.weightx = 0.5;
+//        c.gridx = 0;
+//        c.gridy = 3;
+//        container.add(button, c);
 
         buttonAddUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -141,7 +168,11 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddUser, c);
 
-        buttonAddCategory.addActionListener(new ButtonEventListener());
+        buttonAddCategory.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                WindowCategories.go();
+            }
+        });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
@@ -165,14 +196,13 @@ public class WindowExpenses extends JFrame {
 //        buttonAddPlace.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
 //                // Номер выделенной строки
-//                int idx = jTabPeople.getSelectedRow();
+//                int idx = jTabExpenses.getSelectedRow();
 //                // Удаление выделенной строки
-//                jTabPeople.removeRow(idx);
+//                jTabExpenses.removeRow(idx);
 
         buttonAdd.addActionListener(new ActionListener() {
-            //   private JInternalFrame dialog;
-
             public void actionPerformed(ActionEvent e) {
+                action="add";
                 Expense.go();
             }
         });
@@ -181,6 +211,30 @@ public class WindowExpenses extends JFrame {
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAdd, c);
+
+        buttonUpdate.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                action="update";
+                Expense.go();
+            }
+        });
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(buttonUpdate, c);
+
+        buttonDelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                DbExpenses.delete();
+                labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
+            }
+        });
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(buttonDelete, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -207,6 +261,7 @@ public class WindowExpenses extends JFrame {
                     JOptionPane.PLAIN_MESSAGE);
         }
     }
+
 
     public static void main(String[] args) {
         WindowExpenses app = new WindowExpenses();

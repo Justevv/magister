@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static financialmanager.database.DbExpenses.expenses;
-import static financialmanager.gui.WindowExpenses.tModel;
+import static financialmanager.gui.WindowExpenses.modelExpenses;
 
 public class Expenses {
     public static int filternId = 0000;
@@ -75,7 +75,7 @@ public class Expenses {
                 String nPaymentTypeName = executeQuery.getString("nPaymentTypeName");
                 dSum = executeQuery.getInt("dSum");
                 expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum));
-                tModel.fireTableDataChanged();
+                modelExpenses.fireTableDataChanged();
                 filternId = nId;
 //                     System.out.println("Down " + filternId);
             }

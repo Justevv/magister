@@ -59,7 +59,7 @@ public class ExpensesTable extends AbstractTableModel {
                 result = "Surname";
                 break;
             case 3:
-                result = "Category";
+                result = "Places";
                 break;
             case 4:
                 result = "AddPlace";

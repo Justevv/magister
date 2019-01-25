@@ -4,23 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Place extends JFrame {
+public class Category extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelName = new JLabel("Имя:");
-    public static JLabel labelAddress = new JLabel("Адрес:");
-    public static JTextField textFieldName = new JTextField("Макдональдс", 5);
-    public static JTextField textFieldAddress = new JTextField("Есенина", 5);
+    public static JLabel labelParentId = new JLabel("Родительская категория:");
+    public static JTextField textFieldName = new JTextField("Свет", 5);
+    public static JTextField textFieldParentId = new JTextField("1", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public Place() {
+    public Category() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (WindowPlaces.action == "update") {
-            textFieldName = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 1)), 5);
-            textFieldAddress = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 2)), 5);
+        if (WindowCategories.action == "update") {
+            textFieldName = new JTextField(String.valueOf(WindowCategories.model.getValueAt(WindowCategories.selIndex, 1)), 5);
+            textFieldParentId = new JTextField(String.valueOf(WindowCategories.model.getValueAt(WindowCategories.selIndex, 2)), 5);
         } else {
 //            textFieldName = new JTextField("", 5);
 //            textFieldParentId = new JTextField("", 5);
@@ -61,7 +61,7 @@ public class Place extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelAddress, c);
+        container.add(labelParentId, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -73,7 +73,7 @@ public class Place extends JFrame {
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldAddress, c);
+        container.add(textFieldParentId, c);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -101,17 +101,17 @@ public class Place extends JFrame {
     }
 
     public static void go() {
-        Place app = new Place();
+        Category app = new Category();
         // app.pack();
         app.setVisible(true);
     }
 
     private void onOK() {
-        if (WindowPlaces.action == "update") {
-            financialmanager.database.DbPlaces.update();
+        if (WindowCategories.action == "update") {
+            financialmanager.database.DbCategories.update();
         }
-        if (WindowPlaces.action == "add") {
-            financialmanager.database.DbPlaces.add();
+        if (WindowCategories.action == "add") {
+            financialmanager.database.DbCategories.add();
         }
     }
 

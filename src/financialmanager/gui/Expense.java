@@ -27,6 +27,16 @@ public class Expense extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         DbExpenses.comboBoxRead();
 
+        if (WindowExpenses.action == "update") {
+            comboBoxCategory.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 3))));
+            comboBoxPlace.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 4))));
+            comboBoxPaymentType.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 5))));
+            textFieldDate = new JTextField(String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 1)), 5);
+            textFieldSum = new JTextField(String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 6)), 5);
+        } else {
+//            textFieldDate = new JTextField("", 5);
+//            textFieldSum = new JTextField("", 5);
+        }
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -146,9 +156,14 @@ public class Expense extends JFrame {
     }
 
     private void onOK() {
-        financialmanager.database.Expenses.main();
-        DbExpenses.balance = DbExpenses.balance + new Integer(textFieldSum.getText());
-        WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
+        if (WindowExpenses.action == "update") {
+            financialmanager.database.DbExpenses.update();
+            WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
+        }
+        if (WindowExpenses.action == "add") {
+            financialmanager.database.DbExpenses.add();
+            WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
+        }
     }
 
     private void onCancel() {
