@@ -25,6 +25,7 @@ public class WindowExpenses extends JFrame {
     private JLabel label = new JLabel("Input:");
     private JLabel labelUser = new JLabel("Пользователь:" + DbExpenses.nUserSurname);
     private JLabel labelAccount = new JLabel("Номер счета:");
+    private JLabel labelBalanceCategory;
     public static JLabel labelBalance;
     private JRadioButton radio1 = new JRadioButton("Select this");
     private JRadioButton radio2 = new JRadioButton("Select that");
@@ -40,6 +41,7 @@ public class WindowExpenses extends JFrame {
     public static Object value;
     public static Object Sum;
     public static String action;
+    public static JComboBox comboBoxCategory;
 
     public WindowExpenses() {
 
@@ -49,10 +51,12 @@ public class WindowExpenses extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DbExpenses.view();
+        DbExpenses.comboBoxRead();
 
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
         labelBalance = new JLabel("Баланс: " + DbExpenses.balance + " Рублей");
+        labelBalanceCategory = new JLabel("Итог категории: " + DbExpenses.balanceCategory + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
@@ -202,7 +206,7 @@ public class WindowExpenses extends JFrame {
 
         buttonAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action="add";
+                action = "add";
                 Expense.go();
             }
         });
@@ -214,7 +218,7 @@ public class WindowExpenses extends JFrame {
 
         buttonUpdate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action="update";
+                action = "update";
                 Expense.go();
             }
         });
@@ -244,6 +248,25 @@ public class WindowExpenses extends JFrame {
         c.gridy = 0;
         container.add(jscrlp, c);
         //container.add(jscrlp);
+
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                DbExpenses.balanceCategory();
+                labelBalanceCategory.setText("Итог категории "+comboBoxCategory.getSelectedItem()+": " + DbExpenses.balanceCategory + " Рублей");
+            }
+        };
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(comboBoxCategory, c);
+        comboBoxCategory.addActionListener(actionListener);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = GridBagConstraints.RELATIVE - 1;
+        container.add(labelBalanceCategory, c);
     }
 
     class ButtonEventListener implements ActionListener {

@@ -1,87 +1,67 @@
 package financialmanager.guitest;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TestFrame extends JFrame {
 
-    public static void createGUI() {
-        JFrame frame = new JFrame("Test frame");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public TestFrame() {
 
-        String[] columnNames = {
-                "Name",
-                "Last modified",
-                "Type",
-                "Size"
+        super("Тестовое окно");
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        Font font = new Font("Verdana", Font.PLAIN, 18);
+
+        String[] items = {
+                "Элемент списка 1",
+                "Элемент списка 2",
+                "Элемент списка 3"
         };
 
-        String[][] data = {
-                {"addins", "02.11.2006 19:15", "Folder", ""},
-                {"AppPatch", "03.10.2006 14:10", "Folder", ""},
-                {"assembly", "02.11.2006 14:20", "Folder", ""},
-                {"Boot", "13.10.2007 10:46", "Folder", ""},
-                {"Branding", "13.10.2007 12:10", "Folder", ""},
-                {"Cursors", "23.09.2006 16:34", "Folder", ""},
-                {"Debug", "07.12.2006 17:45", "Folder", ""},
-                {"Fonts", "03.10.2006 14:08", "Folder", ""},
-                {"Help", "08.11.2006 18:23", "Folder", ""}
-        };
+        Container content = getContentPane();
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
 
-        final JTable table = new JTable(data, columnNames);
-        JScrollPane scrollPane = new JScrollPane(table);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        final JLabel label = new JLabel(" ");
+        label.setAlignmentX(LEFT_ALIGNMENT);
+        label.setFont(font);
+        content.add(label);
 
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-        JLabel selLabel = new JLabel("Selected:");
-        bottomPanel.add(selLabel);
-
-        final JLabel currentSelectionLabel = new JLabel("");
-        currentSelectionLabel.setAutoscrolls(true);
-        bottomPanel.add(currentSelectionLabel);
-
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        ListSelectionModel selModel = table.getSelectionModel();
-
-        selModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                String result = "";
-                int[] selectedRows = table.getSelectedRows();
-                for(int i = 0; i < selectedRows.length; i++) {
-                    int selIndex = selectedRows[i];
-                    TableModel model = table.getModel();
-                    Object value = model.getValueAt(selIndex, 0);
-                    result = result + value;
-                    if(i != selectedRows.length - 1) {
-                        result += ", ";
-                    }
-                }
-                currentSelectionLabel.setText(result);
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JComboBox box = (JComboBox)e.getSource();
+                String item = (String)box.getSelectedItem();
+                label.setText(item);
             }
-        });
+        };
 
-        frame.getContentPane().add(mainPanel);
+        JComboBox comboBox = new JComboBox(items);
+        comboBox.setFont(font);
+        comboBox.setAlignmentX(LEFT_ALIGNMENT);
+        comboBox.addActionListener(actionListener);
+        content.add(comboBox);
 
-        frame.setPreferredSize(new Dimension(550, 200));
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        JComboBox editComboBox = new JComboBox(items);
+        editComboBox.setEditable(true);
+        editComboBox.setAlignmentX(LEFT_ALIGNMENT);
+        editComboBox.setFont(font);
+        editComboBox.addActionListener(actionListener);
+        content.add(editComboBox);
+
+        setPreferredSize(new Dimension(240, 130));
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame.setDefaultLookAndFeelDecorated(true);
-                createGUI();
+                new TestFrame();
             }
         });
     }

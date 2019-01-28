@@ -25,6 +25,7 @@ public class DbExpenses {
     static String PaymentType;
     static String Category;
     static String currentExpenseId = "0";
+    public static long balanceCategory;
 
     public static void view() {
         DbConnect.connect();
@@ -83,11 +84,13 @@ public class DbExpenses {
             Expense.comboBoxPlace = new JComboBox();
             Expense.comboBoxPaymentType = new JComboBox();
             Expense.comboBoxCategory = new JComboBox();
+            if (WindowExpenses.action == null) {
+                WindowExpenses.comboBoxCategory = new JComboBox();
+            }
 
             ResultSet executeQueryNamePlaces = stmt.executeQuery("select * from t_dicPlaces");
             while (executeQueryNamePlaces.next()) {
                 Expense.comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
-//                Expense.comboBoxPlace.getItemAt(3);
             }
 
             ResultSet executeQueryNamePaymentTypes = stmt.executeQuery("select * from t_dicPaymentTypes");
@@ -98,6 +101,7 @@ public class DbExpenses {
             ResultSet executeQueryNameCategories = stmt.executeQuery("select * from t_dicCategories");
             while (executeQueryNameCategories.next()) {
                 Expense.comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
+                WindowExpenses.comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
             }
 
             // Закрываем соединение
@@ -133,13 +137,9 @@ public class DbExpenses {
             String insertSQL = String.format(insertSQLString, dtDate, dSum, OpenWindow.userLogin, Category, Place, PaymentType);
             stmt.executeUpdate(insertSQL);
             balance = balance + new Integer(textFieldSum.getText());
-            // Закрываем соединение
-            //executeQuery.close();
-
             if (DbExpenses.nId != null && filternId < DbExpenses.nId) {
                 filternId = DbExpenses.nId;
             }
-
             ResultSet executeQuery = stmt.executeQuery("SELECT e.nId as nId, dtDate, sSurname, c.sName as CategoriesName,p.sName as nPlaceName, pt.sName as nPaymentTypeName, dSum " +
                     "FROM t_Expenses e join t_dicUsers u on e.nUserId=u.nId " +
                     "join t_dicCategories c on e.nCategoryId=c.nId " +
@@ -159,9 +159,7 @@ public class DbExpenses {
                 expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum));
                 modelExpenses.fireTableDataChanged();
                 filternId = nId;
-//                     System.out.println("Down " + filternId);
             }
-
             // Закрываем соединение
             executeQuery.close();
             stmt.close();
@@ -244,6 +242,32 @@ public class DbExpenses {
             con.close();
         } catch (
                 SQLException ex) {
+            // Обработка исключений
+            Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void balanceCategory() {
+//        Place = (String) Expense.comboBoxPlace.getSelectedItem();
+//        PaymentType = (String) Expense.comboBoxPaymentType.getSelectedItem();
+        Category = (String) WindowExpenses.comboBoxCategory.getSelectedItem();
+        DbConnect.connect();
+        try {
+            // Подключение к базе данных
+            Connection con = DriverManager.getConnection(connectionString);
+            // Отправка запроса на выборку и получение результатов
+            Statement stmt = con.createStatement();
+            String balanceSQLString = ("select sum(dSum) as dSum from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId where c.sName='%1$s' and e.nUserId='%2$s'");
+            ResultSet executeQuery = stmt.executeQuery(String.format(balanceSQLString, Category, OpenWindow.userLogin));
+            // Обход результатов выборки
+            while (executeQuery.next()) {
+                balanceCategory = executeQuery.getLong("dSum");
+            }
+            // Закрываем соединение
+            executeQuery.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
             // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
