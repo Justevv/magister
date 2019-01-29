@@ -13,17 +13,21 @@ public class Expense extends JFrame {
     private JLabel labelPlace = new JLabel("Место:");
     private JLabel labelPaymentType = new JLabel("Тип оплаты:");
     private JLabel labelSum = new JLabel("Сумма:");
+    private JLabel labelAccount = new JLabel("Счет:");
+    private JLabel labelTransactionType = new JLabel("Тип платежа:");
     public static JTextField textFieldDate = new JTextField("20181010", 5);
     public static JTextField textFieldSum = new JTextField("100", 5);
     public static JComboBox comboBoxCategory;
     public static JComboBox comboBoxPlace;
     public static JComboBox comboBoxPaymentType;
+    public static JComboBox comboBoxAccount;
+    public static JComboBox comboBoxTransactionType;
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
     public Expense() {
         super("Финансовый менеджер");
-        this.setBounds(100, 100, 350, 200);
+        this.setBounds(100, 100, 350, 300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         DbExpenses.comboBoxRead();
 
@@ -31,6 +35,8 @@ public class Expense extends JFrame {
             comboBoxCategory.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 3))));
             comboBoxPlace.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 4))));
             comboBoxPaymentType.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 5))));
+            comboBoxAccount.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 7))));
+            comboBoxTransactionType.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 8))));
             textFieldDate = new JTextField(String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 1)), 5);
             textFieldSum = new JTextField(String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 6)), 5);
         } else {
@@ -94,6 +100,18 @@ public class Expense extends JFrame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelAccount, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelTransactionType, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(textFieldDate, c);
@@ -125,6 +143,18 @@ public class Expense extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(textFieldSum, c);
 
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(comboBoxAccount, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(comboBoxTransactionType, c);
+
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -133,14 +163,14 @@ public class Expense extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = 7;
         container.add(buttonOK, c);
 
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
-        c.gridy = 5;
+        c.gridy = 7;
         container.add(buttonCancel, c);
     }
 
@@ -157,11 +187,11 @@ public class Expense extends JFrame {
 
     private void onOK() {
         if (WindowExpenses.action == "update") {
-            financialmanager.database.DbExpenses.update();
+            financialmanager.database.DbExpenses.update(OpenWindow.userLogin);
             WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
         }
         if (WindowExpenses.action == "add") {
-            financialmanager.database.DbExpenses.add();
+            financialmanager.database.DbExpenses.add(OpenWindow.userLogin);
             WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
         }
     }

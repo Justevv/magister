@@ -4,20 +4,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class AddPlace extends JFrame {
+import static financialmanager.gui.WindowAccounts.modelAccounts;
+import static financialmanager.gui.WindowAccounts.currentId;
+
+public class Account extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelName = new JLabel("Имя:");
-    private JLabel labelAdress = new JLabel("Адрес:");
-    public static JTextField textFieldName = new JTextField("Макдональдс", 5);
-    public static JTextField textFieldAddress = new JTextField("Есенина", 5);
+    public static JTextField textFieldName = new JTextField("Свет", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public AddPlace() {
+    public Account() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        if (WindowAccounts.action == "update") {
+            textFieldName = new JTextField(String.valueOf(WindowAccounts.model.getValueAt(WindowAccounts.selIndex, 1)), 5);
+        } else {
+//            textFieldName = new JTextField("", 5);
+        }
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -52,21 +58,9 @@ public class AddPlace extends JFrame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelAdress, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(textFieldName, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldAddress, c);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -88,19 +82,29 @@ public class AddPlace extends JFrame {
 
     }
 
-//    public static void view(String[] args) {
-//        Expense app = new Expense();
-//        app.setVisible(true);
-//    }
+    public static void main(String[] args) {
+        Expense app = new Expense();
+        app.setVisible(true);
+    }
 
     public static void go() {
-        AddPlace app = new AddPlace();
+        Account app = new Account();
         // app.pack();
         app.setVisible(true);
     }
 
     private void onOK() {
-        financialmanager.database.DbPlaces.add();
+        if (WindowAccounts.action == "update") {
+            String Name = textFieldName.getText();
+            financialmanager.database.DbAccounts.update(Name, currentId.toString());
+            modelAccounts.fireTableDataChanged();
+
+        }
+        if (WindowAccounts.action == "add") {
+            String Name = textFieldName.getText();
+            financialmanager.database.DbAccounts.add(Name);
+            modelAccounts.fireTableDataChanged();
+        }
     }
 
     private void onCancel() {

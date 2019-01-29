@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static financialmanager.database.DbCategories.categories;
+
 public class WindowCategories extends JFrame implements ActionListener {
     private JButton buttonAddCategory = new JButton("Добавить категорию");
     private JButton buttonDeleteCategory = new JButton("Удалить категорию");
@@ -23,7 +25,7 @@ public class WindowCategories extends JFrame implements ActionListener {
     public static int i;
     public static int selIndex;
     public static TableModel model;
-    public static Object value;
+    public static Object currentId;
 
     public WindowCategories() {
 
@@ -38,7 +40,7 @@ public class WindowCategories extends JFrame implements ActionListener {
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelCategories = new CategoriesTable(DbCategories.categories);
+        modelCategories = new CategoriesTable(categories);
         //На основе модели, создадим новую JTable
         jTabCategory = new JTable(modelCategories);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -70,7 +72,9 @@ public class WindowCategories extends JFrame implements ActionListener {
 
         buttonDeleteCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbCategories.delete();
+                DbCategories.delete(currentId.toString());
+                categories.remove(WindowCategories.selectedRows[WindowCategories.i - 1]);
+                modelCategories.fireTableDataChanged();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -99,7 +103,7 @@ public class WindowCategories extends JFrame implements ActionListener {
                 for (i = 0; i < selectedRows.length; i++) {
                     selIndex = selectedRows[i];
                     model = jTabCategory.getModel();
-                    value = model.getValueAt(selIndex, 0);
+                    currentId = model.getValueAt(selIndex, 0);
                     if (i != selectedRows.length - 1) {
                     }
                 }

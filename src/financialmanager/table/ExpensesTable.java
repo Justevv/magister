@@ -20,7 +20,7 @@ public class ExpensesTable extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 7;
+        return 9;
     }
 
     @Override
@@ -40,6 +40,10 @@ public class ExpensesTable extends AbstractTableModel {
                 return expenses.get(r).getnPaymentTypeName();
             case 6:
                 return expenses.get(r).getdSum();
+            case 7:
+                return expenses.get(r).getnAccount();
+            case 8:
+                return expenses.get(r).getnTransactionType();
             default:
                 return "";
         }
@@ -69,6 +73,12 @@ public class ExpensesTable extends AbstractTableModel {
                 break;
             case 6:
                 result = "Sum";
+                break;
+            case 7:
+                result = "Account";
+                break;
+            case 8:
+                result = "TransactionType";
                 break;
         }
         return result;

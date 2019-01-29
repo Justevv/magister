@@ -1,7 +1,6 @@
 package financialmanager.database;
 
 import financialmanager.gui.Expense;
-import financialmanager.gui.OpenWindow;
 import financialmanager.gui.WindowExpenses;
 
 import javax.swing.*;
@@ -19,27 +18,40 @@ public class DbExpenses {
     public static Integer dSum;
     public static ArrayList<financialmanager.data.Expenses> expenses;
     public static Long balance;
+    public static Long expense;
+    public static Long profit;
     public static String nUserSurname;
     public static int filternId = 0000;
     static String Place;
     static String PaymentType;
     static String Category;
+    static String Account;
+    static String TransactionType;
     static String currentExpenseId = "0";
     public static long balanceCategory;
 
-    public static void view() {
+    public static void view(String userId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            ResultSet executeQuery = stmt.executeQuery("SELECT e.nId as nId, dtDate, sSurname, c.sName as CategoriesName,p.sName as nPlaceName, pt.sName as nPaymentTypeName, dSum " +
+            ResultSet executeQuery = stmt.executeQuery("SELECT e.nId as nId" +
+                    ",dtDate, sSurname" +
+                    ",c.sName as CategoriesName" +
+                    ",p.sName as nPlaceName" +
+                    ",pt.sName as nPaymentTypeName" +
+                    ",a.sName as nAccount" +
+                    ",tt.sName as nTransactionType" +
+                    ", dSum " +
                     "FROM t_Expenses e join t_dicUsers u on e.nUserId=u.nId " +
                     "join t_dicCategories c on e.nCategoryId=c.nId " +
                     "join t_dicPlaces p on e.nPlaceId=p.nId " +
                     "join t_dicPaymentTypes pt on e.nPaymentTypeId=pt.nId " +
-                    "where e.nUserId=" + OpenWindow.userLogin + "and e.nId>" + financialmanager.database.Expenses.filternId
+                    "join t_dicAccounts a on e.nAccountId=a.nId " +
+                    "join t_dicTransactionTypes tt on e.nTransactionTypeId=tt.nId " +
+                    "where e.nUserId=" + userId
             );
             // Обход результатов выборки
             expenses = new ArrayList<>();
@@ -51,20 +63,29 @@ public class DbExpenses {
                 String nCategoryName = executeQuery.getString("CategoriesName");
                 String nPlaceName = executeQuery.getString("nPlaceName");
                 String nPaymentTypeName = executeQuery.getString("nPaymentTypeName");
+                String nAccount = executeQuery.getString("nAccount");
+                String nTransactionType = executeQuery.getString("nTransactionType");
                 dSum = executeQuery.getInt("dSum");
-                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum));
+                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum, nAccount, nTransactionType));
                 WindowExpenses.modelExpenses.fireTableDataChanged();
             }
-            ResultSet executeQuerySum = stmt.executeQuery("select sum(dSum) as dSum, count(dSum) as dCount from t_Expenses where nUserId=" + OpenWindow.userLogin
-            );
-            while (executeQuerySum.next()) {
-                balance = executeQuerySum.getLong("dSum");
-                Integer dCount = executeQuerySum.getInt("dCount");
+            ResultSet executeQueryExpense = stmt.executeQuery("select sum(dSum) as Expense, count(dSum) as dCount from t_Expenses where nTransactionTypeId=2 and nUserId=" + userId);
+            while (executeQueryExpense.next()) {
+                expense = executeQueryExpense.getLong("Expense");
+                Integer dCount = executeQueryExpense.getInt("dCount");
+            }
+
+            ResultSet executeQueryProfit = stmt.executeQuery("select sum(dSum) as Profit, count(dSum) as dCount from t_Expenses where  nTransactionTypeId=1 and nUserId=" + userId);
+            while (executeQueryProfit.next()) {
+                profit = executeQueryProfit.getLong("Profit");
+                balance = profit - expense;
+                Integer dCount = executeQueryProfit.getInt("dCount");
             }
 
             // Закрываем соединение
             executeQuery.close();
-            executeQuerySum.close();
+            executeQueryExpense.close();
+            executeQueryProfit.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {
@@ -84,6 +105,8 @@ public class DbExpenses {
             Expense.comboBoxPlace = new JComboBox();
             Expense.comboBoxPaymentType = new JComboBox();
             Expense.comboBoxCategory = new JComboBox();
+            Expense.comboBoxAccount = new JComboBox();
+            Expense.comboBoxTransactionType = new JComboBox();
             if (WindowExpenses.action == null) {
                 WindowExpenses.comboBoxCategory = new JComboBox();
             }
@@ -104,6 +127,16 @@ public class DbExpenses {
                 WindowExpenses.comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
             }
 
+            ResultSet executeQueryNameAccounts = stmt.executeQuery("select * from t_dicAccounts");
+            while (executeQueryNameAccounts.next()) {
+                Expense.comboBoxAccount.addItem(executeQueryNameAccounts.getString("sName"));
+            }
+
+            ResultSet executeQueryNameTransactionTypes = stmt.executeQuery("select * from t_dicTransactionTypes");
+            while (executeQueryNameTransactionTypes.next()) {
+                Expense.comboBoxTransactionType.addItem(executeQueryNameTransactionTypes.getString("sName"));
+            }
+
             // Закрываем соединение
             executeQueryNamePlaces.close();
             executeQueryNamePaymentTypes.close();
@@ -116,10 +149,12 @@ public class DbExpenses {
         }
     }
 
-    public static void add() {
+    public static void add(String userId) {
         Place = (String) Expense.comboBoxPlace.getSelectedItem();
         PaymentType = (String) Expense.comboBoxPaymentType.getSelectedItem();
         Category = (String) Expense.comboBoxCategory.getSelectedItem();
+        Account = (String) Expense.comboBoxAccount.getSelectedItem();
+        TransactionType = (String) Expense.comboBoxTransactionType.getSelectedItem();
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -128,25 +163,37 @@ public class DbExpenses {
             Statement stmt = con.createStatement();
             String dtDate = Expense.textFieldDate.getText();
             Integer dSum = new Integer(textFieldSum.getText());
-            String insertSQLString = ("insert into t_Expenses( dtDate ,dSum,nUserId, nCategoryId ,nPlaceId,nPaymentTypeId) " +
+            String insertSQLString = ("insert into t_Expenses( dtDate ,dSum,nUserId, nCategoryId ,nPlaceId,nPaymentTypeId, nAccountId, nTransactionTypeId) " +
                     "values " +
                     "('%1$s',%2$s,%3$s," +
                     "(select nId from [dbo].[t_dicCategories] where sName='%4$s')" +
                     ",(select nId from [dbo].[t_dicPlaces] where sName='%5$s')" +
-                    ",(select nId from [dbo].[t_dicPaymentTypes] where sName='%6$s'))");
-            String insertSQL = String.format(insertSQLString, dtDate, dSum, OpenWindow.userLogin, Category, Place, PaymentType);
+                    ",(select nId from [dbo].[t_dicPaymentTypes] where sName='%6$s')" +
+                    ",(select nId from [dbo].[t_dicAccounts] where sName='%7$s')" +
+                    ",(select nId from [dbo].[t_dicTransactionTypes] where sName='%8$s')" +
+                    ")");
+            String insertSQL = String.format(insertSQLString, dtDate, dSum, userId, Category, Place, PaymentType, Account, TransactionType);
             stmt.executeUpdate(insertSQL);
             balance = balance + new Integer(textFieldSum.getText());
             if (DbExpenses.nId != null && filternId < DbExpenses.nId) {
                 filternId = DbExpenses.nId;
             }
-            ResultSet executeQuery = stmt.executeQuery("SELECT e.nId as nId, dtDate, sSurname, c.sName as CategoriesName,p.sName as nPlaceName, pt.sName as nPaymentTypeName, dSum " +
+            ResultSet executeQuery = stmt.executeQuery("SELECT e.nId as nId" +
+                    ",dtDate, sSurname" +
+                    ",c.sName as CategoriesName" +
+                    ",p.sName as nPlaceName" +
+                    ",pt.sName as nPaymentTypeName" +
+                    ",a.sName as nAccount" +
+                    ",tt.sName as nTransactionType" +
+                    ", dSum " +
                     "FROM t_Expenses e join t_dicUsers u on e.nUserId=u.nId " +
                     "join t_dicCategories c on e.nCategoryId=c.nId " +
                     "join t_dicPlaces p on e.nPlaceId=p.nId " +
                     "join t_dicPaymentTypes pt on e.nPaymentTypeId=pt.nId " +
-                    "where e.nUserId=" + OpenWindow.userLogin
-                    + "and e.nId>" + filternId
+                    "join t_dicAccounts a on e.nAccountId=a.nId " +
+                    "join t_dicTransactionTypes tt on e.nTransactionTypeId=tt.nId " +
+                    "where e.nUserId=" + userId +
+                    "and e.nId>" + filternId
             );
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
@@ -155,8 +202,10 @@ public class DbExpenses {
                 String nCategoryName = executeQuery.getString("CategoriesName");
                 String nPlaceName = executeQuery.getString("nPlaceName");
                 String nPaymentTypeName = executeQuery.getString("nPaymentTypeName");
+                String nAccount = executeQuery.getString("nAccount");
+                String nTransactionType = executeQuery.getString("nTransactionType");
                 dSum = executeQuery.getInt("dSum");
-                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum));
+                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum, nAccount, nTransactionType));
                 modelExpenses.fireTableDataChanged();
                 filternId = nId;
             }
@@ -193,7 +242,7 @@ public class DbExpenses {
         }
     }
 
-    public static void update() {
+    public static void update(String userId) {
         Place = (String) Expense.comboBoxPlace.getSelectedItem();
         PaymentType = (String) Expense.comboBoxPaymentType.getSelectedItem();
         Category = (String) Expense.comboBoxCategory.getSelectedItem();
@@ -213,17 +262,26 @@ public class DbExpenses {
                     ", nPlaceId=(select nId from [dbo].[t_dicPlaces] where sName='%5$s')" +
                     ", nPaymentTypeId=(select nId from [dbo].[t_dicPaymentTypes] where sName='%6$s')" +
                     " where nId=%7$s");
-            String insertSQL = String.format(insertSQLString, dtDate, dSum, OpenWindow.userLogin, Category, Place, PaymentType, currentExpenseId);
+            String insertSQL = String.format(insertSQLString, dtDate, dSum, userId, Category, Place, PaymentType, currentExpenseId);
             stmt.executeUpdate(insertSQL);
             expenses.removeAll(expenses);
             balance = balance - (Integer) WindowExpenses.Sum + dSum;
             WindowExpenses.Sum = dSum;
-            ResultSet executeQuery = stmt.executeQuery("SELECT e.nId as nId, dtDate, sSurname, c.sName as CategoriesName,p.sName as nPlaceName, pt.sName as nPaymentTypeName, dSum " +
+            ResultSet executeQuery = stmt.executeQuery("SELECT e.nId as nId" +
+                    ",dtDate, sSurname" +
+                    ",c.sName as CategoriesName" +
+                    ",p.sName as nPlaceName" +
+                    ",pt.sName as nPaymentTypeName" +
+                    ",a.sName as nAccount" +
+                    ",tt.sName as nTransactionType" +
+                    ", dSum " +
                     "FROM t_Expenses e join t_dicUsers u on e.nUserId=u.nId " +
                     "join t_dicCategories c on e.nCategoryId=c.nId " +
                     "join t_dicPlaces p on e.nPlaceId=p.nId " +
                     "join t_dicPaymentTypes pt on e.nPaymentTypeId=pt.nId " +
-                    "where e.nUserId=" + OpenWindow.userLogin
+                    "join t_dicAccounts a on e.nAccountId=a.nId " +
+                    "join t_dicTransactionTypes tt on e.nTransactionTypeId=tt.nId " +
+                    "where e.nUserId=" + userId
             );
             // Обход результатов выборки
             while (executeQuery.next()) {
@@ -234,7 +292,10 @@ public class DbExpenses {
                 String nPlaceName = executeQuery.getString("nPlaceName");
                 String nPaymentTypeName = executeQuery.getString("nPaymentTypeName");
                 dSum = executeQuery.getInt("dSum");
-                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum));
+                String nAccount = executeQuery.getString("nAccount");
+                String nTransactionType = executeQuery.getString("nTransactionType");
+                dSum = executeQuery.getInt("dSum");
+                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum, nAccount, nTransactionType));
                 modelExpenses.fireTableDataChanged();
             }
             executeQuery.close();
@@ -247,7 +308,7 @@ public class DbExpenses {
         }
     }
 
-    public static void balanceCategory() {
+    public static void balanceCategory(String userId) {
 //        Place = (String) Expense.comboBoxPlace.getSelectedItem();
 //        PaymentType = (String) Expense.comboBoxPaymentType.getSelectedItem();
         Category = (String) WindowExpenses.comboBoxCategory.getSelectedItem();
@@ -258,7 +319,7 @@ public class DbExpenses {
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String balanceSQLString = ("select sum(dSum) as dSum from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId where c.sName='%1$s' and e.nUserId='%2$s'");
-            ResultSet executeQuery = stmt.executeQuery(String.format(balanceSQLString, Category, OpenWindow.userLogin));
+            ResultSet executeQuery = stmt.executeQuery(String.format(balanceSQLString, Category, userId));
             // Обход результатов выборки
             while (executeQuery.next()) {
                 balanceCategory = executeQuery.getLong("dSum");

@@ -1,7 +1,7 @@
 package financialmanager.gui;
 
-import financialmanager.database.DbPlaces;
-import financialmanager.table.PlacesTable;
+import financialmanager.database.DbAccounts;
+import financialmanager.table.AccountsTable;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -11,41 +11,42 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class WindowPlaces extends JFrame implements ActionListener {
-    private JButton buttonAddPlace = new JButton("Добавить место");
-    private JButton buttonDeletePlace = new JButton("Удалить место");
-    private JButton buttonUpdatePlace = new JButton("Редактировать место");
-    public static PlacesTable modelPlaces;
-    private JTable jTabPlace;
-    public static String result;
+import static financialmanager.database.DbAccounts.accounts;
+
+public class WindowAccounts extends JFrame implements ActionListener {
+    private JButton buttonAddAccount = new JButton("Добавить счет");
+    private JButton buttonDeleteAccount = new JButton("Удалить счет");
+    private JButton buttonUpdateAccount = new JButton("Редактировать счет");
+    public static AccountsTable modelAccounts;
+    private JTable jTabAccount;
     public static String action;
     public static int[] selectedRows;
     public static int[] selectedColumns;
     public static int i;
     public static int selIndex;
     public static TableModel model;
-    public static Object value;
+    public static Object currentId;
 
-    public WindowPlaces() {
+    public WindowAccounts() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbPlaces.view();
+        DbAccounts.view();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelPlaces = new PlacesTable(DbPlaces.places);
+        modelAccounts = new AccountsTable(accounts);
         //На основе модели, создадим новую JTable
-        jTabPlace = new JTable(modelPlaces);
+        jTabAccount = new JTable(modelAccounts);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
-        JScrollPane jscrlp = new JScrollPane(jTabPlace);
+        JScrollPane jscrlp = new JScrollPane(jTabAccount);
         //Устаналиваем размеры прокручиваемой области
-        jTabPlace.setPreferredScrollableViewportSize(new Dimension(550, 200));
+        jTabAccount.setPreferredScrollableViewportSize(new Dimension(550, 200));
         //Добавляем в контейнер нашу панель прокрути и таблицу вместе с ней
         jfrm.getContentPane().add(jscrlp);
 
@@ -57,67 +58,55 @@ public class WindowPlaces extends JFrame implements ActionListener {
         c.gridy = 0;
         container.add(jscrlp, c);
 
-        buttonAddPlace.addActionListener(new ActionListener() {
+        buttonAddAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action="add";
-                Place.go();
+                Account.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(buttonAddPlace, c);
+        container.add(buttonAddAccount, c);
 
-        buttonDeletePlace.addActionListener(new ActionListener() {
+        buttonDeleteAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbPlaces.delete();
+                DbAccounts.delete(currentId.toString());
+                accounts.remove(WindowAccounts.selectedRows[WindowAccounts.i - 1]);
+                modelAccounts.fireTableDataChanged();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(buttonDeletePlace, c);
+        container.add(buttonDeleteAccount, c);
 
-        buttonUpdatePlace.addActionListener(new ActionListener() {
+        buttonUpdateAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action="update";
-                Place.go();
+                Account.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(buttonUpdatePlace, c);
+        container.add(buttonUpdateAccount, c);
 
-        final JLabel currentSelectionLabel = new JLabel("");
-//        currentSelectionLabel.setAutoscrolls(true);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 0;
-//        c.gridy = GridBagConstraints.RELATIVE;
-//        container.add(currentSelectionLabel, c);
-
-        ListSelectionModel selModel = jTabPlace.getSelectionModel();
+        ListSelectionModel selModel = jTabAccount.getSelectionModel();
         selModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                result = "";
-                selectedRows = jTabPlace.getSelectedRows();
-                selectedColumns = jTabPlace.getSelectedColumns();
+                selectedRows = jTabAccount.getSelectedRows();
+                selectedColumns = jTabAccount.getSelectedColumns();
                 for (i = 0; i < selectedRows.length; i++) {
                     selIndex = selectedRows[i];
-                    model = jTabPlace.getModel();
-                    value = model.getValueAt(selIndex, 0);
-                    // System.out.println(currentId);
-                    result = result + value;
-                    //  System.out.println(selectedColumns[i]);
+                    model = jTabAccount.getModel();
+                    currentId = model.getValueAt(selIndex, 0);
                     if (i != selectedRows.length - 1) {
-                        result += ", ";
                     }
                 }
-                currentSelectionLabel.setText(result);
             }
         });
     }
@@ -128,12 +117,12 @@ public class WindowPlaces extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        WindowPlaces app = new WindowPlaces();
+        WindowAccounts app = new WindowAccounts();
         app.setVisible(true);
     }
 
     public static void go() {
-        WindowPlaces app = new WindowPlaces();
+        WindowAccounts app = new WindowAccounts();
         app.setVisible(true);
     }
 }

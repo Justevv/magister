@@ -11,19 +11,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static financialmanager.database.DbUsers.users;
+
 public class WindowUsers extends JFrame implements ActionListener {
     private JButton buttonAddUser = new JButton("Добавить пользователя");
     private JButton buttonDeleteUser = new JButton("Удалить пользователя");
     private JButton buttonUpdateUser = new JButton("Редактировать пользователя");
     public static UsersTable modelUsers;
     private JTable jTabPeople;
-    public static String result;
     public static int[] selectedRows;
     public static int[] selectedColumns;
     public static int i;
     public static int selIndex;
     public static TableModel model;
-    public static Object value;
+    public static Object currentId;
+    public static String action;
+    public static Object currentEmail;
 
     public WindowUsers() {
 
@@ -38,7 +41,7 @@ public class WindowUsers extends JFrame implements ActionListener {
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelUsers = new UsersTable(DbUsers.users);
+        modelUsers = new UsersTable(users);
         //На основе модели, создадим новую JTable
         jTabPeople = new JTable(modelUsers);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -58,7 +61,8 @@ public class WindowUsers extends JFrame implements ActionListener {
 
         buttonAddUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddUser.go();
+                action="add";
+                User.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -69,7 +73,9 @@ public class WindowUsers extends JFrame implements ActionListener {
 
         buttonDeleteUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbUsers.delete();
+                DbUsers.delete(currentId.toString());
+                users.remove(selectedRows[i - 1]);
+                modelUsers.fireTableDataChanged();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -80,7 +86,8 @@ public class WindowUsers extends JFrame implements ActionListener {
 
         buttonUpdateUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                UpdateUser.go();
+                action="update";
+                User.go();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -89,32 +96,17 @@ public class WindowUsers extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonUpdateUser, c);
 
-        final JLabel currentSelectionLabel = new JLabel("");
-//        currentSelectionLabel.setAutoscrolls(true);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 0;
-//        c.gridy = GridBagConstraints.RELATIVE;
-//        container.add(currentSelectionLabel, c);
-
         ListSelectionModel selModel = jTabPeople.getSelectionModel();
         selModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                result = "";
                 selectedRows = jTabPeople.getSelectedRows();
                 selectedColumns = jTabPeople.getSelectedColumns();
                 for (i = 0; i < selectedRows.length; i++) {
                     selIndex = selectedRows[i];
                     model = jTabPeople.getModel();
-                    value = model.getValueAt(selIndex, 0);
-                    // System.out.println(value);
-                    result = result + value;
-                    //  System.out.println(selectedColumns[i]);
-                    if (i != selectedRows.length - 1) {
-                        result += ", ";
-                    }
+                    currentId = model.getValueAt(selIndex, 0);
+                    currentEmail=model.getValueAt(selIndex, 6);
                 }
-                currentSelectionLabel.setText(result);
             }
         });
     }

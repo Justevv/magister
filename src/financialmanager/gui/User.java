@@ -4,7 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class AddUser extends JFrame {
+import static financialmanager.gui.WindowUsers.modelUsers;
+import static financialmanager.gui.WindowUsers.currentId;
+
+public class User extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelSurname = new JLabel("Фамилия:");
     private JLabel labelName = new JLabel("Имя:");
@@ -16,16 +19,31 @@ public class AddUser extends JFrame {
     public static JTextField textFieldName = new JTextField("Михаил", 5);
     public static JTextField textFieldBirthday = new JTextField("20010101", 5);
     public static JTextField textFieldPhone = new JTextField("+79203336699", 5);
-    public static JTextField textFieldSex = new JTextField("F", 5);
+    public static JTextField textFieldSex = new JTextField("M", 5);
     public static JTextField textFieldEmail = new JTextField("korovin@mail.ru", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public AddUser() {
+    public User() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        if (WindowUsers.action == "update") {
+            textFieldSurname = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 1)), 5);
+            textFieldName = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 2)), 5);
+            textFieldBirthday = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 3)), 5);
+            textFieldSex = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 4)), 5);
+            textFieldPhone = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 5)), 5);
+            textFieldEmail = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 6)), 5);
+        } else {
+//            textFieldSurname = new JTextField("", 5);
+//            textFieldName = new JTextField("", 5);
+//            textFieldBirthday = new JTextField("", 5);
+//            textFieldSex = new JTextField("", 5);
+//            textFieldPhone = new JTextField("", 5);
+//            textFieldEmail = new JTextField("", 5);
+        }
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -144,19 +162,38 @@ public class AddUser extends JFrame {
 
     }
 
-//    public static void view(String[] args) {
-//        Expense app = new Expense();
-//        app.setVisible(true);
-//    }
+    public static void main(String[] args) {
+        Expense app = new Expense();
+        app.setVisible(true);
+    }
 
     public static void go() {
-        AddUser app = new AddUser();
+        User app = new User();
         // app.pack();
         app.setVisible(true);
     }
 
     private void onOK() {
-        financialmanager.database.DbUsers.add();
+        if (WindowUsers.action == "update") {
+            String Surname = textFieldSurname.getText();
+            String Name = textFieldName.getText();
+            String Birthday = textFieldBirthday.getText();
+            String Sex = textFieldSex.getText();
+            String Phone = textFieldPhone.getText();
+            String Email = textFieldEmail.getText();
+            financialmanager.database.DbUsers.update(Surname, Name, Birthday, Sex, Phone, Email, currentId.toString(), WindowUsers.currentEmail.toString());
+            modelUsers.fireTableDataChanged();
+        }
+        if (WindowUsers.action == "add") {
+            String Surname = textFieldSurname.getText();
+            String Name = textFieldName.getText();
+            String Birthday = textFieldBirthday.getText();
+            String Sex = textFieldSex.getText();
+            String Phone = textFieldPhone.getText();
+            String Email = textFieldEmail.getText();
+            financialmanager.database.DbUsers.add(Surname, Name, Birthday, Sex, Phone, Email);
+            modelUsers.fireTableDataChanged();
+        }
     }
 
     private void onCancel() {

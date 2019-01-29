@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static financialmanager.gui.WindowCategories.currentId;
+import static financialmanager.gui.WindowCategories.modelCategories;
+
 public class Category extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelName = new JLabel("Имя:");
@@ -108,10 +111,17 @@ public class Category extends JFrame {
 
     private void onOK() {
         if (WindowCategories.action == "update") {
-            financialmanager.database.DbCategories.update();
+            String Name = textFieldName.getText();
+            String ParentId = textFieldParentId.getText();
+            financialmanager.database.DbCategories.update(Name, ParentId, currentId.toString());
+            modelCategories.fireTableDataChanged();
+
         }
         if (WindowCategories.action == "add") {
-            financialmanager.database.DbCategories.add();
+            String Name = textFieldName.getText();
+            String ParentId = textFieldParentId.getText();
+            financialmanager.database.DbCategories.add(Name, ParentId);
+            modelCategories.fireTableDataChanged();
         }
     }
 

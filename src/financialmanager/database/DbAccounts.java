@@ -1,6 +1,6 @@
 package financialmanager.database;
 
-import financialmanager.data.Categories;
+import financialmanager.data.Accounts;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,12 +9,12 @@ import java.util.logging.Logger;
 
 import static financialmanager.database.DbConnect.connectionString;
 
-public class DbCategories {
+public class DbAccounts {
     public static Integer nId;
     public static String sName;
-    public static ArrayList<Categories> categories;
+    public static ArrayList<Accounts> accounts;
     public static int filternId = 0;
-    static String currentCategoryId = "0";
+    static String currentAccountId = "0";
 
     public static void view() {
         DbConnect.connect();
@@ -24,15 +24,14 @@ public class DbCategories {
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicCategories"
+                    "FROM t_dicAccounts"
             );
             // Обход результатов выборки
-            categories = new ArrayList<>();
+            accounts = new ArrayList<>();
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
                 sName = executeQuery.getString("sName");
-                Integer nParentId = executeQuery.getInt("nParentId");
-                categories.add(new Categories(nId, sName, nParentId));
+                accounts.add(new Accounts(nId, sName));
             }
             // Закрываем соединение
             executeQuery.close();
@@ -40,34 +39,32 @@ public class DbCategories {
             con.close();
         } catch (SQLException ex) {
             // Обработка исключений
-            Logger.getLogger(DbCategories.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DbAccounts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static void add(String Name,String ParentId) {
+    public static void add(String Name) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String insertSQLString = ("insert into t_dicCategories(sName, nParentId) values ('%1$s','%2$s')");
-            String insertSQL = String.format(insertSQLString, Name, ParentId);
+            String insertSQLString = ("insert into t_dicAccounts(sName) values ('%1$s')");
+            String insertSQL = String.format(insertSQLString, Name);
             stmt.executeUpdate(insertSQL);
 
-            if (filternId < DbCategories.nId) {
-                filternId = DbCategories.nId;
+            if (filternId < nId) {
+                filternId = nId;
             }
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicCategories where nId>" + filternId
+                    "FROM t_dicAccounts where nId>" + filternId
             );
             // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
-                ;
                 String sName = executeQuery.getString("sName");
-                Integer nParentId = executeQuery.getInt("nParentId");
-                categories.add(new Categories(nId, sName, nParentId));
+                accounts.add(new Accounts(nId, sName));
                 filternId = nId;
             }
             executeQuery.close();
@@ -87,7 +84,7 @@ public class DbCategories {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String insertSQLString = ("delete from t_dicCategories where nId=%1$s");
+            String insertSQLString = ("delete from t_dicAccounts where nId=%1$s");
             String insertSQL = String.format(insertSQLString, nId);
             stmt.executeUpdate(insertSQL);
             stmt.close();
@@ -99,7 +96,7 @@ public class DbCategories {
         }
     }
 
-      public static void update( String Name, String ParentId, String currentId ) {
+    public static void update(String Name, String currentId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -107,21 +104,20 @@ public class DbCategories {
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             if (currentId != null) {
-                currentCategoryId = currentId;
+                currentAccountId = currentId;
             }
-            String insertSQLString = ("update t_dicCategories set  sName='%1$s', nParentId='%2$s' where nId=%3$s");
-            String insertSQL = String.format(insertSQLString, Name, ParentId, currentCategoryId);
+            String insertSQLString = ("update t_dicAccounts set  sName='%1$s' where nId=%2$s");
+            String insertSQL = String.format(insertSQLString, Name, currentAccountId);
             stmt.executeUpdate(insertSQL);
-            categories.removeAll(categories);
+            accounts.removeAll(accounts);
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicCategories"
+                    "FROM t_dicAccounts"
             );
             // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
                 String sName = executeQuery.getString("sName");
-                Integer nParentId = executeQuery.getInt("nParentId");
-                categories.add(new Categories(nId, sName, nParentId));
+                accounts.add(new Accounts(nId, sName));
             }
             executeQuery.close();
             stmt.close();
