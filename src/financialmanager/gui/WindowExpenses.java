@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import static financialmanager.database.DbExpenses.expenses;
 
 public class WindowExpenses extends JFrame {
+    private JButton buttonResult = new JButton("Итоги по счетам");
     private JButton button = new JButton("Press");
     private JButton buttonAdd = new JButton("Добавить запись");
     private JButton buttonDelete = new JButton("Удалить запись");
@@ -50,7 +51,7 @@ public class WindowExpenses extends JFrame {
 
 
         super("Финансовый менеджер");
-        this.setBounds(100, 100, 700, 400);
+        this.setBounds(100, 100, 800, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DbExpenses.view(OpenWindow.userLogin);
@@ -61,7 +62,7 @@ public class WindowExpenses extends JFrame {
         labelBalance = new JLabel("Баланс: " + DbExpenses.balance + " Рублей");
         labelProfit = new JLabel("Доход: " + DbExpenses.profit+ " Рублей");
         labelExpense = new JLabel("Расход: " + DbExpenses.expense + " Рублей");
-        labelBalanceCategory = new JLabel("Итог категории: " + DbExpenses.balanceCategory + " Рублей");
+        labelBalanceCategory = new JLabel("Итог категории: " + DbExpenses.profitCategory + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
@@ -116,7 +117,7 @@ public class WindowExpenses extends JFrame {
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
         JScrollPane jscrlp = new JScrollPane(jTabExpenses);
         //Устаналиваем размеры прокручиваемой области
-        jTabExpenses.setPreferredScrollableViewportSize(new Dimension(450, 250));
+        jTabExpenses.setPreferredScrollableViewportSize(new Dimension(550, 350));
         //Добавляем в контейнер нашу панель прокрути и таблицу вместе с ней
         jfrm.getContentPane().add(jscrlp);
 
@@ -211,6 +212,18 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddPlace, c);
 
+        buttonResult.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                WindowResult.go();
+            }
+        });
+        jfrm.add(buttonResult);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(buttonResult, c);
+
         buttonAAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowAccounts.go();
@@ -279,8 +292,8 @@ public class WindowExpenses extends JFrame {
 
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbExpenses.balanceCategory(OpenWindow.userLogin);
-                labelBalanceCategory.setText("Итог категории "+comboBoxCategory.getSelectedItem()+": " + DbExpenses.balanceCategory + " Рублей");
+                DbExpenses.balanceCategory(OpenWindow.userLogin, (String)comboBoxCategory.getSelectedItem());
+                labelBalanceCategory.setText("Итог категории "+comboBoxCategory.getSelectedItem()+": " + DbExpenses.profitCategory + " Рублей");
             }
         };
         c.fill = GridBagConstraints.HORIZONTAL;

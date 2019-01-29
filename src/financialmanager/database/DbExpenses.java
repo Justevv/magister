@@ -2,6 +2,7 @@ package financialmanager.database;
 
 import financialmanager.gui.Expense;
 import financialmanager.gui.WindowExpenses;
+import financialmanager.gui.WindowResult;
 
 import javax.swing.*;
 import java.sql.*;
@@ -28,6 +29,8 @@ public class DbExpenses {
     static String Account;
     static String TransactionType;
     static String currentExpenseId = "0";
+    public static long profitCategory;
+    public static long expenseCategory;
     public static long balanceCategory;
 
     public static void view(String userId) {
@@ -308,24 +311,104 @@ public class DbExpenses {
         }
     }
 
-    public static void balanceCategory(String userId) {
+    public static void balanceCategory(String userId, String category) {
 //        Place = (String) Expense.comboBoxPlace.getSelectedItem();
 //        PaymentType = (String) Expense.comboBoxPaymentType.getSelectedItem();
         Category = (String) WindowExpenses.comboBoxCategory.getSelectedItem();
+        System.out.println(category);
         DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String balanceSQLString = ("select sum(dSum) as dSum from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId where c.sName='%1$s' and e.nUserId='%2$s'");
-            ResultSet executeQuery = stmt.executeQuery(String.format(balanceSQLString, Category, userId));
+            String balanceSQLString = "select sum(dSum) as Sum " +
+                    "from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId " +
+                    "where c.sName='%1$s' and e.nUserId='%2$s' and e.nTransactionTypeId='%3$s'";
+            ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, category, userId, 1));
             // Обход результатов выборки
-            while (executeQuery.next()) {
-                balanceCategory = executeQuery.getLong("dSum");
+            while (profitExecuteQuery.next()) {
+                profitCategory = profitExecuteQuery.getLong("Sum");
             }
+            ResultSet ExpenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, category, userId, 2));
+            // Обход результатов выборки
+            while (ExpenseExecuteQuery.next()) {
+                expenseCategory = ExpenseExecuteQuery.getLong("Sum");
+                balanceCategory = profitCategory - expenseCategory;
+            }
+
             // Закрываем соединение
-            executeQuery.close();
+            ExpenseExecuteQuery.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            // Обработка исключений
+            Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void groupBalanceCategory(String userId) {
+//        Place = (String) Expense.comboBoxPlace.getSelectedItem();
+//        PaymentType = (String) Expense.comboBoxPaymentType.getSelectedItem();
+        Category = String.valueOf(WindowResult.accountNunber);
+        DbConnect.connect();
+        try {
+            // Подключение к базе данных
+            Connection con = DriverManager.getConnection(connectionString);
+            // Отправка запроса на выборку и получение результатов
+            Statement stmt = con.createStatement();
+            String balanceSQLString = "select sum(dSum) as Sum " +
+                    "from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId " +
+                    "where e.nCategoryId='%1$s' and e.nUserId='%2$s' and e.nTransactionTypeId='%3$s'";
+            ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, Category, userId, 1));
+            // Обход результатов выборки
+            while (profitExecuteQuery.next()) {
+                profitCategory = profitExecuteQuery.getLong("Sum");
+            }
+            ResultSet ExpenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, Category, userId, 2));
+            // Обход результатов выборки
+            while (ExpenseExecuteQuery.next()) {
+                expenseCategory = ExpenseExecuteQuery.getLong("Sum");
+                balanceCategory = profitCategory - expenseCategory;
+            }
+
+            // Закрываем соединение
+            ExpenseExecuteQuery.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            // Обработка исключений
+            Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void groupBalanceAccount(String userId, int account) {
+//        Place = (String) Expense.comboBoxPlace.getSelectedItem();
+//        PaymentType = (String) Expense.comboBoxPaymentType.getSelectedItem();
+        Category = String.valueOf(WindowResult.accountNunber);
+        DbConnect.connect();
+        try {
+            // Подключение к базе данных
+            Connection con = DriverManager.getConnection(connectionString);
+            // Отправка запроса на выборку и получение результатов
+            Statement stmt = con.createStatement();
+            String balanceSQLString = "select sum(dSum) as Sum " +
+                    "from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId " +
+                    "where e.nAccountId='%1$s' and e.nUserId='%2$s' and e.nTransactionTypeId='%3$s'";
+            ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, account, userId, 1));
+            // Обход результатов выборки
+            while (profitExecuteQuery.next()) {
+                profitCategory = profitExecuteQuery.getLong("Sum");
+            }
+            ResultSet ExpenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, account, userId, 2));
+            // Обход результатов выборки
+            while (ExpenseExecuteQuery.next()) {
+                expenseCategory = ExpenseExecuteQuery.getLong("Sum");
+                balanceCategory = profitCategory - expenseCategory;
+            }
+
+            // Закрываем соединение
+            ExpenseExecuteQuery.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {

@@ -8,12 +8,11 @@ import com.java.clope.model.Clope;
  * Created by Nataly on 01.04.2015.
  */
 public class Start {
-    public static int i;
     public static void main(String[] o) {
         long startTime = System.currentTimeMillis();
         long timeSpent;
         String[] param = new String[2];
-        param[0] = "D:\\data1.txt";
+        param[0] = "Z:\\Clope/export.txt";
         param[1] = "2.6";
         new ConsoleIO().write(new Clope().goClope(new FileIO(param[0]).read(), Double.parseDouble(param[1])));
 //        System.out.println(Cluster.transactions.size());
