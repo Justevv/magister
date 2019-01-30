@@ -25,7 +25,7 @@ public class Category extends JFrame {
             textFieldName = new JTextField(String.valueOf(WindowCategories.model.getValueAt(WindowCategories.selIndex, 1)), 5);
             textFieldParentId = new JTextField(String.valueOf(WindowCategories.model.getValueAt(WindowCategories.selIndex, 2)), 5);
         } else {
-//            textFieldAccountSender = new JTextField("", 5);
+//            textFieldName = new JTextField("", 5);
 //            textFieldParentId = new JTextField("", 5);
         }
 

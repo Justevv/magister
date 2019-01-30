@@ -17,23 +17,26 @@ public class DbTransfers {
     public static int filternId = 0;
     static String currentTransferId = "0";
     static String sqlSelectTransfers;
+    private static long expenseTransiction;
+    private static long profitTransiction;
+    public static long balanceTransiction;
 
-    public static void view(String nUserId) {
+    public static void view(String UserId) {
         sqlSelectTransfers ="SELECT t.nId" +
                 ", a.sName as AccountSender" +
                 ", a1.sName as AccountRecipient" +
                 ", t.dSum " +
                 "FROM t_dicTransfers t join t_dicAccounts a on t.nAccountSenderId=a.nId " +
                 "join t_dicAccounts a1 on  t.nAccountRecipientId=a1.nId " +
-                "where nUserId='%1$s'" +
-                "and t.nId>'%2$s'";
+                "where nUserId=%1$s" +
+                "and t.nId>%2$s";
         DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers,nUserId, filternId));
+            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers,UserId, 0));
             // Обход результатов выборки
             Transfers = new ArrayList<>();
             while (executeQuery.next()) {
@@ -95,12 +98,12 @@ public class DbTransfers {
             if (filternId < DbTransfers.nId) {
                 filternId = DbTransfers.nId;
             }
-            ResultSet executeQuery = stmt.executeQuery("SELECT * FROM t_dicTransfers where nId>" + filternId);
+            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, UserId, filternId));
             // Обход результатов выборки
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
-                nAccountSender = executeQuery.getString("nAccountSenderId");
-                String nAccountRecipient = executeQuery.getString("nAccountRecipientId");
+                nAccountSender = executeQuery.getString("AccountSender");
+                String nAccountRecipient = executeQuery.getString("AccountRecipient");
                 dSum = executeQuery.getInt("dSum");
                 Transfers.add(new Transfers(nId, nAccountSender, nAccountRecipient, dSum));
                 filternId = nId;
@@ -135,7 +138,7 @@ public class DbTransfers {
         }
     }
 
-    public static void update(String nAccountSenderId, String nAccountRecipientId, Integer dSum, String value) {
+    public static void update(String nAccountSenderId, String nAccountRecipientId, Integer dSum, String value, String userId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -145,18 +148,16 @@ public class DbTransfers {
             if (value != null) {
                 currentTransferId = value;
             }
-            String insertSQLString = ("update t_dicTransfers set  nAccountSender='%1$s', nAccountRecipientId='%2$s', dSum=%3$s where nId=%4$s");
+            String insertSQLString = ("update t_dicTransfers set  nAccountSenderId=(select nId from t_dicAccounts where sName='%1$s'), nAccountRecipientId=(select nId from t_dicAccounts where sName='%2$s'), dSum=%3$s where nId=%4$s");
             String insertSQL = String.format(insertSQLString, nAccountSenderId, nAccountRecipientId, dSum, currentTransferId);
             stmt.executeUpdate(insertSQL);
             Transfers.removeAll(Transfers);
-            ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicTransfers"
-            );
+            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, userId, 0));
             // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
-                nAccountSenderId = executeQuery.getString("nAccountSender");
-                nAccountRecipientId = executeQuery.getString("nAccountRecipientId");
+                nAccountSenderId = executeQuery.getString("AccountSender");
+                nAccountRecipientId = executeQuery.getString("AccountRecipient");
                 dSum = executeQuery.getInt("dSum");
                 Transfers.add(new Transfers(nId, nAccountSenderId, nAccountRecipientId, dSum));
             }
@@ -165,6 +166,38 @@ public class DbTransfers {
             con.close();
         } catch (
                 SQLException ex) {
+            // Обработка исключений
+            Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void groupBalanceTransfer(String userId, Integer accountNunber ) {
+        DbConnect.connect();
+        try {
+            // Подключение к базе данных
+            Connection con = DriverManager.getConnection(connectionString);
+            // Отправка запроса на выборку и получение результатов
+            Statement stmt = con.createStatement();
+            String balanceSQLString =  "select sum(dSum) as Sum from t_dicTransfers t  where nUserId=%2$s and %1$s=%3$s group by %1$s";
+            ResultSet expenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, "nAccountSenderId", userId,accountNunber));
+            // Обход результатов выборки
+            while (expenseExecuteQuery.next()) {
+                expenseTransiction = expenseExecuteQuery.getLong("Sum");
+            }
+            ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, "nAccountRecipientId", userId, accountNunber));
+            // Обход результатов выборки
+            while (profitExecuteQuery.next()) {
+                profitTransiction = profitExecuteQuery.getLong("Sum");
+            }
+            balanceTransiction = profitTransiction - expenseTransiction;
+            expenseTransiction=0;
+            profitTransiction=0;
+
+            // Закрываем соединение
+            expenseExecuteQuery.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException ex) {
             // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }

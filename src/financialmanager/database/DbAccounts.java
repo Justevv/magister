@@ -30,7 +30,7 @@ public class DbAccounts {
             accounts = new ArrayList<>();
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
-                sName = executeQuery.getString("nAccountSender");
+                sName = executeQuery.getString("sName");
                 accounts.add(new Accounts(nId, sName));
             }
             // Закрываем соединение
@@ -50,7 +50,7 @@ public class DbAccounts {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String insertSQLString = ("insert into t_dicAccounts(nAccountSender) values ('%1$s')");
+            String insertSQLString = ("insert into t_dicAccounts(sName) values ('%1$s')");
             String insertSQL = String.format(insertSQLString, Name);
             stmt.executeUpdate(insertSQL);
 
@@ -63,7 +63,7 @@ public class DbAccounts {
             // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
-                String sName = executeQuery.getString("nAccountSender");
+                String sName = executeQuery.getString("sName");
                 accounts.add(new Accounts(nId, sName));
                 filternId = nId;
             }
@@ -106,7 +106,7 @@ public class DbAccounts {
             if (currentId != null) {
                 currentAccountId = currentId;
             }
-            String insertSQLString = ("update t_dicAccounts set  nAccountSender='%1$s' where nId=%2$s");
+            String insertSQLString = ("update t_dicAccounts set  sName='%1$s' where nId=%2$s");
             String insertSQL = String.format(insertSQLString, Name, currentAccountId);
             stmt.executeUpdate(insertSQL);
             accounts.removeAll(accounts);
@@ -116,7 +116,7 @@ public class DbAccounts {
             // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
-                String sName = executeQuery.getString("nAccountSender");
+                String sName = executeQuery.getString("sName");
                 accounts.add(new Accounts(nId, sName));
             }
             executeQuery.close();

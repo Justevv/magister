@@ -30,7 +30,7 @@ public class DbCategories {
             categories = new ArrayList<>();
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
-                sName = executeQuery.getString("nAccountSender");
+                sName = executeQuery.getString("sName");
                 Integer nParentId = executeQuery.getInt("nParentId");
                 categories.add(new Categories(nId, sName, nParentId));
             }
@@ -51,7 +51,7 @@ public class DbCategories {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String insertSQLString = ("insert into t_dicCategories(nAccountSender, nParentId) values ('%1$s','%2$s')");
+            String insertSQLString = ("insert into t_dicCategories(sName, nParentId) values ('%1$s','%2$s')");
             String insertSQL = String.format(insertSQLString, Name, ParentId);
             stmt.executeUpdate(insertSQL);
 
@@ -65,7 +65,7 @@ public class DbCategories {
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
                 ;
-                String sName = executeQuery.getString("nAccountSender");
+                String sName = executeQuery.getString("sName");
                 Integer nParentId = executeQuery.getInt("nParentId");
                 categories.add(new Categories(nId, sName, nParentId));
                 filternId = nId;
@@ -109,7 +109,7 @@ public class DbCategories {
             if (currentId != null) {
                 currentCategoryId = currentId;
             }
-            String insertSQLString = ("update t_dicCategories set  nAccountSender='%1$s', nParentId='%2$s' where nId=%3$s");
+            String insertSQLString = ("update t_dicCategories set  sName='%1$s', nParentId='%2$s' where nId=%3$s");
             String insertSQL = String.format(insertSQLString, Name, ParentId, currentCategoryId);
             stmt.executeUpdate(insertSQL);
             categories.removeAll(categories);
@@ -119,7 +119,7 @@ public class DbCategories {
             // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
-                String sName = executeQuery.getString("nAccountSender");
+                String sName = executeQuery.getString("sName");
                 Integer nParentId = executeQuery.getInt("nParentId");
                 categories.add(new Categories(nId, sName, nParentId));
             }

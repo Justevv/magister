@@ -134,7 +134,7 @@ public class Transfer extends JFrame {
 
     private void onOK() {
         if (WindowTransfers.action == "update") {
-            financialmanager.database.DbTransfers.update((String)comboBoxAccountSender.getSelectedItem(), (String)comboBoxAccountRecipient.getSelectedItem(),Integer.valueOf(textFieldSum.getText()), currentId.toString());
+            financialmanager.database.DbTransfers.update((String)comboBoxAccountSender.getSelectedItem(), (String)comboBoxAccountRecipient.getSelectedItem(),Integer.valueOf(textFieldSum.getText()), currentId.toString(), OpenWindow.userLogin);
             modelTransfers.fireTableDataChanged();
         }
         if (WindowTransfers.action == "add") {
