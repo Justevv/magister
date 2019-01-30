@@ -1,10 +1,13 @@
-package financialmanager.gui;
+package financialManager.gui;
 
-import financialmanager.database.DbExpenses;
+import financialManager.database.DbExpenses;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
+import static financialManager.gui.WindowExpenses.modelExpenses;
+import static financialManager.gui.WindowExpenses.value;
 
 public class Expense extends JFrame {
     private JPanel contentPane = new JPanel();
@@ -29,7 +32,15 @@ public class Expense extends JFrame {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        DbExpenses.comboBoxRead();
+        comboBoxPlace = new JComboBox();
+        comboBoxPaymentType = new JComboBox();
+        comboBoxCategory = new JComboBox();
+        comboBoxAccount = new JComboBox();
+        comboBoxTransactionType = new JComboBox();
+        if (WindowExpenses.action == null) {
+            WindowExpenses.comboBoxCategory = new JComboBox();
+        }
+        DbExpenses.comboBoxRead(comboBoxPlace, comboBoxPaymentType, comboBoxCategory, comboBoxAccount, comboBoxTransactionType);
 
         if (WindowExpenses.action == "update") {
             comboBoxCategory.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 3))));
@@ -185,13 +196,19 @@ public class Expense extends JFrame {
         app.setVisible(true);
     }
 
+    public static void comboBoxResult() {
+        new Expense();
+        // app.pack();
+    }
     private void onOK() {
         if (WindowExpenses.action == "update") {
-            financialmanager.database.DbExpenses.update(OpenWindow.userLogin);
+            financialManager.database.DbExpenses.update(OpenWindow.userLogin,(String)comboBoxPlace.getSelectedItem(), (String)comboBoxPaymentType.getSelectedItem(), (String)comboBoxCategory.getSelectedItem(), (String)comboBoxAccount.getSelectedItem(), (String)comboBoxTransactionType.getSelectedItem(),textFieldDate.getText(),new Integer(textFieldSum.getText()),(Integer)WindowExpenses.Sum, value);
+            modelExpenses.fireTableDataChanged();
             WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
         }
         if (WindowExpenses.action == "add") {
-            financialmanager.database.DbExpenses.add(OpenWindow.userLogin);
+            financialManager.database.DbExpenses.add(OpenWindow.userLogin,(String)comboBoxPlace.getSelectedItem(), (String)comboBoxPaymentType.getSelectedItem(), (String)comboBoxCategory.getSelectedItem(), (String)comboBoxAccount.getSelectedItem(), (String)comboBoxTransactionType.getSelectedItem(),textFieldDate.getText(),new Integer(textFieldSum.getText()));
+            modelExpenses.fireTableDataChanged();
             WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
         }
     }

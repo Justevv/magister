@@ -1,33 +1,34 @@
-package financialmanager.gui;
+package financialManager.gui;
 
-import financialmanager.database.DbExpenses;
+import financialManager.database.DbExpenses;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static financialmanager.database.DbExpenses.groupBalanceAccount;
+import static financialManager.database.DbExpenses.groupBalanceAccount;
 
-public class WindowResult extends JFrame {
+public class WindowResultAccount extends JFrame {
     private JLabel labelUser;
     private JLabel labelAccount;
     private JLabel labelProfit;
     private JLabel labelExpense;
     public static JLabel labelBalance;
-    static Integer countAccount = Expense.comboBoxAccount.getItemCount();
-    private JLabel labelBalanceAccount[] = new JLabel[countAccount];
-    public static JLabel labelProfitAccount[] = new JLabel[countAccount];
-    public static JLabel labelExpenseAccount[] = new JLabel[countAccount];
+    static Integer countAccount;
+    private JLabel labelBalanceAccount[];
+    public static JLabel labelProfitAccount[];
+    public static JLabel labelExpenseAccount[];
     public static int accountNunber;
 
-    public WindowResult() {
-
-
+    public WindowResultAccount() {
         super("Финансовый менеджер");
-        this.setBounds(100, 100, 400, countAccount*35);
+        Expense.comboBoxResult();
+        countAccount = Expense.comboBoxAccount.getItemCount();
+        this.setBounds(100, 100, 400, countAccount * 16 + 90);
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        DbExpenses.view(OpenWindow.userLogin);
-//        DbExpenses.comboBoxRead();
-        accountNunber=0;
+        JLabel labelBalanceAccount[] = new JLabel[countAccount];
+        JLabel labelProfitAccount[] = new JLabel[countAccount];
+        JLabel labelExpenseAccount[] = new JLabel[countAccount];
+        accountNunber = 0;
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
         labelBalance = new JLabel("Баланс: " + DbExpenses.balance + " Рублей");
@@ -54,13 +55,13 @@ public class WindowResult extends JFrame {
 //            c.weightx = 0.5;
 //            c.gridx = 0;
 //            c.gridy = GridBagConstraints.RELATIVE;
-//            container.add(labelProfitAccount[accountNunber], c);
+//            container.add(labelProfitCategory[categoryNunber], c);
 //
 //            c.fill = GridBagConstraints.HORIZONTAL;
 //            c.weightx = 0.5;
 //            c.gridx = 0;
 //            c.gridy = GridBagConstraints.RELATIVE;
-//            container.add(labelExpenseAccount[accountNunber], c);
+//            container.add(labelExpenseCategory[categoryNunber], c);
         }
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -82,13 +83,8 @@ public class WindowResult extends JFrame {
         container.add(labelExpense, c);
     }
 
-    public static void main(String[] args) {
-        WindowResult app = new WindowResult();
-        app.setVisible(true);
-    }
-
     public static void go() {
-        WindowResult app = new WindowResult();
+        WindowResultAccount app = new WindowResultAccount();
         app.setVisible(true);
     }
 }

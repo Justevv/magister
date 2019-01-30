@@ -1,33 +1,34 @@
-package financialmanager.gui;
+package financialManager.gui;
 
-import financialmanager.database.DbExpenses;
+import financialManager.database.DbExpenses;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static financialmanager.database.DbExpenses.groupBalanceAccount;
+import static financialManager.database.DbExpenses.groupBalanceCategory;
 
-public class WindowResultAccount extends JFrame {
+public class WindowResultCategory extends JFrame {
     private JLabel labelUser;
     private JLabel labelAccount;
     private JLabel labelProfit;
     private JLabel labelExpense;
     public static JLabel labelBalance;
-    static Integer countAccount = Expense.comboBoxAccount.getItemCount();
-    private JLabel labelBalanceAccount[] = new JLabel[countAccount];
-    public static JLabel labelProfitAccount[] = new JLabel[countAccount];
-    public static JLabel labelExpenseAccount[] = new JLabel[countAccount];
-    public static int accountNunber;
+    static Integer countCategory;
+    private JLabel labelBalanceCategory[];
+    public static JLabel labelProfitCategory[];
+    public static JLabel labelExpenseCategory[];
+    public static int categoryNunber;
 
-    public WindowResultAccount() {
-
-
+    public WindowResultCategory() {
         super("Финансовый менеджер");
-        this.setBounds(100, 100, 400, countAccount*35);
+        Expense.comboBoxResult();
+        countCategory = Expense.comboBoxCategory.getItemCount();
+        this.setBounds(100, 100, 400, countCategory * 16 + 90);
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        DbExpenses.view(OpenWindow.userLogin);
-//        DbExpenses.comboBoxRead();
-        accountNunber=0;
+        JLabel labelBalanceCategory[] = new JLabel[countCategory];
+        JLabel labelProfitCategory[] = new JLabel[countCategory];
+        JLabel labelExpenseCategory[] = new JLabel[countCategory];
+        categoryNunber = 0;
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
         labelBalance = new JLabel("Баланс: " + DbExpenses.balance + " Рублей");
@@ -37,30 +38,30 @@ public class WindowResultAccount extends JFrame {
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
-        for (; accountNunber < countAccount; accountNunber++) {
-            Object nameAccount = Expense.comboBoxAccount.getItemAt(accountNunber);
-            groupBalanceAccount(OpenWindow.userLogin, accountNunber + 1);
-            labelBalanceAccount[accountNunber] = new JLabel("Баланс счета " + nameAccount + ": " + DbExpenses.balanceCategory + " Рублей");
-            labelProfitAccount[accountNunber] = new JLabel("Доход счета " + nameAccount + ": " + DbExpenses.profitCategory + " Рублей");
-            labelExpenseAccount[accountNunber] = new JLabel("Расход счета " + nameAccount + ": " + DbExpenses.expenseCategory + " Рублей");
+        for (; categoryNunber < countCategory; categoryNunber++) {
+            Object nameCategory = Expense.comboBoxCategory.getItemAt(categoryNunber);
+            groupBalanceCategory(OpenWindow.userLogin, categoryNunber + 1);
+            labelBalanceCategory[categoryNunber] = new JLabel("Баланс категории " + nameCategory + ": " + DbExpenses.balanceCategory + " Рублей");
+            labelProfitCategory[categoryNunber] = new JLabel("Доход категории " + nameCategory + ": " + DbExpenses.profitCategory + " Рублей");
+            labelExpenseCategory[categoryNunber] = new JLabel("Расход категории " + nameCategory + ": " + DbExpenses.expenseCategory + " Рублей");
 
+//            c.fill = GridBagConstraints.HORIZONTAL;
+//            c.weightx = 0.5;
+//            c.gridx = 0;
+//            c.gridy = GridBagConstraints.RELATIVE;
+//            container.add(labelBalanceCategory[categoryNunber], c);
+
+//            c.fill = GridBagConstraints.HORIZONTAL;
+//            c.weightx = 0.5;
+//            c.gridx = 0;
+//            c.gridy = GridBagConstraints.RELATIVE;
+//            container.add(labelProfitCategory[categoryNunber], c);
+//
             c.fill = GridBagConstraints.HORIZONTAL;
             c.weightx = 0.5;
             c.gridx = 0;
             c.gridy = GridBagConstraints.RELATIVE;
-            container.add(labelBalanceAccount[accountNunber], c);
-
-//            c.fill = GridBagConstraints.HORIZONTAL;
-//            c.weightx = 0.5;
-//            c.gridx = 0;
-//            c.gridy = GridBagConstraints.RELATIVE;
-//            container.add(labelProfitAccount[accountNunber], c);
-//
-//            c.fill = GridBagConstraints.HORIZONTAL;
-//            c.weightx = 0.5;
-//            c.gridx = 0;
-//            c.gridy = GridBagConstraints.RELATIVE;
-//            container.add(labelExpenseAccount[accountNunber], c);
+            container.add(labelExpenseCategory[categoryNunber], c);
         }
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -82,13 +83,8 @@ public class WindowResultAccount extends JFrame {
         container.add(labelExpense, c);
     }
 
-    public static void main(String[] args) {
-        WindowResultAccount app = new WindowResultAccount();
-        app.setVisible(true);
-    }
-
     public static void go() {
-        WindowResultAccount app = new WindowResultAccount();
+        WindowResultCategory app = new WindowResultCategory();
         app.setVisible(true);
     }
 }
