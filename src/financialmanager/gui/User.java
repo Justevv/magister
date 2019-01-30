@@ -38,7 +38,7 @@ public class User extends JFrame {
             textFieldEmail = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 6)), 5);
         } else {
 //            textFieldSurname = new JTextField("", 5);
-//            textFieldName = new JTextField("", 5);
+//            textFieldAccountSender = new JTextField("", 5);
 //            textFieldBirthday = new JTextField("", 5);
 //            textFieldSex = new JTextField("", 5);
 //            textFieldPhone = new JTextField("", 5);

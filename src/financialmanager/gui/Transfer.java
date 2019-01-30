@@ -1,32 +1,43 @@
 package financialmanager.gui;
 
+import financialmanager.database.DbTransfers;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static financialmanager.gui.WindowCategories.currentId;
-import static financialmanager.gui.WindowCategories.modelCategories;
+import static financialmanager.gui.WindowTransfers.currentId;
+import static financialmanager.gui.WindowTransfers.modelTransfers;
 
-public class Category extends JFrame {
+public class Transfer extends JFrame {
     private JPanel contentPane = new JPanel();
-    private JLabel labelName = new JLabel("Имя:");
-    public static JLabel labelParentId = new JLabel("Родительская категория:");
-    public static JTextField textFieldName = new JTextField("Свет", 5);
-    public static JTextField textFieldParentId = new JTextField("1", 5);
+    public static JLabel labelAccountSender = new JLabel("Отправитель:");
+    public static JLabel labelAccountRecipient = new JLabel("Получатель:");
+    public static JLabel labelSum = new JLabel("Сумма:");
+    public static JTextField textFieldAccountSender = new JTextField("2", 5);
+    public static JTextField textFieldAccountRecipient = new JTextField("3", 5);
+    public static JTextField textFieldSum = new JTextField("500", 5);
+    public static JComboBox comboBoxAccountSender;
+    public static JComboBox comboBoxAccountRecipient;
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public Category() {
+    public Transfer() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (WindowCategories.action == "update") {
-            textFieldName = new JTextField(String.valueOf(WindowCategories.model.getValueAt(WindowCategories.selIndex, 1)), 5);
-            textFieldParentId = new JTextField(String.valueOf(WindowCategories.model.getValueAt(WindowCategories.selIndex, 2)), 5);
+        comboBoxAccountSender = new JComboBox();
+        comboBoxAccountRecipient = new JComboBox();
+        DbTransfers.comboBoxTransfer(comboBoxAccountSender, comboBoxAccountRecipient);
+        if (WindowTransfers.action == "update") {
+            comboBoxAccountSender.setSelectedItem((String.valueOf(WindowTransfers.model.getValueAt(WindowTransfers.selIndex, 1))));
+            comboBoxAccountRecipient.setSelectedItem((String.valueOf(WindowTransfers.model.getValueAt(WindowTransfers.selIndex, 2))));
+            textFieldSum = new JTextField(String.valueOf(WindowTransfers.model.getValueAt(WindowTransfers.selIndex, 3)), 5);
         } else {
 //            textFieldAccountSender = new JTextField("", 5);
-//            textFieldParentId = new JTextField("", 5);
+//            textFieldAccountRecipient = new JTextField("", 5);
+//            textFieldSum  = new JTextField("", 5);
         }
 
         buttonCancel.addActionListener(new ActionListener() {
@@ -58,25 +69,37 @@ public class Category extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelName, c);
+        container.add(labelAccountSender, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelParentId, c);
+        container.add(labelAccountRecipient, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelSum, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldName, c);
+        container.add(comboBoxAccountSender, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldParentId, c);
+        container.add(comboBoxAccountRecipient, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(textFieldSum, c);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -104,24 +127,19 @@ public class Category extends JFrame {
     }
 
     public static void go() {
-        Category app = new Category();
+        Transfer app = new Transfer();
         // app.pack();
         app.setVisible(true);
     }
 
     private void onOK() {
-        if (WindowCategories.action == "update") {
-            String Name = textFieldName.getText();
-            String ParentId = textFieldParentId.getText();
-            financialmanager.database.DbCategories.update(Name, ParentId, currentId.toString());
-            modelCategories.fireTableDataChanged();
-
+        if (WindowTransfers.action == "update") {
+            financialmanager.database.DbTransfers.update((String)comboBoxAccountSender.getSelectedItem(), (String)comboBoxAccountRecipient.getSelectedItem(),Integer.valueOf(textFieldSum.getText()), currentId.toString());
+            modelTransfers.fireTableDataChanged();
         }
-        if (WindowCategories.action == "add") {
-            String Name = textFieldName.getText();
-            String ParentId = textFieldParentId.getText();
-            financialmanager.database.DbCategories.add(Name, ParentId);
-            modelCategories.fireTableDataChanged();
+        if (WindowTransfers.action == "add") {
+            financialmanager.database.DbTransfers.add((String)comboBoxAccountSender.getSelectedItem(), (String)comboBoxAccountRecipient.getSelectedItem(),Integer.valueOf(textFieldSum.getText()),OpenWindow.userLogin);
+            modelTransfers.fireTableDataChanged();
         }
     }
 

@@ -22,7 +22,8 @@ public class WindowExpenses extends JFrame {
     private JButton buttonUpdate = new JButton("Редактировать запись");
     private JButton buttonAddUser = new JButton("Пользователи");
     private JButton buttonAddCategory = new JButton("Категории");
-    private JButton buttonAAccount = new JButton("Счета");
+    private JButton buttonAccount = new JButton("Счета");
+    private JButton buttonTransfer = new JButton("Переводы");
     private JButton buttonAddPlace = new JButton("Места");
     private JTextField input = new JTextField("", 5);
     private JLabel label = new JLabel("Input:");
@@ -212,17 +213,29 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddPlace, c);
 
-        buttonAAccount.addActionListener(new ActionListener() {
+        buttonAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowAccounts.go();
             }
         });
-        jfrm.add(buttonAAccount);
+        jfrm.add(buttonAccount);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(buttonAAccount, c);
+        container.add(buttonAccount, c);
+
+        buttonTransfer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                WindowTransfers.go();
+            }
+        });
+        jfrm.add(buttonTransfer);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(buttonTransfer, c);
 
         buttonResultAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

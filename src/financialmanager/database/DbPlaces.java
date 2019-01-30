@@ -30,7 +30,7 @@ public class DbPlaces {
             places = new ArrayList<>();
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
-                sName = executeQuery.getString("sName");
+                sName = executeQuery.getString("nAccountSender");
                 String sAddress = executeQuery.getString("sAddress");
                 places.add(new Places(nId, sName, sAddress));
             }
@@ -51,7 +51,7 @@ public class DbPlaces {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String insertSQLString = ("insert into t_dicPlaces(sName, sAddress) values ('%1$s','%2$s')");
+            String insertSQLString = ("insert into t_dicPlaces(nAccountSender, sAddress) values ('%1$s','%2$s')");
             String insertSQL = String.format(insertSQLString, name, address);
             stmt.executeUpdate(insertSQL);
 
@@ -65,7 +65,7 @@ public class DbPlaces {
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
                 ;
-                String sName = executeQuery.getString("sName");
+                String sName = executeQuery.getString("nAccountSender");
                 String sAddress = executeQuery.getString("sAddress");
                 places.add(new Places(nId, sName, sAddress));
                 filternId = nId;
@@ -110,7 +110,7 @@ public class DbPlaces {
             if (value != null) {
                 currentPlaceId = value;
             }
-            String insertSQLString = ("update t_dicPlaces set  sName='%1$s', sAddress='%2$s' where nId=%3$s");
+            String insertSQLString = ("update t_dicPlaces set  nAccountSender='%1$s', sAddress='%2$s' where nId=%3$s");
             String insertSQL = String.format(insertSQLString, name, address, currentPlaceId);
             stmt.executeUpdate(insertSQL);
             places.removeAll(places);
@@ -120,7 +120,7 @@ public class DbPlaces {
             // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
-                String sName = executeQuery.getString("sName");
+                String sName = executeQuery.getString("nAccountSender");
                 String sAdress = executeQuery.getString("sAddress");
                 places.add(new Places(nId, sName, sAdress));
             }

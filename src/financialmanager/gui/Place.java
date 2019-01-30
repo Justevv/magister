@@ -25,7 +25,7 @@ public class Place extends JFrame {
             textFieldName = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 1)), 5);
             textFieldAddress = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 2)), 5);
         } else {
-//            textFieldName = new JTextField("", 5);
+//            textFieldAccountSender = new JTextField("", 5);
 //            textFieldParentId = new JTextField("", 5);
         }
 

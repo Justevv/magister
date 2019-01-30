@@ -34,7 +34,7 @@ public class DbUsers {
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
                 String sSurname = executeQuery.getString("sSurname");
-                sName = executeQuery.getString("sName");
+                sName = executeQuery.getString("nAccountSender");
                 String dtBirthday = executeQuery.getString("dtBirthday");
                 String sSex = executeQuery.getString("sSex");
                 String sPhone = executeQuery.getString("sPhone");
@@ -67,7 +67,7 @@ public class DbUsers {
                 Connection con = DriverManager.getConnection(connectionString);
                 // Отправка запроса на выборку и получение результатов
                 Statement stmt = con.createStatement();
-                String insertSQLString = ("insert into t_dicUsers( sSurname ,sName, dtBirthday, sSex, sPhone, sEmail) values ('%1$s','%2$s','%3$s','%4$s','%5$s','%6$s')");
+                String insertSQLString = ("insert into t_dicUsers( sSurname ,nAccountSender, dtBirthday, sSex, sPhone, sEmail) values ('%1$s','%2$s','%3$s','%4$s','%5$s','%6$s')");
                 String insertSQL = String.format(insertSQLString, Surname, Name, Birthday, Sex, Phone, Email);
                 stmt.executeUpdate(insertSQL);
 
@@ -81,7 +81,7 @@ public class DbUsers {
                 while (executeQuery.next()) {
                     int nId = executeQuery.getInt("nId");
                     String sSurname = executeQuery.getString("sSurname");
-                    String sName = executeQuery.getString("sName");
+                    String sName = executeQuery.getString("nAccountSender");
                     String dtBirthday = executeQuery.getString("dtBirthday");
                     String sSex = executeQuery.getString("sSex");
                     String sPhone = executeQuery.getString("sPhone");
@@ -149,7 +149,7 @@ public class DbUsers {
             if (Id != null) {
                 currentUserId = Id;
             }
-            String insertSQLString = ("update t_dicUsers set  sSurname ='%1$s',sName='%2$s', dtBirthday='%3$s', sSex='%4$s', sPhone='%5$s', sEmail='%6$s'where nId=%7$s");
+            String insertSQLString = ("update t_dicUsers set  sSurname ='%1$s',nAccountSender='%2$s', dtBirthday='%3$s', sSex='%4$s', sPhone='%5$s', sEmail='%6$s'where nId=%7$s");
             String insertSQL = String.format(insertSQLString, Surname, Name, Birthday, Sex, Phone, Email, currentUserId);
             stmt.executeUpdate(insertSQL);
             users.removeAll(users);
@@ -160,7 +160,7 @@ public class DbUsers {
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
                 String sSurname = executeQuery.getString("sSurname");
-                String sName = executeQuery.getString("sName");
+                String sName = executeQuery.getString("nAccountSender");
                 String dtBirthday = executeQuery.getString("dtBirthday");
                 String sSex = executeQuery.getString("sSex");
                 String sPhone = executeQuery.getString("sPhone");

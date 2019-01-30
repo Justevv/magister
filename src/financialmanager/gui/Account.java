@@ -22,7 +22,7 @@ public class Account extends JFrame {
         if (WindowAccounts.action == "update") {
             textFieldName = new JTextField(String.valueOf(WindowAccounts.model.getValueAt(WindowAccounts.selIndex, 1)), 5);
         } else {
-//            textFieldName = new JTextField("", 5);
+//            textFieldAccountSender = new JTextField("", 5);
         }
 
         buttonCancel.addActionListener(new ActionListener() {
