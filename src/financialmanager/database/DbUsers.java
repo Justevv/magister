@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbUsers {
-    public static Integer nId;
+    public static Integer nId = 0;
     public static String sName;
     public static ArrayList<Users> users;
     public static String sEmail;

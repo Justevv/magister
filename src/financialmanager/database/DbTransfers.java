@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbTransfers {
-    public static Integer nId;
+    public static Integer nId = 0;
     public static String nAccountSender;
     public static ArrayList<Transfers> Transfers;
     public static int filternId = 0;
@@ -22,7 +22,7 @@ public class DbTransfers {
     public static long balanceTransiction;
 
     public static void view(String UserId) {
-        sqlSelectTransfers ="SELECT t.nId" +
+        sqlSelectTransfers = "SELECT t.nId" +
                 ", a.sName as AccountSender" +
                 ", a1.sName as AccountRecipient" +
                 ", t.dSum " +
@@ -36,7 +36,7 @@ public class DbTransfers {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers,UserId, 0));
+            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, UserId, 0));
             // Обход результатов выборки
             Transfers = new ArrayList<>();
             while (executeQuery.next()) {
@@ -88,17 +88,18 @@ public class DbTransfers {
             Statement stmt = con.createStatement();
             String insertSQLString = ("insert into t_dicTransfers(nUserId, nAccountSenderId, nAccountRecipientId, dSum)" +
                     " values" +
-                    "('%1$s',"+
+                    "('%1$s'," +
                     "(select nId from t_dicAccounts where sName='%2$s')," +
                     "(select nId from t_dicAccounts where sName='%3$s')," +
                     " '%4$s')");
             String insertSQL = String.format(insertSQLString, UserId, nAccountSenderId, nAccountRecipientId, dSum);
             stmt.executeUpdate(insertSQL);
 
-            if (filternId < DbTransfers.nId) {
-                filternId = DbTransfers.nId;
+            if (filternId < nId) {
+                filternId = nId;
             }
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, UserId, filternId));
+            System.out.println();
             // Обход результатов выборки
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
@@ -171,27 +172,27 @@ public class DbTransfers {
         }
     }
 
-    public static void groupBalanceTransfer(String userId, Integer accountNunber ) {
+    public static void groupBalanceTransfer(String userId, String account) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String balanceSQLString =  "select sum(dSum) as Sum from t_dicTransfers t  where nUserId=%2$s and %1$s=%3$s group by %1$s";
-            ResultSet expenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, "nAccountSenderId", userId,accountNunber));
+            String balanceSQLString = "select sum(dSum) as Sum from t_dicTransfers t  where nUserId=%2$s and %1$s=(select nId from t_dicAccounts where sName='%3$s') group by %1$s";
+            ResultSet expenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, "nAccountSenderId", userId, account));
             // Обход результатов выборки
             while (expenseExecuteQuery.next()) {
                 expenseTransiction = expenseExecuteQuery.getLong("Sum");
             }
-            ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, "nAccountRecipientId", userId, accountNunber));
+            ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, "nAccountRecipientId", userId, account));
             // Обход результатов выборки
             while (profitExecuteQuery.next()) {
                 profitTransiction = profitExecuteQuery.getLong("Sum");
             }
             balanceTransiction = profitTransiction - expenseTransiction;
-            expenseTransiction=0;
-            profitTransiction=0;
+            expenseTransiction = 0;
+            profitTransiction = 0;
 
             // Закрываем соединение
             expenseExecuteQuery.close();

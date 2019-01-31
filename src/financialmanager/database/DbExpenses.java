@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbExpenses {
-    public static Integer nId;
+    public static Integer nId = 0;
     public static Integer dSum;
     public static ArrayList<financialmanager.data.Expenses> expenses;
     public static Long balance;
@@ -30,7 +30,7 @@ public class DbExpenses {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            sqlSelect="SELECT e.nId as nId" +
+            sqlSelect = "SELECT e.nId as nId" +
                     ",dtDate, sSurname" +
                     ",c.sName as CategoriesName" +
                     ",p.sName as nPlaceName" +
@@ -46,7 +46,7 @@ public class DbExpenses {
                     "join t_dicTransactionTypes tt on e.nTransactionTypeId=tt.nId " +
                     "where e.nUserId='%1$s'" +
                     "and e.nId>'%2$s'";
-            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect,userId,0));
+            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, 0));
             // Обход результатов выборки
             expenses = new ArrayList<>();
 
@@ -151,10 +151,10 @@ public class DbExpenses {
             String insertSQL = String.format(insertSQLString, dtDate, dSum, userId, category, place, paymentType, account, transactionType);
             stmt.executeUpdate(insertSQL);
             balance = balance + dSum;
-            if (DbExpenses.nId != null && filternId < DbExpenses.nId) {
-                filternId = DbExpenses.nId;
+            if (nId != null && filternId < nId) {
+                filternId = nId;
             }
-            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect,userId,filternId));
+            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, filternId));
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
                 dtDate = executeQuery.getString("dtDate");
@@ -221,7 +221,7 @@ public class DbExpenses {
             stmt.executeUpdate(insertSQL);
             expenses.removeAll(expenses);
             balance = balance - Sum + dSum;
-            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect,userId,0));
+            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, 0));
             // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
@@ -281,7 +281,7 @@ public class DbExpenses {
         }
     }
 
-    public static void groupBalanceCategory(String userId, int category) {
+    public static void groupBalanceCategory(String userId, String category) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -290,7 +290,7 @@ public class DbExpenses {
             Statement stmt = con.createStatement();
             String balanceSQLString = "select sum(dSum) as Sum " +
                     "from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId " +
-                    "where e.nCategoryId='%1$s' and e.nUserId='%2$s' and e.nTransactionTypeId='%3$s'";
+                    "where e.nCategoryId=(select nId from t_dicCategories where sName='%1$s') and e.nUserId=%2$s and e.nTransactionTypeId=%3$s";
             ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, category, userId, 1));
             // Обход результатов выборки
             while (profitExecuteQuery.next()) {
@@ -300,9 +300,8 @@ public class DbExpenses {
             // Обход результатов выборки
             while (ExpenseExecuteQuery.next()) {
                 expenseCategory = ExpenseExecuteQuery.getLong("Sum");
-                balanceCategory = profitCategory - expenseCategory;
             }
-
+            balanceCategory = profitCategory - expenseCategory;
             // Закрываем соединение
             ExpenseExecuteQuery.close();
             stmt.close();
@@ -313,7 +312,7 @@ public class DbExpenses {
         }
     }
 
-    public static void groupBalanceAccount(String userId, int account) {
+    public static void groupBalanceAccount(String userId, String account) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -321,8 +320,8 @@ public class DbExpenses {
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String balanceSQLString = "select sum(dSum) as Sum " +
-                    "from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId " +
-                    "where e.nAccountId='%1$s' and e.nUserId='%2$s' and e.nTransactionTypeId='%3$s'";
+                    "from t_Expenses e join t_dicAccounts a on e.nCategoryId=a.nId " +
+                    "where e.nAccountId=(select nId from t_dicAccounts where sName='%1$s') and e.nUserId=%2$s and e.nTransactionTypeId=%3$s";
             ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, account, userId, 1));
             // Обход результатов выборки
             while (profitExecuteQuery.next()) {

@@ -40,7 +40,7 @@ public class WindowResultCategory extends JFrame {
 
         for (; categoryNunber < countCategory; categoryNunber++) {
             Object nameCategory = Expense.comboBoxCategory.getItemAt(categoryNunber);
-            groupBalanceCategory(OpenWindow.userLogin, categoryNunber + 1);
+            groupBalanceCategory(OpenWindow.userLogin, String.valueOf(nameCategory));
             labelBalanceCategory[categoryNunber] = new JLabel("Баланс категории " + nameCategory + ": " + DbExpenses.balanceCategory + " Рублей");
             labelProfitCategory[categoryNunber] = new JLabel("Доход категории " + nameCategory + ": " + DbExpenses.profitCategory + " Рублей");
             labelExpenseCategory[categoryNunber] = new JLabel("Расход категории " + nameCategory + ": " + DbExpenses.expenseCategory + " Рублей");

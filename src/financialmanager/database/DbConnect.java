@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 public class DbConnect {
     static String connectionString;
 
-    public static void connect()    {
+    public static void connect() {
         // Формирование строки подключения
         String computername = null;
         try {

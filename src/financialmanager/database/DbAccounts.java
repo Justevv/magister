@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbAccounts {
-    public static Integer nId;
+    public static Integer nId = 0;
     public static String sName;
     public static ArrayList<Accounts> accounts;
     public static int filternId = 0;

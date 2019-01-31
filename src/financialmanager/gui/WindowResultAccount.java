@@ -42,8 +42,8 @@ public class WindowResultAccount extends JFrame {
 
         for (; accountNunber < countAccount; accountNunber++) {
             Object nameAccount = Expense.comboBoxAccount.getItemAt(accountNunber);
-            groupBalanceAccount(OpenWindow.userLogin, accountNunber + 1);
-            groupBalanceTransfer(OpenWindow.userLogin, accountNunber + 1);
+            groupBalanceAccount(OpenWindow.userLogin, String.valueOf(nameAccount));
+            groupBalanceTransfer(OpenWindow.userLogin, String.valueOf(nameAccount));
             Long balance=DbExpenses.balanceCategory + DbTransfers.balanceTransiction;
             labelBalanceAccount[accountNunber] = new JLabel("Баланс счета " + nameAccount + ": " + balance + " Рублей");
             labelProfitAccount[accountNunber] = new JLabel("Доход счета " + nameAccount + ": " + DbExpenses.profitCategory + " Рублей");

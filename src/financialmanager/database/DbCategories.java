@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbCategories {
-    public static Integer nId;
+    public static Integer nId = 0;
     public static String sName;
     public static ArrayList<Categories> categories;
     public static int filternId = 0;
@@ -44,7 +44,7 @@ public class DbCategories {
         }
     }
 
-    public static void add(String Name,String ParentId) {
+    public static void add(String Name, String ParentId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -55,8 +55,8 @@ public class DbCategories {
             String insertSQL = String.format(insertSQLString, Name, ParentId);
             stmt.executeUpdate(insertSQL);
 
-            if (filternId < DbCategories.nId) {
-                filternId = DbCategories.nId;
+            if (filternId < nId) {
+                filternId = nId;
             }
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicCategories where nId>" + filternId
@@ -99,7 +99,7 @@ public class DbCategories {
         }
     }
 
-      public static void update( String Name, String ParentId, String currentId ) {
+    public static void update(String Name, String ParentId, String currentId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных

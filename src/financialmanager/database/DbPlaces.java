@@ -10,14 +10,14 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbPlaces {
-    public static Integer nId;
+    public static Integer nId = 0;
     public static String sName;
     public static ArrayList<Places> places;
     public static int filternId = 0;
     static String currentPlaceId = "0";
 
-     public static void view() {
-         DbConnect.connect();
+    public static void view() {
+        DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
@@ -44,7 +44,7 @@ public class DbPlaces {
         }
     }
 
-    public static void add(String name,String address) {
+    public static void add(String name, String address) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -55,8 +55,8 @@ public class DbPlaces {
             String insertSQL = String.format(insertSQLString, name, address);
             stmt.executeUpdate(insertSQL);
 
-            if (filternId < DbPlaces.nId) {
-                filternId = DbPlaces.nId;
+            if (filternId < nId) {
+                filternId = nId;
             }
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicPlaces where nId>" + filternId
