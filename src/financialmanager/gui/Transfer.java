@@ -121,11 +121,6 @@ public class Transfer extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        Expense app = new Expense();
-        app.setVisible(true);
-    }
-
     public static void go() {
         Transfer app = new Transfer();
         // app.pack();

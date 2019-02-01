@@ -98,11 +98,6 @@ public class Category extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        Expense app = new Expense();
-        app.setVisible(true);
-    }
-
     public static void go() {
         Category app = new Category();
         // app.pack();

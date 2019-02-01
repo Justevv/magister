@@ -4,45 +4,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static financialmanager.gui.WindowUsers.modelUsers;
-import static financialmanager.gui.WindowUsers.currentId;
+import static financialmanager.gui.WindowPlaces.modelPlaces;
 
-public class User extends JFrame {
+public class Counter extends JFrame {
     private JPanel contentPane = new JPanel();
-    private JLabel labelSurname = new JLabel("Фамилия:");
-    private JLabel labelName = new JLabel("Имя:");
-    public static JLabel labelBirthday = new JLabel("Дата рождения:");
-    private JLabel labelPhone = new JLabel("Телефон:");
-    private JLabel labelSex = new JLabel("Пол:");
-    private JLabel labelEmail = new JLabel("Email:");
-    public static JTextField textFieldSurname = new JTextField("Коровин", 5);
-    public static JTextField textFieldName = new JTextField("Михаил", 5);
-    public static JTextField textFieldBirthday = new JTextField("20010101", 5);
-    public static JTextField textFieldPhone = new JTextField("+79203336699", 5);
-    public static JTextField textFieldSex = new JTextField("M", 5);
-    public static JTextField textFieldEmail = new JTextField("korovin@mail.ru", 5);
+    private JLabel labelGas = new JLabel("Газ:");
+    public static JLabel labelElectricity = new JLabel("Электричество:");
+    public static JLabel labelWater = new JLabel("Вода:");
+    public static JLabel labelReadings = new JLabel("Показания:");
+    public static JLabel labelPrice = new JLabel("Цена:");
+    public static JLabel labelPaid = new JLabel("Оплачено:");
+    public static JTextField textFieldGasReadings = new JTextField("100", 5);
+    public static JTextField textFieldElectricityReadings = new JTextField("100", 5);
+    public static JTextField textFieldWaterReadings = new JTextField("100", 5);
+    public static JTextField textFieldGasPrice = new JTextField("100", 5);
+    public static JTextField textFieldElectricityPrice = new JTextField("100", 5);
+    public static JTextField textFieldWaterPrice = new JTextField("100", 5);
+    public static JTextField textFieldGasPaid = new JTextField("100", 5);
+    public static JTextField textFieldElectricityPaid = new JTextField("100", 5);
+    public static JTextField textFieldWaterPaid = new JTextField("100", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public User() {
+    public Counter() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (WindowUsers.action == "update") {
-            textFieldSurname = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 1)), 5);
-            textFieldName = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 2)), 5);
-            textFieldBirthday = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 3)), 5);
-            textFieldSex = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 4)), 5);
-            textFieldPhone = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 5)), 5);
-            textFieldEmail = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 6)), 5);
+        if (WindowPlaces.action == "update") {
+//            textFieldName = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 1)), 5);
+//            textFieldAddress = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 2)), 5);
         } else {
-//            textFieldSurname = new JTextField("", 5);
 //            textFieldName = new JTextField("", 5);
-//            textFieldBirthday = new JTextField("", 5);
-//            textFieldSex = new JTextField("", 5);
-//            textFieldPhone = new JTextField("", 5);
-//            textFieldEmail = new JTextField("", 5);
+//            textFieldParentId = new JTextField("", 5);
         }
 
         buttonCancel.addActionListener(new ActionListener() {
@@ -72,75 +66,99 @@ public class User extends JFrame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelSurname, c);
+        c.gridx = GridBagConstraints.RELATIVE+1;
+        c.gridy = 0;
+        container.add(labelReadings, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy =0;
+        container.add(labelPrice, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 0;
+        container.add(labelPaid, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelName, c);
+        container.add(labelGas, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelBirthday, c);
+        container.add(labelGas, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelSex, c);
+        container.add(labelGas, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelPhone, c);
+        container.add(labelGas, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelEmail, c);
+        container.add(labelElectricity, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelElectricity, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelElectricity, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelElectricity, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelWater, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelWater, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelWater, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(labelWater, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldSurname, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldName, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldBirthday, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldSex, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldPhone, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(textFieldEmail, c);
+//        container.add(textFieldAddress, c);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -162,32 +180,25 @@ public class User extends JFrame {
 
     }
 
+    public static void main(String[] args) {
+        Counter app = new Counter();
+        app.setVisible(true);
+    }
+
     public static void go() {
-        User app = new User();
+        Counter app = new Counter();
         // app.pack();
         app.setVisible(true);
     }
 
     private void onOK() {
-        if (WindowUsers.action == "update") {
-            String Surname = textFieldSurname.getText();
-            String Name = textFieldName.getText();
-            String Birthday = textFieldBirthday.getText();
-            String Sex = textFieldSex.getText();
-            String Phone = textFieldPhone.getText();
-            String Email = textFieldEmail.getText();
-            financialmanager.database.DbUsers.update(Surname, Name, Birthday, Sex, Phone, Email, currentId.toString(), WindowUsers.currentEmail.toString());
-            modelUsers.fireTableDataChanged();
+        if (WindowPlaces.action == "update") {
+//            financialmanager.database.DbPlaces.update(textFieldName.getText(), textFieldAddress.getText(), currentId.toString());
+            modelPlaces.fireTableDataChanged();
         }
-        if (WindowUsers.action == "add") {
-            String Surname = textFieldSurname.getText();
-            String Name = textFieldName.getText();
-            String Birthday = textFieldBirthday.getText();
-            String Sex = textFieldSex.getText();
-            String Phone = textFieldPhone.getText();
-            String Email = textFieldEmail.getText();
-            financialmanager.database.DbUsers.add(Surname, Name, Birthday, Sex, Phone, Email);
-            modelUsers.fireTableDataChanged();
+        if (WindowPlaces.action == "add") {
+//            financialmanager.database.DbPlaces.add(textFieldName.getText(), textFieldAddress.getText());
+            modelPlaces.fireTableDataChanged();
         }
     }
 

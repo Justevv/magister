@@ -82,11 +82,6 @@ public class Account extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        Expense app = new Expense();
-        app.setVisible(true);
-    }
-
     public static void go() {
         Account app = new Account();
         // app.pack();

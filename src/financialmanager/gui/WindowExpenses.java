@@ -25,6 +25,7 @@ public class WindowExpenses extends JFrame {
     private JButton buttonAccount = new JButton("Счета");
     private JButton buttonTransfer = new JButton("Переводы");
     private JButton buttonAddPlace = new JButton("Места");
+    private JButton buttonCounters = new JButton("Счетчики");
     private JTextField input = new JTextField("", 5);
     private JLabel label = new JLabel("Input:");
     private JLabel labelUser = new JLabel("Пользователь:" + DbExpenses.nUserSurname);
@@ -237,6 +238,18 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonTransfer, c);
 
+        buttonCounters.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                WindowCounters.go();
+            }
+        });
+        jfrm.add(buttonCounters);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        container.add(buttonCounters, c);
+
         buttonResultAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowResultAccount.go();
@@ -287,7 +300,7 @@ public class WindowExpenses extends JFrame {
 
         buttonDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbExpenses.delete(value, selectedRows[i-1], (Integer)Sum);
+                DbExpenses.delete(value, selectedRows[i - 1], (Integer) Sum);
                 modelExpenses.fireTableDataChanged();
                 labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
             }

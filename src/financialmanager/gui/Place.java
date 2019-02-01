@@ -98,11 +98,6 @@ public class Place extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        Expense app = new Expense();
-        app.setVisible(true);
-    }
-
     public static void go() {
         Place app = new Place();
         // app.pack();
