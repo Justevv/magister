@@ -24,7 +24,7 @@ public class WindowCounters extends JFrame implements ActionListener {
     public static int i;
     public static int selIndex;
     public static TableModel model;
-    public static Object currentId;
+    public static Object idCounters;
     public static String action;
     public static Object currentEmail;
 
@@ -73,8 +73,8 @@ public class WindowCounters extends JFrame implements ActionListener {
 
         buttonDeleteCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                DbCounters.delete(currentId.toString());
-                counters.remove(selectedRows[i - 1]);
+                DbCounters.delete(idCounters,selectedRows[i-1]);
+                counters.remove(selectedRows[i-1]);
                 modelCounters.fireTableDataChanged();
             }
         });
@@ -104,8 +104,7 @@ public class WindowCounters extends JFrame implements ActionListener {
                 for (i = 0; i < selectedRows.length; i++) {
                     selIndex = selectedRows[i];
                     model = jTabCounters.getModel();
-                    currentId = model.getValueAt(selIndex, 0);
-                    currentEmail = model.getValueAt(selIndex, 6);
+                    idCounters = model.getValueAt(selIndex, 0);
                 }
             }
         });

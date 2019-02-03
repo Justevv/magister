@@ -27,7 +27,7 @@ public class CountersTable extends AbstractTableModel {
     public Object getValueAt(int r, int c) {
         switch (c) {
             case 0:
-                return counters.get(r).getnId();
+                return counters.get(r).getId();
             case 1:
                 return counters.get(r).getdtDate();
             case 2:

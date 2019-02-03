@@ -58,7 +58,7 @@ public class Counters {
         this.nPaymentAmount = nPaymentAmount;
     }
 
-    public Integer getnId() {
+    public Integer getId() {
         return nId;
     }
 

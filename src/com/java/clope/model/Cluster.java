@@ -79,7 +79,7 @@ public class Cluster {
     /**
      * get unique values from all transactions and the number of occurrences in the cluster
      *
-     * @return the map with unique currentId and number of values in the cluster
+     * @return the map with unique idCounters and number of values in the cluster
      */
     private Map<String, Integer> getClusterMap() {
         Map<String, Integer> clusterMap = new HashMap<>();

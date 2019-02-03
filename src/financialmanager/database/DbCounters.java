@@ -74,7 +74,7 @@ public class DbCounters {
                 nElectricityPaid = executeQuery.getInt("nElectricityPaid");
                 nWaterPaid = executeQuery.getInt("nWaterPaid");
                 financialmanager.businessLogic.Counters.start();
-              }
+            }
             ResultSet executeQueryExpense = stmt.executeQuery("select sum(dSum) as Expense, count(dSum) as dCount from t_Expenses where nTransactionTypeId=2 and nUserId=" + userId);
             while (executeQueryExpense.next()) {
                 expense = executeQueryExpense.getLong("Expense");
@@ -100,85 +100,52 @@ public class DbCounters {
         }
     }
 
-    public static void comboBoxRead(JComboBox comboBoxPlace, JComboBox comboBoxPaymentType, JComboBox comboBoxCategory, JComboBox comboBoxAccount, JComboBox comboBoxTransactionType) {
+    public static void add(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
+                           float nGasPrice, float nElectricityPrice, float nWaterPrice,
+                           float nGasPaid, float nElectricityPaid, float nWaterPaid) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-
-            ResultSet executeQueryNamePlaces = stmt.executeQuery("select * from t_dicPlaces");
-            while (executeQueryNamePlaces.next()) {
-                comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
-            }
-
-            ResultSet executeQueryNamePaymentTypes = stmt.executeQuery("select * from t_dicPaymentTypes");
-            while (executeQueryNamePaymentTypes.next()) {
-                comboBoxPaymentType.addItem(executeQueryNamePaymentTypes.getString("sName"));
-            }
-
-            ResultSet executeQueryNameCategories = stmt.executeQuery("select * from t_dicCategories");
-            while (executeQueryNameCategories.next()) {
-                comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
-            }
-
-            ResultSet executeQueryNameAccounts = stmt.executeQuery("select * from t_dicAccounts");
-            while (executeQueryNameAccounts.next()) {
-                comboBoxAccount.addItem(executeQueryNameAccounts.getString("sName"));
-            }
-
-            ResultSet executeQueryNameTransactionTypes = stmt.executeQuery("select * from t_dicTransactionTypes");
-            while (executeQueryNameTransactionTypes.next()) {
-                comboBoxTransactionType.addItem(executeQueryNameTransactionTypes.getString("sName"));
-            }
-
-            // Закрываем соединение
-            executeQueryNamePlaces.close();
-            executeQueryNamePaymentTypes.close();
-            executeQueryNameCategories.close();
-            stmt.close();
-            con.close();
-        } catch (SQLException ex) {
-            // Обработка исключений
-            Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static void add(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum) {
-        DbConnect.connect();
-        try {
-            // Подключение к базе данных
-            Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
-            Statement stmt = con.createStatement();
-            String insertSQLString = ("insert into t_Expenses( dtDate ,dSum,nUserId, nCategoryId ,nPlaceId,nPaymentTypeId, nAccountId, nTransactionTypeId) " +
+            String insertSQLString = ("insert into [t_dicCounters]" +
+                    "(dtDate " +
+                    ",nUserId " +
+                    ",nGasReadings " +
+                    ",nElectricityReadings " +
+                    ",nWaterReadings " +
+                    ",nGasPrice " +
+                    ",nElectricityPrice " +
+                    ",nWaterPrice " +
+                    ",nGasPaid " +
+                    ",nElectricityPaid " +
+                    ",nWaterPaid) " +
                     "values " +
-                    "('%1$s',%2$s,%3$s," +
-                    "(select nId from [dbo].[t_dicCategories] where sName='%4$s')" +
-                    ",(select nId from [dbo].[t_dicPlaces] where sName='%5$s')" +
-                    ",(select nId from [dbo].[t_dicPaymentTypes] where sName='%6$s')" +
-                    ",(select nId from [dbo].[t_dicAccounts] where sName='%7$s')" +
-                    ",(select nId from [dbo].[t_dicTransactionTypes] where sName='%8$s')" +
-                    ")");
-            String insertSQL = String.format(insertSQLString, dtDate, dSum, userId, category, place, paymentType, account, transactionType);
+                    "('%1$s', %2$s, %3$s, %4$s, %5$s, %6$s, %7$s, %8$s, %9$s, %10$s, %11$s)");
+            String insertSQL = String.format(insertSQLString, dtDate, userId, nGasReadings, nElectricityReadings, nWaterReadings,
+                    nGasPrice, nElectricityPrice, nWaterPrice,
+                    nGasPaid, nElectricityPaid, nWaterPaid);
             stmt.executeUpdate(insertSQL);
-            balance = balance + dSum;
+
             if (nId != null && filternId < nId) {
                 filternId = nId;
             }
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, filternId));
             while (executeQuery.next()) {
-                int nId = executeQuery.getInt("nId");
-                dtDate = executeQuery.getString("dtDate");
-                String nUserSurname = executeQuery.getString("sSurname");
-                String nCategoryName = executeQuery.getString("CategoriesName");
-                String nPlaceName = executeQuery.getString("nPlaceName");
-                String nPaymentTypeName = executeQuery.getString("nPaymentTypeName");
-                String nAccount = executeQuery.getString("nAccount");
-                String nTransactionType = executeQuery.getString("nTransactionType");
-                dSum = executeQuery.getInt("dSum");
-//                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum, nAccount, nTransactionType));
+                nId = executeQuery.getInt("nId");
+                DbCounters.dtDate = executeQuery.getDate("dtDate");
+                DbCounters.nUserSurname = executeQuery.getString("sSurname");
+                DbCounters.nGasReadings = executeQuery.getInt("nGasReadings");
+                DbCounters.nElectricityReadings = executeQuery.getInt("nElectricityReadings");
+                DbCounters.nWaterReadings = executeQuery.getInt("nWaterReadings");
+                DbCounters.nGasPrice = executeQuery.getInt("nGasPrice");
+                DbCounters.nElectricityPrice = executeQuery.getInt("nElectricityPrice");
+                DbCounters.nWaterPrice = executeQuery.getInt("nWaterPrice");
+                DbCounters.nGasPaid = executeQuery.getInt("nGasPaid");
+                DbCounters.nElectricityPaid = executeQuery.getInt("nElectricityPaid");
+                DbCounters.nWaterPaid = executeQuery.getInt("nWaterPaid");
+                financialmanager.businessLogic.Counters.start();
                 filternId = nId;
             }
             // Закрываем соединение
@@ -192,18 +159,16 @@ public class DbCounters {
         }
     }
 
-    public static void delete(Object idExpenses, int selectedRows, int Sum) {
+    public static void delete(Object idCounters, int selectedRows) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            String insertSQLString = ("delete from t_Expenses where nId=%1$s");
-            String insertSQL = String.format(insertSQLString, idExpenses);
+            String insertSQLString = ("delete from t_dicCounters where nId=%1$s");
+            String insertSQL = String.format(insertSQLString, idCounters);
             stmt.executeUpdate(insertSQL);
-//            expenses.remove(selectedRows);
-            balance = balance - Sum;
             stmt.close();
             con.close();
         } catch (
@@ -213,145 +178,49 @@ public class DbCounters {
         }
     }
 
-    public static void update(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum, Integer Sum, Object value) {
+    public static void update(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
+                              float nGasPrice, float nElectricityPrice, float nWaterPrice,
+                              float nGasPaid, float nElectricityPaid, float nWaterPaid, String idCounters) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            if (String.valueOf(value) != null) {
-                currentExpenseId = String.valueOf(value);
+            if (String.valueOf(idCounters) != null) {
+                currentExpenseId = String.valueOf(idCounters);
             }
-            String insertSQLString = ("update t_Expenses set  dtDate='%1$s', dSum='%2$s', nUserId='%3$s'" +
-                    ", nCategoryId=(select nId from [dbo].[t_dicCategories] where sName='%4$s')" +
-                    ", nPlaceId=(select nId from [dbo].[t_dicPlaces] where sName='%5$s')" +
-                    ", nPaymentTypeId=(select nId from [dbo].[t_dicPaymentTypes] where sName='%6$s')" +
-                    ", nAccountId=(select nId from [dbo].[t_dicAccounts] where sName='%7$s')" +
-                    ", nTransactionTypeId=(select nId from [dbo].[t_dicTransactionTypes] where sName='%8$s')" +
-                    " where nId=%9$s");
-            String insertSQL = String.format(insertSQLString, dtDate, dSum, userId, category, place, paymentType, account, transactionType, currentExpenseId);
+            String insertSQLString = ("update t_dicCounters set  dtDate='%1$s', nGasReadings='%3$s', nElectricityReadings='%4$s', nWaterReadings='%5$s'," +
+                    "nGasPrice='%6$s', nElectricityPrice='%7$s', nWaterPrice='%8$s'," +
+                    "nGasPaid='%9$s', nElectricityPaid='%10$s', nWaterPaid='%11$s' " +
+                    "where nId=%12$s");
+            String insertSQL = String.format(insertSQLString, dtDate, userId, nGasReadings, nElectricityReadings, nWaterReadings,
+                    nGasPrice, nElectricityPrice, nWaterPrice,
+                    nGasPaid, nElectricityPaid, nWaterPaid, idCounters);
             stmt.executeUpdate(insertSQL);
-//            expenses.removeAll(expenses);
-            balance = balance - Sum + dSum;
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, 0));
             // Обход результатов выборки
             while (executeQuery.next()) {
-                int nId = executeQuery.getInt("nId");
-                dtDate = executeQuery.getString("dtDate");
-                String nUserSurname = executeQuery.getString("sSurname");
-                String nCategoryName = executeQuery.getString("CategoriesName");
-                String nPlaceName = executeQuery.getString("nPlaceName");
-                String nPaymentTypeName = executeQuery.getString("nPaymentTypeName");
-                dSum = executeQuery.getInt("dSum");
-                String nAccount = executeQuery.getString("nAccount");
-                String nTransactionType = executeQuery.getString("nTransactionType");
-                dSum = executeQuery.getInt("dSum");
-//                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum, nAccount, nTransactionType));
+                nId = executeQuery.getInt("nId");
+                DbCounters.dtDate = executeQuery.getDate("dtDate");
+                DbCounters.nUserSurname = executeQuery.getString("sSurname");
+                DbCounters.nGasReadings = executeQuery.getInt("nGasReadings");
+                DbCounters.nElectricityReadings = executeQuery.getInt("nElectricityReadings");
+                DbCounters.nWaterReadings = executeQuery.getInt("nWaterReadings");
+                DbCounters.nGasPrice = executeQuery.getInt("nGasPrice");
+                DbCounters.nElectricityPrice = executeQuery.getInt("nElectricityPrice");
+                DbCounters.nWaterPrice = executeQuery.getInt("nWaterPrice");
+                DbCounters.nGasPaid = executeQuery.getInt("nGasPaid");
+                DbCounters.nElectricityPaid = executeQuery.getInt("nElectricityPaid");
+                DbCounters.nWaterPaid = executeQuery.getInt("nWaterPaid");
+                financialmanager.businessLogic.Counters.start();
+                filternId = nId;
             }
             executeQuery.close();
             stmt.close();
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
-            Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static void balanceCategory(String userId, String category) {
-//        Place = (String) Expense.comboBoxPlace.getSelectedItem();
-//        PaymentType = (String) Expense.comboBoxPaymentType.getSelectedItem();
-        System.out.println(category);
-        DbConnect.connect();
-        try {
-            // Подключение к базе данных
-            Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
-            Statement stmt = con.createStatement();
-            String balanceSQLString = "select sum(dSum) as Sum " +
-                    "from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId " +
-                    "where c.sName='%1$s' and e.nUserId='%2$s' and e.nTransactionTypeId='%3$s'";
-            ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, category, userId, 1));
-            // Обход результатов выборки
-            while (profitExecuteQuery.next()) {
-                profitCategory = profitExecuteQuery.getLong("Sum");
-            }
-            ResultSet ExpenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, category, userId, 2));
-            // Обход результатов выборки
-            while (ExpenseExecuteQuery.next()) {
-                expenseCategory = ExpenseExecuteQuery.getLong("Sum");
-                balanceCategory = profitCategory - expenseCategory;
-            }
-
-            // Закрываем соединение
-            ExpenseExecuteQuery.close();
-            stmt.close();
-            con.close();
-        } catch (SQLException ex) {
-            // Обработка исключений
-            Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static void groupBalanceCategory(String userId, String category) {
-        DbConnect.connect();
-        try {
-            // Подключение к базе данных
-            Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
-            Statement stmt = con.createStatement();
-            String balanceSQLString = "select sum(dSum) as Sum " +
-                    "from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId " +
-                    "where e.nCategoryId=(select nId from t_dicCategories where sName='%1$s') and e.nUserId=%2$s and e.nTransactionTypeId=%3$s";
-            ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, category, userId, 1));
-            // Обход результатов выборки
-            while (profitExecuteQuery.next()) {
-                profitCategory = profitExecuteQuery.getLong("Sum");
-            }
-            ResultSet ExpenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, category, userId, 2));
-            // Обход результатов выборки
-            while (ExpenseExecuteQuery.next()) {
-                expenseCategory = ExpenseExecuteQuery.getLong("Sum");
-            }
-            balanceCategory = profitCategory - expenseCategory;
-            // Закрываем соединение
-            ExpenseExecuteQuery.close();
-            stmt.close();
-            con.close();
-        } catch (SQLException ex) {
-            // Обработка исключений
-            Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static void groupBalanceAccount(String userId, String account) {
-        DbConnect.connect();
-        try {
-            // Подключение к базе данных
-            Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
-            Statement stmt = con.createStatement();
-            String balanceSQLString = "select sum(dSum) as Sum " +
-                    "from t_Expenses e join t_dicAccounts a on e.nCategoryId=a.nId " +
-                    "where e.nAccountId=(select nId from t_dicAccounts where sName='%1$s') and e.nUserId=%2$s and e.nTransactionTypeId=%3$s";
-            ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, account, userId, 1));
-            // Обход результатов выборки
-            while (profitExecuteQuery.next()) {
-                profitCategory = profitExecuteQuery.getLong("Sum");
-            }
-            ResultSet ExpenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, account, userId, 2));
-            // Обход результатов выборки
-            while (ExpenseExecuteQuery.next()) {
-                expenseCategory = ExpenseExecuteQuery.getLong("Sum");
-                balanceCategory = profitCategory - expenseCategory;
-            }
-
-            // Закрываем соединение
-            ExpenseExecuteQuery.close();
-            stmt.close();
-            con.close();
-        } catch (SQLException ex) {
             // Обработка исключений
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
         }

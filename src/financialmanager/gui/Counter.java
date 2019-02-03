@@ -1,9 +1,13 @@
 package financialmanager.gui;
 
+import financialmanager.database.DbCounters;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static financialmanager.database.DbCounters.counters;
+import static financialmanager.gui.WindowCounters.modelCounters;
 import static financialmanager.gui.WindowPlaces.modelPlaces;
 
 public class Counter extends JFrame {
@@ -14,26 +18,37 @@ public class Counter extends JFrame {
     public static JLabel labelReadings = new JLabel("Показания:");
     public static JLabel labelPrice = new JLabel("Цена:");
     public static JLabel labelPaid = new JLabel("Оплачено:");
-    public static JTextField textFieldGasReadings = new JTextField("100", 5);
-    public static JTextField textFieldElectricityReadings = new JTextField("100", 5);
-    public static JTextField textFieldWaterReadings = new JTextField("100", 5);
-    public static JTextField textFieldGasPrice = new JTextField("100", 5);
-    public static JTextField textFieldElectricityPrice = new JTextField("100", 5);
-    public static JTextField textFieldWaterPrice = new JTextField("100", 5);
-    public static JTextField textFieldGasPaid = new JTextField("100", 5);
-    public static JTextField textFieldElectricityPaid = new JTextField("100", 5);
-    public static JTextField textFieldWaterPaid = new JTextField("100", 5);
+    public static JLabel labelType = new JLabel("Тип");
+    public static JLabel labelDate = new JLabel("Дата");
+    public static JTextField textFieldDate = new JTextField("2018-01-01", 5);
+    public static JTextField textFieldGasReadings = new JTextField("1", 5);
+    public static JTextField textFieldElectricityReadings = new JTextField("2", 5);
+    public static JTextField textFieldWaterReadings = new JTextField("3", 5);
+    public static JTextField textFieldGasPrice = new JTextField("6", 5);
+    public static JTextField textFieldElectricityPrice = new JTextField("3", 5);
+    public static JTextField textFieldWaterPrice = new JTextField("20", 5);
+    public static JTextField textFieldGasPaid = new JTextField("7", 5);
+    public static JTextField textFieldElectricityPaid = new JTextField("8", 5);
+    public static JTextField textFieldWaterPaid = new JTextField("9", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
     public Counter() {
 
         super("Финансовый менеджер");
-        this.setBounds(100, 100, 350, 200);
+        this.setBounds(100, 100, 450, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (WindowPlaces.action == "update") {
-//            textFieldName = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 1)), 5);
-//            textFieldAddress = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 2)), 5);
+        if (WindowCounters.action == "update") {
+            textFieldDate = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 1)), 5);
+            textFieldGasReadings = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 3)), 5);
+            textFieldGasPrice = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 6)), 5);
+            textFieldGasPaid = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 18)), 5);
+            textFieldElectricityReadings = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 4)), 5);
+            textFieldElectricityPrice = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 7)), 5);
+            textFieldElectricityPaid = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 19)), 5);
+            textFieldWaterReadings = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 5)), 5);
+            textFieldWaterPrice = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 8)), 5);
+            textFieldWaterPaid = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 20)), 5);
         } else {
 //            textFieldName = new JTextField("", 5);
 //            textFieldParentId = new JTextField("", 5);
@@ -66,14 +81,20 @@ public class Counter extends JFrame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = GridBagConstraints.RELATIVE+1;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 0;
+        container.add(labelType, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = 0;
         container.add(labelReadings, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
-        c.gridy =0;
+        c.gridy = 0;
         container.add(labelPrice, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -84,98 +105,106 @@ public class Counter extends JFrame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelGas, c);
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 1;
+        container.add(labelDate, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelGas, c);
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 1;
+        container.add(textFieldDate, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 2;
+
         container.add(labelGas, c);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 2;
+        container.add(textFieldGasReadings, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelGas, c);
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 2;
+        container.add(textFieldGasPrice, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 2;
+        container.add(textFieldGasPaid, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 3;
         container.add(labelElectricity, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelElectricity, c);
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 3;
+        container.add(textFieldElectricityReadings, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelElectricity, c);
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 3;
+        container.add(textFieldElectricityPrice, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelElectricity, c);
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 3;
+        container.add(textFieldElectricityPaid, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 4;
         container.add(labelWater, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelWater, c);
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 4;
+        container.add(textFieldWaterReadings, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelWater, c);
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 4;
+        container.add(textFieldWaterPrice, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        container.add(labelWater, c);
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 4;
+        container.add(textFieldWaterPaid, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
-//        container.add(textFieldAddress, c);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
+        c.gridwidth = 2;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 5;
         container.add(buttonOK, c);
 
-
+        c.gridwidth = 2;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridx = GridBagConstraints.RELATIVE;
+        c.gridy = 5;
         container.add(buttonCancel, c);
 
     }
@@ -192,13 +221,21 @@ public class Counter extends JFrame {
     }
 
     private void onOK() {
-        if (WindowPlaces.action == "update") {
-//            financialmanager.database.DbPlaces.update(textFieldName.getText(), textFieldAddress.getText(), currentId.toString());
-            modelPlaces.fireTableDataChanged();
+        if (WindowCounters.action == "update") {
+            counters.removeAll(counters);
+            DbCounters.update(OpenWindow.userLogin, textFieldDate.getText(),
+                    Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
+                    Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
+                    Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()),
+                    WindowCounters.idCounters.toString());
+            modelCounters.fireTableDataChanged();
         }
-        if (WindowPlaces.action == "add") {
-//            financialmanager.database.DbPlaces.add(textFieldName.getText(), textFieldAddress.getText());
-            modelPlaces.fireTableDataChanged();
+        if (WindowCounters.action == "add") {
+            DbCounters.add(OpenWindow.userLogin, textFieldDate.getText(),
+                    Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
+                    Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
+                    Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()));
+            modelCounters.fireTableDataChanged();
         }
     }
 
