@@ -1,153 +1,153 @@
 package financialmanager.data;
 
 public class Counters {
-    Integer nId;
-    String dtDate;
-    String nUserSurname;
-    float nGasReadings;
-    float nElectricityReadings;
-    float nWaterReadings;
-    float nGasPrice;
-    float nElectricityPrice;
-    float nWaterPrice;
-    float nGasSum;
-    float nElectricitySum;
-    float nWaterSum;
-    float nGasMonthVolume;
-    float nElectricityMonthVolume;
-    float nWaterMonthVolume;
-    float nGasDayVolume;
-    float nElectricityDayVolume;
-    float nWaterDayVolume;
-    float nGasPaid;
-    float nElectricityPaid;
-    float nWaterPaid;
-    float nConsumptionAmount;
-    float nPaymentAmount;
+    Integer id;
+    String date;
+    String userSurname;
+    float gasReadings;
+    float electricityReadings;
+    float waterReadings;
+    float gasPrice;
+    float electricityPrice;
+    float waterPrice;
+    float gasSum;
+    float electricitySum;
+    float waterSum;
+    float gasMonthVolume;
+    float electricityMonthVolume;
+    float waterMonthVolume;
+    float gasDayVolume;
+    float electricityDayVolume;
+    float waterDayVolume;
+    float gasPaid;
+    float electricityPaid;
+    float waterPaid;
+    float consumptionAmount;
+    float paymentAmount;
 
-    public Counters(Integer nId, String dtDate, String nUserSurname,
-                    float nGasReadings, float nElectricityReadings, float nWaterReadings,
-                    float nGasPrice, float nElectricityPrice, float nWaterPrice,
-                    float nGasSum, float nElectricitySum, float nWaterSum,
-                    float nGasMonthVolume, float nElectricityMonthVolume, float nWaterMonthVolume,
-                    float nGasDayVolume, float nElectricityDayVolume, float nWaterDayVolume,
-                    float nGasPaid, float nElectricityPaid, float nWaterPaid,
-                    float nConsumptionAmount, float nPaymentAmount) {
-        this.nId = nId;
-        this.dtDate = dtDate;
-        this.nUserSurname = nUserSurname;
-        this.nGasReadings = nGasReadings;
-        this.nElectricityReadings = nElectricityReadings;
-        this.nWaterReadings = nWaterReadings;
-        this.nGasPrice = nGasPrice;
-        this.nElectricityPrice = nElectricityPrice;
-        this.nWaterPrice = nWaterPrice;
-        this.nGasSum = nGasSum;
-        this.nElectricitySum = nElectricitySum;
-        this.nWaterSum = nWaterSum;
-        this.nGasMonthVolume = nGasMonthVolume;
-        this.nElectricityMonthVolume = nElectricityMonthVolume;
-        this.nWaterMonthVolume = nWaterMonthVolume;
-        this.nGasDayVolume = nGasDayVolume;
-        this.nElectricityDayVolume = nElectricityDayVolume;
-        this.nWaterDayVolume = nWaterDayVolume;
-        this.nGasPaid = nGasPaid;
-        this.nElectricityPaid = nElectricityPaid;
-        this.nWaterPaid = nWaterPaid;
-        this.nConsumptionAmount = nConsumptionAmount;
-        this.nPaymentAmount = nPaymentAmount;
+    public Counters(Integer id, String date, String userSurname,
+                    float gasReadings, float electricityReadings, float waterReadings,
+                    float gasPrice, float electricityPrice, float waterPrice,
+                    float gasSum, float electricitySum, float waterSum,
+                    float gasMonthVolume, float electricityMonthVolume, float waterMonthVolume,
+                    float gasDayVolume, float electricityDayVolume, float waterDayVolume,
+                    float gasPaid, float electricityPaid, float waterPaid,
+                    float consumptionAmount, float paymentAmount) {
+        this.id = id;
+        this.date = date;
+        this.userSurname = userSurname;
+        this.gasReadings = gasReadings;
+        this.electricityReadings = electricityReadings;
+        this.waterReadings = waterReadings;
+        this.gasPrice = gasPrice;
+        this.electricityPrice = electricityPrice;
+        this.waterPrice = waterPrice;
+        this.gasSum = gasSum;
+        this.electricitySum = electricitySum;
+        this.waterSum = waterSum;
+        this.gasMonthVolume = gasMonthVolume;
+        this.electricityMonthVolume = electricityMonthVolume;
+        this.waterMonthVolume = waterMonthVolume;
+        this.gasDayVolume = gasDayVolume;
+        this.electricityDayVolume = electricityDayVolume;
+        this.waterDayVolume = waterDayVolume;
+        this.gasPaid = gasPaid;
+        this.electricityPaid = electricityPaid;
+        this.waterPaid = waterPaid;
+        this.consumptionAmount = consumptionAmount;
+        this.paymentAmount = paymentAmount;
     }
 
     public Integer getId() {
-        return nId;
+        return id;
     }
 
-    public String getdtDate() {
-        return dtDate;
+    public String getDate() {
+        return date;
     }
 
-    public String getnUserSurname() {
-        return nUserSurname;
+    public String getUserSurname() {
+        return userSurname;
     }
 
-    public float getnGasReadings() {
-        return nGasReadings;
+    public float getGasReadings() {
+        return gasReadings;
     }
 
-    public float getnElectricityReadings() {
-        return nElectricityReadings;
+    public float getElectricityReadings() {
+        return electricityReadings;
     }
 
-    public float getnWaterReadings() {
-        return nWaterReadings;
+    public float getWaterReadings() {
+        return waterReadings;
     }
 
-    public float getnGasPrice() {
-        return nGasPrice;
+    public float getGasPrice() {
+        return gasPrice;
     }
 
-    public float getnElectricityPrice() {
-        return nElectricityPrice;
+    public float getElectricityPrice() {
+        return electricityPrice;
     }
 
-    public float getnWaterPrice() {
-        return nWaterPrice;
+    public float getWaterPrice() {
+        return waterPrice;
     }
 
-    public float getnGasSum() {
-        return nGasSum;
+    public float getGasSum() {
+        return gasSum;
     }
 
-    public float getnElectricitySum() {
-        return nElectricitySum;
+    public float getElectricitySum() {
+        return electricitySum;
     }
 
-    public float getnWaterSum() {
-        return nWaterSum;
+    public float getWaterSum() {
+        return waterSum;
     }
 
-    public float getnGasMonthVolume() {
-        return nGasMonthVolume;
+    public float getGasMonthVolume() {
+        return gasMonthVolume;
     }
 
-    public float getnElectricityMonthVolume() {
-        return nElectricityMonthVolume;
+    public float getElectricityMonthVolume() {
+        return electricityMonthVolume;
     }
 
-    public float getnWaterMonthVolume() {
-        return nWaterMonthVolume;
+    public float getWaterMonthVolume() {
+        return waterMonthVolume;
     }
 
-    public float getnGasDayVolume() {
-        return nGasDayVolume;
+    public float getGasDayVolume() {
+        return gasDayVolume;
     }
 
-    public float getnElectricityDayVolume() {
-        return nElectricityDayVolume;
+    public float getElectricityDayVolume() {
+        return electricityDayVolume;
     }
 
-    public float getnWaterDayVolume() {
-        return nWaterDayVolume;
+    public float getWaterDayVolume() {
+        return waterDayVolume;
     }
 
-    public float getnGasPaid() {
-        return nGasPaid;
+    public float getGasPaid() {
+        return gasPaid;
     }
 
-    public float getnElectricityPaid() {
-        return nElectricityPaid;
+    public float getElectricityPaid() {
+        return electricityPaid;
     }
 
-    public float getnWaterPaid() {
-        return nWaterPaid;
+    public float getWaterPaid() {
+        return waterPaid;
     }
 
-    public float getnConsumptionAmount() {
-        return nConsumptionAmount;
+    public float getConsumptionAmount() {
+        return consumptionAmount;
     }
 
-    public float getnPaymentAmount() {
-        return nPaymentAmount;
+    public float getPaymentAmount() {
+        return paymentAmount;
     }
 }
 

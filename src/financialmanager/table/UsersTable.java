@@ -24,19 +24,19 @@ public class UsersTable extends AbstractTableModel{
     public Object getValueAt(int r, int c) {
         switch (c) {
             case 0:
-                return users.get(r).getnId();
+                return users.get(r).getId();
             case 1:
-                return users.get(r).getsSurname();
+                return users.get(r).getSurname();
             case 2:
-                return users.get(r).getsName();
+                return users.get(r).getName();
             case 3:
-                return users.get(r).getDtBirthday();
+                return users.get(r).getBirthday();
             case 4:
-                return users.get(r).getsSex();
+                return users.get(r).getSex();
             case 5:
-                return users.get(r).getsPhone();
+                return users.get(r).getPhone();
             case 6:
-                return users.get(r).getsEmail();
+                return users.get(r).getEmail();
             default:
                 return "";
         }

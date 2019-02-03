@@ -27,23 +27,23 @@ public class ExpensesTable extends AbstractTableModel {
     public Object getValueAt(int r, int c) {
         switch (c) {
             case 0:
-                return expenses.get(r).getnId();
+                return expenses.get(r).getId();
             case 1:
                 return expenses.get(r).getdtDate();
             case 2:
-                return expenses.get(r).getnUserSurname();
+                return expenses.get(r).getUserSurname();
             case 3:
-                return expenses.get(r).getnCategoryName();
+                return expenses.get(r).getCategoryName();
             case 4:
-                return expenses.get(r).getnPlaceName();
+                return expenses.get(r).getPlaceName();
             case 5:
-                return expenses.get(r).getnPaymentTypeName();
+                return expenses.get(r).getPaymentTypeName();
             case 6:
-                return expenses.get(r).getdSum();
+                return expenses.get(r).getSum();
             case 7:
-                return expenses.get(r).getnAccount();
+                return expenses.get(r).getAccount();
             case 8:
-                return expenses.get(r).getnTransactionType();
+                return expenses.get(r).getTransactionType();
             default:
                 return "";
         }

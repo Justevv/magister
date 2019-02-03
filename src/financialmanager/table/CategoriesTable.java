@@ -24,11 +24,11 @@ public class CategoriesTable extends AbstractTableModel{
     public Object getValueAt(int r, int c) {
         switch (c) {
             case 0:
-                return categories.get(r).getnId();
+                return categories.get(r).getId();
             case 1:
-                return categories.get(r).getsName();
+                return categories.get(r).getName();
             case 2:
-                return categories.get(r).getnParentId();
+                return categories.get(r).getParentId();
             default:
                 return "";
         }

@@ -29,49 +29,49 @@ public class CountersTable extends AbstractTableModel {
             case 0:
                 return counters.get(r).getId();
             case 1:
-                return counters.get(r).getdtDate();
+                return counters.get(r).getDate();
             case 2:
-                return counters.get(r).getnUserSurname();
+                return counters.get(r).getUserSurname();
             case 3:
-                return counters.get(r).getnGasReadings();
+                return counters.get(r).getGasReadings();
             case 4:
-                return counters.get(r).getnElectricityReadings();
+                return counters.get(r).getElectricityReadings();
             case 5:
-                return counters.get(r).getnWaterReadings();
+                return counters.get(r).getWaterReadings();
             case 6:
-                return counters.get(r).getnGasPrice();
+                return counters.get(r).getGasPrice();
             case 7:
-                return counters.get(r).getnElectricityPrice();
+                return counters.get(r).getElectricityPrice();
             case 8:
-                return counters.get(r).getnWaterPrice();
+                return counters.get(r).getWaterPrice();
             case 9:
-                return counters.get(r).getnGasSum();
+                return counters.get(r).getGasSum();
             case 10:
-                return counters.get(r).getnElectricitySum();
+                return counters.get(r).getElectricitySum();
             case 11:
-                return counters.get(r).getnWaterSum();
+                return counters.get(r).getWaterSum();
             case 12:
-                return counters.get(r).getnGasMonthVolume();
+                return counters.get(r).getGasMonthVolume();
             case 13:
-                return counters.get(r).getnElectricityMonthVolume();
+                return counters.get(r).getElectricityMonthVolume();
             case 14:
-                return counters.get(r).getnWaterMonthVolume();
+                return counters.get(r).getWaterMonthVolume();
             case 15:
-                return counters.get(r).getnGasDayVolume();
+                return counters.get(r).getGasDayVolume();
             case 16:
-                return counters.get(r).getnElectricityDayVolume();
+                return counters.get(r).getElectricityDayVolume();
             case 17:
-                return counters.get(r).getnWaterDayVolume();
+                return counters.get(r).getWaterDayVolume();
             case 18:
-                return counters.get(r).getnGasPaid();
+                return counters.get(r).getGasPaid();
             case 19:
-                return counters.get(r).getnElectricityPaid();
+                return counters.get(r).getElectricityPaid();
             case 20:
-                return counters.get(r).getnWaterPaid();
+                return counters.get(r).getWaterPaid();
             case 21:
-                return counters.get(r).getnConsumptionAmount();
+                return counters.get(r).getConsumptionAmount();
             case 22:
-                return counters.get(r).getnPaymentAmount();
+                return counters.get(r).getPaymentAmount();
             default:
                 return "";
         }

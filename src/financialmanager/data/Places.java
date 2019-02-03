@@ -1,25 +1,25 @@
 package financialmanager.data;
 
 public class Places {
-    Integer nId;
-    String sName;
-    String sAdress;
+    Integer Id;
+    String Name;
+    String Adress;
 
-    public Places(Integer nId, String sName, String sAdress) {
-        this.nId = nId;
-        this.sName = sName;
-        this.sAdress = sAdress;
+    public Places(Integer Id, String Name, String Adress) {
+        this.Id = Id;
+        this.Name = Name;
+        this.Adress = Adress;
     }
 
-    public Integer getnId() {
-        return nId;
+    public Integer getId() {
+        return Id;
     }
 
-    public String getsName() {
-        return sName;
+    public String getName() {
+        return Name;
     }
 
-    public String getsAdress() {
-        return sAdress;
+    public String getAdress() {
+        return Adress;
     }
 }

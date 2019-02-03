@@ -1,59 +1,61 @@
 package financialmanager.data;
 
 public class Expenses {
-    Integer nId;
-    String dtDate;
-    String nUserSurname;
-    String nCategoryName;
-    String nPlaceName;
-    String nPaymentTypeName;
-    Integer dSum;
-    String nAccount;
-    String nTransactionType;
+    Integer Id;
+    String Date;
+    String UserSurname;
+    String CategoryName;
+    String PlaceName;
+    String PaymentTypeName;
+    Integer Sum;
+    String Account;
+    String TransactionType;
 
-    public Expenses(Integer nId, String dtDate, String nUserSurname, String nCategoryName, String nPlaceName, String nPaymentTypeName, Integer dSum, String nAccount, String nTransactionType) {
-        this.nId = nId;
-        this.dtDate = dtDate;
-        this.nUserSurname = nUserSurname;
-        this.nCategoryName = nCategoryName;
-        this.nPlaceName = nPlaceName;
-        this.nPaymentTypeName = nPaymentTypeName;
-        this.dSum = dSum;
-        this.nAccount = nAccount;
-        this.nTransactionType = nTransactionType;
-            }
+    public Expenses(Integer Id, String Date, String UserSurname, String CategoryName, String PlaceName, String PaymentTypeName, Integer Sum, String Account, String TransactionType) {
+        this.Id = Id;
+        this.Date = Date;
+        this.UserSurname = UserSurname;
+        this.CategoryName = CategoryName;
+        this.PlaceName = PlaceName;
+        this.PaymentTypeName = PaymentTypeName;
+        this.Sum = Sum;
+        this.Account = Account;
+        this.TransactionType = TransactionType;
+    }
 
-    public Integer getnId() {
-        return nId;
+    public Integer getId() {
+        return Id;
     }
 
     public String getdtDate() {
-        return dtDate;
+        return Date;
     }
 
-    public String getnUserSurname() {
-        return nUserSurname;
+    public String getUserSurname() {
+        return UserSurname;
     }
 
-    public String getnCategoryName() {
-        return nCategoryName;
+    public String getCategoryName() {
+        return CategoryName;
     }
 
-    public String getnPlaceName() {
-        return nPlaceName;
+    public String getPlaceName() {
+        return PlaceName;
     }
 
-    public String getnPaymentTypeName() {
-        return nPaymentTypeName;
+    public String getPaymentTypeName() {
+        return PaymentTypeName;
     }
 
-    public Integer getdSum() {
-        return dSum;
+    public Integer getSum() {
+        return Sum;
     }
-    public String getnAccount() {
-        return nAccount;
+
+    public String getAccount() {
+        return Account;
     }
-    public String getnTransactionType() {
-        return nTransactionType;
+
+    public String getTransactionType() {
+        return TransactionType;
     }
 }

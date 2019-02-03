@@ -24,13 +24,13 @@ public class TransfersTable extends AbstractTableModel{
     public Object getValueAt(int r, int c) {
         switch (c) {
             case 0:
-                return transfers.get(r).getnId();
+                return transfers.get(r).getId();
             case 1:
-                return transfers.get(r).getnAccountSenderId();
+                return transfers.get(r).getAccountSenderId();
             case 2:
-                return transfers.get(r).getnAccountRecipientId();
+                return transfers.get(r).getAccountRecipientId();
             case 3:
-                return transfers.get(r).getdSum();
+                return transfers.get(r).getSum();
             default:
                 return "";
         }

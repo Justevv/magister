@@ -24,11 +24,11 @@ public class PlacesTable extends AbstractTableModel{
     public Object getValueAt(int r, int c) {
         switch (c) {
             case 0:
-                return places.get(r).getnId();
+                return places.get(r).getId();
             case 1:
-                return places.get(r).getsName();
+                return places.get(r).getName();
             case 2:
-                return places.get(r).getsAdress();
+                return places.get(r).getAdress();
             default:
                 return "";
         }

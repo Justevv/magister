@@ -1,49 +1,49 @@
 package financialmanager.data;
 
 public class Users {
-    Integer nId;
-    String sSurname;
-    String sName;
-    String dtBirthday;
-    String sSex;
-    String sPhone;
-    String sEmail;
+    Integer id;
+    String surname;
+    String name;
+    String birthday;
+    String sex;
+    String phone;
+    String email;
 
-    public Users(Integer nId, String sSurname, String sName, String dtBirthday, String sSex, String sPhone, String sEmail) {
-        this.nId = nId;
-        this.sSurname = sSurname;
-        this.sName = sName;
-        this.dtBirthday = dtBirthday;
-        this.sSex = sSex;
-        this.sPhone = sPhone;
-        this.sEmail = sEmail;
+    public Users(Integer id, String surname, String name, String birthday, String sex, String phone, String email) {
+        this.id = id;
+        this.surname = surname;
+        this.name = name;
+        this.birthday = birthday;
+        this.sex = sex;
+        this.phone = phone;
+        this.email = email;
     }
 
-    public Integer getnId() {
-        return nId;
+    public Integer getId() {
+        return id;
     }
 
-    public String getsSurname() {
-        return sSurname;
+    public String getSurname() {
+        return surname;
     }
 
-    public String getsName() {
-        return sName;
+    public String getName() {
+        return name;
     }
 
-    public String getDtBirthday() {
-        return dtBirthday;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public String getsSex() {
-        return sSex;
+    public String getSex() {
+        return sex;
     }
 
-    public String getsPhone() {
-        return sPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public String getsEmail() {
-        return sEmail;
+    public String getEmail() {
+        return email;
     }
 }

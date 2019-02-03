@@ -27,9 +27,9 @@ public class AccountsTable extends AbstractTableModel {
     public Object getValueAt(int r, int c) {
         switch (c) {
             case 0:
-                return accounts.get(r).getnId();
+                return accounts.get(r).getId();
             case 1:
-                return accounts.get(r).getsName();
+                return accounts.get(r).getName();
             default:
                 return "";
         }

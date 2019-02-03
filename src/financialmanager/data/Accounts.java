@@ -1,19 +1,19 @@
 package financialmanager.data;
 
 public class Accounts {
-    Integer nId;
-    String sName;
+    Integer Id;
+    String Name;
 
-    public Accounts(Integer nId, String sName) {
-        this.nId = nId;
-        this.sName = sName;
+    public Accounts(Integer Id, String Name) {
+        this.Id = Id;
+        this.Name = Name;
     }
 
-    public Integer getnId() {
-        return nId;
+    public Integer getId() {
+        return Id;
     }
 
-    public String getsName() {
-        return sName;
+    public String getName() {
+        return Name;
     }
 }
