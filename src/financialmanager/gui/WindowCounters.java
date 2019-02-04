@@ -26,14 +26,13 @@ public class WindowCounters extends JFrame implements ActionListener {
     public static TableModel model;
     public static Object idCounters;
     public static String action;
-    public static Object currentEmail;
 
     public WindowCounters() {
 
         super("Финансовый менеджер");
         this.setBounds(0, 100, 1650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        counters.removeAll(counters);
         DbCounters.view(OpenWindow.userLogin);
 
         GridBagConstraints c = new GridBagConstraints();
@@ -73,8 +72,8 @@ public class WindowCounters extends JFrame implements ActionListener {
 
         buttonDeleteCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbCounters.delete(idCounters,selectedRows[i-1]);
-                counters.remove(selectedRows[i-1]);
+                DbCounters.delete(idCounters, selectedRows[i - 1]);
+                counters.remove(selectedRows[i - 1]);
                 modelCounters.fireTableDataChanged();
             }
         });

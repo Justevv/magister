@@ -1,5 +1,6 @@
 package financialmanager.gui;
 
+import financialmanager.businesslogic.Balance;
 import financialmanager.database.DbExpenses;
 
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class WindowResultCategory extends JFrame {
         categoryNunber = 0;
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
-        labelBalance = new JLabel("Баланс: " + DbExpenses.balance + " Рублей");
+        labelBalance = new JLabel("Баланс: " + Balance.balance + " Рублей");
         labelProfit = new JLabel("Доход: " + DbExpenses.profit + " Рублей");
         labelExpense = new JLabel("Расход: " + DbExpenses.expense + " Рублей");
         GridBagConstraints c = new GridBagConstraints();

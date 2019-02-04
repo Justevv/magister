@@ -1,5 +1,6 @@
 package financialmanager.gui;
 
+import financialmanager.businesslogic.Balance;
 import financialmanager.database.DbExpenses;
 
 import javax.swing.*;
@@ -203,8 +204,8 @@ public class Expense extends JFrame {
     }
 
     private void onOK() {
+        expenses.removeAll(expenses);
         if (WindowExpenses.action == "update") {
-            expenses.removeAll(expenses);
             financialmanager.database.DbExpenses.update(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
                     (String) comboBoxPaymentType.getSelectedItem(),
@@ -214,12 +215,8 @@ public class Expense extends JFrame {
                     textFieldDate.getText(),
                     new Integer(textFieldSum.getText()),
                     value);
-            DbExpenses.view(OpenWindow.userLogin);
-            modelExpenses.fireTableDataChanged();
-            WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
         }
         if (WindowExpenses.action == "add") {
-            expenses.removeAll(expenses);
             financialmanager.database.DbExpenses.add(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
                     (String) comboBoxPaymentType.getSelectedItem(),
@@ -228,10 +225,11 @@ public class Expense extends JFrame {
                     (String) comboBoxTransactionType.getSelectedItem(),
                     textFieldDate.getText(),
                     new Integer(textFieldSum.getText()));
-            DbExpenses.view(OpenWindow.userLogin);
-            modelExpenses.fireTableDataChanged();
-            WindowExpenses.labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
         }
+        DbExpenses.view(OpenWindow.userLogin);
+        modelExpenses.fireTableDataChanged();
+        Balance.start();
+        WindowExpenses.labelBalance.setText("Баланс: " + Balance.balance + " Рублей");
     }
 
     private void onCancel() {

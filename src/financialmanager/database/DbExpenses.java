@@ -12,7 +12,6 @@ public class DbExpenses {
     public static Integer nId = 0;
     public static Integer dSum;
     public static ArrayList<financialmanager.data.Expenses> expenses = new ArrayList<>();
-    public static Long balance;
     public static Long expense;
     public static Long profit;
     public static String nUserSurname;
@@ -67,7 +66,6 @@ public class DbExpenses {
             ResultSet executeQueryProfit = stmt.executeQuery("select sum(dSum) as Profit, count(dSum) as dCount from t_Expenses where  nTransactionTypeId=1 and nUserId=" + userId);
             while (executeQueryProfit.next()) {
                 profit = executeQueryProfit.getLong("Profit");
-                balance = profit - expense;
                 Integer dCount = executeQueryProfit.getInt("dCount");
             }
 
@@ -157,7 +155,7 @@ public class DbExpenses {
         }
     }
 
-    public static void delete(Object idExpenses, int selectedRows, int Sum) {
+    public static void delete(Object idExpenses, int selectedRows) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -167,8 +165,6 @@ public class DbExpenses {
             String insertSQLString = ("delete from t_Expenses where nId=%1$s");
             String insertSQL = String.format(insertSQLString, idExpenses);
             stmt.executeUpdate(insertSQL);
-            expenses.remove(selectedRows);
-            balance = balance - Sum;
             stmt.close();
             con.close();
         } catch (

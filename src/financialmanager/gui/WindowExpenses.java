@@ -1,5 +1,6 @@
 package financialmanager.gui;
 
+import financialmanager.businesslogic.Balance;
 import financialmanager.database.DbExpenses;
 import financialmanager.table.ExpensesTable;
 
@@ -58,12 +59,13 @@ public class WindowExpenses extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DbExpenses.view(OpenWindow.userLogin);
+        Balance.start();
 
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
-        labelBalance = new JLabel("Баланс: " + DbExpenses.balance + " Рублей");
-        labelProfit = new JLabel("Доход: " + DbExpenses.profit + " Рублей");
-        labelExpense = new JLabel("Расход: " + DbExpenses.expense + " Рублей");
+        labelBalance = new JLabel("Баланс: " + Balance.balance + " Рублей");
+        labelProfit = new JLabel("Доход: " + Balance.profit + " Рублей");
+        labelExpense = new JLabel("Расход: " + Balance.expense + " Рублей");
         labelBalanceCategory = new JLabel("Итог категории: " + DbExpenses.profitCategory + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -300,9 +302,12 @@ public class WindowExpenses extends JFrame {
 
         buttonDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbExpenses.delete(value, selectedRows[i - 1], (Integer) Sum);
+                expenses.removeAll(expenses);
+                DbExpenses.delete(value, selectedRows[i - 1]);
                 modelExpenses.fireTableDataChanged();
-                labelBalance.setText("Баланс: " + DbExpenses.balance + " Рублей");
+                DbExpenses.view(OpenWindow.userLogin);
+                Balance.start();
+                labelBalance.setText("Баланс: " + Balance.balance + " Рублей");
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;

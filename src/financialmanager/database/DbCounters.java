@@ -61,7 +61,7 @@ public class DbCounters {
                 nGasPaid = executeQuery.getFloat("nGasPaid");
                 nElectricityPaid = executeQuery.getFloat("nElectricityPaid");
                 nWaterPaid = executeQuery.getFloat("nWaterPaid");
-                financialmanager.businessLogic.Counters.start();
+                financialmanager.businesslogic.Counters.start();
             }
             // Закрываем соединение
             executeQuery.close();
