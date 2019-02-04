@@ -16,7 +16,7 @@ public class DbAccounts {
     public static int filternId = 0;
     static String currentAccountId = "0";
 
-    public static void view() {
+    public void view() {
         DbConnect.connect();
         try {
             // Подключение к базе данных
