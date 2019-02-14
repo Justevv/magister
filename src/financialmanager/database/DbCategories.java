@@ -13,10 +13,10 @@ public class DbCategories {
     public static Integer nId = 0;
     public static String sName;
     public static ArrayList<Categories> categories;
-    public static int filternId = 0;
+    public static int filterId = 0;
     static String currentCategoryId = "0";
 
-    public static void view() {
+    public static void select() {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -44,7 +44,7 @@ public class DbCategories {
         }
     }
 
-    public static void add(String Name, String ParentId) {
+    public static void insert(String Name, String ParentId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -55,11 +55,11 @@ public class DbCategories {
             String insertSQL = String.format(insertSQLString, Name, ParentId);
             stmt.executeUpdate(insertSQL);
 
-            if (filternId < nId) {
-                filternId = nId;
+            if (filterId < nId) {
+                filterId = nId;
             }
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicCategories where nId>" + filternId
+                    "FROM t_dicCategories where nId>" + filterId
             );
             // Обход результатов выборки
             while (executeQuery.next()) {
@@ -68,7 +68,7 @@ public class DbCategories {
                 String sName = executeQuery.getString("sName");
                 Integer nParentId = executeQuery.getInt("nParentId");
                 categories.add(new Categories(nId, sName, nParentId));
-                filternId = nId;
+                filterId = nId;
             }
             executeQuery.close();
             stmt.close();

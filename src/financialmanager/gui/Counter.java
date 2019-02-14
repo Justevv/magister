@@ -219,29 +219,26 @@ public class Counter extends JFrame {
     }
 
     private void onOK() {
+        counters.removeAll(counters);
         if (WindowCounters.action == "update") {
-            counters.removeAll(counters);
             DbCounters.update(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
                     Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
                     Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()),
                     WindowCounters.idCounters.toString());
-            DbCounters.view(OpenWindow.userLogin);
-            modelCounters.fireTableDataChanged();
         }
-        if (WindowCounters.action == "add") {
-            counters.removeAll(counters);
-            DbCounters.add(OpenWindow.userLogin, textFieldDate.getText(),
+        if (WindowCounters.action == "insert") {
+            DbCounters.insert(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
                     Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
                     Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()));
-            DbCounters.view(OpenWindow.userLogin);
-            modelCounters.fireTableDataChanged();
         }
+        DbCounters.select(OpenWindow.userLogin);
+        modelCounters.fireTableDataChanged();
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        // insert your code here if necessary
         // dispose();
         setVisible(false);
         //System.exit(0);

@@ -14,14 +14,14 @@ public class DbTransfers {
     public static Integer nId = 0;
     public static String nAccountSender;
     public static ArrayList<Transfers> Transfers;
-    public static int filternId = 0;
+    public static int filterId = 0;
     static String currentTransferId = "0";
     static String sqlSelectTransfers;
     private static long expenseTransiction;
     private static long profitTransiction;
     public static long balanceTransiction;
 
-    public static void view(String UserId) {
+    public static void select(String UserId) {
         sqlSelectTransfers = "SELECT t.nId" +
                 ", a.sName as AccountSender" +
                 ", a1.sName as AccountRecipient" +
@@ -79,7 +79,7 @@ public class DbTransfers {
         }
     }
 
-    public static void add(String nAccountSenderId, String nAccountRecipientId, Integer dSum, String UserId) {
+    public static void insert(String nAccountSenderId, String nAccountRecipientId, Integer dSum, String UserId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -95,10 +95,10 @@ public class DbTransfers {
             String insertSQL = String.format(insertSQLString, UserId, nAccountSenderId, nAccountRecipientId, dSum);
             stmt.executeUpdate(insertSQL);
 
-            if (filternId < nId) {
-                filternId = nId;
+            if (filterId < nId) {
+                filterId = nId;
             }
-            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, UserId, filternId));
+            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, UserId, filterId));
             System.out.println();
             // Обход результатов выборки
             while (executeQuery.next()) {
@@ -107,7 +107,7 @@ public class DbTransfers {
                 String nAccountRecipient = executeQuery.getString("AccountRecipient");
                 dSum = executeQuery.getInt("dSum");
                 Transfers.add(new Transfers(nId, nAccountSender, nAccountRecipient, dSum));
-                filternId = nId;
+                filterId = nId;
             }
             executeQuery.close();
             stmt.close();

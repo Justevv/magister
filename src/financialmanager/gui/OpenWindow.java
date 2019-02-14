@@ -60,7 +60,7 @@ public class OpenWindow extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        // insert your code here
         userLogin = new String(loginTextField.getText());
         String userPassword = new String(passwordField.getPassword());
         System.out.println("OK");
@@ -76,7 +76,7 @@ public class OpenWindow extends JDialog {
 
     private void onCancel() {
         System.out.println("Cancel");
-        // add your code here if necessary
+        // insert your code here if necessary
         dispose();
     }
 

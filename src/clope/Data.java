@@ -33,7 +33,7 @@ public class Data {
             System.out.println(cluster);
             for (String transaction : transactions) {
 //                Cluster clusterNew = new Cluster(transaction);
-//                clusters.add(clusterNew);
+//                clusters.insert(clusterNew);
 //                double profitFromNewCluster = getProfit(cluster, repulsion);
 //                double profitMax = profitFromNewCluster;
             //    System.out.println(transaction);

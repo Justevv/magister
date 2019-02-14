@@ -33,8 +33,8 @@ public class WindowAccounts extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbAccounts dbAccounts = new DbAccounts();
-        dbAccounts.view();
+        DbAccounts DbAccounts = new DbAccounts();
+        DbAccounts.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -61,7 +61,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
 
         buttonAddAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "add";
+                action = "insert";
                 Account.go();
             }
         });

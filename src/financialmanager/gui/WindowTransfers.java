@@ -32,7 +32,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbTransfers.view(OpenWindow.userLogin);
+        DbTransfers.select(OpenWindow.userLogin);
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -59,7 +59,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
 
         buttonAddTransfer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "add";
+                action = "insert";
                 Transfer.go();
             }
         });

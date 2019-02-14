@@ -33,7 +33,7 @@ public class WindowCategories extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbCategories.view();
+        DbCategories.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -60,7 +60,7 @@ public class WindowCategories extends JFrame implements ActionListener {
 
         buttonAddCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action="add";
+                action="insert";
                 Category.go();
             }
         });

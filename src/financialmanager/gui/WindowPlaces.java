@@ -32,7 +32,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbPlaces.view();
+        DbPlaces.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -59,7 +59,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
 
         buttonAddPlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "add";
+                action = "insert";
                 Place.go();
             }
         });

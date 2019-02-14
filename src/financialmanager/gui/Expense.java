@@ -216,8 +216,8 @@ public class Expense extends JFrame {
                     new Integer(textFieldSum.getText()),
                     value);
         }
-        if (WindowExpenses.action == "add") {
-            financialmanager.database.DbExpenses.add(OpenWindow.userLogin,
+        if (WindowExpenses.action == "insert") {
+            financialmanager.database.DbExpenses.insert(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
                     (String) comboBoxPaymentType.getSelectedItem(),
                     (String) comboBoxCategory.getSelectedItem(),
@@ -226,14 +226,14 @@ public class Expense extends JFrame {
                     textFieldDate.getText(),
                     new Integer(textFieldSum.getText()));
         }
-        DbExpenses.view(OpenWindow.userLogin);
+        DbExpenses.select(OpenWindow.userLogin);
         modelExpenses.fireTableDataChanged();
         Balance.start();
         WindowExpenses.labelBalance.setText("Баланс: " + Balance.balance + " Рублей");
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        // insert your code here if necessary
         // dispose();
         setVisible(false);
         //System.exit(0);

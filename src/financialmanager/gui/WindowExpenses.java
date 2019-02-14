@@ -58,7 +58,7 @@ public class WindowExpenses extends JFrame {
         this.setBounds(100, 100, 800, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbExpenses.view(OpenWindow.userLogin);
+        DbExpenses.select(OpenWindow.userLogin);
         Balance.start();
 
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
@@ -75,8 +75,8 @@ public class WindowExpenses extends JFrame {
 //        c.weightx = 0.5;
 //        c.gridx = 0;
 //        c.gridy = 0;
-//        container.add(label, c);
-        //    container.add(label);
+//        container.insert(label, c);
+        //    container.insert(label);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -111,8 +111,8 @@ public class WindowExpenses extends JFrame {
 //        c.weightx = 0.5;
 //        c.gridx = 1;
 //        c.gridy = 0;
-//        container.add(input, c);
-//      //  container.add(input);
+//        container.insert(input, c);
+//      //  container.insert(input);
 
         JFrame jfrm = new JFrame("JTableExample");
         modelExpenses = new ExpensesTable(expenses);
@@ -140,9 +140,9 @@ public class WindowExpenses extends JFrame {
         });
 
 //        ButtonGroup group = new ButtonGroup();
-//        group.add(radio1);
-//        group.add(radio2);
-//        group.add(radio3);
+//        group.insert(radio1);
+//        group.insert(radio2);
+//        group.insert(radio3);
 
 //        if (shouldWeightX) {
 //            c.weightx = 0.5;
@@ -150,37 +150,37 @@ public class WindowExpenses extends JFrame {
 //        c.fill = GridBagConstraints.HORIZONTAL;
 //        c.gridx = 0;
 //        c.gridy = 1;
-//        container.add(radio1, c);
-//        //container.add(radio1);
+//        container.insert(radio1, c);
+//        //container.insert(radio1);
 
 //        radio1.setSelected(true);
 //        c.fill = GridBagConstraints.HORIZONTAL;
 //        c.weightx = 0.5;
 //        c.gridx = 1;
 //        c.gridy = 1;
-//        container.add(radio2, c);
-//       // container.add(radio2);
+//        container.insert(radio2, c);
+//       // container.insert(radio2);
 
 //        c.fill = GridBagConstraints.HORIZONTAL;
 //        c.weightx = 0.5;
 //        c.gridx = 2;
 //        c.gridy = 1;
-//        container.add(radio3, c);
-//      //  container.add(radio3);
+//        container.insert(radio3, c);
+//      //  container.insert(radio3);
 
 //        c.fill = GridBagConstraints.HORIZONTAL;
 //        c.weightx = 0.5;
 //        c.gridx = 0;
 //        c.gridy = 2;
-//        container.add(check, c);
-//      //  container.add(check);
+//        container.insert(check, c);
+//      //  container.insert(check);
 
 //        button.addActionListener(new ButtonEventListener());
 //        c.fill = GridBagConstraints.HORIZONTAL;
 //        c.weightx = 0.5;
 //        c.gridx = 0;
 //        c.gridy = 3;
-//        container.add(button, c);
+//        container.insert(button, c);
 
         buttonAddUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -278,7 +278,7 @@ public class WindowExpenses extends JFrame {
 
         buttonAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "add";
+                action = "insert";
                 Expense.go();
             }
         });
@@ -305,7 +305,7 @@ public class WindowExpenses extends JFrame {
                 expenses.removeAll(expenses);
                 DbExpenses.delete(value, selectedRows[i - 1]);
                 modelExpenses.fireTableDataChanged();
-                DbExpenses.view(OpenWindow.userLogin);
+                DbExpenses.select(OpenWindow.userLogin);
                 Balance.start();
                 labelBalance.setText("Баланс: " + Balance.balance + " Рублей");
             }
@@ -323,7 +323,7 @@ public class WindowExpenses extends JFrame {
         c.gridx = 1;
         c.gridy = 0;
         container.add(jscrlp, c);
-        //container.add(jscrlp);
+        //container.insert(jscrlp);
 
 //        ActionListener actionListener = new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
@@ -335,14 +335,14 @@ public class WindowExpenses extends JFrame {
 //        c.weightx = 0.5;
 //        c.gridx = 0;
 //        c.gridy = GridBagConstraints.RELATIVE;
-//        container.add(comboBoxCategory, c);
+//        container.insert(comboBoxCategory, c);
 //        comboBoxCategory.addActionListener(actionListener);
 
 //        c.fill = GridBagConstraints.HORIZONTAL;
 //        c.weightx = 0.5;
 //        c.gridx = 1;
 //        c.gridy = GridBagConstraints.RELATIVE - 1;
-//        container.add(labelBalanceCategory, c);
+//        container.insert(labelBalanceCategory, c);
     }
 
     class ButtonEventListener implements ActionListener {

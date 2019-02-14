@@ -34,7 +34,7 @@ public class WindowUsers extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbUsers.view();
+        DbUsers.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -61,7 +61,7 @@ public class WindowUsers extends JFrame implements ActionListener {
 
         buttonAddUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action="add";
+                action="insert";
                 User.go();
             }
         });

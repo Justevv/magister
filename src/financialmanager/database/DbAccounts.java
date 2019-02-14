@@ -10,28 +10,25 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbAccounts {
-    public static Integer nId = 0;
-    public static String sName;
-    public static ArrayList<Accounts> accounts;
-    public static int filternId = 0;
-    static String currentAccountId = "0";
+    public Integer id;
+    public String name;
+    public static ArrayList<Accounts> accounts = new ArrayList<>();
 
-    public void view() {
+    public void select() {
         DbConnect.connect();
         try {
+            accounts.removeAll(accounts);
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicAccounts"
-            );
+                    "FROM t_dicAccounts");
             // Обход результатов выборки
-            accounts = new ArrayList<>();
             while (executeQuery.next()) {
-                nId = executeQuery.getInt("nId");
-                sName = executeQuery.getString("sName");
-                accounts.add(new Accounts(nId, sName));
+                id = executeQuery.getInt("nId");
+                name = executeQuery.getString("sName");
+                accounts.add(new Accounts(id, name));
             }
             // Закрываем соединение
             executeQuery.close();
@@ -43,7 +40,7 @@ public class DbAccounts {
         }
     }
 
-    public static void add(String Name) {
+    public void insert(String name) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -51,23 +48,8 @@ public class DbAccounts {
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("insert into t_dicAccounts(sName) values ('%1$s')");
-            String insertSQL = String.format(insertSQLString, Name);
+            String insertSQL = String.format(insertSQLString, name);
             stmt.executeUpdate(insertSQL);
-
-            if (filternId < nId) {
-                filternId = nId;
-            }
-            ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicAccounts where nId>" + filternId
-            );
-            // Обход результатов выборки
-            while (executeQuery.next()) {
-                int nId = executeQuery.getInt("nId");
-                String sName = executeQuery.getString("sName");
-                accounts.add(new Accounts(nId, sName));
-                filternId = nId;
-            }
-            executeQuery.close();
             stmt.close();
             con.close();
         } catch (
@@ -77,7 +59,7 @@ public class DbAccounts {
         }
     }
 
-    public static void delete(String nId) {
+    public void delete(String id) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -85,7 +67,7 @@ public class DbAccounts {
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("delete from t_dicAccounts where nId=%1$s");
-            String insertSQL = String.format(insertSQLString, nId);
+            String insertSQL = String.format(insertSQLString, id);
             stmt.executeUpdate(insertSQL);
             stmt.close();
             con.close();
@@ -96,30 +78,16 @@ public class DbAccounts {
         }
     }
 
-    public static void update(String Name, String currentId) {
+    public void update(String name, String currentId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            if (currentId != null) {
-                currentAccountId = currentId;
-            }
-            String insertSQLString = ("update t_dicAccounts set  sName='%1$s' where nId=%2$s");
-            String insertSQL = String.format(insertSQLString, Name, currentAccountId);
+            String insertSQLString = ("update t_dicAccounts set sName='%1$s' where nId=%2$s");
+            String insertSQL = String.format(insertSQLString, name, currentId);
             stmt.executeUpdate(insertSQL);
-            accounts.removeAll(accounts);
-            ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicAccounts"
-            );
-            // Обход результатов выборки
-            while (executeQuery.next()) {
-                int nId = executeQuery.getInt("nId");
-                String sName = executeQuery.getString("sName");
-                accounts.add(new Accounts(nId, sName));
-            }
-            executeQuery.close();
             stmt.close();
             con.close();
         } catch (

@@ -282,7 +282,7 @@ public class Result {
             end[g.transactionCount] = 1;
             g.step[g.transactionCount] = 15;
             printStep();
-            //TakeProfit.add(1);
+            //TakeProfit.insert(1);
             //  classicClose++;
             system5Point = system5Point + g.sizeGrid[g.transactionCount] * (1.618 - 0.618)-spreadFull;
         } else if (g.buyMinGrid[g.transactionCount] > d.minPrice[g.i]) {
@@ -302,7 +302,7 @@ public class Result {
             end[g.transactionCount] = 1;
             g.step[g.transactionCount] = 15;
             printStep();
-           // TakeProfit.add(1);
+           // TakeProfit.insert(1);
             classicClose++;
         } else if (g.buyMinGrid[g.transactionCount] > d.minPrice[g.i]) {
            systemClassicPoint = systemClassicPoint - g.sizeGrid[g.transactionCount] * (1.618 - 1.0)-spreadFull;

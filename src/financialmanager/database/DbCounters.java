@@ -24,7 +24,7 @@ public class DbCounters {
     public static float nElectricityPaid;
     public static float nWaterPaid;
 
-    public static void view(String userId) {
+    public static void select(String userId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -73,9 +73,9 @@ public class DbCounters {
         }
     }
 
-    public static void add(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
-                           float nGasPrice, float nElectricityPrice, float nWaterPrice,
-                           float nGasPaid, float nElectricityPaid, float nWaterPaid) {
+    public static void insert(String userId, String date, float gasReadings, float electricityReadings, float waterReadings,
+                              float gasPrice, float electricityPrice, float waterPrice,
+                              float gasPaid, float electricityPaid, float waterPaid) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -96,9 +96,9 @@ public class DbCounters {
                     ",nWaterPaid) " +
                     "values " +
                     "('%1$s', %2$s, %3$s, %4$s, %5$s, %6$s, %7$s, %8$s, %9$s, %10$s, %11$s)");
-            String insertSQL = String.format(insertSQLString, dtDate, userId, nGasReadings, nElectricityReadings, nWaterReadings,
-                    nGasPrice, nElectricityPrice, nWaterPrice,
-                    nGasPaid, nElectricityPaid, nWaterPaid);
+            String insertSQL = String.format(insertSQLString, date, userId, gasReadings, electricityReadings, waterReadings,
+                    gasPrice, electricityPrice, waterPrice,
+                    gasPaid, electricityPaid, waterPaid);
             stmt.executeUpdate(insertSQL);
             // Закрываем соединение
             stmt.close();
