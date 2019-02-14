@@ -17,7 +17,6 @@ public class Account extends JFrame {
     private JButton buttonCancel = new JButton("Cancel");
 
     public Account() {
-
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
