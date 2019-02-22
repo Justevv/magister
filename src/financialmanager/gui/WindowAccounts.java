@@ -11,7 +11,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static financialmanager.database.DbAccounts.accounts;
+import static financialmanager.data.Accounts.accounts;
+
+//import static financialmanager.database.DbAccounts.accounts;
 
 public class WindowAccounts extends JFrame implements ActionListener {
     private JButton buttonAddAccount = new JButton("Добавить счет");

@@ -1,23 +1,25 @@
 package financialmanager.database;
 
+//import financialmanager.data.Accounts;
+
 import financialmanager.data.Accounts;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbAccounts {
-    public Integer id;
-    public String name;
-    public static ArrayList<Accounts> accounts = new ArrayList<>();
+    private int id;
+    private String name;
+//    public static ArrayList<Accounts> accounts = new ArrayList<>();
 
     public void select() {
         DbConnect.connect();
         try {
-            accounts.removeAll(accounts);
+            Accounts accounts = new Accounts(id, name);
+            accounts.removeList();
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
@@ -28,7 +30,8 @@ public class DbAccounts {
             while (executeQuery.next()) {
                 id = executeQuery.getInt("nId");
                 name = executeQuery.getString("sName");
-                accounts.add(new Accounts(id, name));
+//                accounts.add(new Accounts(id, name));
+                accounts.insertList(id, name);
             }
             // Закрываем соединение
             executeQuery.close();

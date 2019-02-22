@@ -1,5 +1,7 @@
 package financialmanager.database;
 
+import financialmanager.businesslogic.Counters;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +49,7 @@ public class DbCounters {
                     "where c.nUserId='%1$s'" +
                     "and c.nId>'%2$s'";
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, 0));
+            Counters counters = new Counters();
             // Обход результатов выборки
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
@@ -61,7 +64,7 @@ public class DbCounters {
                 nGasPaid = executeQuery.getFloat("nGasPaid");
                 nElectricityPaid = executeQuery.getFloat("nElectricityPaid");
                 nWaterPaid = executeQuery.getFloat("nWaterPaid");
-                financialmanager.businesslogic.Counters.start();
+                counters.start();
             }
             // Закрываем соединение
             executeQuery.close();
