@@ -1,6 +1,5 @@
 package financialmanager.gui;
 
-import financialmanager.businesslogic.Categories;
 import financialmanager.database.DbCategories;
 import financialmanager.table.CategoriesTable;
 
@@ -41,8 +40,7 @@ public class WindowCategories extends JFrame implements ActionListener {
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        Categories categories = new Categories();
-        modelCategories = new CategoriesTable(categories.categories);
+        modelCategories = new CategoriesTable(dbCategories.categories);
         //На основе модели, создадим новую JTable
         jTabCategory = new JTable(modelCategories);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -75,7 +73,7 @@ public class WindowCategories extends JFrame implements ActionListener {
         buttonDeleteCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 DbCategories.delete(currentId.toString());
-                categories.categories.remove(selectedRows[i - 1]);
+                dbCategories.categories.remove(selectedRows[i - 1]);
                 modelCategories.fireTableDataChanged();
             }
         });

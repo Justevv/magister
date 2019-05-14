@@ -121,7 +121,7 @@ public class Category extends JFrame {
             dbCategories.insert(Name, ParentId);
         }
         Categories categories = new Categories();
-        categories.removeList();
+        dbCategories.categories.removeAll(dbCategories.categories);
         dbCategories.select();
         modelCategories.fireTableDataChanged();
         setVisible(false);

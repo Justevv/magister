@@ -3,6 +3,7 @@ package financialmanager.database;
 import financialmanager.data.Categories;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,7 +13,7 @@ public class DbCategories {
     private int nId = 0;
     private String sName;
     private String currentCategoryId = "0";
-    financialmanager.businesslogic.Categories categoriesBL = new financialmanager.businesslogic.Categories();
+    public static ArrayList<Categories> categories = new ArrayList<>();
 
     public void select() {
         DbConnect.connect();
@@ -26,7 +27,7 @@ public class DbCategories {
                 nId = executeQuery.getInt("nId");
                 sName = executeQuery.getString("sName");
                 Integer nParentId = executeQuery.getInt("nParentId");
-                categoriesBL.categories.add(new Categories(nId, sName, nParentId));
+                categories.add(new Categories(nId, sName, nParentId));
             }
             executeQuery.close();
             stmt.close();
