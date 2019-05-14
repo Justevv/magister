@@ -58,7 +58,7 @@ public class WindowExpenses extends JFrame {
         this.setBounds(100, 100, 800, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbExpenses.view(OpenWindow.userLogin);
+        DbExpenses.select(OpenWindow.userLogin);
 
         DbExpenses dbExpenses = new DbExpenses();
         long profit = dbExpenses.profit;
@@ -310,7 +310,7 @@ public class WindowExpenses extends JFrame {
                 expenses.removeAll(expenses);
                 DbExpenses.delete(value, selectedRows[i - 1]);
                 modelExpenses.fireTableDataChanged();
-                DbExpenses.view(OpenWindow.userLogin);
+                DbExpenses.select(OpenWindow.userLogin);
                 DbExpenses dbExpenses = new DbExpenses();
                 long profit = dbExpenses.profit;
                 long expense = dbExpenses.expense;
