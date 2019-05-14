@@ -91,14 +91,14 @@ public class Account extends JFrame {
 
     private void onOK() {
         String Name = textFieldName.getText();
-        DbAccounts DbAccounts = new DbAccounts();
+        DbAccounts dbAccounts = new DbAccounts();
         if (WindowAccounts.action == "update") {
-            DbAccounts.update(Name, currentId.toString());
+            dbAccounts.update(Name, currentId.toString());
         }
         if (WindowAccounts.action == "insert") {
-            DbAccounts.insert(Name);
+            dbAccounts.insert(Name);
         }
-        DbAccounts.select();
+        dbAccounts.select();
         modelAccounts.fireTableDataChanged();
         setVisible(false);
     }

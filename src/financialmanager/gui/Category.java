@@ -1,5 +1,8 @@
 package financialmanager.gui;
 
+import financialmanager.businesslogic.Categories;
+import financialmanager.database.DbCategories;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -105,19 +108,23 @@ public class Category extends JFrame {
     }
 
     private void onOK() {
+        DbCategories dbCategories = new DbCategories();
         if (WindowCategories.action == "update") {
             String Name = textFieldName.getText();
             String ParentId = textFieldParentId.getText();
-            financialmanager.database.DbCategories.update(Name, ParentId, currentId.toString());
-            modelCategories.fireTableDataChanged();
+            dbCategories.update(Name, ParentId, currentId.toString());
 
         }
         if (WindowCategories.action == "insert") {
             String Name = textFieldName.getText();
             String ParentId = textFieldParentId.getText();
-            financialmanager.database.DbCategories.insert(Name, ParentId);
-            modelCategories.fireTableDataChanged();
+            dbCategories.insert(Name, ParentId);
         }
+        Categories categories = new Categories();
+        categories.removeList();
+        dbCategories.select();
+        modelCategories.fireTableDataChanged();
+        setVisible(false);
     }
 
     private void onCancel() {

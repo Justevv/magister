@@ -1,7 +1,5 @@
 package financialmanager.database;
 
-//import financialmanager.data.Accounts;
-
 import financialmanager.data.Accounts;
 
 import java.sql.*;
@@ -18,7 +16,7 @@ public class DbAccounts {
     public void select() {
         DbConnect.connect();
         try {
-            Accounts accounts = new Accounts(id, name);
+            Accounts accounts = new Accounts();
             accounts.removeList();
             // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
@@ -30,8 +28,7 @@ public class DbAccounts {
             while (executeQuery.next()) {
                 id = executeQuery.getInt("nId");
                 name = executeQuery.getString("sName");
-//                accounts.add(new Accounts(id, name));
-                accounts.insertList(id, name);
+                accounts.accounts.add(new Accounts(id, name));
             }
             // Закрываем соединение
             executeQuery.close();

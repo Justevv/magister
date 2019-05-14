@@ -1,5 +1,6 @@
 package financialmanager.gui;
 
+import financialmanager.businesslogic.Categories;
 import financialmanager.database.DbCategories;
 import financialmanager.table.CategoriesTable;
 
@@ -11,7 +12,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static financialmanager.database.DbCategories.categories;
 
 public class WindowCategories extends JFrame implements ActionListener {
     private JButton buttonAddCategory = new JButton("Добавить категорию");
@@ -33,14 +33,16 @@ public class WindowCategories extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbCategories.select();
+        DbCategories dbCategories = new DbCategories();
+        dbCategories.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelCategories = new CategoriesTable(categories);
+        Categories categories = new Categories();
+        modelCategories = new CategoriesTable(categories.categories);
         //На основе модели, создадим новую JTable
         jTabCategory = new JTable(modelCategories);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -60,7 +62,7 @@ public class WindowCategories extends JFrame implements ActionListener {
 
         buttonAddCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action="insert";
+                action = "insert";
                 Category.go();
             }
         });
@@ -73,7 +75,7 @@ public class WindowCategories extends JFrame implements ActionListener {
         buttonDeleteCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 DbCategories.delete(currentId.toString());
-                categories.remove(selectedRows[i - 1]);
+                categories.categories.remove(selectedRows[i - 1]);
                 modelCategories.fireTableDataChanged();
             }
         });
@@ -85,7 +87,7 @@ public class WindowCategories extends JFrame implements ActionListener {
 
         buttonUpdateCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action="update";
+                action = "update";
                 Category.go();
             }
         });

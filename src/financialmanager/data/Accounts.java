@@ -7,6 +7,9 @@ public class Accounts {
     private String name;
     public static ArrayList<Accounts> accounts = new ArrayList<>();
 
+    public Accounts() {
+    }
+
     public Accounts(Integer id, String name) {
         this.id = id;
         this.name = name;
@@ -24,8 +27,5 @@ public class Accounts {
         accounts.removeAll(accounts);
     }
 
-    public void insertList(int id, String name) {
-        System.out.println(id + " " + name);
-        accounts.add(new Accounts(id, name));
-    }
+
 }
