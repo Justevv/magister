@@ -149,5 +149,34 @@ public class Counters {
     public float getPaymentAmount() {
         return paymentAmount;
     }
+
+    @Override
+    public String toString() {
+        return "Counters{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", userSurname='" + userSurname + '\'' +
+                ", gasReadings=" + gasReadings +
+                ", electricityReadings=" + electricityReadings +
+                ", waterReadings=" + waterReadings +
+                ", gasPrice=" + gasPrice +
+                ", electricityPrice=" + electricityPrice +
+                ", waterPrice=" + waterPrice +
+                ", gasSum=" + gasSum +
+                ", electricitySum=" + electricitySum +
+                ", waterSum=" + waterSum +
+                ", gasMonthVolume=" + gasMonthVolume +
+                ", electricityMonthVolume=" + electricityMonthVolume +
+                ", waterMonthVolume=" + waterMonthVolume +
+                ", gasDayVolume=" + gasDayVolume +
+                ", electricityDayVolume=" + electricityDayVolume +
+                ", waterDayVolume=" + waterDayVolume +
+                ", gasPaid=" + gasPaid +
+                ", electricityPaid=" + electricityPaid +
+                ", waterPaid=" + waterPaid +
+                ", consumptionAmount=" + consumptionAmount +
+                ", paymentAmount=" + paymentAmount +
+                '}';
+    }
 }
 

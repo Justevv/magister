@@ -30,9 +30,13 @@ public class WindowResultCategory extends JFrame {
         JLabel labelProfitCategory[] = new JLabel[countCategory];
         JLabel labelExpenseCategory[] = new JLabel[countCategory];
         categoryNunber = 0;
+        DbExpenses dbExpenses = new DbExpenses();
+        long profit = dbExpenses.profit;
+        long expense = dbExpenses.expense;
+        Balance balance = new Balance();
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
-        labelBalance = new JLabel("Баланс: " + Balance.balance + " Рублей");
+        labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
         labelProfit = new JLabel("Доход: " + DbExpenses.profit + " Рублей");
         labelExpense = new JLabel("Расход: " + DbExpenses.expense + " Рублей");
         GridBagConstraints c = new GridBagConstraints();

@@ -1,5 +1,7 @@
 package financialmanager.database;
 
+import financialmanager.businesslogic.Counters;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,22 +11,22 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbCounters {
-    public static Integer nId = 0;
+    Integer nId = 0;
     public static ArrayList<financialmanager.data.Counters> counters = new ArrayList<>();
-    public static String nUserSurname;
-    static String sqlSelect;
-    public static Date dtDate;
-    public static float nGasReadings;
-    public static float nElectricityReadings;
-    public static float nWaterReadings;
-    public static float nGasPrice;
-    public static float nElectricityPrice;
-    public static float nWaterPrice;
-    public static float nGasPaid;
-    public static float nElectricityPaid;
-    public static float nWaterPaid;
+    String nUserSurname;
+    String sqlSelect;
+    Date dtDate;
+    float nGasReadings;
+    float nElectricityReadings;
+    float nWaterReadings;
+    float nGasPrice;
+    float nElectricityPrice;
+    float nWaterPrice;
+    float nGasPaid;
+    float nElectricityPaid;
+    float nWaterPaid;
 
-    public static void view(String userId) {
+    public void view(String userId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -61,7 +63,8 @@ public class DbCounters {
                 nGasPaid = executeQuery.getFloat("nGasPaid");
                 nElectricityPaid = executeQuery.getFloat("nElectricityPaid");
                 nWaterPaid = executeQuery.getFloat("nWaterPaid");
-                financialmanager.businesslogic.Counters.start();
+                Counters counters = new Counters();
+                counters.start(nId, dtDate, nUserSurname, nGasReadings, nElectricityReadings, nWaterReadings, nGasPrice, nElectricityPrice, nWaterPrice, nGasPaid, nElectricityPaid, nWaterPaid);
             }
             // Закрываем соединение
             executeQuery.close();
@@ -73,9 +76,9 @@ public class DbCounters {
         }
     }
 
-    public static void add(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
-                           float nGasPrice, float nElectricityPrice, float nWaterPrice,
-                           float nGasPaid, float nElectricityPaid, float nWaterPaid) {
+    public void add(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
+                    float nGasPrice, float nElectricityPrice, float nWaterPrice,
+                    float nGasPaid, float nElectricityPaid, float nWaterPaid) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -110,7 +113,7 @@ public class DbCounters {
         }
     }
 
-    public static void delete(Object idCounters, int selectedRows) {
+    public void delete(Object idCounters, int selectedRows) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -129,9 +132,9 @@ public class DbCounters {
         }
     }
 
-    public static void update(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
-                              float nGasPrice, float nElectricityPrice, float nWaterPrice,
-                              float nGasPaid, float nElectricityPaid, float nWaterPaid, String idCounters) {
+    public void update(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
+                       float nGasPrice, float nElectricityPrice, float nWaterPrice,
+                       float nGasPaid, float nElectricityPaid, float nWaterPaid, String idCounters) {
         DbConnect.connect();
         try {
             // Подключение к базе данных

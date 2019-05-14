@@ -1,25 +1,25 @@
 package financialmanager.data;
 
 public class Categories {
-    Integer Id;
-    String Name;
-    Integer ParentId;
+    Integer id;
+    String name;
+    Integer parentId;
 
-    public Categories(Integer Id, String Name, Integer ParentId) {
-        this.Id = Id;
-        this.Name = Name;
-        this.ParentId = ParentId;
+    public Categories(Integer id, String name, Integer parentId) {
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public Integer getParentId() {
-        return ParentId;
+        return parentId;
     }
 }

@@ -21,12 +21,12 @@ public class GridLayoutDemo {
 
         // к панели добавляем кнопку и устанавливаем для нее менеджер в верхнее расположение.
 
-        p.add(new JButton("start 2"));
-        p.add(new JButton("start 2"));
-        p.add(new JButton("start 3"));
-        p.add(new JButton("start 4"));
-        p.add(new JButton("start 5"));
-        p.add(new JButton("start 6"));
+        p.add(new JButton("getBalance 2"));
+        p.add(new JButton("getBalance 2"));
+        p.add(new JButton("getBalance 3"));
+        p.add(new JButton("getBalance 4"));
+        p.add(new JButton("getBalance 5"));
+        p.add(new JButton("getBalance 6"));
         p.add(new JButton("Okay"));
     }
 }

@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static financialmanager.database.DbCounters.counters;
 
 public class WindowCounters extends JFrame implements ActionListener {
     private JButton buttonAddCounter = new JButton("Добавить показания");
@@ -32,15 +31,16 @@ public class WindowCounters extends JFrame implements ActionListener {
         super("Финансовый менеджер");
         this.setBounds(0, 100, 1650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        counters.removeAll(counters);
-        DbCounters.view(OpenWindow.userLogin);
+        DbCounters dbCounters = new DbCounters();
+        dbCounters.counters.removeAll(dbCounters.counters);
+        dbCounters.view(OpenWindow.userLogin);
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelCounters = new CountersTable(counters);
+        modelCounters = new CountersTable(dbCounters.counters);
         //На основе модели, создадим новую JTable
         jTabCounters = new JTable(modelCounters);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -72,8 +72,8 @@ public class WindowCounters extends JFrame implements ActionListener {
 
         buttonDeleteCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbCounters.delete(idCounters, selectedRows[i - 1]);
-                counters.remove(selectedRows[i - 1]);
+                dbCounters.delete(idCounters, selectedRows[i - 1]);
+                dbCounters.counters.remove(selectedRows[i - 1]);
                 modelCounters.fireTableDataChanged();
             }
         });

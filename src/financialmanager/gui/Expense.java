@@ -228,8 +228,13 @@ public class Expense extends JFrame {
         }
         DbExpenses.view(OpenWindow.userLogin);
         modelExpenses.fireTableDataChanged();
-        Balance.start();
-        WindowExpenses.labelBalance.setText("Баланс: " + Balance.balance + " Рублей");
+        DbExpenses dbExpenses = new DbExpenses();
+        long profit = dbExpenses.profit;
+        long expense = dbExpenses.expense;
+        Balance balance = new Balance();
+        balance.getBalance(profit, expense);
+        WindowExpenses.labelBalance.setText("Баланс: " +
+                balance.getBalance(profit, expense) + " Рублей");
     }
 
     private void onCancel() {

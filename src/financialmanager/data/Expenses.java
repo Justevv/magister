@@ -1,61 +1,61 @@
 package financialmanager.data;
 
 public class Expenses {
-    Integer Id;
-    String Date;
-    String UserSurname;
-    String CategoryName;
-    String PlaceName;
-    String PaymentTypeName;
-    Integer Sum;
-    String Account;
-    String TransactionType;
+    Integer id;
+    String date;
+    String userSurname;
+    String categoryName;
+    String placeName;
+    String paymentTypeName;
+    Integer sum;
+    String account;
+    String transactionType;
 
-    public Expenses(Integer Id, String Date, String UserSurname, String CategoryName, String PlaceName, String PaymentTypeName, Integer Sum, String Account, String TransactionType) {
-        this.Id = Id;
-        this.Date = Date;
-        this.UserSurname = UserSurname;
-        this.CategoryName = CategoryName;
-        this.PlaceName = PlaceName;
-        this.PaymentTypeName = PaymentTypeName;
-        this.Sum = Sum;
-        this.Account = Account;
-        this.TransactionType = TransactionType;
+    public Expenses(Integer id, String date, String userSurname, String categoryName, String placeName, String paymentTypeName, Integer sum, String account, String transactionType) {
+        this.id = id;
+        this.date = date;
+        this.userSurname = userSurname;
+        this.categoryName = categoryName;
+        this.placeName = placeName;
+        this.paymentTypeName = paymentTypeName;
+        this.sum = sum;
+        this.account = account;
+        this.transactionType = transactionType;
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public String getdtDate() {
-        return Date;
+        return date;
     }
 
     public String getUserSurname() {
-        return UserSurname;
+        return userSurname;
     }
 
     public String getCategoryName() {
-        return CategoryName;
+        return categoryName;
     }
 
     public String getPlaceName() {
-        return PlaceName;
+        return placeName;
     }
 
     public String getPaymentTypeName() {
-        return PaymentTypeName;
+        return paymentTypeName;
     }
 
     public Integer getSum() {
-        return Sum;
+        return sum;
     }
 
     public String getAccount() {
-        return Account;
+        return account;
     }
 
     public String getTransactionType() {
-        return TransactionType;
+        return transactionType;
     }
 }

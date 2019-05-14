@@ -1,28 +1,28 @@
 package financialmanager.data;
 
 public class Transfers {
-    Integer Id;
-    String AccountSenderId;
-    String AccountRecipientId;
-    Integer Sum;
+    Integer id;
+    String accountSenderId;
+    String accountRecipientId;
+    Integer sum;
 
-    public Transfers(Integer Id, String AccountSenderId, String AccountRecipientId, Integer Sum) {
-        this.Id = Id;
-        this.AccountSenderId = AccountSenderId;
-        this.AccountRecipientId = AccountRecipientId;
-        this.Sum = Sum;
+    public Transfers(Integer id, String accountSenderId, String accountRecipientId, Integer sum) {
+        this.id = id;
+        this.accountSenderId = accountSenderId;
+        this.accountRecipientId = accountRecipientId;
+        this.sum = sum;
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
     public String getAccountSenderId() {
-        return AccountSenderId;
+        return accountSenderId;
     }
     public String getAccountRecipientId() {
-        return AccountRecipientId;
+        return accountRecipientId;
     }
     public Integer getSum() {
-        return Sum;
+        return sum;
     }
 }

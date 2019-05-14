@@ -4,58 +4,43 @@ import financialmanager.database.DbCounters;
 
 import java.util.Date;
 
-import static financialmanager.database.DbCounters.counters;
 
 public class Counters {
-    static int id;
-    static Date date;
-    static String userSurname;
-    static float gasReadings;
-    static float electricityReadings;
-    static float waterReadings;
-    static float gasPrice;
-    static float electricityPrice;
-    static float waterPrice;
-    static float gasPaid;
-    static float electricityPaid;
-    static float waterPaid;
-    static Date dateHistory = new Date();
-    static float gasReadingsHistory = 0;
-    static float electricityReadingsHistory = 0;
-    static float waterReadingsHistory = 0;
-    static float gasPriceHistory = 0;
-    static float electricityPriceHistory = 0;
-    static float waterPriceHistory = 0;
-    static float gasPaidHistory = 0;
-    static float electricityPaidHistory = 0;
-    static float waterPaidHistory = 0;
-    static float gasSum;
-    static float electricitySum;
-    static float waterSum;
-    static float gasMonthVolume;
-    static float electricityMonthVolume;
-    static float waterMonthVolume;
-    static float gasDayVolume;
-    static float electricityDayVolume;
-    static float waterDayVolume;
-    static float consumptionAmount;
-    static float paymentAmount;
-    static int daysPeriod;
+    private Date dateHistory = new Date();
+    private float gasReadingsHistory = 0;
+    private float electricityReadingsHistory = 0;
+    private float waterReadingsHistory = 0;
+    private float gasPriceHistory = 0;
+    private float electricityPriceHistory = 0;
+    private float waterPriceHistory = 0;
+    private float gasPaidHistory = 0;
+    private float electricityPaidHistory = 0;
+    private float waterPaidHistory = 0;
+    private float gasSum;
+    private float electricitySum;
+    private float waterSum;
+    float gasMonthVolume;
+    private float electricityMonthVolume;
+    private float waterMonthVolume;
+    private float gasDayVolume;
+    private float electricityDayVolume;
+    private float waterDayVolume;
+    private float consumptionAmount;
+    private float paymentAmount;
+    private int daysPeriod;
 
-    public static void start() {
-        id = DbCounters.nId;
-        date = DbCounters.dtDate;
-        userSurname = DbCounters.nUserSurname;
-        gasReadings = DbCounters.nGasReadings;
-        electricityReadings = DbCounters.nElectricityReadings;
-        waterReadings = DbCounters.nWaterReadings;
-        gasPrice = DbCounters.nGasPrice;
-        electricityPrice = DbCounters.nElectricityPrice;
-        waterPrice = DbCounters.nWaterPrice;
-        gasPaid = DbCounters.nGasPaid;
-        electricityPaid = DbCounters.nElectricityPaid;
-        waterPaid = DbCounters.nWaterPaid;
-        gasMonthVolume = gasReadings - gasReadingsHistory;
+    public void start(int id,
+                      Date date,
+                      String userSurname,
+                      float gasReadings,
+                      float electricityReadings,
+                      float waterReadings,
+                      float gasPrice,
+                      float electricityPrice,
+                      float waterPrice,
+                      float gasPaid,
+                      float electricityPaid,
+                      float waterPaid) {
         electricityMonthVolume = electricityReadings - electricityReadingsHistory;
         waterMonthVolume = waterReadings - waterReadingsHistory;
         gasSum = gasMonthVolume * gasPrice;
@@ -77,7 +62,8 @@ public class Counters {
         gasPaidHistory = gasPaid;
         electricityPaidHistory = electricityPaid;
         waterPaidHistory = waterPaid;
-        counters.add(new financialmanager.data.Counters(id, String.valueOf(date), userSurname,
+        DbCounters dbCounters = new DbCounters();
+        dbCounters.counters.add(new financialmanager.data.Counters(id, String.valueOf(date), userSurname,
                 gasReadings, electricityReadings, waterReadings,
                 gasPrice, electricityPrice, waterPrice,
                 gasSum, electricitySum, waterSum,

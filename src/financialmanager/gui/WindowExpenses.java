@@ -59,13 +59,18 @@ public class WindowExpenses extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DbExpenses.view(OpenWindow.userLogin);
-        Balance.start();
+
+        DbExpenses dbExpenses = new DbExpenses();
+        long profit = dbExpenses.profit;
+        long expense = dbExpenses.expense;
+        Balance balance = new Balance();
+        balance.getBalance(profit, expense);
 
         labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
-        labelBalance = new JLabel("Баланс: " + Balance.balance + " Рублей");
-        labelProfit = new JLabel("Доход: " + Balance.profit + " Рублей");
-        labelExpense = new JLabel("Расход: " + Balance.expense + " Рублей");
+        labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
+        labelProfit = new JLabel("Доход: " + profit + " Рублей");
+        labelExpense = new JLabel("Расход: " + expense + " Рублей");
         labelBalanceCategory = new JLabel("Итог категории: " + DbExpenses.profitCategory + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -306,8 +311,11 @@ public class WindowExpenses extends JFrame {
                 DbExpenses.delete(value, selectedRows[i - 1]);
                 modelExpenses.fireTableDataChanged();
                 DbExpenses.view(OpenWindow.userLogin);
-                Balance.start();
-                labelBalance.setText("Баланс: " + Balance.balance + " Рублей");
+                DbExpenses dbExpenses = new DbExpenses();
+                long profit = dbExpenses.profit;
+                long expense = dbExpenses.expense;
+                Balance balance = new Balance();
+                labelBalance.setText("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;

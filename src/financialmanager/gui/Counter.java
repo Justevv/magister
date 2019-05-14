@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static financialmanager.database.DbCounters.counters;
 import static financialmanager.gui.WindowCounters.modelCounters;
 
 public class Counter extends JFrame {
@@ -219,23 +218,24 @@ public class Counter extends JFrame {
     }
 
     private void onOK() {
+        DbCounters dbCounters = new DbCounters();
         if (WindowCounters.action == "update") {
-            counters.removeAll(counters);
-            DbCounters.update(OpenWindow.userLogin, textFieldDate.getText(),
+            dbCounters.counters.removeAll(dbCounters.counters);
+            dbCounters.update(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
                     Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
                     Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()),
                     WindowCounters.idCounters.toString());
-            DbCounters.view(OpenWindow.userLogin);
+            dbCounters.view(OpenWindow.userLogin);
             modelCounters.fireTableDataChanged();
         }
         if (WindowCounters.action == "add") {
-            counters.removeAll(counters);
-            DbCounters.add(OpenWindow.userLogin, textFieldDate.getText(),
+            dbCounters.counters.removeAll(dbCounters.counters);
+            dbCounters.add(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
                     Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
                     Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()));
-            DbCounters.view(OpenWindow.userLogin);
+            dbCounters.view(OpenWindow.userLogin);
             modelCounters.fireTableDataChanged();
         }
     }
