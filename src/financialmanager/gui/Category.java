@@ -112,16 +112,16 @@ public class Category extends JFrame {
             modelCategories.fireTableDataChanged();
 
         }
-        if (WindowCategories.action == "add") {
+        if (WindowCategories.action == "insert") {
             String Name = textFieldName.getText();
             String ParentId = textFieldParentId.getText();
-            financialmanager.database.DbCategories.add(Name, ParentId);
+            financialmanager.database.DbCategories.insert(Name, ParentId);
             modelCategories.fireTableDataChanged();
         }
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        // insert your code here if necessary
         // dispose();
         setVisible(false);
         //System.exit(0);

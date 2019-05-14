@@ -1,21 +1,22 @@
 package financialmanager.gui;
 
+import financialmanager.database.DbAccounts;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static financialmanager.gui.WindowAccounts.modelAccounts;
 import static financialmanager.gui.WindowAccounts.currentId;
+import static financialmanager.gui.WindowAccounts.modelAccounts;
 
 public class Account extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelName = new JLabel("Имя:");
-    public static JTextField textFieldName = new JTextField("Свет", 5);
+    public JTextField textFieldName = new JTextField("Свет", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
     public Account() {
-
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,21 +90,21 @@ public class Account extends JFrame {
     }
 
     private void onOK() {
+        String Name = textFieldName.getText();
+        DbAccounts DbAccounts = new DbAccounts();
         if (WindowAccounts.action == "update") {
-            String Name = textFieldName.getText();
-            financialmanager.database.DbAccounts.update(Name, currentId.toString());
-            modelAccounts.fireTableDataChanged();
-
+            DbAccounts.update(Name, currentId.toString());
         }
-        if (WindowAccounts.action == "add") {
-            String Name = textFieldName.getText();
-            financialmanager.database.DbAccounts.add(Name);
-            modelAccounts.fireTableDataChanged();
+        if (WindowAccounts.action == "insert") {
+            DbAccounts.insert(Name);
         }
+        DbAccounts.select();
+        modelAccounts.fireTableDataChanged();
+        setVisible(false);
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        // insert your code here if necessary
         // dispose();
         setVisible(false);
         //System.exit(0);

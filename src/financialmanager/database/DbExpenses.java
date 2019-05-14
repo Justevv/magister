@@ -20,7 +20,7 @@ public class DbExpenses {
     public static long balanceCategory;
     static String sqlSelect;
 
-    public static void view(String userId) {
+    public static void select(String userId) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -126,7 +126,7 @@ public class DbExpenses {
         }
     }
 
-    public static void add(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum) {
+    public static void insert(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum) {
         DbConnect.connect();
         try {
             // Подключение к базе данных

@@ -13,10 +13,10 @@ public class DbPlaces {
     public static Integer nId = 0;
     public static String sName;
     public static ArrayList<Places> places;
-    public static int filternId = 0;
+    public static int filterId = 0;
     static String currentPlaceId = "0";
 
-    public static void view() {
+    public static void select() {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -44,7 +44,7 @@ public class DbPlaces {
         }
     }
 
-    public static void add(String name, String address) {
+    public static void view(String name, String address) {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -55,11 +55,11 @@ public class DbPlaces {
             String insertSQL = String.format(insertSQLString, name, address);
             stmt.executeUpdate(insertSQL);
 
-            if (filternId < nId) {
-                filternId = nId;
+            if (filterId < nId) {
+                filterId = nId;
             }
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicPlaces where nId>" + filternId
+                    "FROM t_dicPlaces where nId>" + filterId
             );
             // Обход результатов выборки
             while (executeQuery.next()) {
@@ -68,7 +68,7 @@ public class DbPlaces {
                 String sName = executeQuery.getString("sName");
                 String sAddress = executeQuery.getString("sAddress");
                 places.add(new Places(nId, sName, sAddress));
-                filternId = nId;
+                filterId = nId;
             }
             executeQuery.close();
             stmt.close();

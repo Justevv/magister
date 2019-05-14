@@ -14,11 +14,11 @@ public class DbUsers {
     public static String sName;
     public static ArrayList<Users> users;
     public static String sEmail;
-    public static ArrayList<String> sEmailList;
-    public static int filternId = 0;
+    public static ArrayList<String> emailList;
+    public static int filterId = 0;
     static String currentUserId = "0";
 
-    public static void view() {
+    public static void select() {
         DbConnect.connect();
         try {
             // Подключение к базе данных
@@ -30,7 +30,7 @@ public class DbUsers {
             );
             // Обход результатов выборки
             users = new ArrayList<>();
-            sEmailList = new ArrayList<>();
+            emailList = new ArrayList<>();
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
                 String sSurname = executeQuery.getString("sSurname");
@@ -40,7 +40,7 @@ public class DbUsers {
                 String sPhone = executeQuery.getString("sPhone");
                 sEmail = executeQuery.getString("sEmail");
                 users.add(new Users(nId, sSurname, sName, dtBirthday, sSex, sPhone, sEmail));
-                sEmailList.add(sEmail);
+                emailList.add(sEmail);
             }
             // Закрываем соединение
             executeQuery.close();
@@ -52,10 +52,10 @@ public class DbUsers {
         }
     }
 
-    public static void add(String Surname, String Name, String Birthday, String Sex, String Phone, String Email) {
+    public static void insert(String surname, String name, String birthday, String sex, String phone, String email) {
         boolean containsName = false;
-        for (String sEmailList : sEmailList) {
-            if (sEmailList.equals(Email)) {
+        for (String emailList : emailList) {
+            if (emailList.equals(email)) {
                 containsName = true;
                 System.out.println("Такой пользователь уже есть");
             }
@@ -68,14 +68,14 @@ public class DbUsers {
                 // Отправка запроса на выборку и получение результатов
                 Statement stmt = con.createStatement();
                 String insertSQLString = ("insert into t_dicUsers( sSurname ,sName, dtBirthday, sSex, sPhone, sEmail) values ('%1$s','%2$s','%3$s','%4$s','%5$s','%6$s')");
-                String insertSQL = String.format(insertSQLString, Surname, Name, Birthday, Sex, Phone, Email);
+                String insertSQL = String.format(insertSQLString, surname, name, birthday, sex, phone, email);
                 stmt.executeUpdate(insertSQL);
 
-                if (filternId < DbUsers.nId) {
-                    filternId = DbUsers.nId;
+                if (filterId < DbUsers.nId) {
+                    filterId = DbUsers.nId;
                 }
                 ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                        "FROM t_dicUsers where nId>" + filternId
+                        "FROM t_dicUsers where nId>" + filterId
                 );
                 // Обход результатов выборки
                 while (executeQuery.next()) {
@@ -87,8 +87,8 @@ public class DbUsers {
                     String sPhone = executeQuery.getString("sPhone");
                     String sEmail = executeQuery.getString("sEmail");
                     users.add(new Users(nId, sSurname, sName, dtBirthday, sSex, sPhone, sEmail));
-                    filternId = nId;
-                    sEmailList.add(sEmail);
+                    filterId = nId;
+                    emailList.add(sEmail);
                 }
                 stmt.close();
                 con.close();
@@ -121,7 +121,7 @@ public class DbUsers {
 
     public static void update(String Surname, String Name, String Birthday, String Sex, String Phone, String Email, String Id, String currentEmail) {
         boolean containsName = false;
-        for (String sEmailList : sEmailList) {
+        for (String sEmailList : emailList) {
             if (sEmailList.equals(Email)) {
                 containsName = true;
             }
@@ -145,7 +145,7 @@ public class DbUsers {
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-            sEmailList.add(Email);
+            emailList.add(Email);
             if (Id != null) {
                 currentUserId = Id;
             }

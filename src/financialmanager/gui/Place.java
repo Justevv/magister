@@ -109,14 +109,14 @@ public class Place extends JFrame {
             financialmanager.database.DbPlaces.update(textFieldName.getText(), textFieldAddress.getText(), currentId.toString());
             modelPlaces.fireTableDataChanged();
         }
-        if (WindowPlaces.action == "add") {
-            financialmanager.database.DbPlaces.add(textFieldName.getText(), textFieldAddress.getText());
+        if (WindowPlaces.action == "insert") {
+            financialmanager.database.DbPlaces.view(textFieldName.getText(), textFieldAddress.getText());
             modelPlaces.fireTableDataChanged();
         }
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        // insert your code here if necessary
         // dispose();
         setVisible(false);
         //System.exit(0);

@@ -179,20 +179,20 @@ public class User extends JFrame {
             financialmanager.database.DbUsers.update(Surname, Name, Birthday, Sex, Phone, Email, currentId.toString(), WindowUsers.currentEmail.toString());
             modelUsers.fireTableDataChanged();
         }
-        if (WindowUsers.action == "add") {
+        if (WindowUsers.action == "insert") {
             String Surname = textFieldSurname.getText();
             String Name = textFieldName.getText();
             String Birthday = textFieldBirthday.getText();
             String Sex = textFieldSex.getText();
             String Phone = textFieldPhone.getText();
             String Email = textFieldEmail.getText();
-            financialmanager.database.DbUsers.add(Surname, Name, Birthday, Sex, Phone, Email);
+            financialmanager.database.DbUsers.insert(Surname, Name, Birthday, Sex, Phone, Email);
             modelUsers.fireTableDataChanged();
         }
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        // insert your code here if necessary
         // dispose();
         setVisible(false);
         //System.exit(0);

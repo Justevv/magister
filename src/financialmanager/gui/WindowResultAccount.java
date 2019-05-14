@@ -64,13 +64,13 @@ public class WindowResultAccount extends JFrame {
 //            c.weightx = 0.5;
 //            c.gridx = 0;
 //            c.gridy = GridBagConstraints.RELATIVE;
-//            container.add(labelProfitCategory[categoryNunber], c);
+//            container.insert(labelProfitCategory[categoryNunber], c);
 //
 //            c.fill = GridBagConstraints.HORIZONTAL;
 //            c.weightx = 0.5;
 //            c.gridx = 0;
 //            c.gridy = GridBagConstraints.RELATIVE;
-//            container.add(labelExpenseCategory[categoryNunber], c);
+//            container.insert(labelExpenseCategory[categoryNunber], c);
         }
 
         c.fill = GridBagConstraints.HORIZONTAL;

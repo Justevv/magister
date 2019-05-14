@@ -46,7 +46,7 @@ public class Cluster {
     }
 
     /**
-     * add a new transaction to the cluster
+     * insert a new transaction to the cluster
      *
      * @param transaction the new transaction
      */

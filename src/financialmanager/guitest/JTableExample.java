@@ -16,7 +16,7 @@
 //    JTable jTabPeople;
 //    ExpensesTable modelExpenses;
 //    JTableExample() {
-//        DbExpenses.view();
+//        DbExpenses.select();
 //        //Создаем новый контейнер JFrame
 //        JFrame jfrm = new JFrame("JTableExample");
 //        //Устанавливаем диспетчер компоновки
@@ -36,13 +36,13 @@
 //        //Устаналиваем размеры прокручиваемой области
 //       jTabPeople.setPreferredScrollableViewportSize(new Dimension(350, 100));
 //        //Добавляем в контейнер нашу панель прокрути и таблицу вместе с ней
-//        jfrm.getContentPane().add(jscrlp);
+//        jfrm.getContentPane().insert(jscrlp);
 //        //Отображаем контейнер
 //        jfrm.setVisible(true);
 //    }
 //
-//    //Функция view, запускающаяся при старте приложения
-//    public static void view(String[] args) {
+//    //Функция select, запускающаяся при старте приложения
+//    public static void select(String[] args) {
 //        //Создаем фрейм в потоке обработки событий
 //        SwingUtilities.invokeLater(new Runnable() {
 //            @Override

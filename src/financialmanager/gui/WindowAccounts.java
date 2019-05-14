@@ -11,7 +11,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static financialmanager.database.DbAccounts.accounts;
+import static financialmanager.data.Accounts.accounts;
+
+//import static financialmanager.database.DbAccounts.accounts;
 
 public class WindowAccounts extends JFrame implements ActionListener {
     private JButton buttonAddAccount = new JButton("Добавить счет");
@@ -33,8 +35,8 @@ public class WindowAccounts extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbAccounts dbAccounts = new DbAccounts();
-        dbAccounts.view();
+        DbAccounts DbAccounts = new DbAccounts();
+        DbAccounts.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -61,7 +63,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
 
         buttonAddAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "add";
+                action = "insert";
                 Account.go();
             }
         });
