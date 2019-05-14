@@ -1,7 +1,7 @@
 package financialmanager.data;
 
 public class Counters {
-    Integer id;
+    int id;
     String date;
     String userSurname;
     float gasReadings;
