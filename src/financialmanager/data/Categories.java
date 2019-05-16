@@ -1,14 +1,10 @@
 package financialmanager.data;
 
-import java.util.ArrayList;
 
 public class Categories {
-    Integer id;
-    String name;
-    Integer parentId;
-
-    public Categories() {
-    }
+    private int id;
+    private String name;
+    private int  parentId;
 
     public Categories(Integer id, String name, Integer parentId) {
         this.id = id;

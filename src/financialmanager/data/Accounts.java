@@ -1,13 +1,9 @@
 package financialmanager.data;
 
-import java.util.ArrayList;
 
 public class Accounts {
-    private Integer id;
+    private int id;
     private String name;
-
-    public Accounts() {
-    }
 
     public Accounts(Integer id, String name) {
         this.id = id;

@@ -28,7 +28,7 @@ public class PlacesTable extends AbstractTableModel{
             case 1:
                 return places.get(r).getName();
             case 2:
-                return places.get(r).getAdress();
+                return places.get(r).getAddress();
             default:
                 return "";
         }

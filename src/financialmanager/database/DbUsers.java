@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static financialmanager.database.DbConnect.connectionString;
-
 public class DbUsers {
+    private DbConnect dbConnect = new DbConnect();
     public String sName;
     public static ArrayList<Users> users = new ArrayList<>();
     public String sEmail;
@@ -17,10 +16,8 @@ public class DbUsers {
     static String currentUserId = "0";
 
     public void select() {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicUsers"
             );
@@ -37,7 +34,6 @@ public class DbUsers {
             }
             executeQuery.close();
             stmt.close();
-            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -52,15 +48,12 @@ public class DbUsers {
             }
         }
         if (containsName == false) {
-            DbConnect.connect();
             try {
-                Connection con = DriverManager.getConnection(connectionString);
-                Statement stmt = con.createStatement();
+                Statement stmt = dbConnect.connect();
                 String insertSQLString = ("insert into t_dicUsers( sSurname ,sName, dtBirthday, sSex, sPhone, sEmail) values ('%1$s','%2$s','%3$s','%4$s','%5$s','%6$s')");
                 String insertSQL = String.format(insertSQLString, surname, name, birthday, sex, phone, email);
                 stmt.executeUpdate(insertSQL);
                 stmt.close();
-                con.close();
             } catch (
                     SQLException ex) {
                 Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,15 +62,12 @@ public class DbUsers {
     }
 
     public void delete(String nId) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             String insertSQLString = ("delete from t_dicUsers where nId=%1$s");
             String insertSQL = String.format(insertSQLString, nId);
             stmt.executeUpdate(insertSQL);
             stmt.close();
-            con.close();
         } catch (
                 SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,10 +93,8 @@ public class DbUsers {
     }
 
     public void updateGo(String Surname, String Name, String Birthday, String Sex, String Phone, String Email, String Id) {
-        DbConnect.connect();
-        try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+       try {
+           Statement stmt = dbConnect.connect();
             emailList.add(Email);
             if (Id != null) {
                 currentUserId = Id;
@@ -115,7 +103,6 @@ public class DbUsers {
             String insertSQL = String.format(insertSQLString, Surname, Name, Birthday, Sex, Phone, Email, currentUserId);
             stmt.executeUpdate(insertSQL);
             stmt.close();
-            con.close();
         } catch (
                 SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);

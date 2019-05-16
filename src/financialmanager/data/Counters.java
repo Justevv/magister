@@ -1,29 +1,29 @@
 package financialmanager.data;
 
 public class Counters {
-    int id;
-    String date;
-    String userSurname;
-    float gasReadings;
-    float electricityReadings;
-    float waterReadings;
-    float gasPrice;
-    float electricityPrice;
-    float waterPrice;
-    float gasSum;
-    float electricitySum;
-    float waterSum;
-    float gasMonthVolume;
-    float electricityMonthVolume;
-    float waterMonthVolume;
-    float gasDayVolume;
-    float electricityDayVolume;
-    float waterDayVolume;
-    float gasPaid;
-    float electricityPaid;
-    float waterPaid;
-    float consumptionAmount;
-    float paymentAmount;
+    private int id;
+    private String date;
+    private String userSurname;
+    private float gasReadings;
+    private float electricityReadings;
+    private float waterReadings;
+    private float gasPrice;
+    private float electricityPrice;
+    private float waterPrice;
+    private float gasSum;
+    private float electricitySum;
+    private float waterSum;
+    private float gasMonthVolume;
+    private float electricityMonthVolume;
+    private float waterMonthVolume;
+    private float gasDayVolume;
+    private float electricityDayVolume;
+    private float waterDayVolume;
+    private float gasPaid;
+    private float electricityPaid;
+    private float waterPaid;
+    private float consumptionAmount;
+    private float paymentAmount;
 
     public Counters(Integer id, String date, String userSurname,
                     float gasReadings, float electricityReadings, float waterReadings,

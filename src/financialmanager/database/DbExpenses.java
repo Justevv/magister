@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static financialmanager.database.DbConnect.connectionString;
-
 public class DbExpenses {
+    private DbConnect dbConnect = new DbConnect();
     private Integer nId = 0;
     private Integer dSum;
     public static ArrayList<financialmanager.data.Expenses> expenses = new ArrayList<>();
@@ -21,10 +20,8 @@ public class DbExpenses {
     private String sqlSelect;
 
     public void select(String userId) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             sqlSelect = "SELECT e.nId as nId" +
                     ",dtDate, sSurname" +
                     ",c.sName as CategoriesName" +
@@ -70,17 +67,14 @@ public class DbExpenses {
             executeQueryExpense.close();
             executeQueryProfit.close();
             stmt.close();
-            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void comboBoxRead(JComboBox comboBoxPlace, JComboBox comboBoxPaymentType, JComboBox comboBoxCategory, JComboBox comboBoxAccount, JComboBox comboBoxTransactionType) {
-        DbConnect.connect();
-        try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+               try {
+                   Statement stmt = dbConnect.connect();
             ResultSet executeQueryNamePlaces = stmt.executeQuery("select * from t_dicPlaces");
             while (executeQueryNamePlaces.next()) {
                 comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
@@ -105,17 +99,14 @@ public class DbExpenses {
             executeQueryNamePaymentTypes.close();
             executeQueryNameCategories.close();
             stmt.close();
-            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void insert(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum) {
-        DbConnect.connect();
-        try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+               try {
+                   Statement stmt = dbConnect.connect();
             String insertSQLString = ("insert into t_Expenses( dtDate ,dSum,nUserId, nCategoryId ,nPlaceId,nPaymentTypeId, nAccountId, nTransactionTypeId) " +
                     "values " +
                     "('%1$s',%2$s,%3$s," +
@@ -128,7 +119,6 @@ public class DbExpenses {
             String insertSQL = String.format(insertSQLString, dtDate, dSum, userId, category, place, paymentType, account, transactionType);
             stmt.executeUpdate(insertSQL);
             stmt.close();
-            con.close();
         } catch (
                 SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
@@ -136,15 +126,12 @@ public class DbExpenses {
     }
 
     public void delete(Object idExpenses) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             String insertSQLString = ("delete from t_Expenses where nId=%1$s");
             String insertSQL = String.format(insertSQLString, idExpenses);
             stmt.executeUpdate(insertSQL);
             stmt.close();
-            con.close();
         } catch (
                 SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
@@ -152,11 +139,8 @@ public class DbExpenses {
     }
 
     public void update(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum, Object value) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             if (String.valueOf(value) != null) {
             }
             String insertSQLString = ("update t_Expenses set  dtDate='%1$s', dSum='%2$s', nUserId='%3$s'" +
@@ -169,7 +153,6 @@ public class DbExpenses {
             String insertSQL = String.format(insertSQLString, dtDate, dSum, userId, category, place, paymentType, account, transactionType, value);
             stmt.executeUpdate(insertSQL);
             stmt.close();
-            con.close();
         } catch (
                 SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
@@ -177,10 +160,8 @@ public class DbExpenses {
     }
 
     public void groupBalanceCategory(String userId, String category) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             String balanceSQLString = "select sum(dSum) as Sum " +
                     "from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId " +
                     "where e.nCategoryId=(select nId from t_dicCategories where sName='%1$s') and e.nUserId=%2$s and e.nTransactionTypeId=%3$s";
@@ -195,17 +176,14 @@ public class DbExpenses {
             balanceCategory = profitCategory - expenseCategory;
             ExpenseExecuteQuery.close();
             stmt.close();
-            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void groupBalanceAccount(String userId, String account) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             String balanceSQLString = "select sum(dSum) as Sum " +
                     "from t_Expenses e join t_dicAccounts a on e.nCategoryId=a.nId " +
                     "where e.nAccountId=(select nId from t_dicAccounts where sName='%1$s') and e.nUserId=%2$s and e.nTransactionTypeId=%3$s";
@@ -220,7 +198,6 @@ public class DbExpenses {
             }
             ExpenseExecuteQuery.close();
             stmt.close();
-            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,12 +1,12 @@
 package financialmanager.data;
 
 public class Transfers {
-    Integer id;
-    String accountSenderId;
-    String accountRecipientId;
-    Integer sum;
+    private int id;
+    private String accountSenderId;
+    private String accountRecipientId;
+    private int sum;
 
-    public Transfers(Integer id, String accountSenderId, String accountRecipientId, Integer sum) {
+    public Transfers(int id, String accountSenderId, String accountRecipientId, int sum) {
         this.id = id;
         this.accountSenderId = accountSenderId;
         this.accountRecipientId = accountRecipientId;
@@ -16,12 +16,15 @@ public class Transfers {
     public Integer getId() {
         return id;
     }
+
     public String getAccountSenderId() {
         return accountSenderId;
     }
+
     public String getAccountRecipientId() {
         return accountRecipientId;
     }
+
     public Integer getSum() {
         return sum;
     }

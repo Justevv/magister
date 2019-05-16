@@ -8,9 +8,8 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static financialmanager.database.DbConnect.connectionString;
-
 public class DbCounters {
+    private DbConnect dbConnect = new DbConnect();
     Integer nId = 0;
     public static ArrayList<financialmanager.data.Counters> counters = new ArrayList<>();
     String nUserSurname;
@@ -27,10 +26,8 @@ public class DbCounters {
     float nWaterPaid;
 
     public void select(String userId) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             sqlSelect = "SELECT c.[nId] " +
                     ",[dtDate]" +
                     ",u.[sSurname] as sSurname" +
@@ -65,7 +62,6 @@ public class DbCounters {
             }
             executeQuery.close();
             stmt.close();
-            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,10 +70,8 @@ public class DbCounters {
     public void insert(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
                        float nGasPrice, float nElectricityPrice, float nWaterPrice,
                        float nGasPaid, float nElectricityPaid, float nWaterPaid) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             String insertSQLString = ("insert into [t_dicCounters]" +
                     "(dtDate " +
                     ",nUserId " +
@@ -97,7 +91,6 @@ public class DbCounters {
                     nGasPaid, nElectricityPaid, nWaterPaid);
             stmt.executeUpdate(insertSQL);
             stmt.close();
-            con.close();
         } catch (
                 SQLException ex) {
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,15 +98,12 @@ public class DbCounters {
     }
 
     public void delete(Object idCounters) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             String insertSQLString = ("delete from t_dicCounters where nId=%1$s");
             String insertSQL = String.format(insertSQLString, idCounters);
             stmt.executeUpdate(insertSQL);
             stmt.close();
-            con.close();
         } catch (
                 SQLException ex) {
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,10 +113,8 @@ public class DbCounters {
     public void update(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
                        float nGasPrice, float nElectricityPrice, float nWaterPrice,
                        float nGasPaid, float nElectricityPaid, float nWaterPaid, String idCounters) {
-        DbConnect.connect();
         try {
-            Connection con = DriverManager.getConnection(connectionString);
-            Statement stmt = con.createStatement();
+            Statement stmt = dbConnect.connect();
             if (String.valueOf(idCounters) != null) {
             }
             String insertSQLString = ("update t_dicCounters set  dtDate='%1$s', nGasReadings='%3$s', nElectricityReadings='%4$s', nWaterReadings='%5$s'," +
@@ -138,7 +126,6 @@ public class DbCounters {
                     nGasPaid, nElectricityPaid, nWaterPaid, idCounters);
             stmt.executeUpdate(insertSQL);
             stmt.close();
-            con.close();
         } catch (
                 SQLException ex) {
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);

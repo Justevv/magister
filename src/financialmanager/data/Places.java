@@ -1,14 +1,14 @@
 package financialmanager.data;
 
 public class Places {
-    Integer id;
-    String name;
-    String adress;
+    private int id;
+    private String name;
+    private  String address;
 
-    public Places(Integer id, String name, String adress) {
+    public Places(int id, String name, String address) {
         this.id = id;
         this.name = name;
-        this.adress = adress;
+        this.address = address;
     }
 
     public Integer getId() {
@@ -19,7 +19,7 @@ public class Places {
         return name;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 }

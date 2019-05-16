@@ -72,7 +72,7 @@ public class WindowCategories extends JFrame implements ActionListener {
 
         buttonDeleteCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbCategories.delete(currentId.toString());
+                dbCategories.delete(currentId.toString());
                 dbCategories.categories.remove(selectedRows[i - 1]);
                 modelCategories.fireTableDataChanged();
             }

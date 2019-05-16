@@ -1,17 +1,17 @@
 package financialmanager.data;
 
 public class Expenses {
-    Integer id;
-    String date;
-    String userSurname;
-    String categoryName;
-    String placeName;
-    String paymentTypeName;
-    Integer sum;
-    String account;
-    String transactionType;
+    private int id;
+    private String date;
+    private String userSurname;
+    private String categoryName;
+    private String placeName;
+    private String paymentTypeName;
+    private int sum;
+    private String account;
+    private String transactionType;
 
-    public Expenses(Integer id, String date, String userSurname, String categoryName, String placeName, String paymentTypeName, Integer sum, String account, String transactionType) {
+    public Expenses(int id, String date, String userSurname, String categoryName, String placeName, String paymentTypeName, int sum, String account, String transactionType) {
         this.id = id;
         this.date = date;
         this.userSurname = userSurname;

@@ -1,15 +1,15 @@
 package financialmanager.data;
 
 public class Users {
-    Integer id;
-    String surname;
-    String name;
-    String birthday;
-    String sex;
-    String phone;
-    String email;
+    private  int id;
+    private   String surname;
+    private   String name;
+    private  String birthday;
+    private   String sex;
+    private   String phone;
+    private   String email;
 
-    public Users(Integer id, String surname, String name, String birthday, String sex, String phone, String email) {
+    public Users(int id, String surname, String name, String birthday, String sex, String phone, String email) {
         this.id = id;
         this.surname = surname;
         this.name = name;

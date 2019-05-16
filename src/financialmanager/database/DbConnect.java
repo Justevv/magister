@@ -2,23 +2,34 @@ package financialmanager.database;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DbConnect {
-    static String connectionString;
 
-    public static void connect() {
-        String computername = null;
+    public Statement connect() {
+        Statement stmt = null;
+        String computerName = null;
         try {
-            computername = InetAddress.getLocalHost().getHostName();
+            computerName = InetAddress.getLocalHost().getHostName();
         } catch (
                 UnknownHostException e) {
             e.printStackTrace();
         }
-        String instanceName = computername + "\\SQLEXPRESS";
+        String instanceName = computerName + "\\SQLEXPRESS";
         String databaseName = "expenses";
         String userName = "supertest";
         String pass = "supertest";
         String connectionUrl = "jdbc:sqlserver://%1$s;databaseName=%2$s;user=%3$s;password=%4$s;";
-        connectionString = String.format(connectionUrl, instanceName, databaseName, userName, pass);
+        String connectionString = String.format(connectionUrl, instanceName, databaseName, userName, pass);
+        try {
+            Connection con = DriverManager.getConnection(connectionString);
+            stmt = con.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stmt;
     }
 }
