@@ -31,15 +31,15 @@ public class WindowPlaces extends JFrame implements ActionListener {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        DbPlaces.select();
+        DbPlaces dbPlaces = new DbPlaces();
+        dbPlaces.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelPlaces = new PlacesTable(DbPlaces.places);
+        modelPlaces = new PlacesTable(dbPlaces.places);
         //На основе модели, создадим новую JTable
         jTabPlace = new JTable(modelPlaces);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -71,7 +71,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
 
         buttonDeletePlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbPlaces.delete(currentId,selectedRows[i-1]);
+                dbPlaces.delete(currentId, selectedRows[i - 1]);
                 modelPlaces.fireTableDataChanged();
             }
         });

@@ -10,13 +10,12 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbPlaces {
-    public static Integer nId = 0;
-    public static String sName;
-    public static ArrayList<Places> places;
-    public static int filterId = 0;
-    static String currentPlaceId = "0";
+    private Integer nId = 0;
+    private String sName;
+    public static ArrayList<Places> places = new ArrayList<>();
+    String currentPlaceId = "0";
 
-    public static void select() {
+    public void select() {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -24,7 +23,6 @@ public class DbPlaces {
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicPlaces"
             );
-            places = new ArrayList<>();
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
                 sName = executeQuery.getString("sName");
@@ -39,7 +37,7 @@ public class DbPlaces {
         }
     }
 
-    public static void view(String name, String address) {
+    public void insert(String name, String address) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -47,23 +45,6 @@ public class DbPlaces {
             String insertSQLString = ("insert into t_dicPlaces(sName, sAddress) values ('%1$s','%2$s')");
             String insertSQL = String.format(insertSQLString, name, address);
             stmt.executeUpdate(insertSQL);
-
-            if (filterId < nId) {
-                filterId = nId;
-            }
-            ResultSet executeQuery = stmt.executeQuery("SELECT * " +
-                    "FROM t_dicPlaces where nId>" + filterId
-            );
-            // Обход результатов выборки
-            while (executeQuery.next()) {
-                int nId = executeQuery.getInt("nId");
-                ;
-                String sName = executeQuery.getString("sName");
-                String sAddress = executeQuery.getString("sAddress");
-                places.add(new Places(nId, sName, sAddress));
-                filterId = nId;
-            }
-            executeQuery.close();
             stmt.close();
             con.close();
         } catch (
@@ -72,7 +53,7 @@ public class DbPlaces {
         }
     }
 
-    public static void delete(Object value, int selectedRows) {
+    public void delete(Object value, int selectedRows) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -89,7 +70,7 @@ public class DbPlaces {
         }
     }
 
-    public static void update(String name, String address, String value) {
+    public void update(String name, String address, String value) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);

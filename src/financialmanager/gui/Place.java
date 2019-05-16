@@ -1,5 +1,7 @@
 package financialmanager.gui;
 
+import financialmanager.database.DbPlaces;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -105,14 +107,17 @@ public class Place extends JFrame {
     }
 
     private void onOK() {
+        DbPlaces dbPlaces = new DbPlaces();
         if (WindowPlaces.action == "update") {
-            financialmanager.database.DbPlaces.update(textFieldName.getText(), textFieldAddress.getText(), currentId.toString());
-            modelPlaces.fireTableDataChanged();
+            dbPlaces.update(textFieldName.getText(), textFieldAddress.getText(), currentId.toString());
         }
         if (WindowPlaces.action == "insert") {
-            financialmanager.database.DbPlaces.view(textFieldName.getText(), textFieldAddress.getText());
-            modelPlaces.fireTableDataChanged();
+            dbPlaces.insert(textFieldName.getText(), textFieldAddress.getText());
         }
+        dbPlaces.places.removeAll(dbPlaces.places);
+        dbPlaces.select();
+        modelPlaces.fireTableDataChanged();
+        setVisible(false);
     }
 
     private void onCancel() {
