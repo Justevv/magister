@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static financialmanager.database.DbExpenses.expenses;
 import static financialmanager.gui.WindowExpenses.modelExpenses;
 import static financialmanager.gui.WindowExpenses.value;
 
@@ -29,6 +28,7 @@ public class Expense extends JFrame {
     public static JComboBox comboBoxTransactionType;
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
+    DbExpenses dbExpenses = new DbExpenses();
 
     public Expense() {
         super("Финансовый менеджер");
@@ -42,7 +42,7 @@ public class Expense extends JFrame {
         if (WindowExpenses.action == null) {
             WindowExpenses.comboBoxCategory = new JComboBox();
         }
-        DbExpenses.comboBoxRead(comboBoxPlace, comboBoxPaymentType, comboBoxCategory, comboBoxAccount, comboBoxTransactionType);
+        dbExpenses.comboBoxRead(comboBoxPlace, comboBoxPaymentType, comboBoxCategory, comboBoxAccount, comboBoxTransactionType);
 
         if (WindowExpenses.action == "update") {
             comboBoxCategory.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 3))));
@@ -204,9 +204,9 @@ public class Expense extends JFrame {
     }
 
     private void onOK() {
-        expenses.removeAll(expenses);
+        dbExpenses.expenses.removeAll(dbExpenses.expenses);
         if (WindowExpenses.action == "update") {
-            financialmanager.database.DbExpenses.update(OpenWindow.userLogin,
+            dbExpenses.update(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
                     (String) comboBoxPaymentType.getSelectedItem(),
                     (String) comboBoxCategory.getSelectedItem(),
@@ -217,7 +217,7 @@ public class Expense extends JFrame {
                     value);
         }
         if (WindowExpenses.action == "insert") {
-            financialmanager.database.DbExpenses.insert(OpenWindow.userLogin,
+            dbExpenses.insert(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
                     (String) comboBoxPaymentType.getSelectedItem(),
                     (String) comboBoxCategory.getSelectedItem(),
@@ -226,7 +226,7 @@ public class Expense extends JFrame {
                     textFieldDate.getText(),
                     new Integer(textFieldSum.getText()));
         }
-        DbExpenses.select(OpenWindow.userLogin);
+        dbExpenses.select(OpenWindow.userLogin);
         modelExpenses.fireTableDataChanged();
         DbExpenses dbExpenses = new DbExpenses();
         long profit = dbExpenses.profit;

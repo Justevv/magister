@@ -26,7 +26,7 @@ public class DbCounters {
     float nElectricityPaid;
     float nWaterPaid;
 
-    public void view(String userId) {
+    public void select(String userId) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -71,9 +71,9 @@ public class DbCounters {
         }
     }
 
-    public void add(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
-                    float nGasPrice, float nElectricityPrice, float nWaterPrice,
-                    float nGasPaid, float nElectricityPaid, float nWaterPaid) {
+    public void insert(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
+                       float nGasPrice, float nElectricityPrice, float nWaterPrice,
+                       float nGasPaid, float nElectricityPaid, float nWaterPaid) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);

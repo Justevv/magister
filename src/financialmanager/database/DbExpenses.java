@@ -9,18 +9,18 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbExpenses {
-    public static Integer nId = 0;
-    public static Integer dSum;
+    private Integer nId = 0;
+    private Integer dSum;
     public static ArrayList<financialmanager.data.Expenses> expenses = new ArrayList<>();
     public static Long expense;
     public static Long profit;
-    public static String nUserSurname;
+    public String nUserSurname;
     public static long profitCategory;
     public static long expenseCategory;
     public static long balanceCategory;
-    static String sqlSelect;
+    private String sqlSelect;
 
-    public static void select(String userId) {
+    public void select(String userId) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -76,7 +76,7 @@ public class DbExpenses {
         }
     }
 
-    public static void comboBoxRead(JComboBox comboBoxPlace, JComboBox comboBoxPaymentType, JComboBox comboBoxCategory, JComboBox comboBoxAccount, JComboBox comboBoxTransactionType) {
+    public void comboBoxRead(JComboBox comboBoxPlace, JComboBox comboBoxPaymentType, JComboBox comboBoxCategory, JComboBox comboBoxAccount, JComboBox comboBoxTransactionType) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -111,7 +111,7 @@ public class DbExpenses {
         }
     }
 
-    public static void insert(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum) {
+    public void insert(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -135,7 +135,7 @@ public class DbExpenses {
         }
     }
 
-    public static void delete(Object idExpenses) {
+    public void delete(Object idExpenses) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -151,7 +151,7 @@ public class DbExpenses {
         }
     }
 
-    public static void update(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum, Object value) {
+    public void update(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum, Object value) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -176,7 +176,7 @@ public class DbExpenses {
         }
     }
 
-    public static void groupBalanceCategory(String userId, String category) {
+    public void groupBalanceCategory(String userId, String category) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -201,7 +201,7 @@ public class DbExpenses {
         }
     }
 
-    public static void groupBalanceAccount(String userId, String account) {
+    public void groupBalanceAccount(String userId, String account) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);

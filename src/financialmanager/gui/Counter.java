@@ -226,22 +226,22 @@ public class Counter extends JFrame {
                     Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
                     Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()),
                     WindowCounters.idCounters.toString());
-            dbCounters.view(OpenWindow.userLogin);
+            dbCounters.select(OpenWindow.userLogin);
             modelCounters.fireTableDataChanged();
         }
-        if (WindowCounters.action == "add") {
+        if (WindowCounters.action == "insert") {
             dbCounters.counters.removeAll(dbCounters.counters);
-            dbCounters.add(OpenWindow.userLogin, textFieldDate.getText(),
+            dbCounters.insert(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
                     Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
                     Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()));
-            dbCounters.view(OpenWindow.userLogin);
+            dbCounters.select(OpenWindow.userLogin);
             modelCounters.fireTableDataChanged();
         }
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        // insert your code here if necessary
         // dispose();
         setVisible(false);
         //System.exit(0);

@@ -6,7 +6,6 @@ import financialmanager.database.DbExpenses;
 import javax.swing.*;
 import java.awt.*;
 
-import static financialmanager.database.DbExpenses.groupBalanceCategory;
 
 public class WindowResultCategory extends JFrame {
     private JLabel labelUser;
@@ -34,21 +33,21 @@ public class WindowResultCategory extends JFrame {
         long profit = dbExpenses.profit;
         long expense = dbExpenses.expense;
         Balance balance = new Balance();
-        labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
+        labelUser = new JLabel("Пользователь: " + dbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
         labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
-        labelProfit = new JLabel("Доход: " + DbExpenses.profit + " Рублей");
-        labelExpense = new JLabel("Расход: " + DbExpenses.expense + " Рублей");
+        labelProfit = new JLabel("Доход: " + dbExpenses.profit + " Рублей");
+        labelExpense = new JLabel("Расход: " + dbExpenses.expense + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         for (; categoryNunber < countCategory; categoryNunber++) {
             Object nameCategory = Expense.comboBoxCategory.getItemAt(categoryNunber);
-            groupBalanceCategory(OpenWindow.userLogin, String.valueOf(nameCategory));
-            labelBalanceCategory[categoryNunber] = new JLabel("Баланс категории " + nameCategory + ": " + DbExpenses.balanceCategory + " Рублей");
-            labelProfitCategory[categoryNunber] = new JLabel("Доход категории " + nameCategory + ": " + DbExpenses.profitCategory + " Рублей");
-            labelExpenseCategory[categoryNunber] = new JLabel("Расход категории " + nameCategory + ": " + DbExpenses.expenseCategory + " Рублей");
+            dbExpenses.groupBalanceCategory(OpenWindow.userLogin, String.valueOf(nameCategory));
+            labelBalanceCategory[categoryNunber] = new JLabel("Баланс категории " + nameCategory + ": " + dbExpenses.balanceCategory + " Рублей");
+            labelProfitCategory[categoryNunber] = new JLabel("Доход категории " + nameCategory + ": " + dbExpenses.profitCategory + " Рублей");
+            labelExpenseCategory[categoryNunber] = new JLabel("Расход категории " + nameCategory + ": " + dbExpenses.expenseCategory + " Рублей");
 
 //            c.fill = GridBagConstraints.HORIZONTAL;
 //            c.weightx = 0.5;

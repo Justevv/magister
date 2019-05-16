@@ -33,7 +33,7 @@ public class WindowCounters extends JFrame implements ActionListener {
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         DbCounters dbCounters = new DbCounters();
         dbCounters.counters.removeAll(dbCounters.counters);
-        dbCounters.view(OpenWindow.userLogin);
+        dbCounters.select(OpenWindow.userLogin);
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -60,7 +60,7 @@ public class WindowCounters extends JFrame implements ActionListener {
 
         buttonAddCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "add";
+                action = "insert";
                 Counter.go();
             }
         });

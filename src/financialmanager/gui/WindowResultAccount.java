@@ -7,7 +7,6 @@ import financialmanager.database.DbTransfers;
 import javax.swing.*;
 import java.awt.*;
 
-import static financialmanager.database.DbExpenses.groupBalanceAccount;
 import static financialmanager.database.DbTransfers.groupBalanceTransfer;
 
 public class WindowResultAccount extends JFrame {
@@ -36,23 +35,23 @@ public class WindowResultAccount extends JFrame {
         long profit = dbExpenses.profit;
         long expense = dbExpenses.expense;
         Balance balance = new Balance();
-        labelUser = new JLabel("Пользователь: " + DbExpenses.nUserSurname);
+        labelUser = new JLabel("Пользователь: " + dbExpenses.nUserSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
         labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
-        labelProfit = new JLabel("Доход: " + DbExpenses.profit + " Рублей");
-        labelExpense = new JLabel("Расход: " + DbExpenses.expense + " Рублей");
+        labelProfit = new JLabel("Доход: " + dbExpenses.profit + " Рублей");
+        labelExpense = new JLabel("Расход: " + dbExpenses.expense + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         for (; accountNunber < countAccount; accountNunber++) {
             Object nameAccount = Expense.comboBoxAccount.getItemAt(accountNunber);
-            groupBalanceAccount(OpenWindow.userLogin, String.valueOf(nameAccount));
+            dbExpenses.groupBalanceAccount(OpenWindow.userLogin, String.valueOf(nameAccount));
             groupBalanceTransfer(OpenWindow.userLogin, String.valueOf(nameAccount));
-            Long balanceC = DbExpenses.balanceCategory + DbTransfers.balanceTransiction;
+            Long balanceC = dbExpenses.balanceCategory + DbTransfers.balanceTransiction;
             labelBalanceAccount[accountNunber] = new JLabel("Баланс счета " + nameAccount + ": " + balanceC + " Рублей");
-            labelProfitAccount[accountNunber] = new JLabel("Доход счета " + nameAccount + ": " + DbExpenses.profitCategory + " Рублей");
-            labelExpenseAccount[accountNunber] = new JLabel("Расход счета " + nameAccount + ": " + DbExpenses.expenseCategory + " Рублей");
+            labelProfitAccount[accountNunber] = new JLabel("Доход счета " + nameAccount + ": " + dbExpenses.profitCategory + " Рублей");
+            labelExpenseAccount[accountNunber] = new JLabel("Расход счета " + nameAccount + ": " + dbExpenses.expenseCategory + " Рублей");
 
             c.fill = GridBagConstraints.HORIZONTAL;
             c.weightx = 0.5;
