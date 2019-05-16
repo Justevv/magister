@@ -7,8 +7,6 @@ import financialmanager.database.DbTransfers;
 import javax.swing.*;
 import java.awt.*;
 
-import static financialmanager.database.DbTransfers.groupBalanceTransfer;
-
 public class WindowResultAccount extends JFrame {
     private JLabel labelUser;
     private JLabel labelAccount;
@@ -47,7 +45,8 @@ public class WindowResultAccount extends JFrame {
         for (; accountNunber < countAccount; accountNunber++) {
             Object nameAccount = Expense.comboBoxAccount.getItemAt(accountNunber);
             dbExpenses.groupBalanceAccount(OpenWindow.userLogin, String.valueOf(nameAccount));
-            groupBalanceTransfer(OpenWindow.userLogin, String.valueOf(nameAccount));
+            DbTransfers dbTransfers = new DbTransfers();
+            dbTransfers.groupBalanceTransfer(OpenWindow.userLogin, String.valueOf(nameAccount));
             Long balanceC = dbExpenses.balanceCategory + DbTransfers.balanceTransiction;
             labelBalanceAccount[accountNunber] = new JLabel("Баланс счета " + nameAccount + ": " + balanceC + " Рублей");
             labelProfitAccount[accountNunber] = new JLabel("Доход счета " + nameAccount + ": " + dbExpenses.profitCategory + " Рублей");

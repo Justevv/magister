@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static financialmanager.gui.WindowPlaces.modelPlaces;
 import static financialmanager.gui.WindowTransfers.currentId;
 import static financialmanager.gui.WindowTransfers.modelTransfers;
 
@@ -21,6 +22,7 @@ public class Transfer extends JFrame {
     public static JComboBox comboBoxAccountRecipient;
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
+    DbTransfers dbTransfers = new DbTransfers();
 
     public Transfer() {
 
@@ -29,7 +31,7 @@ public class Transfer extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         comboBoxAccountSender = new JComboBox();
         comboBoxAccountRecipient = new JComboBox();
-        DbTransfers.comboBoxTransfer(comboBoxAccountSender, comboBoxAccountRecipient);
+        dbTransfers.comboBoxTransfer(comboBoxAccountSender, comboBoxAccountRecipient);
         if (WindowTransfers.action == "update") {
             comboBoxAccountSender.setSelectedItem((String.valueOf(WindowTransfers.model.getValueAt(WindowTransfers.selIndex, 1))));
             comboBoxAccountRecipient.setSelectedItem((String.valueOf(WindowTransfers.model.getValueAt(WindowTransfers.selIndex, 2))));
@@ -129,13 +131,15 @@ public class Transfer extends JFrame {
 
     private void onOK() {
         if (WindowTransfers.action == "update") {
-            financialmanager.database.DbTransfers.update((String)comboBoxAccountSender.getSelectedItem(), (String)comboBoxAccountRecipient.getSelectedItem(),Integer.valueOf(textFieldSum.getText()), currentId.toString(), OpenWindow.userLogin);
-            modelTransfers.fireTableDataChanged();
+            dbTransfers.update((String) comboBoxAccountSender.getSelectedItem(), (String) comboBoxAccountRecipient.getSelectedItem(), Integer.valueOf(textFieldSum.getText()), currentId.toString(), OpenWindow.userLogin);
         }
         if (WindowTransfers.action == "insert") {
-            financialmanager.database.DbTransfers.insert((String)comboBoxAccountSender.getSelectedItem(), (String)comboBoxAccountRecipient.getSelectedItem(),Integer.valueOf(textFieldSum.getText()),OpenWindow.userLogin);
-            modelTransfers.fireTableDataChanged();
+            dbTransfers.insert((String) comboBoxAccountSender.getSelectedItem(), (String) comboBoxAccountRecipient.getSelectedItem(), Integer.valueOf(textFieldSum.getText()), OpenWindow.userLogin);
         }
+        dbTransfers.transfers.removeAll(dbTransfers.transfers);
+        dbTransfers.select(OpenWindow.userLogin);
+        modelTransfers.fireTableDataChanged();
+        setVisible(false);
     }
 
     private void onCancel() {

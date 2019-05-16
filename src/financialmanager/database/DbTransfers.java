@@ -11,17 +11,15 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbTransfers {
-    public static Integer nId = 0;
-    public static String nAccountSender;
-    public static ArrayList<Transfers> Transfers;
-    public static int filterId = 0;
-    static String currentTransferId = "0";
-    static String sqlSelectTransfers;
+    private String accountSender;
+    public static ArrayList<Transfers> transfers = new ArrayList<>();
+    String currentTransferId = "0";
+    String sqlSelectTransfers;
     private static long expenseTransiction;
     private static long profitTransiction;
     public static long balanceTransiction;
 
-    public static void select(String UserId) {
+    public void select(String UserId) {
         sqlSelectTransfers = "SELECT t.nId" +
                 ", a.sName as AccountSender" +
                 ", a1.sName as AccountRecipient" +
@@ -35,13 +33,12 @@ public class DbTransfers {
             Connection con = DriverManager.getConnection(connectionString);
             Statement stmt = con.createStatement();
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, UserId, 0));
-            Transfers = new ArrayList<>();
             while (executeQuery.next()) {
-                nId = executeQuery.getInt("nId");
-                nAccountSender = executeQuery.getString("AccountSender");
+                int id = executeQuery.getInt("nId");
+                accountSender = executeQuery.getString("AccountSender");
                 String nAccountRecipient = executeQuery.getString("AccountRecipient");
                 Integer dSum = executeQuery.getInt("dSum");
-                Transfers.add(new Transfers(nId, nAccountSender, nAccountRecipient, dSum));
+                transfers.add(new Transfers(id, accountSender, nAccountRecipient, dSum));
             }
             executeQuery.close();
             stmt.close();
@@ -51,7 +48,7 @@ public class DbTransfers {
         }
     }
 
-    public static void comboBoxTransfer(JComboBox comboBoxAccountSender, JComboBox comboBoxAccountRecipient) {
+    public void comboBoxTransfer(JComboBox comboBoxAccountSender, JComboBox comboBoxAccountRecipient) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -69,7 +66,7 @@ public class DbTransfers {
         }
     }
 
-    public static void insert(String nAccountSenderId, String nAccountRecipientId, Integer dSum, String UserId) {
+    public void insert(String nAccountSenderId, String nAccountRecipientId, Integer dSum, String UserId) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -82,21 +79,6 @@ public class DbTransfers {
                     " '%4$s')");
             String insertSQL = String.format(insertSQLString, UserId, nAccountSenderId, nAccountRecipientId, dSum);
             stmt.executeUpdate(insertSQL);
-
-            if (filterId < nId) {
-                filterId = nId;
-            }
-            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, UserId, filterId));
-            System.out.println();
-            while (executeQuery.next()) {
-                nId = executeQuery.getInt("nId");
-                nAccountSender = executeQuery.getString("AccountSender");
-                String nAccountRecipient = executeQuery.getString("AccountRecipient");
-                dSum = executeQuery.getInt("dSum");
-                Transfers.add(new Transfers(nId, nAccountSender, nAccountRecipient, dSum));
-                filterId = nId;
-            }
-            executeQuery.close();
             stmt.close();
             con.close();
         } catch (
@@ -105,7 +87,7 @@ public class DbTransfers {
         }
     }
 
-    public static void delete(Object value, int selectedRows) {
+    public void delete(Object value, int selectedRows) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -113,7 +95,7 @@ public class DbTransfers {
             String insertSQLString = ("delete from t_dicTransfers where nId=%1$s");
             String insertSQL = String.format(insertSQLString, value);
             stmt.executeUpdate(insertSQL);
-            Transfers.remove(selectedRows);
+            transfers.remove(selectedRows);
             stmt.close();
             con.close();
         } catch (
@@ -122,7 +104,7 @@ public class DbTransfers {
         }
     }
 
-    public static void update(String nAccountSenderId, String nAccountRecipientId, Integer dSum, String value, String userId) {
+    public void update(String nAccountSenderId, String nAccountRecipientId, Integer dSum, String value, String userId) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -133,16 +115,6 @@ public class DbTransfers {
             String insertSQLString = ("update t_dicTransfers set  nAccountSenderId=(select nId from t_dicAccounts where sName='%1$s'), nAccountRecipientId=(select nId from t_dicAccounts where sName='%2$s'), dSum=%3$s where nId=%4$s");
             String insertSQL = String.format(insertSQLString, nAccountSenderId, nAccountRecipientId, dSum, currentTransferId);
             stmt.executeUpdate(insertSQL);
-            Transfers.removeAll(Transfers);
-            ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, userId, 0));
-            while (executeQuery.next()) {
-                int nId = executeQuery.getInt("nId");
-                nAccountSenderId = executeQuery.getString("AccountSender");
-                nAccountRecipientId = executeQuery.getString("AccountRecipient");
-                dSum = executeQuery.getInt("dSum");
-                Transfers.add(new Transfers(nId, nAccountSenderId, nAccountRecipientId, dSum));
-            }
-            executeQuery.close();
             stmt.close();
             con.close();
         } catch (
@@ -151,7 +123,7 @@ public class DbTransfers {
         }
     }
 
-    public static void groupBalanceTransfer(String userId, String account) {
+    public void groupBalanceTransfer(String userId, String account) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);

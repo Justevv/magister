@@ -31,15 +31,15 @@ public class WindowTransfers extends JFrame implements ActionListener {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        DbTransfers.select(OpenWindow.userLogin);
+        DbTransfers dbTransfers = new DbTransfers();
+        dbTransfers.select(OpenWindow.userLogin);
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelTransfers = new TransfersTable(DbTransfers.Transfers);
+        modelTransfers = new TransfersTable(DbTransfers.transfers);
         //На основе модели, создадим новую JTable
         jTabTransfer = new JTable(modelTransfers);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -71,7 +71,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
 
         buttonDeleteTransfer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbTransfers.delete(currentId,selectedRows[i-1]);
+                dbTransfers.delete(currentId,selectedRows[i-1]);
                 modelTransfers.fireTableDataChanged();
             }
         });
