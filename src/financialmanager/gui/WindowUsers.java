@@ -34,7 +34,8 @@ public class WindowUsers extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbUsers.select();
+        DbUsers dbUsers = new DbUsers();
+        dbUsers.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -73,7 +74,7 @@ public class WindowUsers extends JFrame implements ActionListener {
 
         buttonDeleteUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbUsers.delete(currentId.toString());
+                dbUsers.delete(currentId.toString());
                 users.remove(selectedRows[i - 1]);
                 modelUsers.fireTableDataChanged();
             }

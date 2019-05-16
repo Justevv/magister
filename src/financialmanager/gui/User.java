@@ -180,10 +180,10 @@ public class User extends JFrame {
         String Phone = textFieldPhone.getText();
         String Email = textFieldEmail.getText();
         if (WindowUsers.action == "update") {
-            financialmanager.database.DbUsers.update(Surname, Name, Birthday, Sex, Phone, Email, currentId.toString(), WindowUsers.currentEmail.toString());
+            dbUsers.update(Surname, Name, Birthday, Sex, Phone, Email, currentId.toString(), WindowUsers.currentEmail.toString());
         }
         if (WindowUsers.action == "insert") {
-            financialmanager.database.DbUsers.insert(Surname, Name, Birthday, Sex, Phone, Email);
+            dbUsers.insert(Surname, Name, Birthday, Sex, Phone, Email);
         }
         dbUsers.users.removeAll(dbUsers.users);
         dbUsers.select();

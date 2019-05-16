@@ -10,14 +10,13 @@ import java.util.logging.Logger;
 import static financialmanager.database.DbConnect.connectionString;
 
 public class DbUsers {
-    public static Integer nId = 0;
-    public static String sName;
+    public String sName;
     public static ArrayList<Users> users = new ArrayList<>();
-    public static String sEmail;
-    public static ArrayList<String> emailList = new ArrayList<>();
+    public String sEmail;
+    public ArrayList<String> emailList = new ArrayList<>();
     static String currentUserId = "0";
 
-    public static void select() {
+    public void select() {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -26,14 +25,14 @@ public class DbUsers {
                     "FROM t_dicUsers"
             );
             while (executeQuery.next()) {
-                nId = executeQuery.getInt("nId");
+                int id = executeQuery.getInt("nId");
                 String sSurname = executeQuery.getString("sSurname");
                 sName = executeQuery.getString("sName");
                 String dtBirthday = executeQuery.getString("dtBirthday");
                 String sSex = executeQuery.getString("sSex");
                 String sPhone = executeQuery.getString("sPhone");
                 sEmail = executeQuery.getString("sEmail");
-                users.add(new Users(nId, sSurname, sName, dtBirthday, sSex, sPhone, sEmail));
+                users.add(new Users(id, sSurname, sName, dtBirthday, sSex, sPhone, sEmail));
                 emailList.add(sEmail);
             }
             executeQuery.close();
@@ -44,7 +43,7 @@ public class DbUsers {
         }
     }
 
-    public static void insert(String surname, String name, String birthday, String sex, String phone, String email) {
+    public void insert(String surname, String name, String birthday, String sex, String phone, String email) {
         boolean containsName = false;
         for (String emailList : emailList) {
             if (emailList.equals(email)) {
@@ -69,7 +68,7 @@ public class DbUsers {
         }
     }
 
-    public static void delete(String nId) {
+    public void delete(String nId) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
@@ -85,7 +84,7 @@ public class DbUsers {
         }
     }
 
-    public static void update(String Surname, String Name, String Birthday, String Sex, String Phone, String Email, String Id, String currentEmail) {
+    public void update(String Surname, String Name, String Birthday, String Sex, String Phone, String Email, String Id, String currentEmail) {
         boolean containsName = false;
         for (String sEmailList : emailList) {
             if (sEmailList.equals(Email)) {
@@ -103,7 +102,7 @@ public class DbUsers {
         }
     }
 
-    public static void updateGo(String Surname, String Name, String Birthday, String Sex, String Phone, String Email, String Id) {
+    public void updateGo(String Surname, String Name, String Birthday, String Sex, String Phone, String Email, String Id) {
         DbConnect.connect();
         try {
             Connection con = DriverManager.getConnection(connectionString);
