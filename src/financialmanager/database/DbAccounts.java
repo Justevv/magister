@@ -3,6 +3,7 @@ package financialmanager.database;
 import financialmanager.data.Accounts;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,13 +12,11 @@ import static financialmanager.database.DbConnect.connectionString;
 public class DbAccounts {
     private int id;
     private String name;
-//    public static ArrayList<Accounts> accounts = new ArrayList<>();
+    public static ArrayList<Accounts> accounts = new ArrayList<>();
 
     public void select() {
         DbConnect.connect();
         try {
-            Accounts accounts = new Accounts();
-            accounts.removeList();
             Connection con = DriverManager.getConnection(connectionString);
             Statement stmt = con.createStatement();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
@@ -25,7 +24,7 @@ public class DbAccounts {
             while (executeQuery.next()) {
                 id = executeQuery.getInt("nId");
                 name = executeQuery.getString("sName");
-                accounts.accounts.add(new Accounts(id, name));
+                accounts.add(new Accounts(id, name));
             }
             executeQuery.close();
             stmt.close();

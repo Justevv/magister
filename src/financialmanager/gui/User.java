@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static financialmanager.gui.WindowCategories.modelCategories;
 import static financialmanager.gui.WindowUsers.modelUsers;
 import static financialmanager.gui.WindowUsers.currentId;
 
@@ -14,20 +13,20 @@ public class User extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelSurname = new JLabel("Фамилия:");
     private JLabel labelName = new JLabel("Имя:");
-    public static JLabel labelBirthday = new JLabel("Дата рождения:");
+    private static JLabel labelBirthday = new JLabel("Дата рождения:");
     private JLabel labelPhone = new JLabel("Телефон:");
     private JLabel labelSex = new JLabel("Пол:");
     private JLabel labelEmail = new JLabel("Email:");
-    public static JTextField textFieldSurname = new JTextField("Коровин", 5);
-    public static JTextField textFieldName = new JTextField("Михаил", 5);
-    public static JTextField textFieldBirthday = new JTextField("20010101", 5);
-    public static JTextField textFieldPhone = new JTextField("+79203336699", 5);
-    public static JTextField textFieldSex = new JTextField("M", 5);
-    public static JTextField textFieldEmail = new JTextField("korovin@mail.ru", 5);
+    private static JTextField textFieldSurname = new JTextField("Коровин", 5);
+    private static JTextField textFieldName = new JTextField("Михаил", 5);
+    private static JTextField textFieldBirthday = new JTextField("20010101", 5);
+    private static JTextField textFieldPhone = new JTextField("+79203336699", 5);
+    private static JTextField textFieldSex = new JTextField("M", 5);
+    private static JTextField textFieldEmail = new JTextField("korovin@mail.ru", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public User() {
+    private User() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);

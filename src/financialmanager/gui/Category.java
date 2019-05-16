@@ -13,9 +13,9 @@ import static financialmanager.gui.WindowCategories.modelCategories;
 public class Category extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelName = new JLabel("Имя:");
-    public static JLabel labelParentId = new JLabel("Родительская категория:");
-    public static JTextField textFieldName = new JTextField("Свет", 5);
-    public static JTextField textFieldParentId = new JTextField("1", 5);
+    private  JLabel labelParentId = new JLabel("Родительская категория:");
+    private  JTextField textFieldName = new JTextField("Свет", 5);
+    private  JTextField textFieldParentId = new JTextField("1", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 

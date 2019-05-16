@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Accounts {
     private Integer id;
     private String name;
-    public static ArrayList<Accounts> accounts = new ArrayList<>();
 
     public Accounts() {
     }
@@ -21,10 +20,6 @@ public class Accounts {
 
     public String getName() {
         return name;
-    }
-
-    public void removeList() {
-        accounts.removeAll(accounts);
     }
 
 

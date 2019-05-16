@@ -11,10 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static financialmanager.data.Accounts.accounts;
-
-//import static financialmanager.database.DbAccounts.accounts;
-
 public class WindowAccounts extends JFrame implements ActionListener {
     private JButton buttonAddAccount = new JButton("Добавить счет");
     private JButton buttonDeleteAccount = new JButton("Удалить счет");
@@ -35,15 +31,15 @@ public class WindowAccounts extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbAccounts DbAccounts = new DbAccounts();
-        DbAccounts.select();
+        DbAccounts dbAccounts = new DbAccounts();
+        dbAccounts.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelAccounts = new AccountsTable(accounts);
+        modelAccounts = new AccountsTable(dbAccounts.accounts);
         //На основе модели, создадим новую JTable
         jTabAccount = new JTable(modelAccounts);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -75,8 +71,8 @@ public class WindowAccounts extends JFrame implements ActionListener {
 
         buttonDeleteAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DbAccounts.delete(currentId.toString());
-                accounts.remove(WindowAccounts.selectedRows[WindowAccounts.i - 1]);
+                dbAccounts.delete(currentId.toString());
+                dbAccounts.accounts.remove(WindowAccounts.selectedRows[WindowAccounts.i - 1]);
                 modelAccounts.fireTableDataChanged();
             }
         });
