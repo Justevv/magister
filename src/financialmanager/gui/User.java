@@ -1,9 +1,12 @@
 package financialmanager.gui;
 
+import financialmanager.database.DbUsers;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static financialmanager.gui.WindowCategories.modelCategories;
 import static financialmanager.gui.WindowUsers.modelUsers;
 import static financialmanager.gui.WindowUsers.currentId;
 
@@ -169,26 +172,23 @@ public class User extends JFrame {
     }
 
     private void onOK() {
+        DbUsers dbUsers = new DbUsers();
+        String Surname = textFieldSurname.getText();
+        String Name = textFieldName.getText();
+        String Birthday = textFieldBirthday.getText();
+        String Sex = textFieldSex.getText();
+        String Phone = textFieldPhone.getText();
+        String Email = textFieldEmail.getText();
         if (WindowUsers.action == "update") {
-            String Surname = textFieldSurname.getText();
-            String Name = textFieldName.getText();
-            String Birthday = textFieldBirthday.getText();
-            String Sex = textFieldSex.getText();
-            String Phone = textFieldPhone.getText();
-            String Email = textFieldEmail.getText();
             financialmanager.database.DbUsers.update(Surname, Name, Birthday, Sex, Phone, Email, currentId.toString(), WindowUsers.currentEmail.toString());
-            modelUsers.fireTableDataChanged();
         }
         if (WindowUsers.action == "insert") {
-            String Surname = textFieldSurname.getText();
-            String Name = textFieldName.getText();
-            String Birthday = textFieldBirthday.getText();
-            String Sex = textFieldSex.getText();
-            String Phone = textFieldPhone.getText();
-            String Email = textFieldEmail.getText();
             financialmanager.database.DbUsers.insert(Surname, Name, Birthday, Sex, Phone, Email);
-            modelUsers.fireTableDataChanged();
         }
+        dbUsers.users.removeAll(dbUsers.users);
+        dbUsers.select();
+        modelUsers.fireTableDataChanged();
+        setVisible(false);
     }
 
     private void onCancel() {

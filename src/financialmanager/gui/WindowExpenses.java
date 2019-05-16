@@ -308,7 +308,7 @@ public class WindowExpenses extends JFrame {
         buttonDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 expenses.removeAll(expenses);
-                DbExpenses.delete(value, selectedRows[i - 1]);
+                DbExpenses.delete(value);
                 modelExpenses.fireTableDataChanged();
                 DbExpenses.select(OpenWindow.userLogin);
                 DbExpenses dbExpenses = new DbExpenses();

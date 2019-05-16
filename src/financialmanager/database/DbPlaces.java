@@ -19,14 +19,11 @@ public class DbPlaces {
     public static void select() {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicPlaces"
             );
-            // Обход результатов выборки
             places = new ArrayList<>();
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
@@ -34,12 +31,10 @@ public class DbPlaces {
                 String sAddress = executeQuery.getString("sAddress");
                 places.add(new Places(nId, sName, sAddress));
             }
-            // Закрываем соединение
             executeQuery.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbPlaces.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -47,9 +42,7 @@ public class DbPlaces {
     public static void view(String name, String address) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("insert into t_dicPlaces(sName, sAddress) values ('%1$s','%2$s')");
             String insertSQL = String.format(insertSQLString, name, address);
@@ -75,7 +68,6 @@ public class DbPlaces {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -83,9 +75,7 @@ public class DbPlaces {
     public static void delete(Object value, int selectedRows) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("delete from t_dicPlaces where nId=%1$s");
             String insertSQL = String.format(insertSQLString, value);
@@ -95,7 +85,6 @@ public class DbPlaces {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -103,9 +92,7 @@ public class DbPlaces {
     public static void update(String name, String address, String value) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             if (value != null) {
                 currentPlaceId = value;
@@ -117,7 +104,6 @@ public class DbPlaces {
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicPlaces"
             );
-            // Обход результатов выборки
             while (executeQuery.next()) {
                 int nId = executeQuery.getInt("nId");
                 String sName = executeQuery.getString("sName");
@@ -129,7 +115,6 @@ public class DbPlaces {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

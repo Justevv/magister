@@ -7,7 +7,6 @@ public class Categories {
     String name;
     Integer parentId;
 
-    public static ArrayList<Categories> categories = new ArrayList<>();
     public Categories() {
     }
 

@@ -72,7 +72,7 @@ public class WindowCounters extends JFrame implements ActionListener {
 
         buttonDeleteCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dbCounters.delete(idCounters, selectedRows[i - 1]);
+                dbCounters.delete(idCounters);
                 dbCounters.counters.remove(selectedRows[i - 1]);
                 modelCounters.fireTableDataChanged();
             }

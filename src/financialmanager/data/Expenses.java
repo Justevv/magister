@@ -27,7 +27,7 @@ public class Expenses {
         return id;
     }
 
-    public String getdtDate() {
+    public String getDate() {
         return date;
     }
 

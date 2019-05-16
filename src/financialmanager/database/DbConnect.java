@@ -7,7 +7,6 @@ public class DbConnect {
     static String connectionString;
 
     public static void connect() {
-        // Формирование строки подключения
         String computername = null;
         try {
             computername = InetAddress.getLocalHost().getHostName();

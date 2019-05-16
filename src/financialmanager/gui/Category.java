@@ -120,7 +120,6 @@ public class Category extends JFrame {
             String ParentId = textFieldParentId.getText();
             dbCategories.insert(Name, ParentId);
         }
-        Categories categories = new Categories();
         dbCategories.categories.removeAll(dbCategories.categories);
         dbCategories.select();
         modelCategories.fireTableDataChanged();

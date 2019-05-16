@@ -29,9 +29,7 @@ public class DbCounters {
     public void view(String userId) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             sqlSelect = "SELECT c.[nId] " +
                     ",[dtDate]" +
@@ -49,7 +47,6 @@ public class DbCounters {
                     "where c.nUserId='%1$s'" +
                     "and c.nId>'%2$s'";
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, 0));
-            // Обход результатов выборки
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
                 dtDate = executeQuery.getDate("dtDate");
@@ -66,12 +63,10 @@ public class DbCounters {
                 Counters counters = new Counters();
                 counters.start(nId, dtDate, nUserSurname, nGasReadings, nElectricityReadings, nWaterReadings, nGasPrice, nElectricityPrice, nWaterPrice, nGasPaid, nElectricityPaid, nWaterPaid);
             }
-            // Закрываем соединение
             executeQuery.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -81,9 +76,7 @@ public class DbCounters {
                     float nGasPaid, float nElectricityPaid, float nWaterPaid) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("insert into [t_dicCounters]" +
                     "(dtDate " +
@@ -103,22 +96,18 @@ public class DbCounters {
                     nGasPrice, nElectricityPrice, nWaterPrice,
                     nGasPaid, nElectricityPaid, nWaterPaid);
             stmt.executeUpdate(insertSQL);
-            // Закрываем соединение
             stmt.close();
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void delete(Object idCounters, int selectedRows) {
+    public void delete(Object idCounters) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("delete from t_dicCounters where nId=%1$s");
             String insertSQL = String.format(insertSQLString, idCounters);
@@ -127,7 +116,6 @@ public class DbCounters {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -137,12 +125,9 @@ public class DbCounters {
                        float nGasPaid, float nElectricityPaid, float nWaterPaid, String idCounters) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             if (String.valueOf(idCounters) != null) {
-//                currentExpenseId = String.valueOf(idCounters);
             }
             String insertSQLString = ("update t_dicCounters set  dtDate='%1$s', nGasReadings='%3$s', nElectricityReadings='%4$s', nWaterReadings='%5$s'," +
                     "nGasPrice='%6$s', nElectricityPrice='%7$s', nWaterPrice='%8$s'," +
@@ -156,7 +141,6 @@ public class DbCounters {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

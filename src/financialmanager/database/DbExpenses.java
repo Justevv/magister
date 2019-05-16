@@ -23,9 +23,7 @@ public class DbExpenses {
     public static void select(String userId) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             sqlSelect = "SELECT e.nId as nId" +
                     ",dtDate, sSurname" +
@@ -44,7 +42,6 @@ public class DbExpenses {
                     "where e.nUserId='%1$s'" +
                     "and e.nId>'%2$s'";
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, 0));
-            // Обход результатов выборки
             while (executeQuery.next()) {
                 nId = executeQuery.getInt("nId");
                 String dtDate = executeQuery.getString("dtDate");
@@ -69,14 +66,12 @@ public class DbExpenses {
                 Integer dCount = executeQueryProfit.getInt("dCount");
             }
 
-            // Закрываем соединение
             executeQuery.close();
             executeQueryExpense.close();
             executeQueryProfit.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -84,44 +79,34 @@ public class DbExpenses {
     public static void comboBoxRead(JComboBox comboBoxPlace, JComboBox comboBoxPaymentType, JComboBox comboBoxCategory, JComboBox comboBoxAccount, JComboBox comboBoxTransactionType) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
-
             ResultSet executeQueryNamePlaces = stmt.executeQuery("select * from t_dicPlaces");
             while (executeQueryNamePlaces.next()) {
                 comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
             }
-
             ResultSet executeQueryNamePaymentTypes = stmt.executeQuery("select * from t_dicPaymentTypes");
             while (executeQueryNamePaymentTypes.next()) {
                 comboBoxPaymentType.addItem(executeQueryNamePaymentTypes.getString("sName"));
             }
-
             ResultSet executeQueryNameCategories = stmt.executeQuery("select * from t_dicCategories");
             while (executeQueryNameCategories.next()) {
                 comboBoxCategory.addItem(executeQueryNameCategories.getString("sName"));
             }
-
             ResultSet executeQueryNameAccounts = stmt.executeQuery("select * from t_dicAccounts");
             while (executeQueryNameAccounts.next()) {
                 comboBoxAccount.addItem(executeQueryNameAccounts.getString("sName"));
             }
-
             ResultSet executeQueryNameTransactionTypes = stmt.executeQuery("select * from t_dicTransactionTypes");
             while (executeQueryNameTransactionTypes.next()) {
                 comboBoxTransactionType.addItem(executeQueryNameTransactionTypes.getString("sName"));
             }
-
-            // Закрываем соединение
             executeQueryNamePlaces.close();
             executeQueryNamePaymentTypes.close();
             executeQueryNameCategories.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -129,9 +114,7 @@ public class DbExpenses {
     public static void insert(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("insert into t_Expenses( dtDate ,dSum,nUserId, nCategoryId ,nPlaceId,nPaymentTypeId, nAccountId, nTransactionTypeId) " +
                     "values " +
@@ -144,23 +127,18 @@ public class DbExpenses {
                     ")");
             String insertSQL = String.format(insertSQLString, dtDate, dSum, userId, category, place, paymentType, account, transactionType);
             stmt.executeUpdate(insertSQL);
-//
-            // Закрываем соединение
             stmt.close();
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static void delete(Object idExpenses, int selectedRows) {
+    public static void delete(Object idExpenses) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("delete from t_Expenses where nId=%1$s");
             String insertSQL = String.format(insertSQLString, idExpenses);
@@ -169,7 +147,6 @@ public class DbExpenses {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -177,12 +154,10 @@ public class DbExpenses {
     public static void update(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum, Object value) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
             // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             if (String.valueOf(value) != null) {
-//                currentExpenseId = String.valueOf(value);
             }
             String insertSQLString = ("update t_Expenses set  dtDate='%1$s', dSum='%2$s', nUserId='%3$s'" +
                     ", nCategoryId=(select nId from [dbo].[t_dicCategories] where sName='%4$s')" +
@@ -197,7 +172,6 @@ public class DbExpenses {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -205,30 +179,24 @@ public class DbExpenses {
     public static void groupBalanceCategory(String userId, String category) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String balanceSQLString = "select sum(dSum) as Sum " +
                     "from t_Expenses e join t_dicCategories c on e.nCategoryId=c.nId " +
                     "where e.nCategoryId=(select nId from t_dicCategories where sName='%1$s') and e.nUserId=%2$s and e.nTransactionTypeId=%3$s";
             ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, category, userId, 1));
-            // Обход результатов выборки
             while (profitExecuteQuery.next()) {
                 profitCategory = profitExecuteQuery.getLong("Sum");
             }
             ResultSet ExpenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, category, userId, 2));
-            // Обход результатов выборки
             while (ExpenseExecuteQuery.next()) {
                 expenseCategory = ExpenseExecuteQuery.getLong("Sum");
             }
             balanceCategory = profitCategory - expenseCategory;
-            // Закрываем соединение
             ExpenseExecuteQuery.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -236,30 +204,24 @@ public class DbExpenses {
     public static void groupBalanceAccount(String userId, String account) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String balanceSQLString = "select sum(dSum) as Sum " +
                     "from t_Expenses e join t_dicAccounts a on e.nCategoryId=a.nId " +
                     "where e.nAccountId=(select nId from t_dicAccounts where sName='%1$s') and e.nUserId=%2$s and e.nTransactionTypeId=%3$s";
             ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, account, userId, 1));
-            // Обход результатов выборки
             while (profitExecuteQuery.next()) {
                 profitCategory = profitExecuteQuery.getLong("Sum");
             }
             ResultSet ExpenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, account, userId, 2));
-            // Обход результатов выборки
             while (ExpenseExecuteQuery.next()) {
                 expenseCategory = ExpenseExecuteQuery.getLong("Sum");
                 balanceCategory = profitCategory - expenseCategory;
             }
-            // Закрываем соединение
             ExpenseExecuteQuery.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

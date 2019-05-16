@@ -29,7 +29,7 @@ public class ExpensesTable extends AbstractTableModel {
             case 0:
                 return expenses.get(r).getId();
             case 1:
-                return expenses.get(r).getdtDate();
+                return expenses.get(r).getDate();
             case 2:
                 return expenses.get(r).getUserSurname();
             case 3:

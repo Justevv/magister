@@ -18,24 +18,19 @@ public class DbAccounts {
         try {
             Accounts accounts = new Accounts();
             accounts.removeList();
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicAccounts");
-            // Обход результатов выборки
             while (executeQuery.next()) {
                 id = executeQuery.getInt("nId");
                 name = executeQuery.getString("sName");
                 accounts.accounts.add(new Accounts(id, name));
             }
-            // Закрываем соединение
             executeQuery.close();
             stmt.close();
             con.close();
         } catch (SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbAccounts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -43,9 +38,7 @@ public class DbAccounts {
     public void insert(String name) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("insert into t_dicAccounts(sName) values ('%1$s')");
             String insertSQL = String.format(insertSQLString, name);
@@ -54,7 +47,6 @@ public class DbAccounts {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -62,9 +54,7 @@ public class DbAccounts {
     public void delete(String id) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("delete from t_dicAccounts where nId=%1$s");
             String insertSQL = String.format(insertSQLString, id);
@@ -73,7 +63,6 @@ public class DbAccounts {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -81,9 +70,7 @@ public class DbAccounts {
     public void update(String name, String currentId) {
         DbConnect.connect();
         try {
-            // Подключение к базе данных
             Connection con = DriverManager.getConnection(connectionString);
-            // Отправка запроса на выборку и получение результатов
             Statement stmt = con.createStatement();
             String insertSQLString = ("update t_dicAccounts set sName='%1$s' where nId=%2$s");
             String insertSQL = String.format(insertSQLString, name, currentId);
@@ -92,7 +79,6 @@ public class DbAccounts {
             con.close();
         } catch (
                 SQLException ex) {
-            // Обработка исключений
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
