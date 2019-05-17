@@ -207,11 +207,6 @@ public class Counter extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        Counter app = new Counter();
-        app.setVisible(true);
-    }
-
     public static void go() {
         Counter app = new Counter();
         // app.pack();

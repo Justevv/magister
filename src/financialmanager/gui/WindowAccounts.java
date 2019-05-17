@@ -16,15 +16,15 @@ public class WindowAccounts extends JFrame implements ActionListener {
     private JButton buttonAddAccount = new JButton("Добавить счет");
     private JButton buttonDeleteAccount = new JButton("Удалить счет");
     private JButton buttonUpdateAccount = new JButton("Редактировать счет");
-    public static AccountsTable modelAccounts;
+    static AccountsTable modelAccounts;
     private JTable jTabAccount;
     public static Actions action;
-    public static int[] selectedRows;
-    public static int[] selectedColumns;
-    public static int i;
-    public static int selIndex;
-    public static TableModel model;
-    public static Object currentId;
+    private static int[] selectedRows;
+    private static int[] selectedColumns;
+    private static int i;
+    static int selIndex;
+    static TableModel model;
+    static Object currentId;
 
     public WindowAccounts() {
 
@@ -114,11 +114,6 @@ public class WindowAccounts extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-    }
-
-    public static void main(String[] args) {
-        WindowAccounts app = new WindowAccounts();
-        app.setVisible(true);
     }
 
     public static void go() {
