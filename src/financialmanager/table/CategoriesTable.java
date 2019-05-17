@@ -5,8 +5,9 @@ import financialmanager.data.Categories;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
-public class CategoriesTable extends AbstractTableModel{
+public class CategoriesTable extends AbstractTableModel {
     ArrayList<Categories> categories;
+
     public CategoriesTable(ArrayList<Categories> categories) {
         super();
         this.categories = categories;
@@ -16,10 +17,12 @@ public class CategoriesTable extends AbstractTableModel{
     public int getRowCount() {
         return categories.size();
     }
+
     @Override
     public int getColumnCount() {
         return 3;
     }
+
     @Override
     public Object getValueAt(int r, int c) {
         switch (c) {

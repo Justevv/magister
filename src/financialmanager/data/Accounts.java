@@ -18,5 +18,11 @@ public class Accounts {
         return name;
     }
 
-
+    @Override
+    public String toString() {
+        return "Accounts{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

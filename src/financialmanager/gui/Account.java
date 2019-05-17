@@ -1,6 +1,7 @@
 package financialmanager.gui;
 
 import financialmanager.database.DbAccounts;
+import financialmanager.table.AccountsTable;
 import financialmanager.text.Actions;
 
 import javax.swing.*;
@@ -99,7 +100,7 @@ public class Account extends JFrame {
         if (WindowAccounts.action == Actions.INSERT){
             dbAccounts.insert(Name);
         }
-        dbAccounts.select();
+        modelAccounts.setAccounts(dbAccounts.select());
         modelAccounts.fireTableDataChanged();
         setVisible(false);
     }

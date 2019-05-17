@@ -9,6 +9,14 @@ import java.util.List;
 public class AccountsTable extends AbstractTableModel {
     List<Accounts> accounts;
 
+    public List<Accounts> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Accounts> accounts) {
+        this.accounts = accounts;
+    }
+
     public AccountsTable(List<Accounts> accounts) {
         super();
         this.accounts = accounts;
@@ -50,4 +58,10 @@ public class AccountsTable extends AbstractTableModel {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "AccountsTable{" +
+                "accounts=" + accounts +
+                '}';
+    }
 }

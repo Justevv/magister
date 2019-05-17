@@ -16,7 +16,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
     private JButton buttonAddAccount = new JButton("Добавить счет");
     private JButton buttonDeleteAccount = new JButton("Удалить счет");
     private JButton buttonUpdateAccount = new JButton("Редактировать счет");
-    static AccountsTable modelAccounts;
+    static AccountsTable modelAccounts= new AccountsTable(null);
     private JTable jTabAccount;
     public static Actions action;
     private static int[] selectedRows;
@@ -73,7 +73,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
         buttonDeleteAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbAccounts.delete(currentId.toString());
-                dbAccounts.select();
+                modelAccounts.setAccounts(dbAccounts.select());
 //                dbAccounts.accounts.remove(WindowAccounts.selectedRows[WindowAccounts.i - 1]);
                 modelAccounts.fireTableDataChanged();
             }

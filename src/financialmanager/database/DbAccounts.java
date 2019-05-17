@@ -10,12 +10,9 @@ import java.util.logging.Logger;
 
 public class DbAccounts {
     private DbConnect dbConnect = new DbConnect();
-    private static ArrayList<Accounts> accounts = new ArrayList<>();
-
 
     public List<Accounts> select() {
-//        List<Accounts> accounts = new ArrayList<>();
-        accounts.removeAll(accounts);
+        List<Accounts> accounts = new ArrayList<>();
         try {
             Statement stmt = dbConnect.connect();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
