@@ -99,7 +99,6 @@ public class Account extends JFrame {
         if (WindowAccounts.action == Actions.INSERT){
             dbAccounts.insert(Name);
         }
-        dbAccounts.accounts.removeAll(dbAccounts.accounts);
         dbAccounts.select();
         modelAccounts.fireTableDataChanged();
         setVisible(false);

@@ -4,25 +4,25 @@ import financialmanager.data.Accounts;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DbAccounts {
-    private int id;
-    private String name;
     private DbConnect dbConnect = new DbConnect();
-    public static ArrayList<Accounts> accounts = new ArrayList<>();
+    private static ArrayList<Accounts> accounts = new ArrayList<>();
 
 
-    public void select() {
+    public List<Accounts> select() {
+//        List<Accounts> accounts = new ArrayList<>();
         accounts.removeAll(accounts);
         try {
             Statement stmt = dbConnect.connect();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicAccounts");
             while (executeQuery.next()) {
-                id = executeQuery.getInt("nId");
-                name = executeQuery.getString("sName");
+                int id = executeQuery.getInt("nId");
+                String name = executeQuery.getString("sName");
                 accounts.add(new Accounts(id, name));
             }
             executeQuery.close();
@@ -30,6 +30,7 @@ public class DbAccounts {
         } catch (SQLException ex) {
             Logger.getLogger(DbAccounts.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return accounts;
     }
 
     public void insert(String name) {

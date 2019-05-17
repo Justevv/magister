@@ -40,7 +40,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelAccounts = new AccountsTable(dbAccounts.accounts);
+        modelAccounts = new AccountsTable(dbAccounts.select());
         //На основе модели, создадим новую JTable
         jTabAccount = new JTable(modelAccounts);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -73,7 +73,8 @@ public class WindowAccounts extends JFrame implements ActionListener {
         buttonDeleteAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbAccounts.delete(currentId.toString());
-                dbAccounts.accounts.remove(WindowAccounts.selectedRows[WindowAccounts.i - 1]);
+                dbAccounts.select();
+//                dbAccounts.accounts.remove(WindowAccounts.selectedRows[WindowAccounts.i - 1]);
                 modelAccounts.fireTableDataChanged();
             }
         });
