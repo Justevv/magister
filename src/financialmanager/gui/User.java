@@ -179,10 +179,10 @@ public class User extends JFrame {
         String Sex = textFieldSex.getText();
         String Phone = textFieldPhone.getText();
         String Email = textFieldEmail.getText();
-        if (WindowAccounts.action.equals(Actions.UPDATE)) {
+        if (WindowUsers.action == Actions.UPDATE) {
             dbUsers.update(Surname, Name, Birthday, Sex, Phone, Email, currentId.toString(), WindowUsers.currentEmail.toString());
         }
-        if (WindowAccounts.action.equals(Actions.INSERT)) {
+        if (WindowUsers.action == Actions.INSERT) {
             dbUsers.insert(Surname, Name, Birthday, Sex, Phone, Email);
         }
         dbUsers.users.removeAll(dbUsers.users);

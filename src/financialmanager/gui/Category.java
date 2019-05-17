@@ -13,9 +13,9 @@ import static financialmanager.gui.WindowCategories.modelCategories;
 public class Category extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelName = new JLabel("Имя:");
-    private  JLabel labelParentId = new JLabel("Родительская категория:");
-    private  JTextField textFieldName = new JTextField("Свет", 5);
-    private  JTextField textFieldParentId = new JTextField("1", 5);
+    private JLabel labelParentId = new JLabel("Родительская категория:");
+    private JTextField textFieldName = new JTextField("Свет", 5);
+    private JTextField textFieldParentId = new JTextField("1", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
@@ -109,13 +109,13 @@ public class Category extends JFrame {
 
     private void onOK() {
         DbCategories dbCategories = new DbCategories();
-        if (WindowAccounts.action.equals(Actions.UPDATE)) {
+        if (WindowCategories.action == Actions.UPDATE) {
             String Name = textFieldName.getText();
             String ParentId = textFieldParentId.getText();
             dbCategories.update(Name, ParentId, currentId.toString());
 
         }
-        if (WindowAccounts.action.equals(Actions.INSERT)) {
+        if (WindowCategories.action == Actions.INSERT) {
             String Name = textFieldName.getText();
             String ParentId = textFieldParentId.getText();
             dbCategories.insert(Name, ParentId);

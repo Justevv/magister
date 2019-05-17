@@ -206,7 +206,7 @@ public class Expense extends JFrame {
 
     private void onOK() {
         dbExpenses.expenses.removeAll(dbExpenses.expenses);
-        if (WindowAccounts.action.equals(Actions.UPDATE)) {
+        if (WindowExpenses.action == Actions.UPDATE) {
             dbExpenses.update(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
                     (String) comboBoxPaymentType.getSelectedItem(),
@@ -217,7 +217,7 @@ public class Expense extends JFrame {
                     new Integer(textFieldSum.getText()),
                     value);
         }
-        if (WindowAccounts.action.equals(Actions.INSERT)) {
+        if (WindowExpenses.action == Actions.INSERT) {
             dbExpenses.insert(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
                     (String) comboBoxPaymentType.getSelectedItem(),

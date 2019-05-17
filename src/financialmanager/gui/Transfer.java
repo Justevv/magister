@@ -131,10 +131,10 @@ public class Transfer extends JFrame {
     }
 
     private void onOK() {
-        if (WindowAccounts.action.equals(Actions.UPDATE)) {
+        if (WindowTransfers.action == Actions.UPDATE) {
             dbTransfers.update((String) comboBoxAccountSender.getSelectedItem(), (String) comboBoxAccountRecipient.getSelectedItem(), Integer.valueOf(textFieldSum.getText()), currentId.toString(), OpenWindow.userLogin);
         }
-        if (WindowAccounts.action.equals(Actions.INSERT)) {
+        if (WindowTransfers.action == Actions.INSERT) {
             dbTransfers.insert((String) comboBoxAccountSender.getSelectedItem(), (String) comboBoxAccountRecipient.getSelectedItem(), Integer.valueOf(textFieldSum.getText()), OpenWindow.userLogin);
         }
         dbTransfers.transfers.removeAll(dbTransfers.transfers);

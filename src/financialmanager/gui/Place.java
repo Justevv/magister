@@ -109,10 +109,10 @@ public class Place extends JFrame {
 
     private void onOK() {
         DbPlaces dbPlaces = new DbPlaces();
-        if (WindowAccounts.action.equals(Actions.UPDATE)) {
+        if (WindowPlaces.action == Actions.UPDATE) {
             dbPlaces.update(textFieldName.getText(), textFieldAddress.getText(), currentId.toString());
         }
-        if (WindowAccounts.action.equals(Actions.INSERT)) {
+        if (WindowPlaces.action == Actions.INSERT) {
             dbPlaces.insert(textFieldName.getText(), textFieldAddress.getText());
         }
         dbPlaces.places.removeAll(dbPlaces.places);

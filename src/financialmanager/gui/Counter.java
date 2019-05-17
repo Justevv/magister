@@ -13,22 +13,22 @@ public class Counter extends JFrame {
     private JPanel contentPane = new JPanel();
     private JLabel labelGas = new JLabel("Газ:");
     private JLabel labelElectricity = new JLabel("Электричество:");
-    private  JLabel labelWater = new JLabel("Вода:");
-    private  JLabel labelReadings = new JLabel("Показания:");
+    private JLabel labelWater = new JLabel("Вода:");
+    private JLabel labelReadings = new JLabel("Показания:");
     private JLabel labelPrice = new JLabel("Цена:");
-    private  JLabel labelPaid = new JLabel("Оплачено:");
-    private  JLabel labelType = new JLabel("Тип");
-    private  JLabel labelDate = new JLabel("Дата");
-    private  JTextField textFieldDate = new JTextField("2018-01-01", 5);
-    private  JTextField textFieldGasReadings = new JTextField("1", 5);
-    private  JTextField textFieldElectricityReadings = new JTextField("2", 5);
-    private  JTextField textFieldWaterReadings = new JTextField("3", 5);
-    private  JTextField textFieldGasPrice = new JTextField("6", 5);
-    private  JTextField textFieldElectricityPrice = new JTextField("3", 5);
+    private JLabel labelPaid = new JLabel("Оплачено:");
+    private JLabel labelType = new JLabel("Тип");
+    private JLabel labelDate = new JLabel("Дата");
+    private JTextField textFieldDate = new JTextField("2018-01-01", 5);
+    private JTextField textFieldGasReadings = new JTextField("1", 5);
+    private JTextField textFieldElectricityReadings = new JTextField("2", 5);
+    private JTextField textFieldWaterReadings = new JTextField("3", 5);
+    private JTextField textFieldGasPrice = new JTextField("6", 5);
+    private JTextField textFieldElectricityPrice = new JTextField("3", 5);
     private JTextField textFieldWaterPrice = new JTextField("20", 5);
-    private  JTextField textFieldGasPaid = new JTextField("7", 5);
-    private  JTextField textFieldElectricityPaid = new JTextField("8", 5);
-    private  JTextField textFieldWaterPaid = new JTextField("9", 5);
+    private JTextField textFieldGasPaid = new JTextField("7", 5);
+    private JTextField textFieldElectricityPaid = new JTextField("8", 5);
+    private JTextField textFieldWaterPaid = new JTextField("9", 5);
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
@@ -220,25 +220,22 @@ public class Counter extends JFrame {
 
     private void onOK() {
         DbCounters dbCounters = new DbCounters();
-        if (WindowAccounts.action.equals(Actions.UPDATE)) {
-            dbCounters.counters.removeAll(dbCounters.counters);
+        dbCounters.counters.removeAll(dbCounters.counters);
+        if (WindowCounters.action == Actions.UPDATE) {
             dbCounters.update(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
                     Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
                     Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()),
                     WindowCounters.idCounters.toString());
-            dbCounters.select(OpenWindow.userLogin);
-            modelCounters.fireTableDataChanged();
         }
-        if (WindowAccounts.action.equals(Actions.INSERT)) {
-            dbCounters.counters.removeAll(dbCounters.counters);
+        if (WindowCounters.action == Actions.INSERT) {
             dbCounters.insert(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
                     Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
                     Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()));
-            dbCounters.select(OpenWindow.userLogin);
-            modelCounters.fireTableDataChanged();
         }
+        dbCounters.select(OpenWindow.userLogin);
+        modelCounters.fireTableDataChanged();
     }
 
     private void onCancel() {
