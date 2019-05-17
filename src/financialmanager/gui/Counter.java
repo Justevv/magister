@@ -215,7 +215,6 @@ public class Counter extends JFrame {
 
     private void onOK() {
         DbCounters dbCounters = new DbCounters();
-        dbCounters.counters.removeAll(dbCounters.counters);
         if (WindowCounters.action == Actions.UPDATE) {
             dbCounters.update(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
@@ -229,7 +228,7 @@ public class Counter extends JFrame {
                     Float.valueOf(textFieldGasPrice.getText()), Float.valueOf(textFieldElectricityPrice.getText()), Float.valueOf(textFieldWaterPrice.getText()),
                     Float.valueOf(textFieldGasPaid.getText()), Float.valueOf(textFieldElectricityPaid.getText()), Float.valueOf(textFieldWaterPaid.getText()));
         }
-        dbCounters.select(OpenWindow.userLogin);
+        modelCounters.setCounters(dbCounters.select(OpenWindow.userLogin));
         modelCounters.fireTableDataChanged();
     }
 

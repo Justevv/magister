@@ -16,7 +16,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
     private JButton buttonAddAccount = new JButton("Добавить счет");
     private JButton buttonDeleteAccount = new JButton("Удалить счет");
     private JButton buttonUpdateAccount = new JButton("Редактировать счет");
-    static AccountsTable modelAccounts= new AccountsTable(null);
+    static AccountsTable modelAccounts = new AccountsTable(null);
     private JTable jTabAccount;
     public static Actions action;
     private static int[] selectedRows;

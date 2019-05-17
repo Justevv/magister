@@ -3,12 +3,12 @@ package financialmanager.table;
 import financialmanager.data.Categories;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CategoriesTable extends AbstractTableModel {
-    ArrayList<Categories> categories;
+    List<Categories> categories;
 
-    public CategoriesTable(ArrayList<Categories> categories) {
+    public CategoriesTable(List<Categories> categories) {
         super();
         this.categories = categories;
     }
@@ -42,7 +42,7 @@ public class CategoriesTable extends AbstractTableModel {
         String result = "";
         switch (c) {
             case 0:
-                result = "nId";
+                result = "Id";
                 break;
             case 1:
                 result = "Name";
@@ -54,4 +54,11 @@ public class CategoriesTable extends AbstractTableModel {
         return result;
     }
 
+    public List<Categories> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Categories> categories) {
+        this.categories = categories;
+    }
 }

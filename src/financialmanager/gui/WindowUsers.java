@@ -12,8 +12,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static financialmanager.database.DbUsers.users;
-
 public class WindowUsers extends JFrame implements ActionListener {
     private JButton buttonAddUser = new JButton("Добавить пользователя");
     private JButton buttonDeleteUser = new JButton("Удалить пользователя");
@@ -36,14 +34,13 @@ public class WindowUsers extends JFrame implements ActionListener {
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DbUsers dbUsers = new DbUsers();
-        dbUsers.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelUsers = new UsersTable(users);
+        modelUsers = new UsersTable(dbUsers.select());
         //На основе модели, создадим новую JTable
         jTabPeople = new JTable(modelUsers);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -76,7 +73,7 @@ public class WindowUsers extends JFrame implements ActionListener {
         buttonDeleteUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbUsers.delete(currentId.toString());
-                users.remove(selectedRows[i - 1]);
+                modelUsers.setUsers(dbUsers.select());
                 modelUsers.fireTableDataChanged();
             }
         });
@@ -107,7 +104,7 @@ public class WindowUsers extends JFrame implements ActionListener {
                     selIndex = selectedRows[i];
                     model = jTabPeople.getModel();
                     currentId = model.getValueAt(selIndex, 0);
-                    currentEmail=model.getValueAt(selIndex, 6);
+                    currentEmail = model.getValueAt(selIndex, 6);
                 }
             }
         });
@@ -116,11 +113,6 @@ public class WindowUsers extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-    }
-
-    public static void main(String[] args) {
-        WindowUsers app = new WindowUsers();
-        app.setVisible(true);
     }
 
     public static void go() {

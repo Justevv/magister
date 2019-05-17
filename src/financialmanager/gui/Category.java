@@ -109,19 +109,16 @@ public class Category extends JFrame {
 
     private void onOK() {
         DbCategories dbCategories = new DbCategories();
+        String name = textFieldName.getText();
+        String parentId = textFieldParentId.getText();
         if (WindowCategories.action == Actions.UPDATE) {
-            String Name = textFieldName.getText();
-            String ParentId = textFieldParentId.getText();
-            dbCategories.update(Name, ParentId, currentId.toString());
+            dbCategories.update(name, parentId, currentId.toString());
 
         }
         if (WindowCategories.action == Actions.INSERT) {
-            String Name = textFieldName.getText();
-            String ParentId = textFieldParentId.getText();
-            dbCategories.insert(Name, ParentId);
+            dbCategories.insert(name, parentId);
         }
-        dbCategories.categories.removeAll(dbCategories.categories);
-        dbCategories.select();
+        modelCategories.setCategories(dbCategories.select());
         modelCategories.fireTableDataChanged();
         setVisible(false);
     }

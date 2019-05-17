@@ -4,19 +4,17 @@ import financialmanager.data.Users;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DbUsers {
     private DbConnect dbConnect = new DbConnect();
-    public String sName;
-    public static ArrayList<Users> users = new ArrayList<>();
-    public String sEmail;
-    public ArrayList<String> emailList = new ArrayList<>();
-    static String currentUserId = "0";
+    private String currentUserId = "0";
+    private List<String> emailList = new ArrayList<>();
 
-    public void select() {
-        users.removeAll(users);
+    public List<Users> select() {
+        List<Users> users = new ArrayList<>();
         try {
             Statement stmt = dbConnect.connect();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
@@ -25,12 +23,12 @@ public class DbUsers {
             while (executeQuery.next()) {
                 int id = executeQuery.getInt("nId");
                 String sSurname = executeQuery.getString("sSurname");
-                sName = executeQuery.getString("sName");
+                String name = executeQuery.getString("sName");
                 String dtBirthday = executeQuery.getString("dtBirthday");
                 String sSex = executeQuery.getString("sSex");
                 String sPhone = executeQuery.getString("sPhone");
-                sEmail = executeQuery.getString("sEmail");
-                users.add(new Users(id, sSurname, sName, dtBirthday, sSex, sPhone, sEmail));
+                String sEmail = executeQuery.getString("sEmail");
+                users.add(new Users(id, sSurname, name, dtBirthday, sSex, sPhone, sEmail));
                 emailList.add(sEmail);
             }
             executeQuery.close();
@@ -38,6 +36,7 @@ public class DbUsers {
         } catch (SQLException ex) {
             Logger.getLogger(DbUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return users;
     }
 
     public void insert(String surname, String name, String birthday, String sex, String phone, String email) {
@@ -48,7 +47,7 @@ public class DbUsers {
                 System.out.println("Такой пользователь уже есть");
             }
         }
-        if (containsName == false) {
+        if (!containsName) {
             try {
                 Statement stmt = dbConnect.connect();
                 String insertSQLString = ("insert into t_dicUsers( sSurname ,sName, dtBirthday, sSex, sPhone, sEmail) values ('%1$s','%2$s','%3$s','%4$s','%5$s','%6$s')");
@@ -82,8 +81,8 @@ public class DbUsers {
                 containsName = true;
             }
         }
-        if (currentEmail.equals(Email) != true) {
-            if (containsName == false) {
+        if (!currentEmail.equals(Email)) {
+            if (!containsName) {
                 updateGo(Surname, Name, Birthday, Sex, Phone, Email, Id);
             } else {
                 System.out.println("Такой пользователь уже есть");
@@ -93,7 +92,7 @@ public class DbUsers {
         }
     }
 
-    public void updateGo(String Surname, String Name, String Birthday, String Sex, String Phone, String Email, String Id) {
+     private void updateGo(String Surname, String Name, String Birthday, String Sex, String Phone, String Email, String Id) {
        try {
            Statement stmt = dbConnect.connect();
             emailList.add(Email);

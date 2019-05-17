@@ -5,22 +5,20 @@ import financialmanager.data.Transfers;
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DbTransfers {
-    private String accountSender;
-    public static ArrayList<Transfers> transfers = new ArrayList<>();
     String currentTransferId = "0";
-    String sqlSelectTransfers;
     private DbConnect dbConnect = new DbConnect();
-    private static long expenseTransiction;
-    private static long profitTransiction;
-    public static long balanceTransiction;
+    private static long expenseTransaction;
+    private static long profitTransaction;
+    public static long balanceTransaction;
 
-    public void select(String UserId) {
-        transfers.removeAll(transfers);
-        sqlSelectTransfers = "SELECT t.nId" +
+    public List<Transfers> select(String UserId) {
+        List<Transfers> transfers = new ArrayList<>();
+        String sqlSelectTransfers = "SELECT t.nId" +
                 ", a.sName as AccountSender" +
                 ", a1.sName as AccountRecipient" +
                 ", t.dSum " +
@@ -33,16 +31,17 @@ public class DbTransfers {
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelectTransfers, UserId, 0));
             while (executeQuery.next()) {
                 int id = executeQuery.getInt("nId");
-                accountSender = executeQuery.getString("AccountSender");
-                String nAccountRecipient = executeQuery.getString("AccountRecipient");
-                Integer dSum = executeQuery.getInt("dSum");
-                transfers.add(new Transfers(id, accountSender, nAccountRecipient, dSum));
+                String accountSender = executeQuery.getString("AccountSender");
+                String accountRecipient = executeQuery.getString("AccountRecipient");
+                int dSum = executeQuery.getInt("dSum");
+                transfers.add(new Transfers(id, accountSender, accountRecipient, dSum));
             }
             executeQuery.close();
             stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbTransfers.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return transfers;
     }
 
     public void comboBoxTransfer(JComboBox comboBoxAccountSender, JComboBox comboBoxAccountRecipient) {
@@ -78,13 +77,12 @@ public class DbTransfers {
         }
     }
 
-    public void delete(Object value, int selectedRows) {
+    public void delete(Object value) {
         try {
             Statement stmt = dbConnect.connect();
             String insertSQLString = ("delete from t_dicTransfers where nId=%1$s");
             String insertSQL = String.format(insertSQLString, value);
             stmt.executeUpdate(insertSQL);
-            transfers.remove(selectedRows);
             stmt.close();
         } catch (
                 SQLException ex) {
@@ -114,15 +112,15 @@ public class DbTransfers {
             String balanceSQLString = "select sum(dSum) as Sum from t_dicTransfers t  where nUserId=%2$s and %1$s=(select nId from t_dicAccounts where sName='%3$s') group by %1$s";
             ResultSet expenseExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, "nAccountSenderId", userId, account));
             while (expenseExecuteQuery.next()) {
-                expenseTransiction = expenseExecuteQuery.getLong("Sum");
+                expenseTransaction = expenseExecuteQuery.getLong("Sum");
             }
             ResultSet profitExecuteQuery = stmt.executeQuery(String.format(balanceSQLString, "nAccountRecipientId", userId, account));
             while (profitExecuteQuery.next()) {
-                profitTransiction = profitExecuteQuery.getLong("Sum");
+                profitTransaction = profitExecuteQuery.getLong("Sum");
             }
-            balanceTransiction = profitTransiction - expenseTransiction;
-            expenseTransiction = 0;
-            profitTransiction = 0;
+            balanceTransaction = profitTransaction - expenseTransaction;
+            expenseTransaction = 0;
+            profitTransaction = 0;
 
             expenseExecuteQuery.close();
             stmt.close();

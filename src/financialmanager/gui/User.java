@@ -185,8 +185,7 @@ public class User extends JFrame {
         if (WindowUsers.action == Actions.INSERT) {
             dbUsers.insert(Surname, Name, Birthday, Sex, Phone, Email);
         }
-        dbUsers.users.removeAll(dbUsers.users);
-        dbUsers.select();
+        modelUsers.setUsers(dbUsers.select());
         modelUsers.fireTableDataChanged();
         setVisible(false);
     }

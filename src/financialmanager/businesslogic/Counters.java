@@ -1,7 +1,5 @@
 package financialmanager.businesslogic;
 
-import financialmanager.database.DbCounters;
-
 import java.util.Date;
 
 
@@ -29,18 +27,18 @@ public class Counters {
     private float paymentAmount;
     private int daysPeriod;
 
-    public void start(int id,
-                      Date date,
-                      String userSurname,
-                      float gasReadings,
-                      float electricityReadings,
-                      float waterReadings,
-                      float gasPrice,
-                      float electricityPrice,
-                      float waterPrice,
-                      float gasPaid,
-                      float electricityPaid,
-                      float waterPaid) {
+    public financialmanager.data.Counters start(int id,
+                                                Date date,
+                                                String userSurname,
+                                                float gasReadings,
+                                                float electricityReadings,
+                                                float waterReadings,
+                                                float gasPrice,
+                                                float electricityPrice,
+                                                float waterPrice,
+                                                float gasPaid,
+                                                float electricityPaid,
+                                                float waterPaid) {
         electricityMonthVolume = electricityReadings - electricityReadingsHistory;
         waterMonthVolume = waterReadings - waterReadingsHistory;
         gasSum = gasMonthVolume * gasPrice;
@@ -62,14 +60,13 @@ public class Counters {
         gasPaidHistory = gasPaid;
         electricityPaidHistory = electricityPaid;
         waterPaidHistory = waterPaid;
-        DbCounters dbCounters = new DbCounters();
-        dbCounters.counters.add(new financialmanager.data.Counters(id, String.valueOf(date), userSurname,
+        return new financialmanager.data.Counters(id, String.valueOf(date), userSurname,
                 gasReadings, electricityReadings, waterReadings,
                 gasPrice, electricityPrice, waterPrice,
                 gasSum, electricitySum, waterSum,
                 gasMonthVolume, electricityMonthVolume, waterMonthVolume,
                 gasDayVolume, electricityDayVolume, waterDayVolume,
                 gasPaid, electricityPaid, waterPaid,
-                consumptionAmount, paymentAmount));
+                consumptionAmount, paymentAmount);
     }
 }

@@ -115,8 +115,7 @@ public class Place extends JFrame {
         if (WindowPlaces.action == Actions.INSERT) {
             dbPlaces.insert(textFieldName.getText(), textFieldAddress.getText());
         }
-        dbPlaces.places.removeAll(dbPlaces.places);
-        dbPlaces.select();
+        modelPlaces.setPlaces(dbPlaces.select());
         modelPlaces.fireTableDataChanged();
         setVisible(false);
     }

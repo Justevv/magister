@@ -3,11 +3,11 @@ package financialmanager.table;
 import financialmanager.data.Transfers;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import java.util.List;
 
 public class TransfersTable extends AbstractTableModel{
-    ArrayList<Transfers> transfers;
-    public TransfersTable(ArrayList<Transfers> transfers) {
+    List<Transfers> transfers;
+    public TransfersTable(List<Transfers> transfers) {
         super();
         this.transfers = transfers;
     }
@@ -56,4 +56,11 @@ public class TransfersTable extends AbstractTableModel{
         return result;
     }
 
+    public List<Transfers> getTransfers() {
+        return transfers;
+    }
+
+    public void setTransfers(List<Transfers> transfers) {
+        this.transfers = transfers;
+    }
 }

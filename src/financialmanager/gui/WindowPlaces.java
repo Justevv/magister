@@ -40,7 +40,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelPlaces = new PlacesTable(dbPlaces.places);
+        modelPlaces = new PlacesTable(dbPlaces.select());
         //На основе модели, создадим новую JTable
         jTabPlace = new JTable(modelPlaces);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -72,7 +72,8 @@ public class WindowPlaces extends JFrame implements ActionListener {
 
         buttonDeletePlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dbPlaces.delete(currentId, selectedRows[i - 1]);
+                dbPlaces.delete(currentId);
+                modelPlaces.setPlaces(dbPlaces.select());
                 modelPlaces.fireTableDataChanged();
             }
         });
@@ -112,11 +113,6 @@ public class WindowPlaces extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-    }
-
-    public static void main(String[] args) {
-        WindowPlaces app = new WindowPlaces();
-        app.setVisible(true);
     }
 
     public static void go() {

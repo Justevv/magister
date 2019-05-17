@@ -3,15 +3,10 @@ package financialmanager.table;
 import financialmanager.data.Accounts;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AccountsTable extends AbstractTableModel {
     List<Accounts> accounts;
-
-    public List<Accounts> getAccounts() {
-        return accounts;
-    }
 
     public void setAccounts(List<Accounts> accounts) {
         this.accounts = accounts;
@@ -49,7 +44,7 @@ public class AccountsTable extends AbstractTableModel {
         String result = "";
         switch (c) {
             case 0:
-                result = "nId";
+                result = "Id";
                 break;
             case 1:
                 result = "Name";

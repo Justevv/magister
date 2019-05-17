@@ -4,34 +4,33 @@ import financialmanager.data.Categories;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DbCategories {
-    private int nId = 0;
-    private String sName;
     private String currentCategoryId = "0";
     private DbConnect dbConnect = new DbConnect();
-    public static ArrayList<Categories> categories = new ArrayList<>();
 
-    public void select() {
-        categories.removeAll(categories);
+    public List<Categories> select() {
+        List<Categories> categories = new ArrayList<>();
         try {
             Statement stmt = dbConnect.connect();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +
                     "FROM t_dicCategories"
             );
             while (executeQuery.next()) {
-                nId = executeQuery.getInt("nId");
-                sName = executeQuery.getString("sName");
-                Integer nParentId = executeQuery.getInt("nParentId");
-                categories.add(new Categories(nId, sName, nParentId));
+                int id = executeQuery.getInt("nId");
+                String name = executeQuery.getString("sName");
+                int parentId = executeQuery.getInt("nParentId");
+                categories.add(new Categories(id, name, parentId));
             }
             executeQuery.close();
             stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbCategories.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return categories;
     }
 
     public void insert(String Name, String ParentId) {

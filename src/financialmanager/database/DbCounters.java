@@ -5,30 +5,18 @@ import financialmanager.businesslogic.Counters;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DbCounters {
     private DbConnect dbConnect = new DbConnect();
-    Integer nId = 0;
-    public static ArrayList<financialmanager.data.Counters> counters = new ArrayList<>();
-    String nUserSurname;
-    String sqlSelect;
-    Date dtDate;
-    float nGasReadings;
-    float nElectricityReadings;
-    float nWaterReadings;
-    float nGasPrice;
-    float nElectricityPrice;
-    float nWaterPrice;
-    float nGasPaid;
-    float nElectricityPaid;
-    float nWaterPaid;
 
-    public void select(String userId) {
+    public List<financialmanager.data.Counters> select(String userId) {
+        List<financialmanager.data.Counters> counters = new ArrayList<>();
         try {
             Statement stmt = dbConnect.connect();
-            sqlSelect = "SELECT c.[nId] " +
+            String sqlSelect = "SELECT c.[nId] " +
                     ",[dtDate]" +
                     ",u.[sSurname] as sSurname" +
                     ",[nGasReadings]" +
@@ -45,26 +33,27 @@ public class DbCounters {
                     "and c.nId>'%2$s'";
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, 0));
             while (executeQuery.next()) {
-                nId = executeQuery.getInt("nId");
-                dtDate = executeQuery.getDate("dtDate");
-                nUserSurname = executeQuery.getString("sSurname");
-                nGasReadings = executeQuery.getFloat("nGasReadings");
-                nElectricityReadings = executeQuery.getFloat("nElectricityReadings");
-                nWaterReadings = executeQuery.getFloat("nWaterReadings");
-                nGasPrice = executeQuery.getFloat("nGasPrice");
-                nElectricityPrice = executeQuery.getFloat("nElectricityPrice");
-                nWaterPrice = executeQuery.getFloat("nWaterPrice");
-                nGasPaid = executeQuery.getFloat("nGasPaid");
-                nElectricityPaid = executeQuery.getFloat("nElectricityPaid");
-                nWaterPaid = executeQuery.getFloat("nWaterPaid");
-                Counters counters = new Counters();
-                counters.start(nId, dtDate, nUserSurname, nGasReadings, nElectricityReadings, nWaterReadings, nGasPrice, nElectricityPrice, nWaterPrice, nGasPaid, nElectricityPaid, nWaterPaid);
+                int id = executeQuery.getInt("nId");
+                Date date = executeQuery.getDate("dtDate");
+                String userSurname = executeQuery.getString("sSurname");
+                float gasReadings = executeQuery.getFloat("nGasReadings");
+                float electricityReadings = executeQuery.getFloat("nElectricityReadings");
+                float waterReadings = executeQuery.getFloat("nWaterReadings");
+                float gasPrice = executeQuery.getFloat("nGasPrice");
+                float electricityPrice = executeQuery.getFloat("nElectricityPrice");
+                float waterPrice = executeQuery.getFloat("nWaterPrice");
+                float gasPaid = executeQuery.getFloat("nGasPaid");
+                float electricityPaid = executeQuery.getFloat("nElectricityPaid");
+                float waterPaid = executeQuery.getFloat("nWaterPaid");
+                Counters countersBL = new Counters();
+                counters.add(countersBL.start(id, date, userSurname, gasReadings, electricityReadings, waterReadings, gasPrice, electricityPrice, waterPrice, gasPaid, electricityPaid, waterPaid));
             }
             executeQuery.close();
             stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return counters;
     }
 
     public void insert(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,
@@ -115,8 +104,6 @@ public class DbCounters {
                        float nGasPaid, float nElectricityPaid, float nWaterPaid, String idCounters) {
         try {
             Statement stmt = dbConnect.connect();
-            if (String.valueOf(idCounters) != null) {
-            }
             String insertSQLString = ("update t_dicCounters set  dtDate='%1$s', nGasReadings='%3$s', nElectricityReadings='%4$s', nWaterReadings='%5$s'," +
                     "nGasPrice='%6$s', nElectricityPrice='%7$s', nWaterPrice='%8$s'," +
                     "nGasPaid='%9$s', nElectricityPaid='%10$s', nWaterPaid='%11$s' " +

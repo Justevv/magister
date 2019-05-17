@@ -1,7 +1,6 @@
 package financialmanager.gui;
 
 import financialmanager.database.DbAccounts;
-import financialmanager.table.AccountsTable;
 import financialmanager.text.Actions;
 
 import javax.swing.*;

@@ -21,8 +21,9 @@ public class WindowResultCategory extends JFrame {
 
     public WindowResultCategory() {
         super("Финансовый менеджер");
+        Expense expenseData = new Expense();
         Expense.comboBoxResult();
-        countCategory = Expense.comboBoxCategory.getItemCount();
+        countCategory = expenseData.comboBoxCategory.getItemCount();
         this.setBounds(100, 100, 400, countCategory * 16 + 90);
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JLabel labelBalanceCategory[] = new JLabel[countCategory];
@@ -30,20 +31,20 @@ public class WindowResultCategory extends JFrame {
         JLabel labelExpenseCategory[] = new JLabel[countCategory];
         categoryNunber = 0;
         DbExpenses dbExpenses = new DbExpenses();
-        long profit = dbExpenses.profit;
-        long expense = dbExpenses.expense;
+        long profit = dbExpenses.getProfit(OpenWindow.userLogin);
+        long expense = dbExpenses.getExpense(OpenWindow.userLogin);
         Balance balance = new Balance();
-        labelUser = new JLabel("Пользователь: " + dbExpenses.nUserSurname);
+        labelUser = new JLabel("Пользователь: " + dbExpenses.userSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
         labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
-        labelProfit = new JLabel("Доход: " + dbExpenses.profit + " Рублей");
-        labelExpense = new JLabel("Расход: " + dbExpenses.expense + " Рублей");
+        labelProfit = new JLabel("Доход: " + profit + " Рублей");
+        labelExpense = new JLabel("Расход: " + expense + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         for (; categoryNunber < countCategory; categoryNunber++) {
-            Object nameCategory = Expense.comboBoxCategory.getItemAt(categoryNunber);
+            Object nameCategory = expenseData.comboBoxCategory.getItemAt(categoryNunber);
             dbExpenses.groupBalanceCategory(OpenWindow.userLogin, String.valueOf(nameCategory));
             labelBalanceCategory[categoryNunber] = new JLabel("Баланс категории " + nameCategory + ": " + dbExpenses.balanceCategory + " Рублей");
             labelProfitCategory[categoryNunber] = new JLabel("Доход категории " + nameCategory + ": " + dbExpenses.profitCategory + " Рублей");

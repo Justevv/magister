@@ -3,12 +3,12 @@ package financialmanager.table;
 import financialmanager.data.Counters;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CountersTable extends AbstractTableModel {
-    ArrayList<Counters> counters;
+    List<Counters> counters;
 
-    public CountersTable(ArrayList<Counters> counters) {
+    public CountersTable(List<Counters> counters) {
         super();
         this.counters = counters;
     }
@@ -154,4 +154,11 @@ public class CountersTable extends AbstractTableModel {
         return result;
     }
 
+    public List<Counters> getCounters() {
+        return counters;
+    }
+
+    public void setCounters(List<Counters> counters) {
+        this.counters = counters;
+    }
 }

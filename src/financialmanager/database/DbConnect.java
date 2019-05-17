@@ -7,9 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DbConnect {
+class DbConnect {
 
-    public Statement connect() {
+    Statement connect() {
         Statement stmt = null;
         String computerName = null;
         try {

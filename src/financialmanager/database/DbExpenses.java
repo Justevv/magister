@@ -1,31 +1,28 @@
 package financialmanager.database;
 
+import financialmanager.data.Expenses;
+
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DbExpenses {
+    public String userSurname;
     private DbConnect dbConnect = new DbConnect();
-    private Integer nId = 0;
-    private Integer dSum;
-    public static ArrayList<financialmanager.data.Expenses> expenses = new ArrayList<>();
-    public static Long expense;
-    public static Long profit;
-    public String nUserSurname;
     public static long profitCategory;
     public static long expenseCategory;
     public static long balanceCategory;
-    private String sqlSelect;
 
-    public void select(String userId) {
-        expenses.removeAll(expenses);
+    public List<Expenses> select(String userId) {
+        List<Expenses> expenses = new ArrayList<>();
         try {
             Statement stmt = dbConnect.connect();
-            sqlSelect = "SELECT e.nId as nId" +
+            String sqlSelect = "SELECT e.nId as nId" +
                     ",dtDate, sSurname" +
-                    ",c.sName as CategoriesName" +
+                    ",c.sName as sCategoriesName" +
                     ",p.sName as nPlaceName" +
                     ",pt.sName as nPaymentTypeName" +
                     ",a.sName as nAccount" +
@@ -41,41 +38,64 @@ public class DbExpenses {
                     "and e.nId>'%2$s'";
             ResultSet executeQuery = stmt.executeQuery(String.format(sqlSelect, userId, 0));
             while (executeQuery.next()) {
-                nId = executeQuery.getInt("nId");
-                String dtDate = executeQuery.getString("dtDate");
-                nUserSurname = executeQuery.getString("sSurname");
-                String nCategoryName = executeQuery.getString("CategoriesName");
-                String nPlaceName = executeQuery.getString("nPlaceName");
-                String nPaymentTypeName = executeQuery.getString("nPaymentTypeName");
-                String nAccount = executeQuery.getString("nAccount");
-                String nTransactionType = executeQuery.getString("nTransactionType");
-                dSum = executeQuery.getInt("dSum");
-                expenses.add(new financialmanager.data.Expenses(nId, dtDate, nUserSurname, nCategoryName, nPlaceName, nPaymentTypeName, dSum, nAccount, nTransactionType));
+                int id = executeQuery.getInt("nId");
+                String date = executeQuery.getString("dtDate");
+                userSurname = executeQuery.getString("sSurname");
+                String categoryName = executeQuery.getString("sCategoriesName");
+                String placeName = executeQuery.getString("nPlaceName");
+                String paymentTypeName = executeQuery.getString("nPaymentTypeName");
+                String account = executeQuery.getString("nAccount");
+                String transactionType = executeQuery.getString("nTransactionType");
+                int dSum = executeQuery.getInt("dSum");
+                expenses.add(new financialmanager.data.Expenses(id, date, userSurname, categoryName, placeName, paymentTypeName, dSum, account, transactionType));
             }
-            ResultSet executeQueryExpense = stmt.executeQuery("select sum(dSum) as Expense, count(dSum) as dCount from t_Expenses where nTransactionTypeId=2 and nUserId=" + userId);
-            while (executeQueryExpense.next()) {
-                expense = executeQueryExpense.getLong("Expense");
-                Integer dCount = executeQueryExpense.getInt("dCount");
-            }
-
-            ResultSet executeQueryProfit = stmt.executeQuery("select sum(dSum) as Profit, count(dSum) as dCount from t_Expenses where  nTransactionTypeId=1 and nUserId=" + userId);
-            while (executeQueryProfit.next()) {
-                profit = executeQueryProfit.getLong("Profit");
-                Integer dCount = executeQueryProfit.getInt("dCount");
-            }
-
             executeQuery.close();
-            executeQueryExpense.close();
-            executeQueryProfit.close();
             stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbExpenses.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return expenses;
     }
 
+    public long getExpense(String userId) {
+        Statement stmt = dbConnect.connect();
+        long expense = 0;
+        {
+            try {
+                ResultSet executeQueryExpense = stmt.executeQuery("select sum(dSum) as Expense, count(dSum) as dCount from t_Expenses where nTransactionTypeId=2 and nUserId=" + userId);
+                while (executeQueryExpense.next()){
+                    expense = executeQueryExpense.getLong("Expense");
+                Integer dCount = executeQueryExpense.getInt("dCount");}
+                executeQueryExpense.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return expense;
+    }
+
+    public long getProfit(String userId) {
+        Statement stmt = dbConnect.connect();
+        long profit = 0;
+        {
+            try {
+                ResultSet executeQueryProfit = stmt.executeQuery("select sum(dSum) as Profit, count(dSum) as dCount from t_Expenses where  nTransactionTypeId=1 and nUserId=" + userId);
+                while (executeQueryProfit.next()) {
+                    profit = executeQueryProfit.getLong("Profit");
+                    Integer dCount = executeQueryProfit.getInt("dCount");
+                }
+                executeQueryProfit.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return profit;
+    }
+
+
     public void comboBoxRead(JComboBox comboBoxPlace, JComboBox comboBoxPaymentType, JComboBox comboBoxCategory, JComboBox comboBoxAccount, JComboBox comboBoxTransactionType) {
-               try {
-                   Statement stmt = dbConnect.connect();
+        try {
+            Statement stmt = dbConnect.connect();
             ResultSet executeQueryNamePlaces = stmt.executeQuery("select * from t_dicPlaces");
             while (executeQueryNamePlaces.next()) {
                 comboBoxPlace.addItem(executeQueryNamePlaces.getString("sName"));
@@ -106,8 +126,8 @@ public class DbExpenses {
     }
 
     public void insert(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum) {
-               try {
-                   Statement stmt = dbConnect.connect();
+        try {
+            Statement stmt = dbConnect.connect();
             String insertSQLString = ("insert into t_Expenses( dtDate ,dSum,nUserId, nCategoryId ,nPlaceId,nPaymentTypeId, nAccountId, nTransactionTypeId) " +
                     "values " +
                     "('%1$s',%2$s,%3$s," +
@@ -142,8 +162,6 @@ public class DbExpenses {
     public void update(String userId, String place, String paymentType, String category, String account, String transactionType, String dtDate, Integer dSum, Object value) {
         try {
             Statement stmt = dbConnect.connect();
-            if (String.valueOf(value) != null) {
-            }
             String insertSQLString = ("update t_Expenses set  dtDate='%1$s', dSum='%2$s', nUserId='%3$s'" +
                     ", nCategoryId=(select nId from [dbo].[t_dicCategories] where sName='%4$s')" +
                     ", nPlaceId=(select nId from [dbo].[t_dicPlaces] where sName='%5$s')" +

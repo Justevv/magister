@@ -40,7 +40,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelTransfers = new TransfersTable(DbTransfers.transfers);
+        modelTransfers = new TransfersTable(dbTransfers.select(OpenWindow.userLogin));
         //На основе модели, создадим новую JTable
         jTabTransfer = new JTable(modelTransfers);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -72,7 +72,8 @@ public class WindowTransfers extends JFrame implements ActionListener {
 
         buttonDeleteTransfer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dbTransfers.delete(currentId,selectedRows[i-1]);
+                dbTransfers.delete(currentId);
+                modelTransfers.setTransfers(dbTransfers.select(OpenWindow.userLogin));
                 modelTransfers.fireTableDataChanged();
             }
         });
@@ -112,11 +113,6 @@ public class WindowTransfers extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-    }
-
-    public static void main(String[] args) {
-        WindowTransfers app = new WindowTransfers();
-        app.setVisible(true);
     }
 
     public static void go() {

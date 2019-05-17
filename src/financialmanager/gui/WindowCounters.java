@@ -17,7 +17,7 @@ public class WindowCounters extends JFrame implements ActionListener {
     private JButton buttonAddCounter = new JButton("Добавить показания");
     private JButton buttonDeleteCounter = new JButton("Удалить показания");
     private JButton buttonUpdateCounter = new JButton("Редактировать показания");
-    public static CountersTable modelCounters;
+    static CountersTable modelCounters;
     private JTable jTabCounters;
     public static int[] selectedRows;
     public static int[] selectedColumns;
@@ -33,15 +33,12 @@ public class WindowCounters extends JFrame implements ActionListener {
         this.setBounds(0, 100, 1650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         DbCounters dbCounters = new DbCounters();
-        dbCounters.counters.removeAll(dbCounters.counters);
-        dbCounters.select(OpenWindow.userLogin);
-
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelCounters = new CountersTable(dbCounters.counters);
+        modelCounters = new CountersTable(dbCounters.select(OpenWindow.userLogin));
         //На основе модели, создадим новую JTable
         jTabCounters = new JTable(modelCounters);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -74,7 +71,7 @@ public class WindowCounters extends JFrame implements ActionListener {
         buttonDeleteCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbCounters.delete(idCounters);
-                dbCounters.counters.remove(selectedRows[i - 1]);
+                modelCounters.setCounters(dbCounters.select(OpenWindow.userLogin));
                 modelCounters.fireTableDataChanged();
             }
         });
@@ -113,11 +110,6 @@ public class WindowCounters extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-    }
-
-    public static void main(String[] args) {
-        WindowCounters app = new WindowCounters();
-        app.setVisible(true);
     }
 
     public static void go() {

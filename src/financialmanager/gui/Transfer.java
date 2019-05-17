@@ -137,8 +137,7 @@ public class Transfer extends JFrame {
         if (WindowTransfers.action == Actions.INSERT) {
             dbTransfers.insert((String) comboBoxAccountSender.getSelectedItem(), (String) comboBoxAccountRecipient.getSelectedItem(), Integer.valueOf(textFieldSum.getText()), OpenWindow.userLogin);
         }
-        dbTransfers.transfers.removeAll(dbTransfers.transfers);
-        dbTransfers.select(OpenWindow.userLogin);
+        modelTransfers.setTransfers(dbTransfers.select(OpenWindow.userLogin));
         modelTransfers.fireTableDataChanged();
         setVisible(false);
     }

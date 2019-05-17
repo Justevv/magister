@@ -20,16 +20,16 @@ public class Expense extends JFrame {
     private JLabel labelSum = new JLabel("Сумма:");
     private JLabel labelAccount = new JLabel("Счет:");
     private JLabel labelTransactionType = new JLabel("Тип платежа:");
-    public static JTextField textFieldDate = new JTextField("20181010", 5);
-    public static JTextField textFieldSum = new JTextField("100", 5);
-    public static JComboBox comboBoxCategory;
-    public static JComboBox comboBoxPlace;
-    public static JComboBox comboBoxPaymentType;
-    public static JComboBox comboBoxAccount;
-    public static JComboBox comboBoxTransactionType;
+    private JTextField textFieldDate = new JTextField("20181010", 5);
+    private JTextField textFieldSum = new JTextField("100", 5);
+    JComboBox comboBoxCategory;
+    private JComboBox comboBoxPlace;
+    private JComboBox comboBoxPaymentType;
+    JComboBox comboBoxAccount;
+    private JComboBox comboBoxTransactionType;
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
-    DbExpenses dbExpenses = new DbExpenses();
+    private DbExpenses dbExpenses = new DbExpenses();
 
     public Expense() {
         super("Финансовый менеджер");
@@ -205,7 +205,6 @@ public class Expense extends JFrame {
     }
 
     private void onOK() {
-        dbExpenses.expenses.removeAll(dbExpenses.expenses);
         if (WindowExpenses.action == Actions.UPDATE) {
             dbExpenses.update(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
@@ -227,15 +226,16 @@ public class Expense extends JFrame {
                     textFieldDate.getText(),
                     new Integer(textFieldSum.getText()));
         }
-        dbExpenses.select(OpenWindow.userLogin);
+        modelExpenses.setExpenses(dbExpenses.select(OpenWindow.userLogin));
         modelExpenses.fireTableDataChanged();
-        DbExpenses dbExpenses = new DbExpenses();
-        long profit = dbExpenses.profit;
-        long expense = dbExpenses.expense;
+        long profit = dbExpenses.getProfit(OpenWindow.userLogin);
+        long expense = dbExpenses.getExpense(OpenWindow.userLogin);
         Balance balance = new Balance();
         balance.getBalance(profit, expense);
         WindowExpenses.labelBalance.setText("Баланс: " +
                 balance.getBalance(profit, expense) + " Рублей");
+        WindowExpenses.labelProfit.setText("Доход: " + profit + " Рублей");
+        WindowExpenses.labelExpense.setText("Расход: " + expense + " Рублей");
     }
 
     private void onCancel() {

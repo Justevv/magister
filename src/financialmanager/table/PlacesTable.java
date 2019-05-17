@@ -3,11 +3,11 @@ package financialmanager.table;
 import financialmanager.data.Places;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import java.util.List;
 
 public class PlacesTable extends AbstractTableModel{
-    ArrayList<Places> places;
-    public PlacesTable(ArrayList<Places> places) {
+    List<Places> places;
+    public PlacesTable(List<Places> places) {
         super();
         this.places = places;
     }
@@ -39,7 +39,7 @@ public class PlacesTable extends AbstractTableModel{
         String result = "";
         switch (c) {
             case 0:
-                result = "nId";
+                result = "Id";
                 break;
             case 1:
                 result = "Name";
@@ -51,4 +51,11 @@ public class PlacesTable extends AbstractTableModel{
         return result;
     }
 
+    public List<Places> getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(List<Places> places) {
+        this.places = places;
+    }
 }

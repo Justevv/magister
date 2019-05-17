@@ -3,11 +3,11 @@ package financialmanager.table;
 import financialmanager.data.Users;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import java.util.List;
 
 public class UsersTable extends AbstractTableModel{
-    ArrayList<Users> users;
-    public UsersTable(ArrayList<Users> users) {
+    List<Users> users;
+    public UsersTable(List<Users> users) {
         super();
         this.users = users;
     }
@@ -47,7 +47,7 @@ public class UsersTable extends AbstractTableModel{
         String result = "";
         switch (c) {
             case 0:
-                result = "nId";
+                result = "Id";
                 break;
             case 1:
                 result = "Surname";
@@ -71,4 +71,11 @@ public class UsersTable extends AbstractTableModel{
         return result;
     }
 
+    public List<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Users> users) {
+        this.users = users;
+    }
 }

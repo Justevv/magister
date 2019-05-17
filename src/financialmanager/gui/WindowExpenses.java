@@ -30,8 +30,8 @@ public class WindowExpenses extends JFrame {
     private JLabel label = new JLabel("Input:");
     private JLabel labelUser;
     private JLabel labelAccount = new JLabel("Номер счета:");
-    private JLabel labelProfit = new JLabel("Номер счета:");
-    private JLabel labelExpense = new JLabel("Номер счета:");
+    static JLabel labelProfit = new JLabel("Номер счета:");
+    static JLabel labelExpense = new JLabel("Номер счета:");
     private JLabel labelBalanceCategory;
     public static JLabel labelBalance;
     private JRadioButton radio1 = new JRadioButton("Select this");
@@ -39,7 +39,7 @@ public class WindowExpenses extends JFrame {
     private JRadioButton radio3 = new JRadioButton("Select no that");
     private JCheckBox check = new JCheckBox("Check", false);
     static DbExpenses dbExpenses = new DbExpenses();
-    public static ExpensesTable modelExpenses = new ExpensesTable(dbExpenses.expenses);
+    public static ExpensesTable modelExpenses = new ExpensesTable(dbExpenses.select(OpenWindow.userLogin));
     public static int[] selectedRows;
     public static int[] selectedColumns;
     public static int i;
@@ -60,12 +60,12 @@ public class WindowExpenses extends JFrame {
 
         dbExpenses.select(OpenWindow.userLogin);
 
-        long profit = dbExpenses.profit;
-        long expense = dbExpenses.expense;
+        long profit = dbExpenses.getProfit(OpenWindow.userLogin);
+        long expense = dbExpenses.getExpense(OpenWindow.userLogin);
         Balance balance = new Balance();
         balance.getBalance(profit, expense);
 
-        labelUser = new JLabel("Пользователь: " + dbExpenses.nUserSurname);
+        labelUser = new JLabel("Пользователь: " + dbExpenses.userSurname);
         labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
         labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
         labelProfit = new JLabel("Доход: " + profit + " Рублей");
@@ -119,7 +119,7 @@ public class WindowExpenses extends JFrame {
 //      //  container.insert(input);
 
         JFrame jfrm = new JFrame("JTableExample");
-        modelExpenses = new ExpensesTable(dbExpenses.expenses);
+        modelExpenses = new ExpensesTable(dbExpenses.select(OpenWindow.userLogin));
         //На основе модели, создадим новую JTable
         jTabExpenses = new JTable(modelExpenses);
         //Создаем панель прокрутки и включаем в ее состав нашу таблицу
@@ -306,16 +306,15 @@ public class WindowExpenses extends JFrame {
 
         buttonDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dbExpenses.expenses.removeAll(dbExpenses.expenses);
                 dbExpenses.delete(value);
+                modelExpenses.setExpenses(dbExpenses.select(OpenWindow.userLogin));
                 modelExpenses.fireTableDataChanged();
                 dbExpenses.select(OpenWindow.userLogin);
-                DbExpenses dbExpenses = new DbExpenses();
-                System.out.println(dbExpenses.profit);
-                long profit = dbExpenses.profit;
-                long expense = dbExpenses.expense;
-                Balance balance = new Balance();
+                long profit = dbExpenses.getProfit(OpenWindow.userLogin);
+                long expense = dbExpenses.getExpense(OpenWindow.userLogin);
                 labelBalance.setText("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
+                labelProfit.setText("Доход: " + profit + " Рублей");
+                labelExpense.setText("Расход: " + expense + " Рублей");
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -367,12 +366,6 @@ public class WindowExpenses extends JFrame {
                     "Output",
                     JOptionPane.PLAIN_MESSAGE);
         }
-    }
-
-
-    public static void main(String[] args) {
-        WindowExpenses app = new WindowExpenses();
-        app.setVisible(true);
     }
 
     public static void go() {

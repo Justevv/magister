@@ -3,12 +3,12 @@ package financialmanager.table;
 import financialmanager.data.Expenses;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import java.util.List;
 
 public class ExpensesTable extends AbstractTableModel {
-    ArrayList<Expenses> expenses;
+    List<Expenses> expenses;
 
-    public ExpensesTable(ArrayList<Expenses> expenses) {
+    public ExpensesTable(List<Expenses> expenses) {
         super();
         this.expenses = expenses;
     }
@@ -54,7 +54,7 @@ public class ExpensesTable extends AbstractTableModel {
         String result = "";
         switch (c) {
             case 0:
-                result = "nId";
+                result = "Id";
                 break;
             case 1:
                 result = "Date";
@@ -84,4 +84,11 @@ public class ExpensesTable extends AbstractTableModel {
         return result;
     }
 
+    public List<Expenses> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expenses> expenses) {
+        this.expenses = expenses;
+    }
 }
