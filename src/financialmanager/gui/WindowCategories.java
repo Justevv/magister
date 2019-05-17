@@ -2,6 +2,7 @@ package financialmanager.gui;
 
 import financialmanager.database.DbCategories;
 import financialmanager.table.CategoriesTable;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -18,7 +19,7 @@ public class WindowCategories extends JFrame implements ActionListener {
     private JButton buttonUpdateCategory = new JButton("Редактировать категорию");
     public static CategoriesTable modelCategories;
     private JTable jTabCategory;
-    public static String action;
+    public static Actions action;
     public static int[] selectedRows;
     public static int[] selectedColumns;
     public static int i;
@@ -60,7 +61,7 @@ public class WindowCategories extends JFrame implements ActionListener {
 
         buttonAddCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "insert";
+                action = Actions.INSERT;
                 Category.go();
             }
         });
@@ -85,7 +86,7 @@ public class WindowCategories extends JFrame implements ActionListener {
 
         buttonUpdateCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "update";
+                action = Actions.UPDATE;
                 Category.go();
             }
         });

@@ -15,6 +15,7 @@ public class DbAccounts {
 
 
     public void select() {
+        accounts.removeAll(accounts);
         try {
             Statement stmt = dbConnect.connect();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +

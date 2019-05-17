@@ -2,6 +2,7 @@ package financialmanager.gui;
 
 import financialmanager.database.DbPlaces;
 import financialmanager.table.PlacesTable;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -18,7 +19,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
     public static PlacesTable modelPlaces;
     private JTable jTabPlace;
     public static String result;
-    public static String action;
+    public static Actions action;
     public static int[] selectedRows;
     public static int[] selectedColumns;
     public static int i;
@@ -59,7 +60,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
 
         buttonAddPlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "insert";
+                action = Actions.INSERT;
                 Place.go();
             }
         });
@@ -83,7 +84,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
 
         buttonUpdatePlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "update";
+                action = Actions.UPDATE;
                 Place.go();
             }
         });

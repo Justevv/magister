@@ -16,6 +16,7 @@ public class DbUsers {
     static String currentUserId = "0";
 
     public void select() {
+        users.removeAll(users);
         try {
             Statement stmt = dbConnect.connect();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +

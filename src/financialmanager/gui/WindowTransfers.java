@@ -2,6 +2,7 @@ package financialmanager.gui;
 
 import financialmanager.database.DbTransfers;
 import financialmanager.table.TransfersTable;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -18,7 +19,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
     public static TransfersTable modelTransfers;
     private JTable jTabTransfer;
     public static String result;
-    public static String action;
+    public static Actions action;
     public static int[] selectedRows;
     public static int[] selectedColumns;
     public static int i;
@@ -59,7 +60,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
 
         buttonAddTransfer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "insert";
+                action = Actions.INSERT;
                 Transfer.go();
             }
         });
@@ -83,7 +84,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
 
         buttonUpdateTransfer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "update";
+                action = Actions.UPDATE;
                 Transfer.go();
             }
         });

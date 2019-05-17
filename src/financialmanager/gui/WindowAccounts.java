@@ -2,6 +2,7 @@ package financialmanager.gui;
 
 import financialmanager.database.DbAccounts;
 import financialmanager.table.AccountsTable;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -17,7 +18,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
     private JButton buttonUpdateAccount = new JButton("Редактировать счет");
     public static AccountsTable modelAccounts;
     private JTable jTabAccount;
-    public static String action;
+    public static Actions action;
     public static int[] selectedRows;
     public static int[] selectedColumns;
     public static int i;
@@ -59,7 +60,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
 
         buttonAddAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "insert";
+                action = Actions.INSERT;
                 Account.go();
             }
         });
@@ -84,7 +85,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
 
         buttonUpdateAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "update";
+                action = Actions.UPDATE;
                 Account.go();
             }
         });

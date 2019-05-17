@@ -2,6 +2,7 @@ package financialmanager.gui;
 
 import financialmanager.businesslogic.Balance;
 import financialmanager.database.DbExpenses;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +45,7 @@ public class Expense extends JFrame {
         }
         dbExpenses.comboBoxRead(comboBoxPlace, comboBoxPaymentType, comboBoxCategory, comboBoxAccount, comboBoxTransactionType);
 
-        if (WindowExpenses.action == "update") {
+        if (WindowExpenses.action == Actions.UPDATE) {
             comboBoxCategory.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 3))));
             comboBoxPlace.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 4))));
             comboBoxPaymentType.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 5))));
@@ -205,7 +206,7 @@ public class Expense extends JFrame {
 
     private void onOK() {
         dbExpenses.expenses.removeAll(dbExpenses.expenses);
-        if (WindowExpenses.action == "update") {
+        if (WindowAccounts.action.equals(Actions.UPDATE)) {
             dbExpenses.update(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
                     (String) comboBoxPaymentType.getSelectedItem(),
@@ -216,7 +217,7 @@ public class Expense extends JFrame {
                     new Integer(textFieldSum.getText()),
                     value);
         }
-        if (WindowExpenses.action == "insert") {
+        if (WindowAccounts.action.equals(Actions.INSERT)) {
             dbExpenses.insert(OpenWindow.userLogin,
                     (String) comboBoxPlace.getSelectedItem(),
                     (String) comboBoxPaymentType.getSelectedItem(),

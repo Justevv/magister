@@ -20,6 +20,7 @@ public class DbExpenses {
     private String sqlSelect;
 
     public void select(String userId) {
+        expenses.removeAll(expenses);
         try {
             Statement stmt = dbConnect.connect();
             sqlSelect = "SELECT e.nId as nId" +

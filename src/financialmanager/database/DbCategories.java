@@ -15,6 +15,7 @@ public class DbCategories {
     public static ArrayList<Categories> categories = new ArrayList<>();
 
     public void select() {
+        categories.removeAll(categories);
         try {
             Statement stmt = dbConnect.connect();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +

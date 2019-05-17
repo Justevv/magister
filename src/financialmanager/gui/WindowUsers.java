@@ -2,6 +2,7 @@ package financialmanager.gui;
 
 import financialmanager.database.DbUsers;
 import financialmanager.table.UsersTable;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -25,7 +26,7 @@ public class WindowUsers extends JFrame implements ActionListener {
     public static int selIndex;
     public static TableModel model;
     public static Object currentId;
-    public static String action;
+    public static Actions action;
     public static Object currentEmail;
 
     public WindowUsers() {
@@ -62,7 +63,7 @@ public class WindowUsers extends JFrame implements ActionListener {
 
         buttonAddUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action="insert";
+                action = Actions.INSERT;
                 User.go();
             }
         });
@@ -87,7 +88,7 @@ public class WindowUsers extends JFrame implements ActionListener {
 
         buttonUpdateUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action="update";
+                action = Actions.UPDATE;
                 User.go();
             }
         });

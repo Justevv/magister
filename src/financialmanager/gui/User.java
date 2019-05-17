@@ -1,6 +1,7 @@
 package financialmanager.gui;
 
 import financialmanager.database.DbUsers;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +32,7 @@ public class User extends JFrame {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (WindowUsers.action == "update") {
+        if (WindowUsers.action == Actions.UPDATE) {
             textFieldSurname = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 1)), 5);
             textFieldName = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 2)), 5);
             textFieldBirthday = new JTextField(String.valueOf(WindowUsers.model.getValueAt(WindowUsers.selIndex, 3)), 5);
@@ -178,10 +179,10 @@ public class User extends JFrame {
         String Sex = textFieldSex.getText();
         String Phone = textFieldPhone.getText();
         String Email = textFieldEmail.getText();
-        if (WindowUsers.action == "update") {
+        if (WindowAccounts.action.equals(Actions.UPDATE)) {
             dbUsers.update(Surname, Name, Birthday, Sex, Phone, Email, currentId.toString(), WindowUsers.currentEmail.toString());
         }
-        if (WindowUsers.action == "insert") {
+        if (WindowAccounts.action.equals(Actions.INSERT)) {
             dbUsers.insert(Surname, Name, Birthday, Sex, Phone, Email);
         }
         dbUsers.users.removeAll(dbUsers.users);

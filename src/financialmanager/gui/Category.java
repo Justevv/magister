@@ -1,7 +1,7 @@
 package financialmanager.gui;
 
-import financialmanager.businesslogic.Categories;
 import financialmanager.database.DbCategories;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,12 +19,12 @@ public class Category extends JFrame {
     private JButton buttonOK = new JButton("OK");
     private JButton buttonCancel = new JButton("Cancel");
 
-    public Category() {
+    private Category() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (WindowCategories.action == "update") {
+        if (WindowCategories.action == Actions.UPDATE) {
             textFieldName = new JTextField(String.valueOf(WindowCategories.model.getValueAt(WindowCategories.selIndex, 1)), 5);
             textFieldParentId = new JTextField(String.valueOf(WindowCategories.model.getValueAt(WindowCategories.selIndex, 2)), 5);
         } else {
@@ -109,13 +109,13 @@ public class Category extends JFrame {
 
     private void onOK() {
         DbCategories dbCategories = new DbCategories();
-        if (WindowCategories.action == "update") {
+        if (WindowAccounts.action.equals(Actions.UPDATE)) {
             String Name = textFieldName.getText();
             String ParentId = textFieldParentId.getText();
             dbCategories.update(Name, ParentId, currentId.toString());
 
         }
-        if (WindowCategories.action == "insert") {
+        if (WindowAccounts.action.equals(Actions.INSERT)) {
             String Name = textFieldName.getText();
             String ParentId = textFieldParentId.getText();
             dbCategories.insert(Name, ParentId);

@@ -3,6 +3,7 @@ package financialmanager.gui;
 import financialmanager.businesslogic.Balance;
 import financialmanager.database.DbExpenses;
 import financialmanager.table.ExpensesTable;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -47,7 +48,7 @@ public class WindowExpenses extends JFrame {
     public static int selIndex;
     public static Object value;
     public static Object Sum;
-    public static String action;
+    public static Actions action;
     public static JComboBox comboBoxCategory;
 
     public WindowExpenses() {
@@ -281,7 +282,7 @@ public class WindowExpenses extends JFrame {
 
         buttonAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "insert";
+                action = Actions.INSERT;
                 Expense.go();
             }
         });
@@ -293,7 +294,7 @@ public class WindowExpenses extends JFrame {
 
         buttonUpdate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "update";
+                action = Actions.UPDATE;
                 Expense.go();
             }
         });
@@ -356,7 +357,7 @@ public class WindowExpenses extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String message = "";
             message += "Button was pressed\n";
-            message += "Text is " + input.getText() + "\n";
+            message += "Actions is " + input.getText() + "\n";
             message += (radio1.isSelected() ? "Radio #1" : "Radio #2")
                     + " is selected\n";
             message += "CheckBox is " + ((check.isSelected())

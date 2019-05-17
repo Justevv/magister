@@ -4,11 +4,12 @@ import financialmanager.data.Accounts;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AccountsTable extends AbstractTableModel {
-    ArrayList<Accounts> accounts;
+    List<Accounts> accounts;
 
-    public AccountsTable(ArrayList<Accounts> accounts) {
+    public AccountsTable(List<Accounts> accounts) {
         super();
         this.accounts = accounts;
     }

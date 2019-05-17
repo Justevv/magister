@@ -1,6 +1,7 @@
 package financialmanager.gui;
 
 import financialmanager.database.DbPlaces;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,7 @@ public class Place extends JFrame {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (WindowPlaces.action == "update") {
+        if (WindowPlaces.action == Actions.UPDATE) {
             textFieldName = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 1)), 5);
             textFieldAddress = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 2)), 5);
         } else {
@@ -108,10 +109,10 @@ public class Place extends JFrame {
 
     private void onOK() {
         DbPlaces dbPlaces = new DbPlaces();
-        if (WindowPlaces.action == "update") {
+        if (WindowAccounts.action.equals(Actions.UPDATE)) {
             dbPlaces.update(textFieldName.getText(), textFieldAddress.getText(), currentId.toString());
         }
-        if (WindowPlaces.action == "insert") {
+        if (WindowAccounts.action.equals(Actions.INSERT)) {
             dbPlaces.insert(textFieldName.getText(), textFieldAddress.getText());
         }
         dbPlaces.places.removeAll(dbPlaces.places);

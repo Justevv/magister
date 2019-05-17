@@ -19,6 +19,7 @@ public class DbTransfers {
     public static long balanceTransiction;
 
     public void select(String UserId) {
+        transfers.removeAll(transfers);
         sqlSelectTransfers = "SELECT t.nId" +
                 ", a.sName as AccountSender" +
                 ", a1.sName as AccountRecipient" +

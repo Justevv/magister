@@ -15,6 +15,7 @@ public class DbPlaces {
     String currentPlaceId = "0";
 
     public void select() {
+        places.removeAll(places);
         try {
             Statement stmt = dbConnect.connect();
             ResultSet executeQuery = stmt.executeQuery("SELECT * " +

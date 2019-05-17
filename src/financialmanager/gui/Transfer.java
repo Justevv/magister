@@ -1,6 +1,7 @@
 package financialmanager.gui;
 
 import financialmanager.database.DbTransfers;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +33,7 @@ public class Transfer extends JFrame {
         comboBoxAccountSender = new JComboBox();
         comboBoxAccountRecipient = new JComboBox();
         dbTransfers.comboBoxTransfer(comboBoxAccountSender, comboBoxAccountRecipient);
-        if (WindowTransfers.action == "update") {
+        if (WindowTransfers.action == Actions.UPDATE) {
             comboBoxAccountSender.setSelectedItem((String.valueOf(WindowTransfers.model.getValueAt(WindowTransfers.selIndex, 1))));
             comboBoxAccountRecipient.setSelectedItem((String.valueOf(WindowTransfers.model.getValueAt(WindowTransfers.selIndex, 2))));
             textFieldSum = new JTextField(String.valueOf(WindowTransfers.model.getValueAt(WindowTransfers.selIndex, 3)), 5);
@@ -130,10 +131,10 @@ public class Transfer extends JFrame {
     }
 
     private void onOK() {
-        if (WindowTransfers.action == "update") {
+        if (WindowAccounts.action.equals(Actions.UPDATE)) {
             dbTransfers.update((String) comboBoxAccountSender.getSelectedItem(), (String) comboBoxAccountRecipient.getSelectedItem(), Integer.valueOf(textFieldSum.getText()), currentId.toString(), OpenWindow.userLogin);
         }
-        if (WindowTransfers.action == "insert") {
+        if (WindowAccounts.action.equals(Actions.INSERT)) {
             dbTransfers.insert((String) comboBoxAccountSender.getSelectedItem(), (String) comboBoxAccountRecipient.getSelectedItem(), Integer.valueOf(textFieldSum.getText()), OpenWindow.userLogin);
         }
         dbTransfers.transfers.removeAll(dbTransfers.transfers);

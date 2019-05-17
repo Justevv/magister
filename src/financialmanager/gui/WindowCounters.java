@@ -2,6 +2,7 @@ package financialmanager.gui;
 
 import financialmanager.database.DbCounters;
 import financialmanager.table.CountersTable;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -24,7 +25,7 @@ public class WindowCounters extends JFrame implements ActionListener {
     public static int selIndex;
     public static TableModel model;
     public static Object idCounters;
-    public static String action;
+    public static Actions action;
 
     public WindowCounters() {
 
@@ -60,7 +61,7 @@ public class WindowCounters extends JFrame implements ActionListener {
 
         buttonAddCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "insert";
+                action = Actions.INSERT;
                 Counter.go();
             }
         });
@@ -85,7 +86,7 @@ public class WindowCounters extends JFrame implements ActionListener {
 
         buttonUpdateCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action = "update";
+                action = Actions.UPDATE;
                 Counter.go();
             }
         });

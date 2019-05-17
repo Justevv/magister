@@ -1,6 +1,7 @@
 package financialmanager.gui;
 
 import financialmanager.database.DbCounters;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +37,7 @@ public class Counter extends JFrame {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 450, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (WindowCounters.action == "update") {
+        if (WindowCounters.action == Actions.UPDATE) {
             textFieldDate = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 1)), 5);
             textFieldGasReadings = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 3)), 5);
             textFieldGasPrice = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 6)), 5);
@@ -219,7 +220,7 @@ public class Counter extends JFrame {
 
     private void onOK() {
         DbCounters dbCounters = new DbCounters();
-        if (WindowCounters.action == "update") {
+        if (WindowAccounts.action.equals(Actions.UPDATE)) {
             dbCounters.counters.removeAll(dbCounters.counters);
             dbCounters.update(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),
@@ -229,7 +230,7 @@ public class Counter extends JFrame {
             dbCounters.select(OpenWindow.userLogin);
             modelCounters.fireTableDataChanged();
         }
-        if (WindowCounters.action == "insert") {
+        if (WindowAccounts.action.equals(Actions.INSERT)) {
             dbCounters.counters.removeAll(dbCounters.counters);
             dbCounters.insert(OpenWindow.userLogin, textFieldDate.getText(),
                     Float.valueOf(textFieldGasReadings.getText()), Float.valueOf(textFieldElectricityReadings.getText()), Float.valueOf(textFieldWaterReadings.getText()),

@@ -1,6 +1,7 @@
 package financialmanager.gui;
 
 import financialmanager.database.DbAccounts;
+import financialmanager.text.Actions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,22 +11,19 @@ import static financialmanager.gui.WindowAccounts.currentId;
 import static financialmanager.gui.WindowAccounts.modelAccounts;
 
 public class Account extends JFrame {
-    private JPanel contentPane = new JPanel();
-    private JLabel labelName = new JLabel("Имя:");
-    public JTextField textFieldName = new JTextField("Свет", 5);
-    private JButton buttonOK = new JButton("OK");
-    private JButton buttonCancel = new JButton("Cancel");
+    private JTextField textFieldName = new JTextField("Свет", 5);
 
-    public Account() {
+    private Account() {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if (WindowAccounts.action == "update") {
+        if (WindowAccounts.action == Actions.UPDATE) {
             textFieldName = new JTextField(String.valueOf(WindowAccounts.model.getValueAt(WindowAccounts.selIndex, 1)), 5);
         } else {
 //            textFieldName = new JTextField("", 5);
         }
 
+        JButton buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -41,6 +39,7 @@ public class Account extends JFrame {
         });
 
         //call onCancel() on ESCAPE
+        JPanel contentPane = new JPanel();
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -55,6 +54,7 @@ public class Account extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelName = new JLabel("Имя:");
         container.add(labelName, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -63,6 +63,7 @@ public class Account extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(textFieldName, c);
 
+        JButton buttonOK = new JButton("OK");
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -92,10 +93,10 @@ public class Account extends JFrame {
     private void onOK() {
         String Name = textFieldName.getText();
         DbAccounts dbAccounts = new DbAccounts();
-        if (WindowAccounts.action == "update") {
+        if (WindowAccounts.action == Actions.UPDATE){
             dbAccounts.update(Name, currentId.toString());
         }
-        if (WindowAccounts.action == "insert") {
+        if (WindowAccounts.action == Actions.INSERT){
             dbAccounts.insert(Name);
         }
         dbAccounts.accounts.removeAll(dbAccounts.accounts);
