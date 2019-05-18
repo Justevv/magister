@@ -13,21 +13,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class WindowUsers extends JFrame implements ActionListener {
-    private JButton buttonAddUser = new JButton("Добавить пользователя");
-    private JButton buttonDeleteUser = new JButton("Удалить пользователя");
-    private JButton buttonUpdateUser = new JButton("Редактировать пользователя");
-    public static UsersTable modelUsers;
+    static UsersTable modelUsers;
     private JTable jTabPeople;
-    public static int[] selectedRows;
-    public static int[] selectedColumns;
-    public static int i;
-    public static int selIndex;
-    public static TableModel model;
-    public static Object currentId;
-    public static Actions action;
-    public static Object currentEmail;
+    private int[] selectedRows;
+    private int[] selectedColumns;
+    private int i;
+    static int selIndex;
+    static TableModel model;
+    static Object currentId;
+    static Actions action;
+    static Object currentEmail;
 
-    public WindowUsers() {
+    private WindowUsers() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
@@ -58,6 +55,7 @@ public class WindowUsers extends JFrame implements ActionListener {
         c.gridy = 0;
         container.add(jscrlp, c);
 
+        JButton buttonAddUser = new JButton("Добавить пользователя");
         buttonAddUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.INSERT;
@@ -70,6 +68,7 @@ public class WindowUsers extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddUser, c);
 
+        JButton buttonDeleteUser = new JButton("Удалить пользователя");
         buttonDeleteUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbUsers.delete(currentId.toString());
@@ -83,6 +82,7 @@ public class WindowUsers extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonDeleteUser, c);
 
+        JButton buttonUpdateUser = new JButton("Редактировать пользователя");
         buttonUpdateUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.UPDATE;

@@ -5,8 +5,9 @@ import financialmanager.data.Users;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-public class UsersTable extends AbstractTableModel{
-    List<Users> users;
+public class UsersTable extends AbstractTableModel {
+    private List<Users> users;
+
     public UsersTable(List<Users> users) {
         super();
         this.users = users;
@@ -16,10 +17,12 @@ public class UsersTable extends AbstractTableModel{
     public int getRowCount() {
         return users.size();
     }
+
     @Override
     public int getColumnCount() {
         return 7;
     }
+
     @Override
     public Object getValueAt(int r, int c) {
         switch (c) {

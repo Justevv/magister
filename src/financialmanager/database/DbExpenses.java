@@ -12,9 +12,9 @@ import java.util.logging.Logger;
 public class DbExpenses {
     public String userSurname;
     private DbConnect dbConnect = new DbConnect();
-    public static long profitCategory;
-    public static long expenseCategory;
-    public static long balanceCategory;
+    public  long profitCategory;
+    public  long expenseCategory;
+    public long balanceCategory;
 
     public List<Expenses> select(String userId) {
         List<Expenses> expenses = new ArrayList<>();

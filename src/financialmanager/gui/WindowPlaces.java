@@ -13,21 +13,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class WindowPlaces extends JFrame implements ActionListener {
-    private JButton buttonAddPlace = new JButton("Добавить место");
-    private JButton buttonDeletePlace = new JButton("Удалить место");
-    private JButton buttonUpdatePlace = new JButton("Редактировать место");
-    public static PlacesTable modelPlaces;
+    static PlacesTable modelPlaces;
     private JTable jTabPlace;
-    public static String result;
-    public static Actions action;
-    public static int[] selectedRows;
-    public static int[] selectedColumns;
-    public static int i;
-    public static int selIndex;
-    public static TableModel model;
-    public static Object currentId;
+    static Actions action;
+    private int[] selectedRows;
+    private int[] selectedColumns;
+    private int i;
+    static int selIndex;
+    static TableModel model;
+    static Object currentId;
 
-    public WindowPlaces() {
+    private WindowPlaces() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
@@ -58,6 +54,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
         c.gridy = 0;
         container.add(jscrlp, c);
 
+        JButton buttonAddPlace = new JButton("Добавить место");
         buttonAddPlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.INSERT;
@@ -70,6 +67,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddPlace, c);
 
+        JButton buttonDeletePlace = new JButton("Удалить место");
         buttonDeletePlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbPlaces.delete(currentId);
@@ -83,6 +81,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonDeletePlace, c);
 
+        JButton buttonUpdatePlace = new JButton("Редактировать место");
         buttonUpdatePlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.UPDATE;
@@ -98,7 +97,6 @@ public class WindowPlaces extends JFrame implements ActionListener {
         ListSelectionModel selModel = jTabPlace.getSelectionModel();
         selModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                result = "";
                 selectedRows = jTabPlace.getSelectedRows();
                 selectedColumns = jTabPlace.getSelectedColumns();
                 for (i = 0; i < selectedRows.length; i++) {

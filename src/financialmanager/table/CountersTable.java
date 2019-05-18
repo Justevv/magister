@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class CountersTable extends AbstractTableModel {
-    List<Counters> counters;
+    private List<Counters> counters;
 
     public CountersTable(List<Counters> counters) {
         super();

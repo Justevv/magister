@@ -7,25 +7,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static financialmanager.gui.WindowPlaces.modelPlaces;
 import static financialmanager.gui.WindowTransfers.currentId;
 import static financialmanager.gui.WindowTransfers.modelTransfers;
 
 public class Transfer extends JFrame {
-    private JPanel contentPane = new JPanel();
-    public static JLabel labelAccountSender = new JLabel("Отправитель:");
-    public static JLabel labelAccountRecipient = new JLabel("Получатель:");
-    public static JLabel labelSum = new JLabel("Сумма:");
-    public static JTextField textFieldAccountSender = new JTextField("2", 5);
-    public static JTextField textFieldAccountRecipient = new JTextField("3", 5);
-    public static JTextField textFieldSum = new JTextField("500", 5);
-    public static JComboBox comboBoxAccountSender;
-    public static JComboBox comboBoxAccountRecipient;
-    private JButton buttonOK = new JButton("OK");
-    private JButton buttonCancel = new JButton("Cancel");
-    DbTransfers dbTransfers = new DbTransfers();
+    private JTextField textFieldSum = new JTextField("500", 5);
+    private JComboBox comboBoxAccountSender;
+    private JComboBox comboBoxAccountRecipient;
+    private DbTransfers dbTransfers = new DbTransfers();
 
-    public Transfer() {
+    private Transfer() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
@@ -43,6 +34,7 @@ public class Transfer extends JFrame {
 //            textFieldSum  = new JTextField("", 5);
         }
 
+        JButton buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -58,6 +50,7 @@ public class Transfer extends JFrame {
         });
 
         //call onCancel() on ESCAPE
+        JPanel contentPane = new JPanel();
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -72,18 +65,21 @@ public class Transfer extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelAccountSender = new JLabel("Отправитель:");
         container.add(labelAccountSender, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelAccountRecipient = new JLabel("Получатель:");
         container.add(labelAccountRecipient, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelSum = new JLabel("Сумма:");
         container.add(labelSum, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -104,6 +100,7 @@ public class Transfer extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(textFieldSum, c);
 
+        JButton buttonOK = new JButton("OK");
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();

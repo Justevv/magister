@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class AccountsTable extends AbstractTableModel {
-    List<Accounts> accounts;
+    private List<Accounts> accounts;
 
     public void setAccounts(List<Accounts> accounts) {
         this.accounts = accounts;

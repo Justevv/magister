@@ -10,15 +10,6 @@ import java.awt.event.*;
 import static financialmanager.gui.WindowCounters.modelCounters;
 
 public class Counter extends JFrame {
-    private JPanel contentPane = new JPanel();
-    private JLabel labelGas = new JLabel("Газ:");
-    private JLabel labelElectricity = new JLabel("Электричество:");
-    private JLabel labelWater = new JLabel("Вода:");
-    private JLabel labelReadings = new JLabel("Показания:");
-    private JLabel labelPrice = new JLabel("Цена:");
-    private JLabel labelPaid = new JLabel("Оплачено:");
-    private JLabel labelType = new JLabel("Тип");
-    private JLabel labelDate = new JLabel("Дата");
     private JTextField textFieldDate = new JTextField("2018-01-01", 5);
     private JTextField textFieldGasReadings = new JTextField("1", 5);
     private JTextField textFieldElectricityReadings = new JTextField("2", 5);
@@ -29,8 +20,6 @@ public class Counter extends JFrame {
     private JTextField textFieldGasPaid = new JTextField("7", 5);
     private JTextField textFieldElectricityPaid = new JTextField("8", 5);
     private JTextField textFieldWaterPaid = new JTextField("9", 5);
-    private JButton buttonOK = new JButton("OK");
-    private JButton buttonCancel = new JButton("Cancel");
 
     public Counter() {
 
@@ -53,6 +42,7 @@ public class Counter extends JFrame {
 //            textFieldParentId = new JTextField("", 5);
         }
 
+        JButton buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -68,6 +58,7 @@ public class Counter extends JFrame {
         });
 
         //call onCancel() on ESCAPE
+        JPanel contentPane = new JPanel();
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -82,30 +73,35 @@ public class Counter extends JFrame {
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = 0;
+        JLabel labelType = new JLabel("Тип");
         container.add(labelType, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = 0;
+        JLabel labelReadings = new JLabel("Показания:");
         container.add(labelReadings, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = 0;
+        JLabel labelPrice = new JLabel("Цена:");
         container.add(labelPrice, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = 0;
+        JLabel labelPaid = new JLabel("Оплачено:");
         container.add(labelPaid, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = 1;
+        JLabel labelDate = new JLabel("Дата");
         container.add(labelDate, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -118,8 +114,9 @@ public class Counter extends JFrame {
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = 2;
-
+        JLabel labelGas = new JLabel("Газ:");
         container.add(labelGas, c);
+
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
@@ -142,6 +139,7 @@ public class Counter extends JFrame {
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = 3;
+        JLabel labelElectricity = new JLabel("Электричество:");
         container.add(labelElectricity, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -166,6 +164,7 @@ public class Counter extends JFrame {
         c.weightx = 0.5;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = 4;
+        JLabel labelWater = new JLabel("Вода:");
         container.add(labelWater, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -186,6 +185,7 @@ public class Counter extends JFrame {
         c.gridy = 4;
         container.add(textFieldWaterPaid, c);
 
+        JButton buttonOK = new JButton("OK");
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();

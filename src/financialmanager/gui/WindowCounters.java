@@ -14,20 +14,17 @@ import java.awt.event.ActionListener;
 
 
 public class WindowCounters extends JFrame implements ActionListener {
-    private JButton buttonAddCounter = new JButton("Добавить показания");
-    private JButton buttonDeleteCounter = new JButton("Удалить показания");
-    private JButton buttonUpdateCounter = new JButton("Редактировать показания");
     static CountersTable modelCounters;
     private JTable jTabCounters;
-    public static int[] selectedRows;
-    public static int[] selectedColumns;
-    public static int i;
-    public static int selIndex;
-    public static TableModel model;
-    public static Object idCounters;
-    public static Actions action;
+    private int[] selectedRows;
+    private int[] selectedColumns;
+    private int i;
+    static int selIndex;
+    static TableModel model;
+    static Object idCounters;
+    static Actions action;
 
-    public WindowCounters() {
+    private WindowCounters() {
 
         super("Финансовый менеджер");
         this.setBounds(0, 100, 1650, 400);
@@ -56,6 +53,7 @@ public class WindowCounters extends JFrame implements ActionListener {
         c.gridy = 0;
         container.add(jscrlp, c);
 
+        JButton buttonAddCounter = new JButton("Добавить показания");
         buttonAddCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.INSERT;
@@ -68,6 +66,7 @@ public class WindowCounters extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddCounter, c);
 
+        JButton buttonDeleteCounter = new JButton("Удалить показания");
         buttonDeleteCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbCounters.delete(idCounters);
@@ -81,6 +80,7 @@ public class WindowCounters extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonDeleteCounter, c);
 
+        JButton buttonUpdateCounter = new JButton("Редактировать показания");
         buttonUpdateCounter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.UPDATE;

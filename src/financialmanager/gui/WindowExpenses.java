@@ -14,45 +14,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class WindowExpenses extends JFrame {
-    private JButton buttonResultAccount = new JButton("Итоги по счетам");
-    private JButton buttonResultCategory = new JButton("Итоги по категориям");
-    private JButton button = new JButton("Press");
-    private JButton buttonAdd = new JButton("Добавить запись");
-    private JButton buttonDelete = new JButton("Удалить запись");
-    private JButton buttonUpdate = new JButton("Редактировать запись");
-    private JButton buttonAddUser = new JButton("Пользователи");
-    private JButton buttonAddCategory = new JButton("Категории");
-    private JButton buttonAccount = new JButton("Счета");
-    private JButton buttonTransfer = new JButton("Переводы");
-    private JButton buttonAddPlace = new JButton("Места");
-    private JButton buttonCounters = new JButton("Счетчики");
-    private JTextField input = new JTextField("", 5);
-    private JLabel label = new JLabel("Input:");
-    private JLabel labelUser;
-    private JLabel labelAccount = new JLabel("Номер счета:");
     static JLabel labelProfit = new JLabel("Номер счета:");
     static JLabel labelExpense = new JLabel("Номер счета:");
-    private JLabel labelBalanceCategory;
-    public static JLabel labelBalance;
-    private JRadioButton radio1 = new JRadioButton("Select this");
-    private JRadioButton radio2 = new JRadioButton("Select that");
-    private JRadioButton radio3 = new JRadioButton("Select no that");
-    private JCheckBox check = new JCheckBox("Check", false);
-    static DbExpenses dbExpenses = new DbExpenses();
-    public static ExpensesTable modelExpenses = new ExpensesTable(dbExpenses.select(OpenWindow.userLogin));
-    public static int[] selectedRows;
-    public static int[] selectedColumns;
-    public static int i;
-    private static JTable jTabExpenses = new JTable(modelExpenses);
-    public static TableModel model;
-    public static int selIndex;
-    public static Object value;
-    public static Object Sum;
-    public static Actions action;
-    public static JComboBox comboBoxCategory;
+    static JLabel labelBalance;
+    private static DbExpenses dbExpenses = new DbExpenses();
+    static ExpensesTable modelExpenses = new ExpensesTable(dbExpenses.select(OpenWindow.userLogin));
+    private static int[] selectedRows;
+    private static int[] selectedColumns;
+    private int i;
+    private JTable jTabExpenses = new JTable(modelExpenses);
+    static TableModel model;
+    static int selIndex;
+    static Object value;
+    private Object Sum;
+    static Actions action;
+    static JComboBox comboBoxCategory;
 
-    public WindowExpenses() {
-
+    private WindowExpenses() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 800, 500);
@@ -65,22 +43,15 @@ public class WindowExpenses extends JFrame {
         Balance balance = new Balance();
         balance.getBalance(profit, expense);
 
-        labelUser = new JLabel("Пользователь: " + dbExpenses.userSurname);
-        labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
-        labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
+        JLabel labelUser = new JLabel("Пользователь: " + dbExpenses.userSurname);
+        JLabel labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
+        JLabel labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
         labelProfit = new JLabel("Доход: " + profit + " Рублей");
         labelExpense = new JLabel("Расход: " + expense + " Рублей");
-        labelBalanceCategory = new JLabel("Итог категории: " + dbExpenses.profitCategory + " Рублей");
+//        JLabel labelBalanceCategory = new JLabel("Итог категории: " + dbExpenses.profitCategory + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
-
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 0;
-//        c.gridy = 0;
-//        container.insert(label, c);
-        //    container.insert(label);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -111,12 +82,6 @@ public class WindowExpenses extends JFrame {
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(labelExpense, c);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 1;
-//        c.gridy = 0;
-//        container.insert(input, c);
-//      //  container.insert(input);
 
         JFrame jfrm = new JFrame("JTableExample");
         modelExpenses = new ExpensesTable(dbExpenses.select(OpenWindow.userLogin));
@@ -143,49 +108,7 @@ public class WindowExpenses extends JFrame {
             }
         });
 
-//        ButtonGroup group = new ButtonGroup();
-//        group.insert(radio1);
-//        group.insert(radio2);
-//        group.insert(radio3);
-
-//        if (shouldWeightX) {
-//            c.weightx = 0.5;
-//        }
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.gridx = 0;
-//        c.gridy = 1;
-//        container.insert(radio1, c);
-//        //container.insert(radio1);
-
-//        radio1.setSelected(true);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 1;
-//        c.gridy = 1;
-//        container.insert(radio2, c);
-//       // container.insert(radio2);
-
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 2;
-//        c.gridy = 1;
-//        container.insert(radio3, c);
-//      //  container.insert(radio3);
-
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 0;
-//        c.gridy = 2;
-//        container.insert(check, c);
-//      //  container.insert(check);
-
-//        button.addActionListener(new ButtonEventListener());
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 0;
-//        c.gridy = 3;
-//        container.insert(button, c);
-
+        JButton buttonAddUser = new JButton("Пользователи");
         buttonAddUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowUsers.go();
@@ -197,6 +120,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddUser, c);
 
+        JButton buttonAddCategory = new JButton("Категории");
         buttonAddCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowCategories.go();
@@ -208,6 +132,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddCategory, c);
 
+        JButton buttonAddPlace = new JButton("Места");
         buttonAddPlace.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowPlaces.go();
@@ -220,6 +145,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddPlace, c);
 
+        JButton buttonAccount = new JButton("Счета");
         buttonAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowAccounts.go();
@@ -232,6 +158,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAccount, c);
 
+        JButton buttonTransfer = new JButton("Переводы");
         buttonTransfer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowTransfers.go();
@@ -244,6 +171,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonTransfer, c);
 
+        JButton buttonCounters = new JButton("Счетчики");
         buttonCounters.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowCounters.go();
@@ -256,6 +184,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonCounters, c);
 
+        JButton buttonResultAccount = new JButton("Итоги по счетам");
         buttonResultAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowResultAccount.go();
@@ -268,6 +197,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonResultAccount, c);
 
+        JButton buttonResultCategory = new JButton("Итоги по категориям");
         buttonResultCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WindowResultCategory.go();
@@ -280,6 +210,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonResultCategory, c);
 
+        JButton buttonAdd = new JButton("Добавить запись");
         buttonAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.INSERT;
@@ -292,6 +223,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAdd, c);
 
+        JButton buttonUpdate = new JButton("Редактировать запись");
         buttonUpdate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.UPDATE;
@@ -304,6 +236,7 @@ public class WindowExpenses extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonUpdate, c);
 
+        JButton buttonDelete = new JButton("Удалить запись");
         buttonDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbExpenses.delete(value);
@@ -330,42 +263,7 @@ public class WindowExpenses extends JFrame {
         c.gridx = 1;
         c.gridy = 0;
         container.add(jscrlp, c);
-        //container.insert(jscrlp);
 
-//        ActionListener actionListener = new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                DbExpenses.balanceCategory(OpenWindow.userLogin, (String) comboBoxCategory.getSelectedItem());
-//                labelBalanceCategory.setText("Итог категории " + comboBoxCategory.getSelectedItem() + ": " + DbExpenses.profitCategory + " Рублей");
-//            }
-//        };
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 0;
-//        c.gridy = GridBagConstraints.RELATIVE;
-//        container.insert(comboBoxCategory, c);
-//        comboBoxCategory.addActionListener(actionListener);
-
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 1;
-//        c.gridy = GridBagConstraints.RELATIVE - 1;
-//        container.insert(labelBalanceCategory, c);
-    }
-
-    class ButtonEventListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            String message = "";
-            message += "Button was pressed\n";
-            message += "Actions is " + input.getText() + "\n";
-            message += (radio1.isSelected() ? "Radio #1" : "Radio #2")
-                    + " is selected\n";
-            message += "CheckBox is " + ((check.isSelected())
-                    ? "checked" : "unchecked");
-            JOptionPane.showMessageDialog(null,
-                    message,
-                    "Output",
-                    JOptionPane.PLAIN_MESSAGE);
-        }
     }
 
     public static void go() {

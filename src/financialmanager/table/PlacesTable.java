@@ -5,8 +5,9 @@ import financialmanager.data.Places;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-public class PlacesTable extends AbstractTableModel{
-    List<Places> places;
+public class PlacesTable extends AbstractTableModel {
+    private List<Places> places;
+
     public PlacesTable(List<Places> places) {
         super();
         this.places = places;
@@ -16,10 +17,12 @@ public class PlacesTable extends AbstractTableModel{
     public int getRowCount() {
         return places.size();
     }
+
     @Override
     public int getColumnCount() {
         return 3;
     }
+
     @Override
     public Object getValueAt(int r, int c) {
         switch (c) {

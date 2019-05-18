@@ -13,20 +13,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class WindowAccounts extends JFrame implements ActionListener {
-    private JButton buttonAddAccount = new JButton("Добавить счет");
-    private JButton buttonDeleteAccount = new JButton("Удалить счет");
-    private JButton buttonUpdateAccount = new JButton("Редактировать счет");
     static AccountsTable modelAccounts = new AccountsTable(null);
     private JTable jTabAccount;
     public static Actions action;
-    private static int[] selectedRows;
-    private static int[] selectedColumns;
-    private static int i;
+    private int[] selectedRows;
+    private int[] selectedColumns;
+    private int i;
     static int selIndex;
     static TableModel model;
     static Object currentId;
 
-    public WindowAccounts() {
+    private WindowAccounts() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
@@ -58,6 +55,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
         c.gridy = 0;
         container.add(jscrlp, c);
 
+        JButton buttonAddAccount = new JButton("Добавить счет");
         buttonAddAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.INSERT;
@@ -70,6 +68,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddAccount, c);
 
+        JButton buttonDeleteAccount = new JButton("Удалить счет");
         buttonDeleteAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbAccounts.delete(currentId.toString());
@@ -84,6 +83,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonDeleteAccount, c);
 
+        JButton buttonUpdateAccount = new JButton("Редактировать счет");
         buttonUpdateAccount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.UPDATE;

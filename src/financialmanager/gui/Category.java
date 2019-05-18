@@ -11,13 +11,8 @@ import static financialmanager.gui.WindowCategories.currentId;
 import static financialmanager.gui.WindowCategories.modelCategories;
 
 public class Category extends JFrame {
-    private JPanel contentPane = new JPanel();
-    private JLabel labelName = new JLabel("Имя:");
-    private JLabel labelParentId = new JLabel("Родительская категория:");
     private JTextField textFieldName = new JTextField("Свет", 5);
     private JTextField textFieldParentId = new JTextField("1", 5);
-    private JButton buttonOK = new JButton("OK");
-    private JButton buttonCancel = new JButton("Cancel");
 
     private Category() {
 
@@ -32,6 +27,7 @@ public class Category extends JFrame {
 //            textFieldParentId = new JTextField("", 5);
         }
 
+        JButton buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -47,6 +43,7 @@ public class Category extends JFrame {
         });
 
         //call onCancel() on ESCAPE
+        JPanel contentPane = new JPanel();
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -61,12 +58,14 @@ public class Category extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelName = new JLabel("Имя:");
         container.add(labelName, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelParentId = new JLabel("Родительская категория:");
         container.add(labelParentId, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -81,6 +80,7 @@ public class Category extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(textFieldParentId, c);
 
+        JButton buttonOK = new JButton("OK");
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();

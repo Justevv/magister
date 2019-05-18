@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class ExpensesTable extends AbstractTableModel {
-    List<Expenses> expenses;
+    private List<Expenses> expenses;
 
     public ExpensesTable(List<Expenses> expenses) {
         super();

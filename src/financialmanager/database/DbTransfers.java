@@ -10,11 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DbTransfers {
-    String currentTransferId = "0";
+    private String currentTransferId = "0";
     private DbConnect dbConnect = new DbConnect();
-    private static long expenseTransaction;
-    private static long profitTransaction;
-    public static long balanceTransaction;
+    private long expenseTransaction;
+    private long profitTransaction;
+    public long balanceTransaction;
 
     public List<Transfers> select(String UserId) {
         List<Transfers> transfers = new ArrayList<>();

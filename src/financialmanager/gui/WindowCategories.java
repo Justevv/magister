@@ -14,20 +14,17 @@ import java.awt.event.ActionListener;
 
 
 public class WindowCategories extends JFrame implements ActionListener {
-    private JButton buttonAddCategory = new JButton("Добавить категорию");
-    private JButton buttonDeleteCategory = new JButton("Удалить категорию");
-    private JButton buttonUpdateCategory = new JButton("Редактировать категорию");
-    public static CategoriesTable modelCategories;
+    static CategoriesTable modelCategories;
     private JTable jTabCategory;
     public static Actions action;
-    public static int[] selectedRows;
-    public static int[] selectedColumns;
-    public static int i;
+    private int[] selectedRows;
+    private int[] selectedColumns;
+    private int i;
     public static int selIndex;
     public static TableModel model;
     public static Object currentId;
 
-    public WindowCategories() {
+    private WindowCategories() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
@@ -59,6 +56,7 @@ public class WindowCategories extends JFrame implements ActionListener {
         c.gridy = 0;
         container.add(jscrlp, c);
 
+        JButton buttonAddCategory = new JButton("Добавить категорию");
         buttonAddCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.INSERT;
@@ -71,6 +69,7 @@ public class WindowCategories extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddCategory, c);
 
+        JButton buttonDeleteCategory = new JButton("Удалить категорию");
         buttonDeleteCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbCategories.delete(currentId.toString());
@@ -84,6 +83,7 @@ public class WindowCategories extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonDeleteCategory, c);
 
+        JButton buttonUpdateCategory = new JButton("Редактировать категорию");
         buttonUpdateCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.UPDATE;

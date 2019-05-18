@@ -11,13 +11,8 @@ import static financialmanager.gui.WindowPlaces.modelPlaces;
 import static financialmanager.gui.WindowPlaces.currentId;
 
 public class Place extends JFrame {
-    private JPanel contentPane = new JPanel();
-    private JLabel labelName = new JLabel("Имя:");
-    public static JLabel labelAddress = new JLabel("Адрес:");
-    public static JTextField textFieldName = new JTextField("Макдональдс", 5);
-    public static JTextField textFieldAddress = new JTextField("Есенина", 5);
-    private JButton buttonOK = new JButton("OK");
-    private JButton buttonCancel = new JButton("Cancel");
+    private JTextField textFieldName = new JTextField("Макдональдс", 5);
+    private JTextField textFieldAddress = new JTextField("Есенина", 5);
 
     public Place() {
 
@@ -32,6 +27,7 @@ public class Place extends JFrame {
 //            textFieldParentId = new JTextField("", 5);
         }
 
+        JButton buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -47,6 +43,7 @@ public class Place extends JFrame {
         });
 
         //call onCancel() on ESCAPE
+        JPanel contentPane = new JPanel();
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -61,12 +58,14 @@ public class Place extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelName = new JLabel("Имя:");
         container.add(labelName, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelAddress = new JLabel("Адрес:");
         container.add(labelAddress, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -81,6 +80,7 @@ public class Place extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(textFieldAddress, c);
 
+        JButton buttonOK = new JButton("OK");
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -98,7 +98,6 @@ public class Place extends JFrame {
         c.gridx = 1;
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonCancel, c);
-
     }
 
     public static void go() {

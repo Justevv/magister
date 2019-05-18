@@ -11,21 +11,12 @@ import static financialmanager.gui.WindowUsers.modelUsers;
 import static financialmanager.gui.WindowUsers.currentId;
 
 public class User extends JFrame {
-    private JPanel contentPane = new JPanel();
-    private JLabel labelSurname = new JLabel("Фамилия:");
-    private JLabel labelName = new JLabel("Имя:");
-    private static JLabel labelBirthday = new JLabel("Дата рождения:");
-    private JLabel labelPhone = new JLabel("Телефон:");
-    private JLabel labelSex = new JLabel("Пол:");
-    private JLabel labelEmail = new JLabel("Email:");
-    private static JTextField textFieldSurname = new JTextField("Коровин", 5);
-    private static JTextField textFieldName = new JTextField("Михаил", 5);
-    private static JTextField textFieldBirthday = new JTextField("20010101", 5);
-    private static JTextField textFieldPhone = new JTextField("+79203336699", 5);
-    private static JTextField textFieldSex = new JTextField("M", 5);
-    private static JTextField textFieldEmail = new JTextField("korovin@mail.ru", 5);
-    private JButton buttonOK = new JButton("OK");
-    private JButton buttonCancel = new JButton("Cancel");
+    private JTextField textFieldSurname = new JTextField("Коровин", 5);
+    private JTextField textFieldName = new JTextField("Михаил", 5);
+    private JTextField textFieldBirthday = new JTextField("20010101", 5);
+    private JTextField textFieldPhone = new JTextField("+79203336699", 5);
+    private JTextField textFieldSex = new JTextField("M", 5);
+    private JTextField textFieldEmail = new JTextField("korovin@mail.ru", 5);
 
     private User() {
 
@@ -48,6 +39,7 @@ public class User extends JFrame {
 //            textFieldEmail = new JTextField("", 5);
         }
 
+        JButton buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -63,6 +55,7 @@ public class User extends JFrame {
         });
 
         //call onCancel() on ESCAPE
+        JPanel contentPane = new JPanel();
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -77,36 +70,42 @@ public class User extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelSurname = new JLabel("Фамилия:");
         container.add(labelSurname, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelName = new JLabel("Имя:");
         container.add(labelName, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelBirthday = new JLabel("Дата рождения:");
         container.add(labelBirthday, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelSex = new JLabel("Пол:");
         container.add(labelSex, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelPhone = new JLabel("Телефон:");
         container.add(labelPhone, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelEmail = new JLabel("Email:");
         container.add(labelEmail, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -145,6 +144,7 @@ public class User extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(textFieldEmail, c);
 
+        JButton buttonOK = new JButton("OK");
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();

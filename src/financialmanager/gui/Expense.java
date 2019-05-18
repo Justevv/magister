@@ -12,14 +12,6 @@ import static financialmanager.gui.WindowExpenses.modelExpenses;
 import static financialmanager.gui.WindowExpenses.value;
 
 public class Expense extends JFrame {
-    private JPanel contentPane = new JPanel();
-    private JLabel labelDate = new JLabel("Дата:");
-    private JLabel labelCategory = new JLabel("Категория:");
-    private JLabel labelPlace = new JLabel("Место:");
-    private JLabel labelPaymentType = new JLabel("Тип оплаты:");
-    private JLabel labelSum = new JLabel("Сумма:");
-    private JLabel labelAccount = new JLabel("Счет:");
-    private JLabel labelTransactionType = new JLabel("Тип платежа:");
     private JTextField textFieldDate = new JTextField("20181010", 5);
     private JTextField textFieldSum = new JTextField("100", 5);
     JComboBox comboBoxCategory;
@@ -27,11 +19,9 @@ public class Expense extends JFrame {
     private JComboBox comboBoxPaymentType;
     JComboBox comboBoxAccount;
     private JComboBox comboBoxTransactionType;
-    private JButton buttonOK = new JButton("OK");
-    private JButton buttonCancel = new JButton("Cancel");
     private DbExpenses dbExpenses = new DbExpenses();
 
-    public Expense() {
+    Expense() {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,6 +47,7 @@ public class Expense extends JFrame {
 //            textFieldDate = new JTextField("", 5);
 //            textFieldSum = new JTextField("", 5);
         }
+        JButton buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -72,6 +63,7 @@ public class Expense extends JFrame {
         });
 
         //call onCancel() on ESCAPE
+        JPanel contentPane = new JPanel();
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -86,42 +78,49 @@ public class Expense extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelDate = new JLabel("Дата:");
         container.add(labelDate, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelCategory = new JLabel("Категория:");
         container.add(labelCategory, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelPaymentType = new JLabel("Тип оплаты:");
         container.add(labelPaymentType, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelPlace = new JLabel("Место:");
         container.add(labelPlace, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelSum = new JLabel("Сумма:");
         container.add(labelSum, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelAccount = new JLabel("Счет:");
         container.add(labelAccount, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
+        JLabel labelTransactionType = new JLabel("Тип платежа:");
         container.add(labelTransactionType, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -169,6 +168,7 @@ public class Expense extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(comboBoxTransactionType, c);
 
+        JButton buttonOK = new JButton("OK");
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -199,7 +199,7 @@ public class Expense extends JFrame {
         app.setVisible(true);
     }
 
-    public static void comboBoxResult() {
+    static void comboBoxResult() {
         new Expense();
         // app.pack();
     }

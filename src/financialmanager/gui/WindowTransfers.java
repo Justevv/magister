@@ -13,21 +13,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class WindowTransfers extends JFrame implements ActionListener {
-    private JButton buttonAddTransfer = new JButton("Добавить перевод");
-    private JButton buttonDeleteTransfer = new JButton("Удалить перевод");
-    private JButton buttonUpdateTransfer = new JButton("Редактировать перевод");
-    public static TransfersTable modelTransfers;
+    static TransfersTable modelTransfers;
     private JTable jTabTransfer;
-    public static String result;
-    public static Actions action;
-    public static int[] selectedRows;
-    public static int[] selectedColumns;
-    public static int i;
-    public static int selIndex;
-    public static TableModel model;
-    public static Object currentId;
+    static Actions action;
+    private int[] selectedRows;
+    private int[] selectedColumns;
+    private int i;
+    static int selIndex;
+    static TableModel model;
+    static Object currentId;
 
-    public WindowTransfers() {
+    private WindowTransfers() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
@@ -58,6 +54,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
         c.gridy = 0;
         container.add(jscrlp, c);
 
+        JButton buttonAddTransfer = new JButton("Добавить перевод");
         buttonAddTransfer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.INSERT;
@@ -70,6 +67,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonAddTransfer, c);
 
+        JButton buttonDeleteTransfer = new JButton("Удалить перевод");
         buttonDeleteTransfer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dbTransfers.delete(currentId);
@@ -83,6 +81,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
         c.gridy = GridBagConstraints.RELATIVE;
         container.add(buttonDeleteTransfer, c);
 
+        JButton buttonUpdateTransfer = new JButton("Редактировать перевод");
         buttonUpdateTransfer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action = Actions.UPDATE;
@@ -98,7 +97,6 @@ public class WindowTransfers extends JFrame implements ActionListener {
         ListSelectionModel selModel = jTabTransfer.getSelectionModel();
         selModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                result = "";
                 selectedRows = jTabTransfer.getSelectedRows();
                 selectedColumns = jTabTransfer.getSelectedColumns();
                 for (i = 0; i < selectedRows.length; i++) {

@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class CategoriesTable extends AbstractTableModel {
-    List<Categories> categories;
+    private List<Categories> categories;
 
     public CategoriesTable(List<Categories> categories) {
         super();

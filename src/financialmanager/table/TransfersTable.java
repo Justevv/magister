@@ -5,8 +5,9 @@ import financialmanager.data.Transfers;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-public class TransfersTable extends AbstractTableModel{
-    List<Transfers> transfers;
+public class TransfersTable extends AbstractTableModel {
+    private List<Transfers> transfers;
+
     public TransfersTable(List<Transfers> transfers) {
         super();
         this.transfers = transfers;
@@ -16,10 +17,12 @@ public class TransfersTable extends AbstractTableModel{
     public int getRowCount() {
         return transfers.size();
     }
+
     @Override
     public int getColumnCount() {
         return 4;
     }
+
     @Override
     public Object getValueAt(int r, int c) {
         switch (c) {
