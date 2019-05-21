@@ -1,5 +1,6 @@
 package financialmanager.table;
 
+import financialmanager.data.Counter;
 import financialmanager.data.Counters;
 
 import javax.swing.table.AbstractTableModel;
@@ -7,6 +8,7 @@ import java.util.List;
 
 public class CountersTable extends AbstractTableModel {
     private List<Counters> counters;
+    private List<Counter> counter;
 
     public CountersTable(List<Counters> counters) {
         super();
@@ -33,7 +35,7 @@ public class CountersTable extends AbstractTableModel {
             case 2:
                 return counters.get(r).getUserSurname();
             case 3:
-                return counters.get(r).getGasReadings();
+                return counter.get(r).getValue();
             case 4:
                 return counters.get(r).getElectricityReadings();
             case 5:

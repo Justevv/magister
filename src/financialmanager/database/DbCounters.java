@@ -1,8 +1,12 @@
 package financialmanager.database;
 
 import financialmanager.businesslogic.Counters;
+import financialmanager.data.Counter;
+import financialmanager.text.CounterType;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +18,7 @@ public class DbCounters {
 
     public List<financialmanager.data.Counters> select(String userId) {
         List<financialmanager.data.Counters> counters = new ArrayList<>();
+        List<financialmanager.data.Counter> counter = new ArrayList<>();
         try {
             Statement stmt = dbConnect.connect();
             String sqlSelect = "SELECT c.[nId] " +
@@ -47,6 +52,9 @@ public class DbCounters {
                 float waterPaid = executeQuery.getFloat("nWaterPaid");
                 Counters countersBL = new Counters();
                 counters.add(countersBL.start(id, date, userSurname, gasReadings, electricityReadings, waterReadings, gasPrice, electricityPrice, waterPrice, gasPaid, electricityPaid, waterPaid));
+                counter.add(new Counter(id, date, electricityPrice, electricityReadings, CounterType.ELECTRICITY));
+                counter.add(new Counter(id, date, gasPrice, gasReadings, CounterType.GAS));
+                counter.add(new Counter(id, date, waterPrice, waterReadings, CounterType.WATER));
             }
             executeQuery.close();
             stmt.close();
