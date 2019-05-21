@@ -1,7 +1,6 @@
 package financialmanager.database;
 
-import financialmanager.businesslogic.Counters;
-import financialmanager.data.Counter;
+import financialmanager.data.Counters;
 import financialmanager.text.CounterType;
 
 import java.sql.ResultSet;
@@ -16,9 +15,8 @@ import java.util.logging.Logger;
 public class DbCounters {
     private DbConnect dbConnect = new DbConnect();
 
-    public List<financialmanager.data.Counters> select(String userId) {
-        List<financialmanager.data.Counters> counters = new ArrayList<>();
-        List<financialmanager.data.Counter> counter = new ArrayList<>();
+    public List<Counters> select(String userId) {
+        List<Counters> counter = new ArrayList<>();
         try {
             Statement stmt = dbConnect.connect();
             String sqlSelect = "SELECT c.[nId] " +
@@ -50,18 +48,16 @@ public class DbCounters {
                 float gasPaid = executeQuery.getFloat("nGasPaid");
                 float electricityPaid = executeQuery.getFloat("nElectricityPaid");
                 float waterPaid = executeQuery.getFloat("nWaterPaid");
-                Counters countersBL = new Counters();
-                counters.add(countersBL.start(id, date, userSurname, gasReadings, electricityReadings, waterReadings, gasPrice, electricityPrice, waterPrice, gasPaid, electricityPaid, waterPaid));
-                counter.add(new Counter(id, date, electricityPrice, electricityReadings, CounterType.ELECTRICITY));
-                counter.add(new Counter(id, date, gasPrice, gasReadings, CounterType.GAS));
-                counter.add(new Counter(id, date, waterPrice, waterReadings, CounterType.WATER));
+                counter.add(new Counters(id, date, electricityPrice, electricityReadings, electricityPaid, CounterType.ELECTRICITY));
+                counter.add(new Counters(id, date, gasPrice, gasReadings, gasPaid, CounterType.GAS));
+                counter.add(new Counters(id, date, waterPrice, waterReadings, waterPaid, CounterType.WATER));
             }
             executeQuery.close();
             stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(DbCounters.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return counters;
+        return counter;
     }
 
     public void insert(String userId, String dtDate, float nGasReadings, float nElectricityReadings, float nWaterReadings,

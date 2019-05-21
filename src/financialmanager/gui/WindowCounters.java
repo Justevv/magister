@@ -35,6 +35,7 @@ public class WindowCounters extends JFrame implements ActionListener {
         container.setLayout(new GridBagLayout());
 
         JFrame jfrm = new JFrame("JTableExample");
+//        modelCounters = new CountersTable(dbCounters.select(OpenWindow.userLogin));
         modelCounters = new CountersTable(dbCounters.select(OpenWindow.userLogin));
         //На основе модели, создадим новую JTable
         jTabCounters = new JTable(modelCounters);
