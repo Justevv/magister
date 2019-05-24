@@ -21,7 +21,7 @@ public class WindowResultCategory extends JFrame {
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        JLabel labelBalanceCategory[] = new JLabel[countCategory];
 //        JLabel labelProfitCategory[] = new JLabel[countCategory];
-        JLabel labelExpenseCategory[] = new JLabel[countCategory];
+        JLabel[] labelExpenseCategory = new JLabel[countCategory];
         int categoryNunber = 0;
         DbExpenses dbExpenses = new DbExpenses();
         long profit = dbExpenses.getProfit(OpenWindow.userLogin);

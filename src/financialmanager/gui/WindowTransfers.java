@@ -5,8 +5,6 @@ import financialmanager.table.TransfersTable;
 import financialmanager.text.Actions;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +15,7 @@ public class WindowTransfers extends JFrame implements ActionListener {
     private JTable jTabTransfer;
     static Actions action;
     private int[] selectedRows;
-    private int[] selectedColumns;
+//    private int[] selectedColumns;
     private int i;
     static int selIndex;
     static TableModel model;
@@ -55,11 +53,9 @@ public class WindowTransfers extends JFrame implements ActionListener {
         container.add(jscrlp, c);
 
         JButton buttonAddTransfer = new JButton("Добавить перевод");
-        buttonAddTransfer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.INSERT;
-                Transfer.go();
-            }
+        buttonAddTransfer.addActionListener(e -> {
+            action = Actions.INSERT;
+            Transfer.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -68,12 +64,10 @@ public class WindowTransfers extends JFrame implements ActionListener {
         container.add(buttonAddTransfer, c);
 
         JButton buttonDeleteTransfer = new JButton("Удалить перевод");
-        buttonDeleteTransfer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dbTransfers.delete(currentId);
-                modelTransfers.setTransfers(dbTransfers.select(OpenWindow.userLogin));
-                modelTransfers.fireTableDataChanged();
-            }
+        buttonDeleteTransfer.addActionListener(e -> {
+            dbTransfers.delete(currentId);
+            modelTransfers.setTransfers(dbTransfers.select(OpenWindow.userLogin));
+            modelTransfers.fireTableDataChanged();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -82,11 +76,9 @@ public class WindowTransfers extends JFrame implements ActionListener {
         container.add(buttonDeleteTransfer, c);
 
         JButton buttonUpdateTransfer = new JButton("Редактировать перевод");
-        buttonUpdateTransfer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.UPDATE;
-                Transfer.go();
-            }
+        buttonUpdateTransfer.addActionListener(e -> {
+            action = Actions.UPDATE;
+            Transfer.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -95,15 +87,13 @@ public class WindowTransfers extends JFrame implements ActionListener {
         container.add(buttonUpdateTransfer, c);
 
         ListSelectionModel selModel = jTabTransfer.getSelectionModel();
-        selModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectedRows = jTabTransfer.getSelectedRows();
-                selectedColumns = jTabTransfer.getSelectedColumns();
-                for (i = 0; i < selectedRows.length; i++) {
-                    selIndex = selectedRows[i];
-                    model = jTabTransfer.getModel();
-                    currentId = model.getValueAt(selIndex, 0);
-                }
+        selModel.addListSelectionListener(e -> {
+            selectedRows = jTabTransfer.getSelectedRows();
+//            selectedColumns = jTabTransfer.getSelectedColumns();
+            for (i = 0; i < selectedRows.length; i++) {
+                selIndex = selectedRows[i];
+                model = jTabTransfer.getModel();
+                currentId = model.getValueAt(selIndex, 0);
             }
         });
     }

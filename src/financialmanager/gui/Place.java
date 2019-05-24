@@ -14,7 +14,7 @@ public class Place extends JFrame {
     private JTextField textFieldName = new JTextField("Макдональдс", 5);
     private JTextField textFieldAddress = new JTextField("Есенина", 5);
 
-    public Place() {
+    private Place() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 350, 200);
@@ -22,17 +22,13 @@ public class Place extends JFrame {
         if (WindowPlaces.action == Actions.UPDATE) {
             textFieldName = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 1)), 5);
             textFieldAddress = new JTextField(String.valueOf(WindowPlaces.model.getValueAt(WindowPlaces.selIndex, 2)), 5);
-        } else {
+        } //else {
 //            textFieldName = new JTextField("", 5);
 //            textFieldParentId = new JTextField("", 5);
-        }
+//        }
 
         JButton buttonCancel = new JButton("Cancel");
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -44,11 +40,7 @@ public class Place extends JFrame {
 
         //call onCancel() on ESCAPE
         JPanel contentPane = new JPanel();
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -81,11 +73,7 @@ public class Place extends JFrame {
         container.add(textFieldAddress, c);
 
         JButton buttonOK = new JButton("OK");
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;

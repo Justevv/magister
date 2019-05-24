@@ -5,8 +5,6 @@ import financialmanager.table.CountersTable;
 import financialmanager.text.Actions;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +15,7 @@ public class WindowCounters extends JFrame implements ActionListener {
     static CountersTable modelCounters;
     private JTable jTabCounters;
     private int[] selectedRows;
-    private int[] selectedColumns;
+//    private int[] selectedColumns;
     private int i;
     static int selIndex;
     static TableModel model;
@@ -55,11 +53,9 @@ public class WindowCounters extends JFrame implements ActionListener {
         container.add(jscrlp, c);
 
         JButton buttonAddCounter = new JButton("Добавить показания");
-        buttonAddCounter.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.INSERT;
-                Counter.go();
-            }
+        buttonAddCounter.addActionListener(e -> {
+            action = Actions.INSERT;
+            Counter.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -68,12 +64,10 @@ public class WindowCounters extends JFrame implements ActionListener {
         container.add(buttonAddCounter, c);
 
         JButton buttonDeleteCounter = new JButton("Удалить показания");
-        buttonDeleteCounter.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dbCounters.delete(idCounters);
-                modelCounters.setCounters(dbCounters.select(OpenWindow.userLogin));
-                modelCounters.fireTableDataChanged();
-            }
+        buttonDeleteCounter.addActionListener(e -> {
+            dbCounters.delete(idCounters);
+            modelCounters.setCounters(dbCounters.select(OpenWindow.userLogin));
+            modelCounters.fireTableDataChanged();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -82,11 +76,9 @@ public class WindowCounters extends JFrame implements ActionListener {
         container.add(buttonDeleteCounter, c);
 
         JButton buttonUpdateCounter = new JButton("Редактировать показания");
-        buttonUpdateCounter.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.UPDATE;
-                Counter.go();
-            }
+        buttonUpdateCounter.addActionListener(e -> {
+            action = Actions.UPDATE;
+            Counter.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -95,15 +87,13 @@ public class WindowCounters extends JFrame implements ActionListener {
         container.add(buttonUpdateCounter, c);
 
         ListSelectionModel selModel = jTabCounters.getSelectionModel();
-        selModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectedRows = jTabCounters.getSelectedRows();
-                selectedColumns = jTabCounters.getSelectedColumns();
-                for (i = 0; i < selectedRows.length; i++) {
-                    selIndex = selectedRows[i];
-                    model = jTabCounters.getModel();
-                    idCounters = model.getValueAt(selIndex, 0);
-                }
+        selModel.addListSelectionListener(e -> {
+            selectedRows = jTabCounters.getSelectedRows();
+//            selectedColumns = jTabCounters.getSelectedColumns();
+            for (i = 0; i < selectedRows.length; i++) {
+                selIndex = selectedRows[i];
+                model = jTabCounters.getModel();
+                idCounters = model.getValueAt(selIndex, 0);
             }
         });
     }
