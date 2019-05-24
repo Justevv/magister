@@ -43,16 +43,12 @@ public class Expense extends JFrame {
             comboBoxTransactionType.setSelectedItem((String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 8))));
             textFieldDate = new JTextField(String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 1)), 5);
             textFieldSum = new JTextField(String.valueOf(WindowExpenses.model.getValueAt(WindowExpenses.selIndex, 6)), 5);
-        } else {
+        } //else {
 //            textFieldDate = new JTextField("", 5);
 //            textFieldSum = new JTextField("", 5);
-        }
+//        }
         JButton buttonCancel = new JButton("Cancel");
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -64,11 +60,7 @@ public class Expense extends JFrame {
 
         //call onCancel() on ESCAPE
         JPanel contentPane = new JPanel();
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -169,11 +161,7 @@ public class Expense extends JFrame {
         container.add(comboBoxTransactionType, c);
 
         JButton buttonOK = new JButton("OK");
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
@@ -213,8 +201,7 @@ public class Expense extends JFrame {
                     (String) comboBoxAccount.getSelectedItem(),
                     (String) comboBoxTransactionType.getSelectedItem(),
                     textFieldDate.getText(),
-                    new Integer(textFieldSum.getText()),
-                    value);
+                    Integer.valueOf((textFieldSum.getText())), value);
         }
         if (WindowExpenses.action == Actions.INSERT) {
             dbExpenses.insert(OpenWindow.userLogin,
@@ -224,14 +211,13 @@ public class Expense extends JFrame {
                     (String) comboBoxAccount.getSelectedItem(),
                     (String) comboBoxTransactionType.getSelectedItem(),
                     textFieldDate.getText(),
-                    new Integer(textFieldSum.getText()));
+                    Integer.valueOf(textFieldSum.getText()));
         }
         modelExpenses.setExpenses(dbExpenses.select(OpenWindow.userLogin));
         modelExpenses.fireTableDataChanged();
         long profit = dbExpenses.getProfit(OpenWindow.userLogin);
         long expense = dbExpenses.getExpense(OpenWindow.userLogin);
         Balance balance = new Balance();
-        balance.getBalance(profit, expense);
         WindowExpenses.labelBalance.setText("Баланс: " +
                 balance.getBalance(profit, expense) + " Рублей");
         WindowExpenses.labelProfit.setText("Доход: " + profit + " Рублей");

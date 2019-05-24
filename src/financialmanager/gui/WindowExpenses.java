@@ -35,20 +35,14 @@ public class WindowExpenses extends JFrame {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 800, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        dbExpenses.select(OpenWindow.userLogin);
-
         long profit = dbExpenses.getProfit(OpenWindow.userLogin);
         long expense = dbExpenses.getExpense(OpenWindow.userLogin);
         Balance balance = new Balance();
-        balance.getBalance(profit, expense);
-
         JLabel labelUser = new JLabel("Пользователь: " + dbExpenses.userSurname);
         JLabel labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
-        JLabel labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
+        labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
         labelProfit = new JLabel("Доход: " + profit + " Рублей");
         labelExpense = new JLabel("Расход: " + expense + " Рублей");
-//        JLabel labelBalanceCategory = new JLabel("Итог категории: " + dbExpenses.profitCategory + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
