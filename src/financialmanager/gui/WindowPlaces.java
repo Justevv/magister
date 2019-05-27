@@ -26,13 +26,12 @@ public class WindowPlaces extends JFrame implements ActionListener {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        DbPlaces dbPlaces = new DbPlaces();
-        dbPlaces.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
+        DbPlaces dbPlaces = new DbPlaces();
         JFrame jfrm = new JFrame("JTableExample");
         modelPlaces = new PlacesTable(dbPlaces.select());
         //На основе модели, создадим новую JTable

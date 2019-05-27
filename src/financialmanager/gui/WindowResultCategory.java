@@ -15,7 +15,6 @@ public class WindowResultCategory extends JFrame {
     private WindowResultCategory() {
         super("Финансовый менеджер");
         Expense expenseData = new Expense();
-        Expense.comboBoxResult();
         int countCategory = expenseData.comboBoxCategory.getItemCount();
         this.setBounds(100, 100, 400, countCategory * 16 + 90);
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

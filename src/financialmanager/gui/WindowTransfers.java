@@ -26,13 +26,11 @@ public class WindowTransfers extends JFrame implements ActionListener {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        DbTransfers dbTransfers = new DbTransfers();
-        dbTransfers.select(OpenWindow.userLogin);
-
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
+        DbTransfers dbTransfers = new DbTransfers();
         JFrame jfrm = new JFrame("JTableExample");
         modelTransfers = new TransfersTable(dbTransfers.select(OpenWindow.userLogin));
         //На основе модели, создадим новую JTable

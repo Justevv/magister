@@ -27,13 +27,11 @@ public class WindowAccounts extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbAccounts dbAccounts = new DbAccounts();
-        dbAccounts.select();
-
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
+        DbAccounts dbAccounts = new DbAccounts();
         JFrame jfrm = new JFrame("JTableExample");
         modelAccounts = new AccountsTable(dbAccounts.select());
         //На основе модели, создадим новую JTable

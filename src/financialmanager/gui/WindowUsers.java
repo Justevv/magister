@@ -28,12 +28,11 @@ public class WindowUsers extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbUsers dbUsers = new DbUsers();
-
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
+        DbUsers dbUsers = new DbUsers();
         JFrame jfrm = new JFrame("JTableExample");
         modelUsers = new UsersTable(dbUsers.select());
         //На основе модели, создадим новую JTable

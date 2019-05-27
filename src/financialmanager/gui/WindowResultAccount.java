@@ -12,7 +12,6 @@ public class WindowResultAccount extends JFrame {
     private WindowResultAccount() {
         super("Финансовый менеджер");
         Expense expenseData = new Expense();
-        Expense.comboBoxResult();
         int countAccount = expenseData.comboBoxAccount.getItemCount();
         this.setBounds(100, 100, 400, countAccount * 16 + 90);
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
