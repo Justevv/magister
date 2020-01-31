@@ -25,7 +25,6 @@ public class GridGeneration {
     public static boolean isFirstRec = true;       //???????????
     public static boolean isReset = false;         //???????????
     public static boolean firstday = true;         //флаг первого дня(для сброса в понедельник)
-    public static boolean buyka = false;             //флаг рабочей сетки
     public static boolean maxmax = false;            //флаг ожидания пробоя МО после повторения максимума
     public static int tempRec = 0;
     public static double recLow = 0;
@@ -38,18 +37,15 @@ public class GridGeneration {
     public static int countDeal = 50000;
     public static int step[] = new int[countDeal];
 
-    public  DataLoading d = new DataLoading();
+    public DataLoading d = new DataLoading();
 
-    public  void process() {
+    public void process() {
 
         for (i = 0; i < d.maxI; i++) {
-//            System.out.println(i);
             {
-//                System.out.println(dateValue[i]+" "+i);
                 if (d.dateValue[i].getDay() == 2)                           //во вторник ставим ожидание понедельника
                 {
                     firstday = true;
-                    //System.out.println(dateValue[i]);
                 }
                 if (d.dateValue[i].getDay() == 1 && firstday)                //сброс в понедельник
                 {
@@ -81,11 +77,6 @@ public class GridGeneration {
                         }
                         if (pulseCount - rollbackCount == 0) {
                             buy();
-                            if (buyka == true) {
-                                buyopen();
-                                // System.out.println("buyopen");
-                            }
-                            reset();
                         }
                     } else {
                         rollbackCount++;
@@ -105,28 +96,16 @@ public class GridGeneration {
                             }
                             if (rollbackCount - pulseCount == 0) {
                                 buy();
-                                if (buyka == true) {
-                                    buyopen();
-                                    // System.out.println("buyopen");
-                                }
-                                reset();
                             }
                         }
                     }
                 }
             }
             processing();
-
-            // i++;
-//            if ((dateValue[i].getMinutes() % 2) != 0
-//            && (dateValue[i].getHours()) > 2
-//            && (dateValue[i].getHours()) < 22){
-//            System.out.println(dateValue[i]);
-//            System.out.println(m2);}
         }
     }
 
-    public  void newMax() {
+    public void newMax() {
         maxGrid = d.maxPrice[i];
         pulseCount++;
         pulseCount = pulseCount + rollbackCount;
@@ -135,23 +114,17 @@ public class GridGeneration {
         maxmax = false;
     }
 
-    public  void newMin() {
+    public void newMin() {
         minGrid = d.minPrice[i];
         isFirstHigh = true;
         isFirstRec = true;
-        //  System.out.println(minPrice[i]);
         pulseCount = 1;
         rollbackCount = 0;
-        // maxGrid = maxPrice[i];
     }
 
-    public  void reset() {
+    public void reset() {
         bufMinGrid = minGrid;
         bufMaxGrid = maxGrid;
-//        System.out.println(dateValue[i - rollbackCount-1]);
-//        System.out.println(dateValue[i - pulseCount - rollbackCount]);
-//        System.out.println(bufMinGrid);
-//        System.out.println(bufMaxGrid);
         minGrid = recLow;
         maxGrid = 0;
         impCount = rollbackCount + recNumber - 1;
@@ -160,25 +133,13 @@ public class GridGeneration {
         rollbackCount = 0;
     }
 
-    public  void buy() {
+    public void buy() {
         buyDataValue[transactionCount] = d.dateValue[i];
         buyMaxGrid[transactionCount] = maxGrid;
         buyMinGrid[transactionCount] = minGrid;
         sizeGrid[transactionCount] = (maxGrid - minGrid) * 100000;
         buyPulseCount[transactionCount] = pulseCount;
         buyRollbackCount[transactionCount] = rollbackCount;
-        buyka = false;
-//        System.out.println(i);
-//        System.out.println(dateFormat.format(buyDataValue[transactionCount]) + " " +
-//                buyMinGrid[transactionCount] + " " +
-//                buyMaxGrid[transactionCount] + " " +
-//                buyPulseCount[transactionCount] + " " +
-//                buyRollbackCount[transactionCount] + " " +
-//                transactionCount + " " +
-//                String.format("%.0f", sizeGrid[transactionCount]) + " " +
-//                step[transactionCount] + " " +
-//                ((buyMaxGrid[transactionCount] - buyMinGrid[transactionCount]) * 0.382 + buyMinGrid[transactionCount]) + " " +
-//                recLow);
         if (sizeGrid[transactionCount] >= 300
 //                && sizeGrid[transactionCount] <= 600
 //                && buyPulseCount[transactionCount] >= 2
@@ -188,25 +149,16 @@ public class GridGeneration {
 //                && ((d.dateValue[i].getHours() >= 7 - (rollbackCount / 30)))
 //                && ((d.dateValue[i - rollbackCount].getHours() <= 17))
         ) {
-            buyka = true;
+            buyopen();
         }
+        reset();
     }
 
-    public  void buyopen() {
+    public void buyopen() {
         step[transactionCount] = 1;
         if ((buyMaxGrid[transactionCount] - buyMinGrid[transactionCount]) * 0.382 + buyMinGrid[transactionCount] > d.minPrice[i]) {
             step[transactionCount] = 6;
         }
-//        System.out.println(dateFormat.format(buyDataValue[transactionCount]) + " " +
-//                buyMinGrid[transactionCount] + " " +
-//                buyMaxGrid[transactionCount] + " " +
-//                buyPulseCount[transactionCount] + " " +
-//                buyRollbackCount[transactionCount] + " " +
-//                transactionCount + " " +
-//                String.format("%.0f", sizeGrid[transactionCount]) + " " +
-//                step[transactionCount] + " " +
-//                ((buyMaxGrid[transactionCount] - buyMinGrid[transactionCount]) * 0.382 + buyMinGrid[transactionCount]) + " " +
-//                i);
         transactionCount++;
     }
 }

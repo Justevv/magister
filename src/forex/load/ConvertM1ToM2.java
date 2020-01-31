@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConvertM1ToM2 {
-    public List<PriceM2> priceM2s = new ArrayList<>(DataLoading.size/2);
+    public List<PriceM2> priceM2s = new ArrayList<>(DataLoading.size / 2);
 
     public void convert() {
         int i = 0;
@@ -44,8 +44,8 @@ public class ConvertM1ToM2 {
 //                    System.out.println(i);
                 }
             }
+            priceM2s.add(priceM2);
         }
-
         d.maxI = i;
 //            System.out.println(dateValue[i]);
 //            System.out.println(minPrice[i]);
