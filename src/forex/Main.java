@@ -5,8 +5,6 @@ import forex.load.DataLoading;
 import forex.processing.GridGeneration;
 import forex.processing.Result;
 
-import static forex.processing.Result.*;
-
 public class Main {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();    //время выполнения программы
@@ -24,9 +22,11 @@ public class Main {
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
 //        c.convert(d.run());
         r.setD(d);
+        r.setGridGeneration(g);
+        g.setResult(r);
         g.process(d.run(), d);
-        System.out.println("Итог1 " + system1Point * 1 + " пунктов");
-        System.out.println("Итог2 " + system2Point * 1 + " пунктов");
+        System.out.println("Итог1 " + r.system1Point * 1 + " пунктов");
+        System.out.println("Итог2 " + r.system2Point * 1 + " пунктов");
         System.out.println("Итог3 " + r.system3Point * 1 + " пунктов");
         System.out.println("Итог4 " + r.system4Point * 1 + " пунктов");
         System.out.println("Итог5 " + r.system5Point * 1 + " пунктов");
@@ -51,18 +51,18 @@ public class Main {
 //                        double temp=
 //                    }
         for (int i = 0; i < 150; i++) {
-            temp1 = MOFibo38[i];
-            temp2 = MPFibo38[i];
-            temp3 = MPFibo61[i];
+//            temp1 = MOFibo38[i];
+//            temp2 = MPFibo38[i];
+//            temp3 = MPFibo61[i];
 //            System.out.print(temp1 + " ");
 //            System.out.print(temp2 + " ");
 //            System.out.println(temp3);
         }
-       // for (int number : TakeProfit)
+        // for (int number : TakeProfit)
         //for (int i = 0; i < 15; i++){
-            System.out.println(TakeProfit);
+//            System.out.println(TakeProfit);
 
-       // }
+        // }
         System.out.println("fuck");
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");

@@ -11,34 +11,38 @@ import java.util.List;
 
 public class GridGeneration {
     public static int size = 4000000;    //Размер массивов
-    public static double[] sizeGrid = new double[size];  //Массив размера сетки
-    public static double maxGrid = 0; //максимум сетки
-    public static double minGrid = 2; //минимум сетки
-    public static int pulseCount = 0; //счетчик импульсов
-    public static int rollbackCount = 0;  //счетчик откатов
-    public static int i = 0;  //счетчик входных данных
-    public static int transactionCount = 0;   //счетчик построкнных сеток
-    public static Date[] buyDataValue = new Date[size];
-    public static Double[] buyMaxGrid = new Double[size];
-    public static Double[] buyMinGrid = new Double[size];
-    public static Integer[] buyPulseCount = new Integer[size];
-    public static Integer[] buyRollbackCount = new Integer[size];
-    public static boolean isFirstHigh = true;      //если первый high
-    public static boolean isFirstRec = true;       //???????????
-    public static boolean firstday = true;         //флаг первого дня(для сброса в понедельник)
-    public static boolean maxmax = false;            //флаг ожидания пробоя МО после повторения максимума
-    public static int tempRec = 0;
-    public static double recLow = 0;
-    public static double bufMaxGrid = 0;
-    public static double bufMinGrid = 0;
-    public static int recNumber = 0;
-    public static int impCount = 0;
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm z");
-    public static int countDeal = 50000;
-    public static int step[] = new int[countDeal];
+    public double[] sizeGrid = new double[size];  //Массив размера сетки
+    public double maxGrid = 0; //максимум сетки
+    public double minGrid = 2; //минимум сетки
+    public int pulseCount = 0; //счетчик импульсов
+    public int rollbackCount = 0;  //счетчик откатов
+    public int i = 0;  //счетчик входных данных
+    public int transactionCount = 0;   //счетчик построкнных сеток
+    public Date[] buyDataValue = new Date[size];
+    public Double[] buyMaxGrid = new Double[size];
+    public Double[] buyMinGrid = new Double[size];
+    public Integer[] buyPulseCount = new Integer[size];
+    public Integer[] buyRollbackCount = new Integer[size];
+    public boolean isFirstHigh = true;      //если первый high
+    public boolean isFirstRec = true;       //???????????
+    public boolean firstday = true;         //флаг первого дня(для сброса в понедельник)
+    public boolean maxmax = false;            //флаг ожидания пробоя МО после повторения максимума
+    public int tempRec = 0;
+    public double recLow = 0;
+    public double bufMaxGrid = 0;
+    public double bufMinGrid = 0;
+    public int recNumber = 0;
+    public int impCount = 0;
+    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm z");
+    public int countDeal = 50000;
+    public int step[] = new int[countDeal];
 
     ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
-    Result result = new Result();
+    Result result;
+
+    public void setResult(Result result) {
+        this.result = result;
+    }
 
     public List<PriceM2> priceM2List;
 
