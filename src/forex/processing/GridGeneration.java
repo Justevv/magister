@@ -38,9 +38,9 @@ public class GridGeneration {
     public static int countDeal = 50000;
     public static int step[] = new int[countDeal];
 
-    public static DataLoading d = new DataLoading();
+    public  DataLoading d = new DataLoading();
 
-    public static void process() {
+    public  void process() {
 
         for (i = 0; i < d.maxI; i++) {
 //            System.out.println(i);
@@ -126,7 +126,7 @@ public class GridGeneration {
         }
     }
 
-    public static void newMax() {
+    public  void newMax() {
         maxGrid = d.maxPrice[i];
         pulseCount++;
         pulseCount = pulseCount + rollbackCount;
@@ -135,7 +135,7 @@ public class GridGeneration {
         maxmax = false;
     }
 
-    public static void newMin() {
+    public  void newMin() {
         minGrid = d.minPrice[i];
         isFirstHigh = true;
         isFirstRec = true;
@@ -145,7 +145,7 @@ public class GridGeneration {
         // maxGrid = maxPrice[i];
     }
 
-    public static void reset() {
+    public  void reset() {
         bufMinGrid = minGrid;
         bufMaxGrid = maxGrid;
 //        System.out.println(dateValue[i - rollbackCount-1]);
@@ -160,7 +160,7 @@ public class GridGeneration {
         rollbackCount = 0;
     }
 
-    public static void buy() {
+    public  void buy() {
         buyDataValue[transactionCount] = d.dateValue[i];
         buyMaxGrid[transactionCount] = maxGrid;
         buyMinGrid[transactionCount] = minGrid;
@@ -192,7 +192,7 @@ public class GridGeneration {
         }
     }
 
-    public static void buyopen() {
+    public  void buyopen() {
         step[transactionCount] = 1;
         if ((buyMaxGrid[transactionCount] - buyMinGrid[transactionCount]) * 0.382 + buyMinGrid[transactionCount] > d.minPrice[i]) {
             step[transactionCount] = 6;
