@@ -1,13 +1,12 @@
 package forex.processing;
 
 import forex.load.ConvertM1ToM2;
+import forex.load.PriceM1;
 import forex.load.PriceM2;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import static forex.processing.Result.processing;
 
 public class GridGeneration {
     public static int size = 4000000;    //Размер массивов
@@ -38,12 +37,12 @@ public class GridGeneration {
     public static int step[] = new int[countDeal];
 
     ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
+    Result result = new Result();
 
     public List<PriceM2> priceM2List;
 
-    public void process() {
-        convertM1ToM2.convert();
-        priceM2List = convertM1ToM2.priceM2s;
+    public void process(List<PriceM1> priceM1List) {
+        priceM2List = convertM1ToM2.convert(priceM1List);
         for (i = 0; i < priceM2List.size(); i++) {
             {
                 if (priceM2List.get(i).getDateValue().getDay() == 2)                           //во вторник ставим ожидание понедельника
@@ -104,7 +103,7 @@ public class GridGeneration {
                     }
                 }
             }
-            processing();
+            result.processing();
         }
     }
 

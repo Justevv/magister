@@ -13,26 +13,24 @@ public class DataLoading {
     public static String line = " ";
     public static String cvsSplitBy = ",";
     public static int size = 400000;    //Размер массивов
-    private static List<PriceM1> priceM1 = new ArrayList<>(size);
-    private static List<PriceM1> priceM2 = new ArrayList<>(size / 2);
+    private List<PriceM1> priceM1 = new ArrayList<>(size);
     public static Date[] dateValue = new Date[size];  //Массив дат
     public static Double[] minPrice = new Double[size];  //Массив минимума
     public static Double[] maxPrice = new Double[size];  //Массив максимума
-    //    public static int m1 = 0;   //бары по М1
     public static int maxI = 0;
     public static Date parsingDate = new Date();
     public static Calendar cal = Calendar.getInstance();
     //public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm z");
 
-    public List<PriceM1> getPriceM1() {
-        return priceM1;
-    }
+//    public List<PriceM1> getPriceM1() {
+//        return priceM1;
+//    }
+//
+//    public void setPriceM1(List<PriceM1> priceM1) {
+//        this.priceM1 = priceM1;
+//    }
 
-    public void setPriceM1(List<PriceM1> priceM1) {
-        this.priceM1 = priceM1;
-    }
-
-    public static void run() {
+    public  List<PriceM1> run() {
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
@@ -93,5 +91,6 @@ public class DataLoading {
         }
         // System.out.println(m1max);
 //        System.out.println(m1);
+        return priceM1;
     }
 }

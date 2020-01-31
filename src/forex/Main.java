@@ -19,11 +19,11 @@ public class Main {
         int temp1 = 0;
         int temp2 = 0;
         int temp3 = 0;
-        d.run();
+
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
-        c.convert();
-        g.process();
+//        c.convert(d.run());
+        g.process(d.run());
         System.out.println("Итог1 " + system1Point * 1 + " пунктов");
         System.out.println("Итог2 " + system2Point * 1 + " пунктов");
         System.out.println("Итог3 " + r.system3Point * 1 + " пунктов");
