@@ -14,8 +14,7 @@ public class Counters {
 
     public float getDayVolume(Date date, Date dateHistory, float monthVolume) {
         int daysPeriod = (int) ((date.getTime() - dateHistory.getTime()) / 1000 / 60 / 60 / 24);
-        float dayVolume = monthVolume / daysPeriod;
-        return dayVolume;
+        return monthVolume / daysPeriod;
     }
 
     public float getSumTotal(float countGas, float priceGas, float countElectricity, float priceElectricity, float countWater, float priceWater) {

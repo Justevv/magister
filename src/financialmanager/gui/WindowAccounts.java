@@ -5,8 +5,6 @@ import financialmanager.table.AccountsTable;
 import financialmanager.text.Actions;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +15,7 @@ public class WindowAccounts extends JFrame implements ActionListener {
     private JTable jTabAccount;
     public static Actions action;
     private int[] selectedRows;
-    private int[] selectedColumns;
+    //    private int[] selectedColumns;
     private int i;
     static int selIndex;
     static TableModel model;
@@ -29,13 +27,11 @@ public class WindowAccounts extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbAccounts dbAccounts = new DbAccounts();
-        dbAccounts.select();
-
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
+        DbAccounts dbAccounts = new DbAccounts();
         JFrame jfrm = new JFrame("JTableExample");
         modelAccounts = new AccountsTable(dbAccounts.select());
         //На основе модели, создадим новую JTable
@@ -56,11 +52,9 @@ public class WindowAccounts extends JFrame implements ActionListener {
         container.add(jscrlp, c);
 
         JButton buttonAddAccount = new JButton("Добавить счет");
-        buttonAddAccount.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.INSERT;
-                Account.go();
-            }
+        buttonAddAccount.addActionListener(e -> {
+            action = Actions.INSERT;
+            Account.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -69,13 +63,10 @@ public class WindowAccounts extends JFrame implements ActionListener {
         container.add(buttonAddAccount, c);
 
         JButton buttonDeleteAccount = new JButton("Удалить счет");
-        buttonDeleteAccount.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dbAccounts.delete(currentId.toString());
-                modelAccounts.setAccounts(dbAccounts.select());
-//                dbAccounts.accounts.remove(WindowAccounts.selectedRows[WindowAccounts.i - 1]);
-                modelAccounts.fireTableDataChanged();
-            }
+        buttonDeleteAccount.addActionListener(e -> {
+            dbAccounts.delete(currentId.toString());
+            modelAccounts.setAccounts(dbAccounts.select());
+            modelAccounts.fireTableDataChanged();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -84,11 +75,9 @@ public class WindowAccounts extends JFrame implements ActionListener {
         container.add(buttonDeleteAccount, c);
 
         JButton buttonUpdateAccount = new JButton("Редактировать счет");
-        buttonUpdateAccount.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.UPDATE;
-                Account.go();
-            }
+        buttonUpdateAccount.addActionListener(e -> {
+            action = Actions.UPDATE;
+            Account.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -97,17 +86,15 @@ public class WindowAccounts extends JFrame implements ActionListener {
         container.add(buttonUpdateAccount, c);
 
         ListSelectionModel selModel = jTabAccount.getSelectionModel();
-        selModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectedRows = jTabAccount.getSelectedRows();
-                selectedColumns = jTabAccount.getSelectedColumns();
-                for (i = 0; i < selectedRows.length; i++) {
-                    selIndex = selectedRows[i];
-                    model = jTabAccount.getModel();
-                    currentId = model.getValueAt(selIndex, 0);
-                    if (i != selectedRows.length - 1) {
-                    }
-                }
+        selModel.addListSelectionListener(e -> {
+            selectedRows = jTabAccount.getSelectedRows();
+//                selectedColumns = jTabAccount.getSelectedColumns();
+            for (i = 0; i < selectedRows.length; i++) {
+                selIndex = selectedRows[i];
+                model = jTabAccount.getModel();
+                currentId = model.getValueAt(selIndex, 0);
+//                    if (i != selectedRows.length - 1) {
+//                    }
             }
         });
     }

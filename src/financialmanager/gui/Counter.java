@@ -21,7 +21,7 @@ public class Counter extends JFrame {
     private JTextField textFieldElectricityPaid = new JTextField("8", 5);
     private JTextField textFieldWaterPaid = new JTextField("9", 5);
 
-    public Counter() {
+    private Counter() {
 
         super("Финансовый менеджер");
         this.setBounds(100, 100, 450, 200);
@@ -37,17 +37,13 @@ public class Counter extends JFrame {
             textFieldWaterReadings = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 5)), 5);
             textFieldWaterPrice = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 8)), 5);
             textFieldWaterPaid = new JTextField(String.valueOf(WindowCounters.model.getValueAt(WindowCounters.selIndex, 20)), 5);
-        } else {
+        }// else {
 //            textFieldName = new JTextField("", 5);
 //            textFieldParentId = new JTextField("", 5);
-        }
+//        }
 
         JButton buttonCancel = new JButton("Cancel");
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -59,11 +55,7 @@ public class Counter extends JFrame {
 
         //call onCancel() on ESCAPE
         JPanel contentPane = new JPanel();
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
@@ -186,11 +178,7 @@ public class Counter extends JFrame {
         container.add(textFieldWaterPaid, c);
 
         JButton buttonOK = new JButton("OK");
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
         c.gridwidth = 2;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;

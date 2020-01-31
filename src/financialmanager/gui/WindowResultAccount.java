@@ -12,11 +12,10 @@ public class WindowResultAccount extends JFrame {
     private WindowResultAccount() {
         super("Финансовый менеджер");
         Expense expenseData = new Expense();
-        Expense.comboBoxResult();
         int countAccount = expenseData.comboBoxAccount.getItemCount();
         this.setBounds(100, 100, 400, countAccount * 16 + 90);
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JLabel labelBalanceAccount[] = new JLabel[countAccount];
+        JLabel[] labelBalanceAccount = new JLabel[countAccount];
 //        JLabel labelProfitAccount[] = new JLabel[countAccount];
 //        JLabel labelExpenseAccount[] = new JLabel[countAccount];
         int accountNumber = 0;
@@ -28,7 +27,7 @@ public class WindowResultAccount extends JFrame {
 //        JLabel  labelAccount = new JLabel("Номер счета: " + OpenWindow.userLogin);
         JLabel labelBalance = new JLabel("Баланс: " + balance.getBalance(profit, expense) + " Рублей");
         JLabel labelProfit = new JLabel("Доход: " + profit + " Рублей");
-        JLabel  labelExpense = new JLabel("Расход: " + expense + " Рублей");
+        JLabel labelExpense = new JLabel("Расход: " + expense + " Рублей");
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());

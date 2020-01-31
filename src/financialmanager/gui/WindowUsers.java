@@ -5,8 +5,6 @@ import financialmanager.table.UsersTable;
 import financialmanager.text.Actions;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +14,7 @@ public class WindowUsers extends JFrame implements ActionListener {
     static UsersTable modelUsers;
     private JTable jTabPeople;
     private int[] selectedRows;
-    private int[] selectedColumns;
+//    private int[] selectedColumns;
     private int i;
     static int selIndex;
     static TableModel model;
@@ -30,12 +28,11 @@ public class WindowUsers extends JFrame implements ActionListener {
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DbUsers dbUsers = new DbUsers();
-
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
+        DbUsers dbUsers = new DbUsers();
         JFrame jfrm = new JFrame("JTableExample");
         modelUsers = new UsersTable(dbUsers.select());
         //На основе модели, создадим новую JTable
@@ -56,11 +53,9 @@ public class WindowUsers extends JFrame implements ActionListener {
         container.add(jscrlp, c);
 
         JButton buttonAddUser = new JButton("Добавить пользователя");
-        buttonAddUser.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.INSERT;
-                User.go();
-            }
+        buttonAddUser.addActionListener(e -> {
+            action = Actions.INSERT;
+            User.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -69,12 +64,10 @@ public class WindowUsers extends JFrame implements ActionListener {
         container.add(buttonAddUser, c);
 
         JButton buttonDeleteUser = new JButton("Удалить пользователя");
-        buttonDeleteUser.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dbUsers.delete(currentId.toString());
-                modelUsers.setUsers(dbUsers.select());
-                modelUsers.fireTableDataChanged();
-            }
+        buttonDeleteUser.addActionListener(e -> {
+            dbUsers.delete(currentId.toString());
+            modelUsers.setUsers(dbUsers.select());
+            modelUsers.fireTableDataChanged();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -83,11 +76,9 @@ public class WindowUsers extends JFrame implements ActionListener {
         container.add(buttonDeleteUser, c);
 
         JButton buttonUpdateUser = new JButton("Редактировать пользователя");
-        buttonUpdateUser.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.UPDATE;
-                User.go();
-            }
+        buttonUpdateUser.addActionListener(e -> {
+            action = Actions.UPDATE;
+            User.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -96,16 +87,14 @@ public class WindowUsers extends JFrame implements ActionListener {
         container.add(buttonUpdateUser, c);
 
         ListSelectionModel selModel = jTabPeople.getSelectionModel();
-        selModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectedRows = jTabPeople.getSelectedRows();
-                selectedColumns = jTabPeople.getSelectedColumns();
-                for (i = 0; i < selectedRows.length; i++) {
-                    selIndex = selectedRows[i];
-                    model = jTabPeople.getModel();
-                    currentId = model.getValueAt(selIndex, 0);
-                    currentEmail = model.getValueAt(selIndex, 6);
-                }
+        selModel.addListSelectionListener(e -> {
+            selectedRows = jTabPeople.getSelectedRows();
+//                selectedColumns = jTabPeople.getSelectedColumns();
+            for (i = 0; i < selectedRows.length; i++) {
+                selIndex = selectedRows[i];
+                model = jTabPeople.getModel();
+                currentId = model.getValueAt(selIndex, 0);
+                currentEmail = model.getValueAt(selIndex, 6);
             }
         });
     }

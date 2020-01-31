@@ -5,8 +5,6 @@ import financialmanager.table.CategoriesTable;
 import financialmanager.text.Actions;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +16,7 @@ public class WindowCategories extends JFrame implements ActionListener {
     private JTable jTabCategory;
     public static Actions action;
     private int[] selectedRows;
-    private int[] selectedColumns;
+    //    private int[] selectedColumns;
     private int i;
     public static int selIndex;
     public static TableModel model;
@@ -31,12 +29,9 @@ public class WindowCategories extends JFrame implements ActionListener {
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DbCategories dbCategories = new DbCategories();
-        dbCategories.select();
-
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
-
         JFrame jfrm = new JFrame("JTableExample");
         modelCategories = new CategoriesTable(dbCategories.select());
         //На основе модели, создадим новую JTable
@@ -57,11 +52,9 @@ public class WindowCategories extends JFrame implements ActionListener {
         container.add(jscrlp, c);
 
         JButton buttonAddCategory = new JButton("Добавить категорию");
-        buttonAddCategory.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.INSERT;
-                Category.go();
-            }
+        buttonAddCategory.addActionListener(e -> {
+            action = Actions.INSERT;
+            Category.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -70,12 +63,10 @@ public class WindowCategories extends JFrame implements ActionListener {
         container.add(buttonAddCategory, c);
 
         JButton buttonDeleteCategory = new JButton("Удалить категорию");
-        buttonDeleteCategory.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dbCategories.delete(currentId.toString());
-                modelCategories.setCategories(dbCategories.select());
-                modelCategories.fireTableDataChanged();
-            }
+        buttonDeleteCategory.addActionListener(e -> {
+            dbCategories.delete(currentId.toString());
+            modelCategories.setCategories(dbCategories.select());
+            modelCategories.fireTableDataChanged();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -84,11 +75,9 @@ public class WindowCategories extends JFrame implements ActionListener {
         container.add(buttonDeleteCategory, c);
 
         JButton buttonUpdateCategory = new JButton("Редактировать категорию");
-        buttonUpdateCategory.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.UPDATE;
-                Category.go();
-            }
+        buttonUpdateCategory.addActionListener(e -> {
+            action = Actions.UPDATE;
+            Category.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -97,17 +86,15 @@ public class WindowCategories extends JFrame implements ActionListener {
         container.add(buttonUpdateCategory, c);
 
         ListSelectionModel selModel = jTabCategory.getSelectionModel();
-        selModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectedRows = jTabCategory.getSelectedRows();
-                selectedColumns = jTabCategory.getSelectedColumns();
-                for (i = 0; i < selectedRows.length; i++) {
-                    selIndex = selectedRows[i];
-                    model = jTabCategory.getModel();
-                    currentId = model.getValueAt(selIndex, 0);
-                    if (i != selectedRows.length - 1) {
-                    }
-                }
+        selModel.addListSelectionListener(e -> {
+            selectedRows = jTabCategory.getSelectedRows();
+//                selectedColumns = jTabCategory.getSelectedColumns();
+            for (i = 0; i < selectedRows.length; i++) {
+                selIndex = selectedRows[i];
+                model = jTabCategory.getModel();
+                currentId = model.getValueAt(selIndex, 0);
+//                    if (i != selectedRows.length - 1) {
+//                    }
             }
         });
     }

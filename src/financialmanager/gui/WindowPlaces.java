@@ -5,8 +5,6 @@ import financialmanager.table.PlacesTable;
 import financialmanager.text.Actions;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +15,7 @@ public class WindowPlaces extends JFrame implements ActionListener {
     private JTable jTabPlace;
     static Actions action;
     private int[] selectedRows;
-    private int[] selectedColumns;
+//    private int[] selectedColumns;
     private int i;
     static int selIndex;
     static TableModel model;
@@ -28,13 +26,12 @@ public class WindowPlaces extends JFrame implements ActionListener {
         super("Финансовый менеджер");
         this.setBounds(100, 100, 650, 400);
         //  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        DbPlaces dbPlaces = new DbPlaces();
-        dbPlaces.select();
 
         GridBagConstraints c = new GridBagConstraints();
         Container container = this.getContentPane();
         container.setLayout(new GridBagLayout());
 
+        DbPlaces dbPlaces = new DbPlaces();
         JFrame jfrm = new JFrame("JTableExample");
         modelPlaces = new PlacesTable(dbPlaces.select());
         //На основе модели, создадим новую JTable
@@ -55,11 +52,9 @@ public class WindowPlaces extends JFrame implements ActionListener {
         container.add(jscrlp, c);
 
         JButton buttonAddPlace = new JButton("Добавить место");
-        buttonAddPlace.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.INSERT;
-                Place.go();
-            }
+        buttonAddPlace.addActionListener(e -> {
+            action = Actions.INSERT;
+            Place.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -68,12 +63,10 @@ public class WindowPlaces extends JFrame implements ActionListener {
         container.add(buttonAddPlace, c);
 
         JButton buttonDeletePlace = new JButton("Удалить место");
-        buttonDeletePlace.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dbPlaces.delete(currentId);
-                modelPlaces.setPlaces(dbPlaces.select());
-                modelPlaces.fireTableDataChanged();
-            }
+        buttonDeletePlace.addActionListener(e -> {
+            dbPlaces.delete(currentId);
+            modelPlaces.setPlaces(dbPlaces.select());
+            modelPlaces.fireTableDataChanged();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -82,11 +75,9 @@ public class WindowPlaces extends JFrame implements ActionListener {
         container.add(buttonDeletePlace, c);
 
         JButton buttonUpdatePlace = new JButton("Редактировать место");
-        buttonUpdatePlace.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action = Actions.UPDATE;
-                Place.go();
-            }
+        buttonUpdatePlace.addActionListener(e -> {
+            action = Actions.UPDATE;
+            Place.go();
         });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -95,15 +86,13 @@ public class WindowPlaces extends JFrame implements ActionListener {
         container.add(buttonUpdatePlace, c);
 
         ListSelectionModel selModel = jTabPlace.getSelectionModel();
-        selModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectedRows = jTabPlace.getSelectedRows();
-                selectedColumns = jTabPlace.getSelectedColumns();
-                for (i = 0; i < selectedRows.length; i++) {
-                    selIndex = selectedRows[i];
-                    model = jTabPlace.getModel();
-                    currentId = model.getValueAt(selIndex, 0);
-                }
+        selModel.addListSelectionListener(e -> {
+            selectedRows = jTabPlace.getSelectedRows();
+//            selectedColumns = jTabPlace.getSelectedColumns();
+            for (i = 0; i < selectedRows.length; i++) {
+                selIndex = selectedRows[i];
+                model = jTabPlace.getModel();
+                currentId = model.getValueAt(selIndex, 0);
             }
         });
     }
