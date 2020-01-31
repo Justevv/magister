@@ -37,14 +37,22 @@ public class GridGeneration {
     public int countDeal = 50000;
     public int step[] = new int[countDeal];
 
-    ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
+    private ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
     Result result;
 
     public void setResult(Result result) {
         this.result = result;
     }
 
-    public List<PriceM2> priceM2List;
+    private List<PriceM2> priceM2List;
+
+    public List<PriceM2> getPriceM2List() {
+        return priceM2List;
+    }
+
+    public void setPriceM2List(List<PriceM2> priceM2List) {
+        this.priceM2List = priceM2List;
+    }
 
     public void process(List<PriceM1> priceM1List, DataLoading d) {
         priceM2List = convertM1ToM2.convert(priceM1List, d);

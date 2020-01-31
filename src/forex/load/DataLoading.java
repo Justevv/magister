@@ -14,21 +14,9 @@ public class DataLoading {
     public static String cvsSplitBy = ",";
     public static int size = 400000;    //Размер массивов
     private List<PriceM1> priceM1 = new ArrayList<>(size);
-    public Date[] dateValue = new Date[size];  //Массив дат
-    public Double[] minPrice = new Double[size];  //Массив минимума
-    public Double[] maxPrice = new Double[size];  //Массив максимума
-    public int maxI = 0;
     public Date parsingDate = new Date();
     public Calendar cal = Calendar.getInstance();
     //public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm z");
-
-//    public List<PriceM1> getPriceM1() {
-//        return priceM1;
-//    }
-//
-//    public void setPriceM1(List<PriceM1> priceM1) {
-//        this.priceM1 = priceM1;
-//    }
 
     public List<PriceM1> run() {
 

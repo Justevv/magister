@@ -108,7 +108,10 @@ public class Result {
     }
 
     public void step1() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.382 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > d.minPrice[gridGeneration.i]) {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount]
+                - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.382
+                + gridGeneration.buyMinGrid[gridGeneration.transactionCount] >
+                gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
 
             MOFibo38[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 6;
@@ -117,10 +120,10 @@ public class Result {
 //            System.out.println(buyMinGrid[transactionCount]);
 //            System.out.println(minGrid);
         } else {
-            if (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i] - spread) {
+            if (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
 //                System.out.println(gridGeneration.minGrid);
-//                System.out.println(d.minPrice[gridGeneration.i]);
-//                System.out.println(d.maxPrice[gridGeneration.i]);
+//                System.out.println(gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice());
+//                System.out.println(gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice());
                 classic[gridGeneration.transactionCount] = 1;
                 gridGeneration.step[gridGeneration.transactionCount] = 2;
                 printStep();
@@ -135,14 +138,14 @@ public class Result {
     }
 
     public void step2() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i] - spread) {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             TP[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
             printStep();
             systemClassicPoint = systemClassicPoint + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 1.0) - spreadFull;
             classicClose++;
-        } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > d.minPrice[gridGeneration.i]) {
+        } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             MPFibo61[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 3;
             printStep();
@@ -152,7 +155,7 @@ public class Result {
     }
 
     public void step3() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i] - spread) {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
 //          TP[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
@@ -162,7 +165,7 @@ public class Result {
             systemClassicPoint = systemClassicPoint + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 1.0) - spreadFull;
             profitableDeals++;
             classicClose++;
-        } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.382 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > d.minPrice[gridGeneration.i]) {
+        } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.382 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             MPFibo38[gridGeneration.transactionCount] = 1;
             unprofitableDeals++;
             gridGeneration.step[gridGeneration.transactionCount] = 4;
@@ -175,7 +178,7 @@ public class Result {
 
 
     public void step4() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i] - spread) {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             TP[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
@@ -187,7 +190,7 @@ public class Result {
             pips[gridGeneration.transactionCount] = gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 0.382) - spreadFull;
             classicClose++;
             //  system8Point++;
-        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > d.minPrice[gridGeneration.i]) {
+        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             SLclassic[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 5;
@@ -201,13 +204,13 @@ public class Result {
     }
 
     public void step5() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i] - spread) {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             gridGeneration.step[gridGeneration.transactionCount] = 15;
             printStep();
 
             system3Point = system3Point + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.0 - 0.382) - spreadFull;
             classicClose++;
-        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] + 0.02000 > d.minPrice[gridGeneration.i]) {
+        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] + 0.02000 > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             systemClassicPoint = systemClassicPoint - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1) - 2000 - spreadFull;
             system3Point = system3Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.382 - 0.0) - 2000 - spreadFull;
             classicClose++;
@@ -223,12 +226,12 @@ public class Result {
     }
 
     public void step6() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i] - spread) {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             ACopen[gridGeneration.transactionCount] = 1;
             //OrderModify 3
             gridGeneration.step[gridGeneration.transactionCount] = 7;
             printStep();
-        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > d.minPrice[gridGeneration.i]) {
+        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             // system3Point = system3Point - (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * (0.382);
             //system3Point=SL
             system6Point = system6Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.382 - 0.0) - spreadFull;
@@ -242,12 +245,12 @@ public class Result {
     }
 
     public void step7() {
-        if (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i]) {
+        if (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice()) {
             ACclassic[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 8;
             printStep();
             classicOpen++;
-        } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.382 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > d.minPrice[gridGeneration.i] - spread) {
+        } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.382 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice() - spread) {
             // system1Point = system1Point - (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * (0.618 - 0.382);
             system4Point = system4Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.618 - 0.382) - spreadFull;
             SLFibo38[gridGeneration.transactionCount] = 1;
@@ -261,7 +264,7 @@ public class Result {
     }
 
     public void step8() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i] - spread) {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             TPAC[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
@@ -274,7 +277,7 @@ public class Result {
 //            System.out.println((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 100000);
             profitableDeals++;
             classicClose++;
-        } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > d.minPrice[gridGeneration.i] - spread) {
+        } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice() - spread) {
             system6Point = system6Point + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.618 - 0.382) - spreadFull;
             BUACFibo61[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
@@ -286,7 +289,7 @@ public class Result {
     }
 
     public void step9() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i] - spread) {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             //TPAC[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
@@ -294,7 +297,7 @@ public class Result {
             //TakeProfit.insert(1);
             //  classicClose++;
             system5Point = system5Point + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 0.618) - spreadFull;
-        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > d.minPrice[gridGeneration.i]) {
+        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             system5Point = system5Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.618 - 0.0) - spreadFull;
 // SLFibo0[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
@@ -304,16 +307,16 @@ public class Result {
     }
 
     public void step10() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < d.maxPrice[gridGeneration.i] - spread) {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
 //            System.out.println(gridGeneration.minGrid);
-//            System.out.println(d.maxPrice[gridGeneration.i]);
+//            System.out.println(gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice());
             //TPAC[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
             printStep();
             // TakeProfit.insert(1);
             classicClose++;
-        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > d.minPrice[gridGeneration.i]) {
+        } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             systemClassicPoint = systemClassicPoint - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 1.0) - spreadFull;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
