@@ -14,12 +14,12 @@ public class DataLoading {
     public static String cvsSplitBy = ",";
     public static int size = 400000;    //Размер массивов
     private List<PriceM1> priceM1 = new ArrayList<>(size);
-    public static Date[] dateValue = new Date[size];  //Массив дат
-    public static Double[] minPrice = new Double[size];  //Массив минимума
-    public static Double[] maxPrice = new Double[size];  //Массив максимума
-    public static int maxI = 0;
-    public static Date parsingDate = new Date();
-    public static Calendar cal = Calendar.getInstance();
+    public Date[] dateValue = new Date[size];  //Массив дат
+    public Double[] minPrice = new Double[size];  //Массив минимума
+    public Double[] maxPrice = new Double[size];  //Массив максимума
+    public int maxI = 0;
+    public Date parsingDate = new Date();
+    public Calendar cal = Calendar.getInstance();
     //public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm z");
 
 //    public List<PriceM1> getPriceM1() {
@@ -30,7 +30,7 @@ public class DataLoading {
 //        this.priceM1 = priceM1;
 //    }
 
-    public  List<PriceM1> run() {
+    public List<PriceM1> run() {
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {

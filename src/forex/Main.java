@@ -23,7 +23,8 @@ public class Main {
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
 //        c.convert(d.run());
-        g.process(d.run());
+        r.setD(d);
+        g.process(d.run(), d);
         System.out.println("Итог1 " + system1Point * 1 + " пунктов");
         System.out.println("Итог2 " + system2Point * 1 + " пунктов");
         System.out.println("Итог3 " + r.system3Point * 1 + " пунктов");

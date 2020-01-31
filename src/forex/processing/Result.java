@@ -6,7 +6,12 @@ import java.util.ArrayList;
 
 public class Result {
     public static GridGeneration g = new GridGeneration();
-    public static DataLoading d = new DataLoading();
+    public static DataLoading d;
+
+    public static void setD(DataLoading d) {
+        Result.d = d;
+    }
+
     public static int tempTransactionCount = 0;
     //   public static int transactionCount=0;
     public static int countDeal = 50000;

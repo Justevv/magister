@@ -1,6 +1,7 @@
 package forex.processing;
 
 import forex.load.ConvertM1ToM2;
+import forex.load.DataLoading;
 import forex.load.PriceM1;
 import forex.load.PriceM2;
 
@@ -41,8 +42,8 @@ public class GridGeneration {
 
     public List<PriceM2> priceM2List;
 
-    public void process(List<PriceM1> priceM1List) {
-        priceM2List = convertM1ToM2.convert(priceM1List);
+    public void process(List<PriceM1> priceM1List, DataLoading d) {
+        priceM2List = convertM1ToM2.convert(priceM1List, d);
         for (i = 0; i < priceM2List.size(); i++) {
             {
                 if (priceM2List.get(i).getDateValue().getDay() == 2)                           //во вторник ставим ожидание понедельника

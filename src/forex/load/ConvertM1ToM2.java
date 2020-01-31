@@ -5,11 +5,11 @@ import java.util.List;
 
 public class ConvertM1ToM2 {
     public List<PriceM2> priceM2s = new ArrayList<>(DataLoading.size / 2);
+//    DataLoading d;
 
-    public List<PriceM2> convert(List<PriceM1> priceM1List) {
+    public List<PriceM2> convert(List<PriceM1> priceM1List, DataLoading d) {
         int i = 0;
         int m2;
-        DataLoading d = new DataLoading();
         for (m2 = 0; m2 < priceM1List.size(); m2++, i++) {
             PriceM2 priceM2 = new PriceM2();
             if ((priceM1List.get(m2).getM1DateValue().getMinutes() % 2) == 0 && (priceM1List.get(m2 + 1).getM1DateValue().getMinutes() % 2) != 0) {
