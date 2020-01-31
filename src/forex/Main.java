@@ -24,7 +24,6 @@ public class Main {
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
 //        c.convert(d.run());
-        r.setD(d);
         r.setGridGeneration(g);
         g.setResult(r);
         g.process(priceM1s);

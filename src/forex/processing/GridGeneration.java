@@ -4,7 +4,6 @@ import forex.load.ConvertM1ToM2;
 import forex.load.PriceM1;
 import forex.load.PriceM2;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +17,7 @@ public class GridGeneration {
     public int i = 0;  //счетчик входных данных
     public int transactionCount = 0;   //счетчик построкнных сеток
     public double[] sizeGrid = new double[size];  //Массив размера сетки
-        public Date[] buyDataValue = new Date[size];
+    public Date[] buyDataValue = new Date[size];
     public Double[] buyMaxGrid = new Double[size];
     public Double[] buyMinGrid = new Double[size];
     public Integer[] buyPulseCount = new Integer[size];
@@ -33,7 +32,6 @@ public class GridGeneration {
     public double bufMinGrid = 0;
     public int recNumber = 0;
     public int impCount = 0;
-    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm z");
     public int countDeal = 50000;
     public int step[] = new int[countDeal];
 
