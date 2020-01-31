@@ -1,24 +1,24 @@
 package forex.processing;
 
 import forex.load.ConvertM1ToM2;
-import forex.load.DataLoading;
 import forex.load.PriceM1;
 import forex.load.PriceM2;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class GridGeneration {
     public static int size = 4000000;    //Размер массивов
-    public double[] sizeGrid = new double[size];  //Массив размера сетки
     public double maxGrid = 0; //максимум сетки
     public double minGrid = 2; //минимум сетки
     public int pulseCount = 0; //счетчик импульсов
     public int rollbackCount = 0;  //счетчик откатов
     public int i = 0;  //счетчик входных данных
     public int transactionCount = 0;   //счетчик построкнных сеток
-    public Date[] buyDataValue = new Date[size];
+    public double[] sizeGrid = new double[size];  //Массив размера сетки
+        public Date[] buyDataValue = new Date[size];
     public Double[] buyMaxGrid = new Double[size];
     public Double[] buyMinGrid = new Double[size];
     public Integer[] buyPulseCount = new Integer[size];
@@ -37,6 +37,12 @@ public class GridGeneration {
     public int countDeal = 50000;
     public int step[] = new int[countDeal];
 
+    public List<Grid> getGrids() {
+        return grids;
+    }
+
+    private List<Grid> grids = new ArrayList<>();
+
     private ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
     Result result;
 
@@ -54,8 +60,8 @@ public class GridGeneration {
         this.priceM2List = priceM2List;
     }
 
-    public void process(List<PriceM1> priceM1List, DataLoading d) {
-        priceM2List = convertM1ToM2.convert(priceM1List, d);
+    public void process(List<PriceM1> priceM1List) {
+        priceM2List = convertM1ToM2.convert(priceM1List);
         for (i = 0; i < priceM2List.size(); i++) {
             {
                 if (priceM2List.get(i).getDateValue().getDay() == 2)                           //во вторник ставим ожидание понедельника
@@ -149,13 +155,14 @@ public class GridGeneration {
     }
 
     public void buy() {
+        Grid grid = new Grid(priceM2List.get(i).getDateValue(), maxGrid, minGrid, pulseCount, rollbackCount);
         buyDataValue[transactionCount] = priceM2List.get(i).getDateValue();
         buyMaxGrid[transactionCount] = maxGrid;
         buyMinGrid[transactionCount] = minGrid;
         sizeGrid[transactionCount] = (maxGrid - minGrid) * 100000;
         buyPulseCount[transactionCount] = pulseCount;
         buyRollbackCount[transactionCount] = rollbackCount;
-        if (sizeGrid[transactionCount] >= 300
+        if (grid.getSizeGrid() >= 300
 //                && sizeGrid[transactionCount] <= 600
 //                && buyPulseCount[transactionCount] >= 2
 //                && buyPulseCount[transactionCount] <= 90
@@ -164,6 +171,7 @@ public class GridGeneration {
 //                && ((d.dateValue[i].getHours() >= 7 - (rollbackCount / 30)))
 //                && ((d.dateValue[i - rollbackCount].getHours() <= 17))
         ) {
+            grids.add(grid);
             buyopen();
         }
         reset();
@@ -171,7 +179,7 @@ public class GridGeneration {
 
     public void buyopen() {
         step[transactionCount] = 1;
-        if ((buyMaxGrid[transactionCount] - buyMinGrid[transactionCount]) * 0.382 + buyMinGrid[transactionCount] > priceM2List.get(i).getMinPrice()) {
+        if ((grids.get(transactionCount).getBuyMaxGrid() - grids.get(transactionCount).getBuyMinGrid()) * 0.382 + grids.get(transactionCount).getBuyMinGrid() > priceM2List.get(i).getMinPrice()) {
             step[transactionCount] = 6;
         }
         transactionCount++;

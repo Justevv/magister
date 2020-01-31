@@ -2,8 +2,11 @@ package forex;
 
 import forex.load.ConvertM1ToM2;
 import forex.load.DataLoading;
+import forex.load.PriceM1;
 import forex.processing.GridGeneration;
 import forex.processing.Result;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,14 +20,14 @@ public class Main {
         int temp1 = 0;
         int temp2 = 0;
         int temp3 = 0;
-
+        List<PriceM1> priceM1s = d.run();
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
 //        c.convert(d.run());
         r.setD(d);
         r.setGridGeneration(g);
         g.setResult(r);
-        g.process(d.run(), d);
+        g.process(priceM1s);
         System.out.println("Итог1 " + r.system1Point * 1 + " пунктов");
         System.out.println("Итог2 " + r.system2Point * 1 + " пунктов");
         System.out.println("Итог3 " + r.system3Point * 1 + " пунктов");
@@ -40,30 +43,10 @@ public class Main {
 //        System.out.println(r.classicClose);
 //        System.out.println("Прибыльные сделки " + r.profitableDeals);
 //        System.out.println("Убыточные сделки " + r.unprofitableDeals);
-        for (double number : r.pips) {
-            if (number != 0) {
-                temp = temp + number;
-                //  System.out.println(temp);
-                //  System.out.println(number);
-            }
-        }
-//                    for (int i=0;i<5000;i++){
-//                        double temp=
-//                    }
-        for (int i = 0; i < 150; i++) {
-//            temp1 = MOFibo38[i];
-//            temp2 = MPFibo38[i];
-//            temp3 = MPFibo61[i];
-//            System.out.print(temp1 + " ");
-//            System.out.print(temp2 + " ");
-//            System.out.println(temp3);
-        }
-        // for (int number : TakeProfit)
-        //for (int i = 0; i < 15; i++){
-//            System.out.println(TakeProfit);
-
-        // }
-        System.out.println("fuck");
+//        for (Grid grid : g.getGrids()) {
+//                  System.out.println(grid);
+//        }
+        System.out.println(g.getGrids().size());
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
     }
