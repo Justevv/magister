@@ -1,7 +1,5 @@
 package forex.processing;
 
-import java.util.ArrayList;
-
 public class Result {
     private GridGeneration gridGeneration;
 
@@ -31,7 +29,6 @@ public class Result {
     public int BUACFibo61[] = new int[countDeal];
     public int SL[] = new int[countDeal];
     public int TP[] = new int[countDeal];
-    public ArrayList<Integer> TakeProfit = new ArrayList<Integer>();
     public double system1Point = 0;
     public double system2Point = 0;
     public double system3Point = 0;

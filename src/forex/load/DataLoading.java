@@ -9,15 +9,13 @@ import java.util.*;
 
 
 public class DataLoading {
-    public static String csvFile = "D:\\audUSD12.csv";
-    public static String line = " ";
-    public static String cvsSplitBy = ",";
+    private static String csvFile = "D:\\audUSD12.csv";
+    private static String line = " ";
+    private static String cvsSplitBy = ",";
     public static int size = 400000;    //Размер массивов
     private List<PriceM1> priceM1 = new ArrayList<>(size);
-    public Date parsingDate = new Date();
-    public Calendar cal = Calendar.getInstance();
-    //public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm z");
-
+    private Date parsingDate = new Date();
+    private Calendar cal = Calendar.getInstance();
     public List<PriceM1> run() {
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {

@@ -6,6 +6,7 @@ public class PriceM2 {
     private Date dateValue;  //Массив дат
     private Double minPrice;  //Массив минимума
     private Double maxPrice;  //Массив максимума
+    private Double EMA;
 
     @Override
     public String toString() {
@@ -13,16 +14,26 @@ public class PriceM2 {
                 "dateValue=" + dateValue +
                 ", minPrice=" + minPrice +
                 ", maxPrice=" + maxPrice +
+                ", EMA=" + EMA +
                 '}';
     }
 
     public PriceM2() {
     }
 
-    public PriceM2(Date parsingDate, Double valueOf, Double valueOf1) {
+    public Double getEMA() {
+        return EMA;
+    }
+
+    public void setEMA(Double EMA) {
+        this.EMA = EMA;
+    }
+
+    public PriceM2(Date parsingDate, Double valueOf, Double valueOf1, Double EMA) {
         dateValue = parsingDate;
         minPrice = valueOf;
         maxPrice = valueOf1;
+        this.EMA = EMA;
     }
 
     public Date getDateValue() {
