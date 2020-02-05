@@ -7,35 +7,29 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-
 public class DataLoading {
     private static String csvFile = "audUSD1.csv";
     private static String cvsSplitBy = ",";
     public static int size = 400000;    //Размер массивов
     private List<PriceM1> priceM1 = new ArrayList<>(size);
-    private Calendar cal = Calendar.getInstance();
 
     public List<PriceM1> run() {
-
+        String line;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.ENGLISH);
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            Date parsingDate = null;
-            String line;
             while ((line = br.readLine()) != null) {
+                Calendar calendar = Calendar.getInstance();
                 String[] row = line.split(cvsSplitBy);
-                SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd hh:mm");
-                String dateTime = row[0] + " " + row[1];
                 try {
-                    parsingDate = ft.parse(dateTime);
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.ENGLISH);
-                    cal.setTime(dateFormat.parse(dateTime));
+                    calendar.setTime(dateFormat.parse(row[0].concat(" ").concat(row[1])));
                 } catch (ParseException e) {
-                    System.out.println("Нераспаршена с помощью " + ft);
+                    System.out.println("Нераспаршена с помощью " + dateFormat);
                 }
-                if (cal.get(Calendar.YEAR) >= 2018
+                if (calendar.get(Calendar.YEAR) >= 2018
 //                        && cal.get(Calendar.MONTH) >= 5
 //                        && cal.get(Calendar.DAY_OF_MONTH) >= 25
                 ) {
-                    priceM1.add(new PriceM1(parsingDate, Float.parseFloat(row[3]), Float.parseFloat(row[4])));
+                    priceM1.add(new PriceM1(calendar, Float.parseFloat(row[3]), Float.parseFloat(row[4])));
 //                System.out.println(
 //                        row[0]
 //                                + "  " + row[1]
@@ -45,9 +39,15 @@ public class DataLoading {
 //                                + "  " + row[5]
 //                                + "  " + row[6]);//Вывод входных данных
                 }
+//                if (calendar.get(Calendar.YEAR) >= 2018) {
+//                    break;
+//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        if (priceM1.size() % 2 != 0) {
+            priceM1.remove(priceM1.size() - 1);
         }
         return priceM1;
     }

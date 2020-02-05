@@ -1,9 +1,9 @@
 package forex.processing;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Grid {
-    private Date buyDataValue;
+    private Calendar buyDataValue;
     private float buyMaxGrid;
     private float buyMinGrid;
     private int buyPulseCount;
@@ -18,11 +18,11 @@ public class Grid {
         this.sizeGrid = sizeGrid;
     }
 
-    public Date getBuyDataValue() {
+    public Calendar getBuyDataValue() {
         return buyDataValue;
     }
 
-    public void setBuyDataValue(Date buyDataValue) {
+    public void setBuyDataValue(Calendar buyDataValue) {
         this.buyDataValue = buyDataValue;
     }
 
@@ -58,7 +58,7 @@ public class Grid {
         this.buyRollbackCount = buyRollbackCount;
     }
 
-    public Grid(Date buyDataValue, float buyMaxGrid, float buyMinGrid, int buyPulseCount, int buyRollbackCount) {
+    public Grid(Calendar buyDataValue, float buyMaxGrid, float buyMinGrid, int buyPulseCount, int buyRollbackCount) {
         this.buyDataValue = buyDataValue;
         this.buyMaxGrid = buyMaxGrid;
         this.buyMinGrid = buyMinGrid;

@@ -5,7 +5,7 @@ import forex.load.PriceM1;
 import forex.load.PriceM2;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public class GridGeneration {
@@ -17,7 +17,7 @@ public class GridGeneration {
     public int i = 0;  //счетчик входных данных
     public float[] sizeGrid = new float[size];  //Массив размера сетки
     public int transactionCount = 0;   //счетчик построкнных сеток
-    public Date[] buyDataValue = new Date[size];
+    public Calendar[] buyDataValue = new Calendar[size];
     public float[] buyMaxGrid = new float[size];
     public float[] buyMinGrid = new float[size];
     public int[] buyPulseCount = new int[size];
@@ -62,11 +62,11 @@ public class GridGeneration {
         priceM2List = convertM1ToM2.convert(priceM1List);
         for (i = 0; i < priceM2List.size(); i++) {
             {
-                if (priceM2List.get(i).getDateValue().getDay() == 2)                           //во вторник ставим ожидание понедельника
+                if (priceM2List.get(i).getDateValue().get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY)                           //во вторник ставим ожидание понедельника
                 {
                     firstDay = true;
                 }
-                if (priceM2List.get(i).getDateValue().getDay() == 1 && firstDay)                //сброс в понедельник
+                if (priceM2List.get(i).getDateValue().get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && firstDay)                //сброс в понедельник
                 {
                     minGrid = priceM2List.get(i).getMinPrice();
                     maxGrid = 0;

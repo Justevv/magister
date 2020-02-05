@@ -1,9 +1,9 @@
 package forex.load;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class PriceM2 {
-    private Date dateValue;  //Массив дат
+    private Calendar dateValue;  //Массив дат
     private float minPrice;  //Массив минимума
     private float maxPrice;  //Массив максимума
     private float EMA;
@@ -29,18 +29,18 @@ public class PriceM2 {
         this.EMA = EMA;
     }
 
-    public PriceM2(Date parsingDate, float valueOf, float valueOf1, float EMA) {
-        dateValue = parsingDate;
-        minPrice = valueOf;
-        maxPrice = valueOf1;
-        this.EMA = EMA;
-    }
+//    public PriceM2(Date parsingDate, float valueOf, float valueOf1, float EMA) {
+//        dateValue = parsingDate;
+//        minPrice = valueOf;
+//        maxPrice = valueOf1;
+//        this.EMA = EMA;
+//    }
 
-    public Date getDateValue() {
+    public Calendar getDateValue() {
         return dateValue;
     }
 
-    public void setDateValue(Date dateValue) {
+    public void setDateValue(Calendar dateValue) {
         this.dateValue = dateValue;
     }
 
