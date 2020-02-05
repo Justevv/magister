@@ -9,7 +9,7 @@ public class ConvertM1ToM2 {
 //    ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage(0.234);
 
     public List<PriceM2> convert(List<PriceM1> priceM1List) {
-        for (int m2 = 0; m2 < priceM1List.size(); m2++) {
+        for (int m2 = 0; m2 < priceM1List.size() - 1; m2++) {
             PriceM2 priceM2 = new PriceM2();
             if ((priceM1List.get(m2).getM1DateValue().get(Calendar.MINUTE) % 2) == 0 && (priceM1List.get(m2 + 1).getM1DateValue().get(Calendar.MINUTE) % 2) != 0) {
                 priceM2.setDateValue(priceM1List.get(m2).getM1DateValue());

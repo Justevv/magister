@@ -46,9 +46,6 @@ public class DataLoading {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (priceM1.size() % 2 != 0) {
-            priceM1.remove(priceM1.size() - 1);
-        }
         return priceM1;
     }
 }
