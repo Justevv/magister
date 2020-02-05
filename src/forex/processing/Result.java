@@ -7,50 +7,51 @@ public class Result {
         this.gridGeneration = gridGeneration;
     }
 
-    public static int tempTransactionCount = 0;
-    //   public static int transactionCount=0;
     public static int countDeal = 50000;
-    //public static int step[] = new int[countDeal];
-    public double fibo38[] = new double[countDeal];
-    public double fibo61[] = new double[countDeal];
-    public double fibo161[] = new double[countDeal];
-    public int cancell[] = new int[countDeal];
-    public int end[] = new int[countDeal];
-    public int classic[] = new int[countDeal];
-    public int MOFibo38[] = new int[countDeal];
-    public int MPFibo38[] = new int[countDeal];
-    public int MPFibo61[] = new int[countDeal];
-    public int SLclassic[] = new int[countDeal];
-    public int ACopen[] = new int[countDeal];
-    public int SLFibo0[] = new int[countDeal];
-    public int SLFibo38[] = new int[countDeal];
-    public int ACclassic[] = new int[countDeal];
-    public int TPAC[] = new int[countDeal];
-    public int BUACFibo61[] = new int[countDeal];
-    public int SL[] = new int[countDeal];
-    public int TP[] = new int[countDeal];
-    public double system1Point = 0;
-    public double system2Point = 0;
-    public double system3Point = 0;
-    public double system4Point = 0;
-    public double system5Point = 0;
-    public double system6Point = 0;
-    public double system7Point = 0;
-    public double system8Point = 0;
-    public double system9Point = 0;
-    public double systemClassicPoint = 0;
-    public int system4count = 0;
-    public int classicOpen = 0;
-    public int classicClose = 0;
-    public int unprofitableDeals = 0;
-    public int profitableDeals = 0;
-    public double f100 = 0;
-    public double spread = 0.00020;
-    public double spreadFull = 20;
-    public double pips[] = new double[countDeal];
+    private float fibo38[] = new float[countDeal];
+    private float fibo61[] = new float[countDeal];
+    private float fibo161[] = new float[countDeal];
+    private int cancell[] = new int[countDeal];
+    private int end[] = new int[countDeal];
+    private int classic[] = new int[countDeal];
+    private int MOFibo38[] = new int[countDeal];
+    private int MPFibo38[] = new int[countDeal];
+    private int MPFibo61[] = new int[countDeal];
+    private int SLclassic[] = new int[countDeal];
+    private int ACopen[] = new int[countDeal];
+    private int SLFibo0[] = new int[countDeal];
+    private int SLFibo38[] = new int[countDeal];
+    private int ACclassic[] = new int[countDeal];
+    private int TPAC[] = new int[countDeal];
+    private int BUACFibo61[] = new int[countDeal];
+    private int SL[] = new int[countDeal];
+    private int TP[] = new int[countDeal];
+    public float system1Point = 0;
+    public float system2Point = 0;
+    public float system3Point = 0;
+    public float system4Point = 0;
+    public float system5Point = 0;
+    public float system6Point = 0;
+    public float system7Point = 0;
+    public float system8Point = 0;
+    public float system9Point = 0;
+    public float systemClassicPoint = 0;
+    private int system4count = 0;
+    private int classicOpen = 0;
+    private int classicClose = 0;
+    private int unprofitableDeals = 0;
+    private int profitableDeals = 0;
+    private float f100 = 0;
+    private float spread = 0.00020f;
+    private float spreadFull = 20;
+    private float pips[] = new float[countDeal];
+    private float fibonacci0382 = 0.382f;
+    private float fibonacci0618 = 0.618f;
+    private float fibonacci1000 = 1f;
+    private float fibonacci1618 = 1.618f;
 
     public void processing() {
-        tempTransactionCount = gridGeneration.transactionCount;
+        int tempTransactionCount = gridGeneration.transactionCount;
         gridGeneration.transactionCount = 0;
         while (gridGeneration.transactionCount <= tempTransactionCount) {
             switch (gridGeneration.step[gridGeneration.transactionCount]) {//case 0: step0();break;//вызов функции
@@ -97,7 +98,7 @@ public class Result {
 
     }
 
-    public void step1() {
+    private void step1() {
         if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount]
                 - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.382
                 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] >
@@ -127,13 +128,13 @@ public class Result {
         }
     }
 
-    public void step2() {
-        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
+    private void step2() {
+        if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * fibonacci1618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             TP[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
             printStep();
-            systemClassicPoint += gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 1.0) - spreadFull;
+            systemClassicPoint += gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci1618 - 1.0) - spreadFull;
             classicClose++;
         } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             MPFibo61[gridGeneration.transactionCount] = 1;
@@ -144,7 +145,7 @@ public class Result {
         }
     }
 
-    public void step3() {
+    private void step3() {
         if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
 //          TP[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
@@ -160,24 +161,24 @@ public class Result {
             unprofitableDeals++;
             gridGeneration.step[gridGeneration.transactionCount] = 4;
             printStep();
-            system1Point = system1Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.618 - 0.382) - spreadFull;
+            system1Point = system1Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci0618 - fibonacci0382) - spreadFull;
         } else {
             gridGeneration.step[gridGeneration.transactionCount] = 3;
         }
     }
 
 
-    public void step4() {
+    private void step4() {
         if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             TP[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
             printStep();
-            systemClassicPoint = systemClassicPoint + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 1.0) - spreadFull;
+            systemClassicPoint += gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 1.0) - spreadFull;
             system2Point += gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 0.618) - spreadFull;
             system3Point += gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 0.382) - spreadFull;
             system7Point += gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 0.382) - spreadFull;
-            pips[gridGeneration.transactionCount] = gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 0.382) - spreadFull;
+            pips[gridGeneration.transactionCount] = gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci1618 - fibonacci0382) - spreadFull;
             classicClose++;
             //  system8Point++;
         } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
@@ -185,24 +186,24 @@ public class Result {
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 5;
             printStep();
-            system2Point = system2Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.618 - 0.0) - spreadFull;
-            system7Point = system7Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.382 - 0.0) - spreadFull;
-            pips[gridGeneration.transactionCount] = -(gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.382 - 0.0) + spreadFull);
+            system2Point = system2Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci0618 - 0) - spreadFull;
+            system7Point = system7Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci0382 - 0) - spreadFull;
+            pips[gridGeneration.transactionCount] = -(gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci0382 - 0) + spreadFull);
         } else {
             gridGeneration.step[gridGeneration.transactionCount] = 4;
         }
     }
 
-    public void step5() {
+    private void step5() {
         if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             gridGeneration.step[gridGeneration.transactionCount] = 15;
             printStep();
 
-            system3Point = system3Point + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.0 - 0.382) - spreadFull;
+            system3Point = system3Point + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci1000 - fibonacci0382) - spreadFull;
             classicClose++;
         } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] + 0.02000 > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             systemClassicPoint = systemClassicPoint - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1) - 2000 - spreadFull;
-            system3Point = system3Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.382 - 0.0) - 2000 - spreadFull;
+            system3Point = system3Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci0382 - 0) - 2000 - spreadFull;
             classicClose++;
             //system3Point=SL
             // SLFibo0[gridGeneration.transactionCount] = 1;
@@ -215,7 +216,7 @@ public class Result {
         }
     }
 
-    public void step6() {
+    private void step6() {
         if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             ACopen[gridGeneration.transactionCount] = 1;
             //OrderModify 3
@@ -224,7 +225,7 @@ public class Result {
         } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
             // system3Point = system3Point - (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * (0.382);
             //system3Point=SL
-            system6Point = system6Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.382 - 0.0) - spreadFull;
+            system6Point = system6Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci0382 - 0) - spreadFull;
             SLFibo0[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
@@ -234,7 +235,7 @@ public class Result {
         }
     }
 
-    public void step7() {
+    private void step7() {
         if (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice()) {
             ACclassic[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 8;
@@ -242,7 +243,7 @@ public class Result {
             classicOpen++;
         } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.382 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice() - spread) {
             // system1Point = system1Point - (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * (0.618 - 0.382);
-            system4Point = system4Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.618 - 0.382) - spreadFull;
+            system4Point = system4Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci0618 - fibonacci0382) - spreadFull;
             SLFibo38[gridGeneration.transactionCount] = 1;
             unprofitableDeals++;
             end[gridGeneration.transactionCount] = 1;
@@ -253,7 +254,7 @@ public class Result {
         }
     }
 
-    public void step8() {
+    private void step8() {
         if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             TPAC[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
@@ -268,7 +269,7 @@ public class Result {
             profitableDeals++;
             classicClose++;
         } else if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 0.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice() - spread) {
-            system6Point = system6Point + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.618 - 0.382) - spreadFull;
+            system6Point = system6Point + gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci0618 - fibonacci0382) - spreadFull;
             BUACFibo61[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 10;
@@ -278,7 +279,7 @@ public class Result {
         }
     }
 
-    public void step9() {
+    private void step9() {
         if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
             //TPAC[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
@@ -288,7 +289,7 @@ public class Result {
             //  classicClose++;
             system5Point += gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 0.618) - spreadFull;
         } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
-            system5Point = system5Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (0.618 - 0.0) - spreadFull;
+            system5Point = system5Point - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci0618 - 0) - spreadFull;
 // SLFibo0[gridGeneration.transactionCount] = 1;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
@@ -296,7 +297,7 @@ public class Result {
         }
     }
 
-    public void step10() {
+    private void step10() {
         if ((gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]) * 1.618 + gridGeneration.buyMinGrid[gridGeneration.transactionCount] < gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice() - spread) {
 //            System.out.println(gridGeneration.minGrid);
 //            System.out.println(gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice());
@@ -307,7 +308,7 @@ public class Result {
             // TakeProfit.insert(1);
             classicClose++;
         } else if (gridGeneration.buyMinGrid[gridGeneration.transactionCount] > gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice()) {
-            systemClassicPoint = systemClassicPoint - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (1.618 - 1.0) - spreadFull;
+            systemClassicPoint = systemClassicPoint - gridGeneration.sizeGrid[gridGeneration.transactionCount] * (fibonacci1618 - fibonacci1000) - spreadFull;
             end[gridGeneration.transactionCount] = 1;
             gridGeneration.step[gridGeneration.transactionCount] = 15;
             printStep();
@@ -316,11 +317,11 @@ public class Result {
         }
     }
 
-    public void f1000() {
+    private void f1000() {
         f100 = (gridGeneration.buyMaxGrid[gridGeneration.transactionCount] - gridGeneration.buyMinGrid[gridGeneration.transactionCount]);
     }
 
-    public void printStep() {
+    private void printStep() {
         // System.out.println("transactionCount="+gridGeneration.transactionCount+" step=" + gridGeneration.step[gridGeneration.transactionCount]);
     }
 }

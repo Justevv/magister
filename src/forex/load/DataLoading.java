@@ -10,7 +10,6 @@ import java.util.*;
 
 public class DataLoading {
     private static String csvFile = "audUSD1.csv";
-    private static String line = " ";
     private static String cvsSplitBy = ",";
     public static int size = 400000;    //Размер массивов
     private List<PriceM1> priceM1 = new ArrayList<>(size);
@@ -20,6 +19,7 @@ public class DataLoading {
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             Date parsingDate = null;
+            String line;
             while ((line = br.readLine()) != null) {
                 String[] row = line.split(cvsSplitBy);
                 SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd hh:mm");

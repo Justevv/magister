@@ -12,16 +12,8 @@ public class ConvertM1ToM2 {
             PriceM2 priceM2 = new PriceM2();
             if ((priceM1List.get(m2).getM1DateValue().getMinutes() % 2) == 0 && (priceM1List.get(m2 + 1).getM1DateValue().getMinutes() % 2) != 0) {
                 priceM2.setDateValue(priceM1List.get(m2).getM1DateValue());
-                if (priceM1List.get(m2).getM1MaxPrice() > priceM1List.get(m2 + 1).getM1MaxPrice()) {
-                    priceM2.setMaxPrice(priceM1List.get(m2).getM1MaxPrice());
-                } else {
-                    priceM2.setMaxPrice(priceM1List.get(m2 + 1).getM1MaxPrice());
-                }
-                if (priceM1List.get(m2).getM1MinPrice() < priceM1List.get(m2 + 1).getM1MinPrice()) {
-                    priceM2.setMinPrice(priceM1List.get(m2).getM1MinPrice());
-                } else {
-                    priceM2.setMinPrice(priceM1List.get(m2 + 1).getM1MinPrice());
-                }
+                priceM2.setMaxPrice(Math.max(priceM1List.get(m2).getM1MaxPrice(), priceM1List.get(m2 + 1).getM1MaxPrice()));
+                priceM2.setMinPrice(Math.min(priceM1List.get(m2).getM1MinPrice(), priceM1List.get(m2 + 1).getM1MinPrice()));
                 m2++;
             } else {
                 priceM2.setDateValue(priceM1List.get(m2).getM1DateValue());
