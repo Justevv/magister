@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Grid {
     private Date buyDataValue;
-    private Double buyMaxGrid;
-    private Double buyMinGrid;
-    private Integer buyPulseCount;
-    private Integer buyRollbackCount;
+    private float buyMaxGrid;
+    private float buyMinGrid;
+    private int buyPulseCount;
+    private int buyRollbackCount;
     private double sizeGrid;  //Массив размера сетки
 
     public double getSizeGrid() {
@@ -26,19 +26,19 @@ public class Grid {
         this.buyDataValue = buyDataValue;
     }
 
-    public Double getBuyMaxGrid() {
+    public float getBuyMaxGrid() {
         return buyMaxGrid;
     }
 
-    public void setBuyMaxGrid(Double buyMaxGrid) {
+    public void setBuyMaxGrid(float buyMaxGrid) {
         this.buyMaxGrid = buyMaxGrid;
     }
 
-    public Double getBuyMinGrid() {
+    public float getBuyMinGrid() {
         return buyMinGrid;
     }
 
-    public void setBuyMinGrid(Double buyMinGrid) {
+    public void setBuyMinGrid(float buyMinGrid) {
         this.buyMinGrid = buyMinGrid;
     }
 
@@ -58,7 +58,7 @@ public class Grid {
         this.buyRollbackCount = buyRollbackCount;
     }
 
-    public Grid(Date buyDataValue, Double buyMaxGrid, Double buyMinGrid, Integer buyPulseCount, Integer buyRollbackCount) {
+    public Grid(Date buyDataValue, float buyMaxGrid, float buyMinGrid, int buyPulseCount, int buyRollbackCount) {
         this.buyDataValue = buyDataValue;
         this.buyMaxGrid = buyMaxGrid;
         this.buyMinGrid = buyMinGrid;

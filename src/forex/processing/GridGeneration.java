@@ -10,29 +10,29 @@ import java.util.List;
 
 public class GridGeneration {
     public static int size = 4000000;    //Размер массивов
-    public double maxGrid = 0; //максимум сетки
-    public double minGrid = 2; //минимум сетки
-    public int pulseCount = 0; //счетчик импульсов
-    public int rollbackCount = 0;  //счетчик откатов
+    private float maxGrid = 0; //максимум сетки
+    private float minGrid = 2; //минимум сетки
+    private int pulseCount = 0; //счетчик импульсов
+    private int rollbackCount = 0;  //счетчик откатов
     public int i = 0;  //счетчик входных данных
+    public float[] sizeGrid = new float[size];  //Массив размера сетки
     public int transactionCount = 0;   //счетчик построкнных сеток
-    public double[] sizeGrid = new double[size];  //Массив размера сетки
     public Date[] buyDataValue = new Date[size];
-    public Double[] buyMaxGrid = new Double[size];
-    public Double[] buyMinGrid = new Double[size];
-    public Integer[] buyPulseCount = new Integer[size];
-    public Integer[] buyRollbackCount = new Integer[size];
-    public boolean isFirstHigh = true;      //если первый high
-    public boolean isFirstRec = true;       //???????????
-    public boolean firstday = true;         //флаг первого дня(для сброса в понедельник)
-    public boolean maxmax = false;            //флаг ожидания пробоя МО после повторения максимума
-    public int tempRec = 0;
-    public double recLow = 0;
-    public double bufMaxGrid = 0;
-    public double bufMinGrid = 0;
-    public int recNumber = 0;
-    public int impCount = 0;
-    public int countDeal = 50000;
+    public float[] buyMaxGrid = new float[size];
+    public float[] buyMinGrid = new float[size];
+    public int[] buyPulseCount = new int[size];
+    public int[] buyRollbackCount = new int[size];
+    private boolean isFirstHigh = true;      //если первый high
+    private boolean isFirstRec = true;       //???????????
+    private boolean firstDay = true;         //флаг первого дня(для сброса в понедельник)
+    private boolean maxmax = false;            //флаг ожидания пробоя МО после повторения максимума
+    private int tempRec = 0;
+    private float recLow = 0;
+    private float bufMaxGrid = 0;
+    private float bufMinGrid = 0;
+    private int recNumber = 0;
+    private int impCount = 0;
+    private int countDeal = 50000;
     public int step[] = new int[countDeal];
 
     public List<Grid> getGrids() {
@@ -64,15 +64,15 @@ public class GridGeneration {
             {
                 if (priceM2List.get(i).getDateValue().getDay() == 2)                           //во вторник ставим ожидание понедельника
                 {
-                    firstday = true;
+                    firstDay = true;
                 }
-                if (priceM2List.get(i).getDateValue().getDay() == 1 && firstday)                //сброс в понедельник
+                if (priceM2List.get(i).getDateValue().getDay() == 1 && firstDay)                //сброс в понедельник
                 {
                     minGrid = priceM2List.get(i).getMinPrice();
                     maxGrid = 0;
                     pulseCount = 1;
                     rollbackCount = 0;
-                    firstday = false;
+                    firstDay = false;
                     //System.out.println(dateValue[i]);
                 }
             }

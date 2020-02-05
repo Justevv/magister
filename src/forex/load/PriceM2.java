@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class PriceM2 {
     private Date dateValue;  //Массив дат
-    private Double minPrice;  //Массив минимума
-    private Double maxPrice;  //Массив максимума
-    private Double EMA;
+    private float minPrice;  //Массив минимума
+    private float maxPrice;  //Массив максимума
+    private float EMA;
 
     @Override
     public String toString() {
@@ -21,15 +21,15 @@ public class PriceM2 {
     public PriceM2() {
     }
 
-    public Double getEMA() {
+    public float getEMA() {
         return EMA;
     }
 
-    public void setEMA(Double EMA) {
+    public void setEMA(float EMA) {
         this.EMA = EMA;
     }
 
-    public PriceM2(Date parsingDate, Double valueOf, Double valueOf1, Double EMA) {
+    public PriceM2(Date parsingDate, float valueOf, float valueOf1, float EMA) {
         dateValue = parsingDate;
         minPrice = valueOf;
         maxPrice = valueOf1;
@@ -45,19 +45,19 @@ public class PriceM2 {
     }
 
 
-    public Double getMinPrice() {
+    public float getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(Double minPrice) {
+    public void setMinPrice(float minPrice) {
         this.minPrice = minPrice;
     }
 
-    public Double getMaxPrice() {
+    public float getMaxPrice() {
         return maxPrice;
     }
 
-    public void setMaxPrice(Double maxPrice) {
+    public void setMaxPrice(float maxPrice) {
         this.maxPrice = maxPrice;
     }
 
