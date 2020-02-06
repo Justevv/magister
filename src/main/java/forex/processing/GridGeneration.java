@@ -8,19 +8,20 @@ import java.util.Calendar;
 import java.util.List;
 
 public class GridGeneration {
-    public static int size = 4000000;    //Размер массивов
+    private static final int SIZE = 4000;    //Размер массивов
     private float maxGrid = 0; //максимум сетки
     private float minGrid = 2; //минимум сетки
     private int pulseCount = 0; //счетчик импульсов
     private int rollbackCount = 0;  //счетчик откатов
     public int i = 0;  //счетчик входных данных
-    public float[] sizeGrid = new float[size];  //Массив размера сетки
+    public float[] sizeGrid = new float[SIZE];  //Массив размера сетки
     public int transactionCount = 0;   //счетчик построкнных сеток
-    public Calendar[] buyDataValue = new Calendar[size];
-    public float[] buyMaxGrid = new float[size];
-    public float[] buyMinGrid = new float[size];
-    public int[] buyPulseCount = new int[size];
-    public int[] buyRollbackCount = new int[size];
+    public Calendar[] buyDataValue = new Calendar[SIZE];
+    public float[] buyMaxGrid = new float[SIZE];
+    public float[] buyMinGrid = new float[SIZE];
+    public int[] buyPulseCount = new int[SIZE];
+    public int[] buyRollbackCount = new int[SIZE];
+    public int step[] = new int[SIZE];
     private boolean isFirstHigh = true;      //если первый high
     private boolean isFirstRec = true;       //???????????
     private boolean firstDay = true;         //флаг первого дня(для сброса в понедельник)
@@ -31,8 +32,6 @@ public class GridGeneration {
     private float bufMinGrid = 0;
     private int recNumber = 0;
     private int impCount = 0;
-    private int countDeal = 50000;
-    public int step[] = new int[countDeal];
 
     public List<Grid> getGrids() {
         return grids;
@@ -169,12 +168,12 @@ public class GridGeneration {
 //                && ((d.dateValue[i - rollbackCount].getHours() <= 17))
         ) {
             grids.add(grid);
-            buyopen();
+            buyOpen();
         }
         reset();
     }
 
-    public void buyopen() {
+    public void buyOpen() {
         step[transactionCount] = 1;
         if ((grids.get(transactionCount).getBuyMaxGrid() - grids.get(transactionCount).getBuyMinGrid()) * 0.382 + grids.get(transactionCount).getBuyMinGrid() > priceList.get(i).getMinPrice()) {
             step[transactionCount] = 6;
