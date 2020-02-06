@@ -1,8 +1,7 @@
 package forex;
 
-import forex.load.ConvertM1ToM2;
 import forex.load.DataLoading;
-import forex.load.PriceM1;
+import forex.load.Price;
 import forex.processing.GridGeneration;
 import forex.processing.Result;
 
@@ -16,7 +15,7 @@ public class Main {
         DataLoading dataLoading = new DataLoading();
         Result result = new Result();
         long timeSpent;
-        List<PriceM1> priceM1s = dataLoading.run();
+        List<Price> priceM1s = dataLoading.run();
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("download выполнялась " + timeSpent + " миллисекунд");
 //        c.convert(d.run());

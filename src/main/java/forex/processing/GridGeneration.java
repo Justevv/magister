@@ -1,8 +1,7 @@
 package forex.processing;
 
 import forex.load.ConvertM1ToM2;
-import forex.load.PriceM1;
-import forex.load.PriceM2;
+import forex.load.Price;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,27 +47,27 @@ public class GridGeneration {
         this.result = result;
     }
 
-    private List<PriceM2> priceM2List;
+    private List<Price> priceList;
 
-    public List<PriceM2> getPriceM2List() {
-        return priceM2List;
+    public List<Price> getPriceList() {
+        return priceList;
     }
 
-    public void setPriceM2List(List<PriceM2> priceM2List) {
-        this.priceM2List = priceM2List;
+    public void setPriceList(List<Price> priceList) {
+        this.priceList = priceList;
     }
 
-    public void process(List<PriceM1> priceM1List) {
-        priceM2List = convertM1ToM2.convert(priceM1List);
-        for (i = 0; i < priceM2List.size(); i++) {
+    public void process(List<Price> priceM1List) {
+        priceList = convertM1ToM2.convert(priceM1List);
+        for (i = 0; i < priceList.size(); i++) {
             {
-                if (priceM2List.get(i).getDateValue().get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY)                           //во вторник ставим ожидание понедельника
+                if (priceList.get(i).getDateValue().get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY)                           //во вторник ставим ожидание понедельника
                 {
                     firstDay = true;
                 }
-                if (priceM2List.get(i).getDateValue().get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && firstDay)                //сброс в понедельник
+                if (priceList.get(i).getDateValue().get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && firstDay)                //сброс в понедельник
                 {
-                    minGrid = priceM2List.get(i).getMinPrice();
+                    minGrid = priceList.get(i).getMinPrice();
                     maxGrid = 0;
                     pulseCount = 1;
                     rollbackCount = 0;
@@ -76,17 +75,17 @@ public class GridGeneration {
                     //System.out.println(dateValue[i]);
                 }
             }
-            if (minGrid > priceM2List.get(i).getMinPrice()) {
+            if (minGrid > priceList.get(i).getMinPrice()) {
                 newMin();
             } else {
                 if (isFirstHigh) {
-                    maxGrid = priceM2List.get(i).getMaxPrice();
+                    maxGrid = priceList.get(i).getMaxPrice();
                     pulseCount++;
                     isFirstHigh = false;
                 } else {
-                    if (maxGrid < priceM2List.get(i).getMaxPrice()) {
+                    if (maxGrid < priceList.get(i).getMaxPrice()) {
                         newMax();
-                    } else if (maxGrid == priceM2List.get(i).getMaxPrice()) {
+                    } else if (maxGrid == priceList.get(i).getMaxPrice()) {
                         if (rollbackCount <= 1) {
                             newMax();
                         } else {
@@ -100,11 +99,11 @@ public class GridGeneration {
                     } else {
                         rollbackCount++;
                         if (isFirstRec) {
-                            recLow = priceM2List.get(i).getMinPrice();
+                            recLow = priceList.get(i).getMinPrice();
                             isFirstRec = false;
                             recNumber = 1;
                         } else {
-                            if (recLow > priceM2List.get(i).getMinPrice()) {
+                            if (recLow > priceList.get(i).getMinPrice()) {
                                 // recLow = minPrice[i];
                                 recNumber = rollbackCount;
                             }
@@ -125,7 +124,7 @@ public class GridGeneration {
     }
 
     public void newMax() {
-        maxGrid = priceM2List.get(i).getMaxPrice();
+        maxGrid = priceList.get(i).getMaxPrice();
         pulseCount++;
         pulseCount = pulseCount + rollbackCount;
         isFirstRec = true;
@@ -134,7 +133,7 @@ public class GridGeneration {
     }
 
     public void newMin() {
-        minGrid = priceM2List.get(i).getMinPrice();
+        minGrid = priceList.get(i).getMinPrice();
         isFirstHigh = true;
         isFirstRec = true;
         pulseCount = 1;
@@ -153,8 +152,8 @@ public class GridGeneration {
     }
 
     public void buy() {
-        Grid grid = new Grid(priceM2List.get(i).getDateValue(), maxGrid, minGrid, pulseCount, rollbackCount);
-        buyDataValue[transactionCount] = priceM2List.get(i).getDateValue();
+        Grid grid = new Grid(priceList.get(i).getDateValue(), maxGrid, minGrid, pulseCount, rollbackCount);
+        buyDataValue[transactionCount] = priceList.get(i).getDateValue();
         buyMaxGrid[transactionCount] = maxGrid;
         buyMinGrid[transactionCount] = minGrid;
         sizeGrid[transactionCount] = (maxGrid - minGrid) * 100000;
@@ -177,7 +176,7 @@ public class GridGeneration {
 
     public void buyopen() {
         step[transactionCount] = 1;
-        if ((grids.get(transactionCount).getBuyMaxGrid() - grids.get(transactionCount).getBuyMinGrid()) * 0.382 + grids.get(transactionCount).getBuyMinGrid() > priceM2List.get(i).getMinPrice()) {
+        if ((grids.get(transactionCount).getBuyMaxGrid() - grids.get(transactionCount).getBuyMinGrid()) * 0.382 + grids.get(transactionCount).getBuyMinGrid() > priceList.get(i).getMinPrice()) {
             step[transactionCount] = 6;
         }
         transactionCount++;

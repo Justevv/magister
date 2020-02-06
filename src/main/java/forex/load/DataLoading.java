@@ -12,9 +12,9 @@ public class DataLoading {
     private static String cvsSplitBy = ",";
     public static int size = 400000;    //Размер массивов
     private static final String FILTER_YEAR_STRING = "2018.";
-    private List<PriceM1> priceM1 = new ArrayList<>(size);
+    private List<Price> priceM1 = new ArrayList<>(size);
 
-    public List<PriceM1> run() {
+    public List<Price> run() {
         String line;
         boolean stop = false;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.ENGLISH);
@@ -29,7 +29,7 @@ public class DataLoading {
                     } catch (ParseException e) {
                         System.out.println("Нераспаршена с помощью " + dateFormat);
                     }
-                    priceM1.add(new PriceM1(calendar, Float.parseFloat(row[3]), Float.parseFloat(row[4])));
+                    priceM1.add(new Price(calendar, Float.parseFloat(row[3]), Float.parseFloat(row[4])));
                 } else if (stop) {
                     break;
                 }
