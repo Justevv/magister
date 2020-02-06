@@ -1,5 +1,6 @@
 package forex;
 
+import forex.load.ConvertM1ToM3;
 import forex.load.DataLoading;
 import forex.load.Price;
 import forex.processing.GridGeneration;
@@ -11,14 +12,14 @@ public class Main {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();    //время выполнения программы
         GridGeneration gridGeneration = new GridGeneration();
-//        ConvertM1ToM2 c = new ConvertM1ToM2();
+        ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
         DataLoading dataLoading = new DataLoading();
         Result result = new Result();
         long timeSpent;
         List<Price> priceM1s = dataLoading.run();
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("download выполнялась " + timeSpent + " миллисекунд");
-//        c.convert(d.run());
+//        convertM1ToM3.convert(priceM1s);
         result.setGridGeneration(gridGeneration);
         gridGeneration.setResult(result);
         gridGeneration.process(priceM1s);
