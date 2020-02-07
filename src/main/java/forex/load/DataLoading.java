@@ -7,7 +7,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class DataLoading {
+    private static final Logger LOGGER = LogManager.getLogger(DataLoading.class);
     private static String csvFile = "audUSD1.csv";
     private static String cvsSplitBy = ",";
     public static int size = 400000;    //Размер массивов
@@ -17,7 +21,7 @@ public class DataLoading {
     public List<Price> run() {
         String line;
         boolean stop = false;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.ENGLISH);
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
                 if (line.contains(FILTER_YEAR_STRING)) {

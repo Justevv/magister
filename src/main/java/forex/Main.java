@@ -1,5 +1,6 @@
 package forex;
 
+import forex.load.ConvertM1ToM2;
 import forex.load.ConvertM1ToM3;
 import forex.load.DataLoading;
 import forex.load.Price;
@@ -12,6 +13,7 @@ public class Main {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();    //время выполнения программы
         GridGeneration gridGeneration = new GridGeneration();
+        ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
         ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
         DataLoading dataLoading = new DataLoading();
         Result result = new Result();
@@ -22,7 +24,8 @@ public class Main {
 //        convertM1ToM3.convert(priceM1s);
         result.setGridGeneration(gridGeneration);
         gridGeneration.setResult(result);
-        gridGeneration.process(priceM1s);
+        gridGeneration.setPriceListM3(convertM1ToM3.convert(priceM1s));
+        gridGeneration.process(convertM1ToM2.convert(priceM1s));
         System.out.println("Итог1 " + result.system1Point * 1 + " пунктов");
         System.out.println("Итог2 " + result.system2Point * 1 + " пунктов");
         System.out.println("Итог3 " + result.system3Point * 1 + " пунктов");
