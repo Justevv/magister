@@ -55,6 +55,8 @@ public class Main extends Thread {
         System.out.println("Итог6 " + result.system6Point * 1 + " пунктов");
         System.out.println("Итог7 " + result.system7Point * 1 + " пунктов");
         System.out.println("Итог классика " + result.systemClassicPoint * 1 + " пунктов");
+        System.out.println("All result " + (result.system1Point + result.system2Point + result.system3Point +
+                result.system4Point + result.system5Point + result.system6Point + result.system7Point));
         System.out.println(gridGeneration.getGrids().size());
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
