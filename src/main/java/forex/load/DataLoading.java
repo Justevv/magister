@@ -15,20 +15,26 @@ import java.util.Locale;
 
 public class DataLoading {
     private static final Logger LOGGER = LogManager.getLogger(DataLoading.class);
-    private static final String CSV_FILE = "audUSD1.csv";
     private static final String CVS_SPLIT_BY = ",";
     private static final boolean filter = true;
     public static int size = 400000;    //Размер массивов
-    private static final String FILTER_YEAR_STRING = "2018.";
+    private String filterYearString = "2018.";
     private List<Price> priceM1 = new ArrayList<>(size);
 
-    public List<Price> run() {
+    public DataLoading() {
+    }
+
+    public DataLoading(String filterYearString) {
+        this.filterYearString = filterYearString;
+    }
+
+    public List<Price> run(String CSV_FILE) {
         String line;
         boolean stop = false;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.ENGLISH);
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
             while ((line = br.readLine()) != null) {
-                if (line.contains(FILTER_YEAR_STRING) || !filter) {
+                if (line.contains(filterYearString) || !filter) {
                     stop = true;
                     String[] row = line.split(CVS_SPLIT_BY);
                     Calendar calendar = Calendar.getInstance();
