@@ -44,8 +44,6 @@ public class Main extends Thread {
         List<Price> priceM1s = dataLoading.run(CSV_FILE);
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("download выполнялась " + timeSpent + " миллисекунд");
-//        convertM1ToM3.convert(priceM1s);
-        result.setGridGeneration(gridGeneration);
         gridGeneration.setResult(result);
         gridGeneration.setPriceListM3(convertM1ToM3.convert(priceM1s));
         gridGeneration.process(convertM1ToM2.convert(priceM1s));
@@ -56,17 +54,7 @@ public class Main extends Thread {
         System.out.println("Итог5 " + result.system5Point * 1 + " пунктов");
         System.out.println("Итог6 " + result.system6Point * 1 + " пунктов");
         System.out.println("Итог7 " + result.system7Point * 1 + " пунктов");
-//        System.out.println("Итог8 " + r.system8Point * 1 + " пунктов");
-//        System.out.println("Итог9 " + r.system9Point * 1 + " пунктов");
         System.out.println("Итог классика " + result.systemClassicPoint * 1 + " пунктов");
-//        System.out.println(r.system4count);
-//        System.out.println(r.classicOpen);
-//        System.out.println(r.classicClose);
-//        System.out.println("Прибыльные сделки " + r.profitableDeals);
-//        System.out.println("Убыточные сделки " + r.unprofitableDeals);
-//        for (Grid grid : g.getGrids()) {
-//                  System.out.println(grid);
-//        }
         System.out.println(gridGeneration.getGrids().size());
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");

@@ -1,6 +1,5 @@
 package forex.processing;
 
-import forex.load.ConvertM1ToM2;
 import forex.load.Price;
 
 import java.util.ArrayList;
@@ -8,34 +7,21 @@ import java.util.Calendar;
 import java.util.List;
 
 public class GridGeneration {
-    public int transactionCount = 0;   //счетчик построкнных сеток
+    private Result result;
+    private List<Grid> grids = new ArrayList<>();
+    private List<Price> priceList;
+    private List<Price> priceListM3;
 
     public List<Grid> getGrids() {
         return grids;
     }
 
-    private List<Grid> grids = new ArrayList<>();
-
-    private ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
-    Result result;
-
     public void setResult(Result result) {
         this.result = result;
     }
 
-    private List<Price> priceList;
-    private List<Price> priceListM3;
-
     public void setPriceListM3(List<Price> priceListM3) {
         this.priceListM3 = priceListM3;
-    }
-
-    public List<Price> getPriceList() {
-        return priceList;
-    }
-
-    public void setPriceList(List<Price> priceList) {
-        this.priceList = priceList;
     }
 
     public void process(List<Price> priceList) {
@@ -64,45 +50,41 @@ public class GridGeneration {
                 maxGrid = 0;
                 pulseCount = 1;
                 rollbackCount = 0;
+            } else if (maxGrid < priceList.get(i).getMaxPrice() || (maxGrid == priceList.get(i).getMaxPrice() && rollbackCount <= 1)) {  // create new max
+                maxGrid = priceList.get(i).getMaxPrice();
+                pulseCount++;
+                pulseCount += rollbackCount;
+                recLow = 0;
+                rollbackCount = 0;
+                maxmax = false;
+            } else if (maxGrid == priceList.get(i).getMaxPrice() && rollbackCount > 1) {
+                rollbackCount++;
+                maxmax = true;
+                tempRec = rollbackCount;
             } else {
-                if (maxGrid < priceList.get(i).getMaxPrice() || (maxGrid == priceList.get(i).getMaxPrice() && rollbackCount <= 1)) {  // create new max
-                    maxGrid = priceList.get(i).getMaxPrice();
-                    pulseCount++;
-                    pulseCount += rollbackCount;
-                    recLow = 0;
-                    rollbackCount = 0;
+                rollbackCount++;
+                if (recLow == 0) {
+                    recLow = priceList.get(i).getMinPrice();
+                } else if (maxmax) {
+                    pulseCount = pulseCount + tempRec;
+                    rollbackCount = rollbackCount - tempRec;
                     maxmax = false;
-                } else if (maxGrid == priceList.get(i).getMaxPrice() && rollbackCount > 1) {
-                    rollbackCount++;
-                    maxmax = true;
-                    tempRec = rollbackCount;
-                } else {
-                    rollbackCount++;
-                    if (recLow == 0) {
-                        recLow = priceList.get(i).getMinPrice();
-                    } else {
-                        if (maxmax) {
-                            pulseCount = pulseCount + tempRec;
-                            rollbackCount = rollbackCount - tempRec;
-                            maxmax = false;
-                        }
-                    }
-                }
-                if (rollbackCount - pulseCount == 0) {
-                    Grid grid = new Grid(priceList.get(i).getDateValue(), maxGrid, minGrid, pulseCount, rollbackCount);
-                    buy(grid, i, rollbackCount);
-                    minGrid = recLow;  // reset
-                    pulseCount = 1;
-                    i = i - rollbackCount;
-                    rollbackCount = 0;
-                    maxGrid = 0;
                 }
             }
-            result.processing(i);
+            if (rollbackCount - pulseCount == 0) {
+                Grid grid = new Grid(priceList.get(i).getDateValue(), maxGrid, minGrid, pulseCount, rollbackCount);
+                buy(grid, i, rollbackCount);
+                minGrid = recLow;  // reset
+                pulseCount = 1;
+                i = i - rollbackCount;
+                rollbackCount = 0;
+                maxGrid = 0;
+            }
+            result.processing(priceList.get(i));
         }
     }
 
-    public boolean processM3(List<Price> priceList) {
+    private boolean processM3(List<Price> priceList) {
         boolean work = false;
         float maxGrid = 0; //максимум сетки
         float minGrid = 2; //минимум сетки
@@ -117,33 +99,29 @@ public class GridGeneration {
                 maxGrid = 0;
                 pulseCount = 1;
                 rollbackCount = 0;
+            } else if (maxGrid < priceList.get(i).getMaxPrice() || (maxGrid == priceList.get(i).getMaxPrice() && rollbackCount <= 1)) {  // create new max
+                maxGrid = priceList.get(i).getMaxPrice();
+                pulseCount++;
+                pulseCount += rollbackCount;
+                recLow = 0;
+                rollbackCount = 0;
+                maxmax = false;
+            } else if (maxGrid == priceList.get(i).getMaxPrice() && rollbackCount > 1) {
+                rollbackCount++;
+                maxmax = true;
+                tempRec = rollbackCount;
             } else {
-                if (maxGrid < priceList.get(i).getMaxPrice() || (maxGrid == priceList.get(i).getMaxPrice() && rollbackCount <= 1)) {  // create new max
-                    maxGrid = priceList.get(i).getMaxPrice();
-                    pulseCount++;
-                    pulseCount += rollbackCount;
-                    recLow = 0;
-                    rollbackCount = 0;
+                rollbackCount++;
+                if (recLow == 0) {
+                    recLow = priceList.get(i).getMinPrice();
+                } else if (maxmax) {
+                    pulseCount = pulseCount + tempRec;
+                    rollbackCount = rollbackCount - tempRec;
                     maxmax = false;
-                } else if (maxGrid == priceList.get(i).getMaxPrice() && rollbackCount > 1) {
-                    rollbackCount++;
-                    maxmax = true;
-                    tempRec = rollbackCount;
-                } else {
-                    rollbackCount++;
-                    if (recLow == 0) {
-                        recLow = priceList.get(i).getMinPrice();
-                    } else {
-                        if (maxmax) {
-                            pulseCount = pulseCount + tempRec;
-                            rollbackCount = rollbackCount - tempRec;
-                            maxmax = false;
-                        }
-                    }
                 }
-                if (rollbackCount - pulseCount == 0) {
-                    work = true;
-                }
+            }
+            if (rollbackCount - pulseCount == 0) {
+                work = true;
             }
         }
         return work;
@@ -182,6 +160,5 @@ public class GridGeneration {
             grid.setStep(6);
         }
         result.addWorkGrid(grid);
-        transactionCount++;
     }
 }
