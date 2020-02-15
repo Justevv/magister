@@ -9,23 +9,32 @@ import forex.processing.Result;
 
 import java.util.List;
 
-public class Main {
+public class Main extends Thread {
     private static final String eurUSD1 = "eurUSD1.csv";
     private static final String audUSD1 = "audUSD1.csv";
     private static final String gbpUSD1 = "gbpUSD1.csv";
+    private String CSV_FILE;
+    private static long startTime;
+
+    public Main(String CSV_FILE) {
+        this.CSV_FILE = CSV_FILE;
+    }
 
     public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();    //время выполнения программы
-        Main main = new Main();
-        main.run(audUSD1);
-        main.run(eurUSD1);
-        main.run(gbpUSD1);
+        startTime = System.currentTimeMillis();    //время выполнения программы
+        Main main = new Main(eurUSD1);
+        main.start();
+        Main main1 = new Main(audUSD1);
+        main1.start();
+        Main main2 = new Main(gbpUSD1);
+        main2.start();
         long timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
     }
 
-    private void run(String CSV_FILE) {
-        long startTime = System.currentTimeMillis();    //время выполнения программы
+    @Override
+    public void run() {
+//        long startTime = System.currentTimeMillis();    //время выполнения программы
         GridGeneration gridGeneration = new GridGeneration();
         ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
         ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
