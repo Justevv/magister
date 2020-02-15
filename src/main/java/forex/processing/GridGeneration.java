@@ -8,15 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class GridGeneration {
-    private static final int SIZE = 4000;    //Размер массивов
-    public float[] sizeGrid = new float[SIZE];  //Массив размера сетки
     public int transactionCount = 0;   //счетчик построкнных сеток
-    public Calendar[] buyDataValue = new Calendar[SIZE];
-    public float[] buyMaxGrid = new float[SIZE];
-    public float[] buyMinGrid = new float[SIZE];
-    public int[] buyPulseCount = new int[SIZE];
-    public int[] buyRollbackCount = new int[SIZE];
-    int step[] = new int[SIZE];
 
     public List<Grid> getGrids() {
         return grids;
@@ -159,12 +151,6 @@ public class GridGeneration {
 
     private void buy(Grid grid, int i, int rollbackCount) {
         boolean workM3 = false;
-        buyDataValue[transactionCount] = grid.getBuyDataValue();
-        buyMaxGrid[transactionCount] = grid.getBuyMaxGrid();
-        buyMinGrid[transactionCount] = grid.getBuyMinGrid();
-        sizeGrid[transactionCount] = grid.getSizeGrid();
-        buyPulseCount[transactionCount] = grid.getBuyPulseCount();
-        buyRollbackCount[transactionCount] = grid.getBuyRollbackCount();
         if (grid.getSizeGrid() >= 300
 //                && sizeGrid[transactionCount] <= 600
 //                && buyPulseCount[transactionCount] >= 2
@@ -185,16 +171,17 @@ public class GridGeneration {
                 }
             }
             if (workM3) {
-                buyOpen(i);
+                buyOpen(grid, i);
             }
         }
     }
 
-    private void buyOpen(int i) {
-        step[transactionCount] = 1;
-        if ((grids.get(transactionCount).getBuyMaxGrid() - grids.get(transactionCount).getBuyMinGrid()) * 0.382 + grids.get(transactionCount).getBuyMinGrid() > priceList.get(i).getMinPrice()) {
-            step[transactionCount] = 6;
+    private void buyOpen(Grid grid, int i) {
+        grid.setStep(1);
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() > priceList.get(i).getMinPrice()) {
+            grid.setStep(6);
         }
+        result.addWorkGrid(grid);
         transactionCount++;
     }
 }

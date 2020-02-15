@@ -22,10 +22,10 @@ public class Main extends Thread {
 
     public static void main(String[] args) {
         startTime = System.currentTimeMillis();    //время выполнения программы
-        Main main = new Main(eurUSD1);
-        main.start();
         Main main1 = new Main(audUSD1);
         main1.start();
+        Main main = new Main(eurUSD1);
+        main.start();
         Main main2 = new Main(gbpUSD1);
         main2.start();
         long timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы

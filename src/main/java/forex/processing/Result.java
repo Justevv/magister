@@ -1,5 +1,8 @@
 package forex.processing;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Result {
     private GridGeneration gridGeneration;
 
@@ -51,267 +54,219 @@ public class Result {
     private float fibonacci1618 = 1.618f;
     private int i = 0;
     private int currentTransaction;
+    private List<Grid> workGrid = new ArrayList<>();
+
+    public void addWorkGrid(Grid grid) {
+        workGrid.add(grid);
+    }
 
     public void processing(int i) {
         this.i = i;
         currentTransaction = 0;
-        while (gridGeneration.transactionCount >= currentTransaction) {
-            switch (gridGeneration.step[currentTransaction]) {
+        for (Grid grid : workGrid) {
+            switch (grid.getStep()) {
                 case 1:
-                    step1();
+                    step1(grid);
                     break;
                 case 2:
-                    step2();
+                    step2(grid);
                     break;
                 case 3:
-                    step3();
+                    step3(grid);
                     break;
                 case 4:
-                    step4();
+                    step4(grid);
                     break;
                 case 5:
-                    step5();
+                    step5(grid);
                     break;
                 case 6:
-                    step6();
+                    step6(grid);
                     break;
                 case 7:
-                    step7();
+                    step7(grid);
                     break;
                 case 8:
-                    step8();
+                    step8(grid);
                     break;
                 case 9:
-                    step9();
+                    step9(grid);
                     break;
                 case 10:
-                    step10();
+                    step10(grid);
                     break;
             }
             currentTransaction++;
         }
     }
 
-    private void step1() {
-        if ((gridGeneration.buyMaxGrid[currentTransaction]
-                - gridGeneration.buyMinGrid[currentTransaction]) * 0.382
-                + gridGeneration.buyMinGrid[currentTransaction] >
+    private void step1(Grid grid) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() >
                 gridGeneration.getPriceList().get(i).getMinPrice()) {
             MOFibo38[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 6;
+            grid.setStep(6);
             printStep();
-//            System.out.println(buyMaxGrid[transactionCount]);
-//            System.out.println(buyMinGrid[transactionCount]);
-//            System.out.println(minGrid);
         } else {
-            if (gridGeneration.buyMaxGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
-//                System.out.println(gridGeneration.minGrid);
-//                System.out.println(gridGeneration.getPriceM2List().get(gridGeneration.i).getMinPrice());
-//                System.out.println(gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice());
+            if (grid.getBuyMaxGrid() < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
                 classic[currentTransaction] = 1;
-                gridGeneration.step[currentTransaction] = 2;
+                grid.setStep(2);
                 printStep();
                 classicOpen++;
-//                System.out.println(buyMaxGrid[transactionCount]);
-//                System.out.println(buyMinGrid[transactionCount]);
-//                System.out.println(minGrid);
-            } else {
-                gridGeneration.step[currentTransaction] = 1;
             }
         }
     }
 
-    private void step2() {
-        if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * fibonacci1618 + gridGeneration.buyMinGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
+    private void step2(Grid grid) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * fibonacci1618 + grid.getBuyMinGrid() < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
             TP[currentTransaction] = 1;
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
+            grid.setStep(15);
             printStep();
-            systemClassicPoint += gridGeneration.sizeGrid[currentTransaction] * (fibonacci1618 - 1.0) - spreadFull;
+            systemClassicPoint += grid.getSizeGrid() * (fibonacci1618 - 1.0) - spreadFull;
             classicClose++;
-        } else if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 0.618 + gridGeneration.buyMinGrid[currentTransaction] > gridGeneration.getPriceList().get(i).getMinPrice()) {
+        } else if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.618 + grid.getBuyMinGrid() > gridGeneration.getPriceList().get(i).getMinPrice()) {
             MPFibo61[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 3;
+            grid.setStep(3);
             printStep();
-        } else {
-            gridGeneration.step[currentTransaction] = 2;
         }
     }
 
-    private void step3() {
-        if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 1.618 + gridGeneration.buyMinGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
-//          TP[currentTransaction] = 1;
+    private void step3(Grid grid) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1.618 + grid.getBuyMinGrid() < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
+            grid.setStep(15);
             printStep();
-            system1Point += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 0.618) - spreadFull;
-            system2Point += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 0.618) - spreadFull;
-            systemClassicPoint += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 1.0) - spreadFull;
+            system1Point += grid.getSizeGrid() * (1.618 - 0.618) - spreadFull;
+            system2Point += grid.getSizeGrid() * (1.618 - 0.618) - spreadFull;
+            systemClassicPoint += grid.getSizeGrid() * (1.618 - 1.0) - spreadFull;
             profitableDeals++;
             classicClose++;
-        } else if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 0.382 + gridGeneration.buyMinGrid[currentTransaction] > gridGeneration.getPriceList().get(i).getMinPrice()) {
+        } else if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() > gridGeneration.getPriceList().get(i).getMinPrice()) {
             MPFibo38[currentTransaction] = 1;
             unprofitableDeals++;
-            gridGeneration.step[currentTransaction] = 4;
+            grid.setStep(4);
             printStep();
-            system1Point = system1Point - gridGeneration.sizeGrid[currentTransaction] * (fibonacci0618 - fibonacci0382) - spreadFull;
-        } else {
-            gridGeneration.step[currentTransaction] = 3;
+            system1Point = system1Point - grid.getSizeGrid() * (fibonacci0618 - fibonacci0382) - spreadFull;
         }
     }
 
 
-    private void step4() {
-        if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 1.618 + gridGeneration.buyMinGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
+    private void step4(Grid grid) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1.618 + grid.getBuyMinGrid() < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
             TP[currentTransaction] = 1;
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
+            grid.setStep(15);
             printStep();
-            systemClassicPoint += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 1.0) - spreadFull;
-            system2Point += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 0.618) - spreadFull;
-            system3Point += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 0.382) - spreadFull;
-            system7Point += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 0.382) - spreadFull;
-            pips[currentTransaction] = gridGeneration.sizeGrid[currentTransaction] * (fibonacci1618 - fibonacci0382) - spreadFull;
+            systemClassicPoint += grid.getSizeGrid() * (1.618 - 1.0) - spreadFull;
+            system2Point += grid.getSizeGrid() * (1.618 - 0.618) - spreadFull;
+            system3Point += grid.getSizeGrid() * (1.618 - 0.382) - spreadFull;
+            system7Point += grid.getSizeGrid() * (1.618 - 0.382) - spreadFull;
+            pips[currentTransaction] = grid.getSizeGrid() * (fibonacci1618 - fibonacci0382) - spreadFull;
             classicClose++;
-            //  system8Point++;
-        } else if (gridGeneration.buyMinGrid[currentTransaction] > gridGeneration.getPriceList().get(i).getMinPrice()) {
+        } else if (grid.getBuyMinGrid() > gridGeneration.getPriceList().get(i).getMinPrice()) {
             SLclassic[currentTransaction] = 1;
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 5;
+            grid.setStep(5);
             printStep();
-            system2Point = system2Point - gridGeneration.sizeGrid[currentTransaction] * (fibonacci0618 - 0) - spreadFull;
-            system7Point = system7Point - gridGeneration.sizeGrid[currentTransaction] * (fibonacci0382 - 0) - spreadFull;
-            pips[currentTransaction] = -(gridGeneration.sizeGrid[currentTransaction] * (fibonacci0382 - 0) + spreadFull);
-        } else {
-            gridGeneration.step[currentTransaction] = 4;
+            system2Point = system2Point - grid.getSizeGrid() * (fibonacci0618 - 0) - spreadFull;
+            system7Point = system7Point - grid.getSizeGrid() * (fibonacci0382 - 0) - spreadFull;
+            pips[currentTransaction] = -(grid.getSizeGrid() * (fibonacci0382 - 0) + spreadFull);
         }
     }
 
-    private void step5() {
-        if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 1 + gridGeneration.buyMinGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
-            gridGeneration.step[currentTransaction] = 15;
+    private void step5(Grid grid) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1 + grid.getBuyMinGrid() < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
+            grid.setStep(15);
             printStep();
-
-            system3Point = system3Point + gridGeneration.sizeGrid[currentTransaction] * (fibonacci1000 - fibonacci0382) - spreadFull;
+            system3Point = system3Point + grid.getSizeGrid() * (fibonacci1000 - fibonacci0382) - spreadFull;
             classicClose++;
-        } else if (gridGeneration.buyMinGrid[currentTransaction] + 0.02000 > gridGeneration.getPriceList().get(i).getMinPrice()) {
-            systemClassicPoint = systemClassicPoint - gridGeneration.sizeGrid[currentTransaction] * (1) - 2000 - spreadFull;
-            system3Point = system3Point - gridGeneration.sizeGrid[currentTransaction] * (fibonacci0382 - 0) - 2000 - spreadFull;
+        } else if (grid.getBuyMinGrid() + 0.02000 > gridGeneration.getPriceList().get(i).getMinPrice()) {
+            systemClassicPoint = systemClassicPoint - grid.getSizeGrid() * (1) - 2000 - spreadFull;
+            system3Point = system3Point - grid.getSizeGrid() * (fibonacci0382 - 0) - 2000 - spreadFull;
             classicClose++;
-            //system3Point=SL
-            // SLFibo0[currentTransaction] = 1;
-            // end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
+            grid.setStep(15);
             printStep();
             system4count++;
-        } else {
-            gridGeneration.step[currentTransaction] = 6;
         }
     }
 
-    private void step6() {
-        if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 0.618 + gridGeneration.buyMinGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
+    private void step6(Grid grid) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.618 + grid.getBuyMinGrid() < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
             ACopen[currentTransaction] = 1;
-            //OrderModify 3
-            gridGeneration.step[currentTransaction] = 7;
+            grid.setStep(7);
             printStep();
-        } else if (gridGeneration.buyMinGrid[currentTransaction] > gridGeneration.getPriceList().get(i).getMinPrice()) {
-            // system3Point = system3Point - (gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * (0.382);
-            //system3Point=SL
-            system6Point = system6Point - gridGeneration.sizeGrid[currentTransaction] * (fibonacci0382 - 0) - spreadFull;
+        } else if (grid.getBuyMinGrid() > gridGeneration.getPriceList().get(i).getMinPrice()) {
+            system6Point = system6Point - grid.getSizeGrid() * (fibonacci0382 - 0) - spreadFull;
             SLFibo0[currentTransaction] = 1;
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
+            grid.setStep(15);
             printStep();
-        } else {
-            gridGeneration.step[currentTransaction] = 6;
         }
     }
 
-    private void step7() {
-        if (gridGeneration.buyMaxGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice()) {
+    private void step7(Grid grid) {
+        if (grid.getBuyMaxGrid() < gridGeneration.getPriceList().get(i).getMaxPrice()) {
             ACclassic[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 8;
+            grid.setStep(8);
             printStep();
             classicOpen++;
-        } else if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 0.382 + gridGeneration.buyMinGrid[currentTransaction] > gridGeneration.getPriceList().get(i).getMinPrice() - spread) {
-            // system1Point = system1Point - (gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * (0.618 - 0.382);
-            system4Point = system4Point - gridGeneration.sizeGrid[currentTransaction] * (fibonacci0618 - fibonacci0382) - spreadFull;
+        } else if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() > gridGeneration.getPriceList().get(i).getMinPrice() - spread) {
+            system4Point = system4Point - grid.getSizeGrid() * (fibonacci0618 - fibonacci0382) - spreadFull;
             SLFibo38[currentTransaction] = 1;
             unprofitableDeals++;
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 9;
+            grid.setStep(9);
             printStep();
-        } else {
-            gridGeneration.step[currentTransaction] = 7;
         }
     }
 
-    private void step8() {
-        if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 1.618 + gridGeneration.buyMinGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
+    private void step8(Grid grid) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1.618 + grid.getBuyMinGrid() < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
             TPAC[currentTransaction] = 1;
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
-            // TakeProfit.set(1,2);
+            grid.setStep(15);
             printStep();
-            system4Point += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 0.618) - spreadFull;
-            system5Point += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 0.618) - spreadFull;
-            system6Point += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 0.382) - spreadFull;
-//            System.out.println(currentTransaction);
-//            System.out.println((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 100000);
+            system4Point += grid.getSizeGrid() * (1.618 - 0.618) - spreadFull;
+            system5Point += grid.getSizeGrid() * (1.618 - 0.618) - spreadFull;
+            system6Point += grid.getSizeGrid() * (1.618 - 0.382) - spreadFull;
             profitableDeals++;
             classicClose++;
-        } else if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 0.618 + gridGeneration.buyMinGrid[currentTransaction] > gridGeneration.getPriceList().get(i).getMinPrice() - spread) {
-            system6Point = system6Point + gridGeneration.sizeGrid[currentTransaction] * (fibonacci0618 - fibonacci0382) - spreadFull;
+        } else if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.618 + grid.getBuyMinGrid() > gridGeneration.getPriceList().get(i).getMinPrice() - spread) {
+            system6Point = system6Point + grid.getSizeGrid() * (fibonacci0618 - fibonacci0382) - spreadFull;
             BUACFibo61[currentTransaction] = 1;
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 10;
-            printStep();
-        } else {
-            gridGeneration.step[currentTransaction] = 8;
-        }
-    }
-
-    private void step9() {
-        if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 1.618 + gridGeneration.buyMinGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
-            //TPAC[currentTransaction] = 1;
-            end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
-            printStep();
-            //TakeProfit.insert(1);
-            //  classicClose++;
-            system5Point += gridGeneration.sizeGrid[currentTransaction] * (1.618 - 0.618) - spreadFull;
-        } else if (gridGeneration.buyMinGrid[currentTransaction] > gridGeneration.getPriceList().get(i).getMinPrice()) {
-            system5Point = system5Point - gridGeneration.sizeGrid[currentTransaction] * (fibonacci0618 - 0) - spreadFull;
-// SLFibo0[currentTransaction] = 1;
-            end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
+            grid.setStep(10);
             printStep();
         }
     }
 
-    private void step10() {
-        if ((gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]) * 1.618 + gridGeneration.buyMinGrid[currentTransaction] < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
-//            System.out.println(gridGeneration.minGrid);
-//            System.out.println(gridGeneration.getPriceM2List().get(gridGeneration.i).getMaxPrice());
-            //TPAC[currentTransaction] = 1;
+    private void step9(Grid grid) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1.618 + grid.getBuyMinGrid() < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
+            grid.setStep(15);
             printStep();
-            // TakeProfit.insert(1);
-            classicClose++;
-        } else if (gridGeneration.buyMinGrid[currentTransaction] > gridGeneration.getPriceList().get(i).getMinPrice()) {
-            systemClassicPoint = systemClassicPoint - gridGeneration.sizeGrid[currentTransaction] * (fibonacci1618 - fibonacci1000) - spreadFull;
+            system5Point += grid.getSizeGrid() * (1.618 - 0.618) - spreadFull;
+        } else if (grid.getBuyMinGrid() > gridGeneration.getPriceList().get(i).getMinPrice()) {
+            system5Point = system5Point - grid.getSizeGrid() * (fibonacci0618 - 0) - spreadFull;
             end[currentTransaction] = 1;
-            gridGeneration.step[currentTransaction] = 15;
+            grid.setStep(15);
+            printStep();
+        }
+    }
+
+    private void step10(Grid grid) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1.618 + grid.getBuyMinGrid() < gridGeneration.getPriceList().get(i).getMaxPrice() - spread) {
+            end[currentTransaction] = 1;
+            grid.setStep(15);
             printStep();
             classicClose++;
-
+        } else if (grid.getBuyMinGrid() > gridGeneration.getPriceList().get(i).getMinPrice()) {
+            systemClassicPoint = systemClassicPoint - grid.getSizeGrid() * (fibonacci1618 - fibonacci1000) - spreadFull;
+            end[currentTransaction] = 1;
+            grid.setStep(15);
+            printStep();
+            classicClose++;
         }
-    }
-
-    private void f1000() {
-        f100 = (gridGeneration.buyMaxGrid[currentTransaction] - gridGeneration.buyMinGrid[currentTransaction]);
     }
 
     private void printStep() {

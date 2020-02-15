@@ -12,6 +12,7 @@ public class Grid {
     private int buyPulseCount;
     private int buyRollbackCount;
     private float sizeGrid;
+    private int step;
 
     public Grid(Calendar buyDataValue, float buyMaxGrid, float buyMinGrid, int buyPulseCount, int buyRollbackCount) {
         this.buyDataValue = buyDataValue;
