@@ -1,8 +1,8 @@
 package forex.processing;
 
-import java.util.Calendar;
-
 import lombok.Data;
+
+import java.util.Calendar;
 
 @Data
 public class Grid {
@@ -11,7 +11,7 @@ public class Grid {
     private float buyMinGrid;
     private int buyPulseCount;
     private int buyRollbackCount;
-    private double sizeGrid;
+    private float sizeGrid;
 
     public Grid(Calendar buyDataValue, float buyMaxGrid, float buyMinGrid, int buyPulseCount, int buyRollbackCount) {
         this.buyDataValue = buyDataValue;
