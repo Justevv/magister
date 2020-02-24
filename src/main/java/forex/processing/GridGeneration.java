@@ -28,10 +28,12 @@ public class GridGeneration {
         this.priceList = priceList;
         SimpleGrid simpleGrid = new SimpleGrid();
         for (int i = 0; i < priceList.size(); i++) {
-            if (priceList.get(i).getDateValue().get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {                       //во вторник ставим ожидание понедельника
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(priceList.get(i).getDateValue());
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {                       //во вторник ставим ожидание понедельника
                 simpleGrid.setFirstDay(true);
             }
-            if (priceList.get(i).getDateValue().get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && simpleGrid.isFirstDay()) {    //сброс в понедельник
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && simpleGrid.isFirstDay()) {    //сброс в понедельник
                 simpleGrid.setMinGrid(priceList.get(i).getMinPrice());
                 simpleGrid.setMaxGrid(0);
                 simpleGrid.setPulseCount(1);
@@ -39,7 +41,7 @@ public class GridGeneration {
                 simpleGrid.setFirstDay(false);
             }
             if (processGrid(simpleGrid, priceList.get(i))) {
-                Grid grid = new Grid(priceList.get(i).getDateValue(), simpleGrid.getMaxGrid(), simpleGrid.getMinGrid(), simpleGrid.getPulseCount(), simpleGrid.getRollbackCount());
+                Grid grid = new Grid(calendar, simpleGrid.getMaxGrid(), simpleGrid.getMinGrid(), simpleGrid.getPulseCount(), simpleGrid.getRollbackCount());
                 buy(grid, i);
                 simpleGrid.setMinGrid(simpleGrid.getRecLow());  // reset
                 simpleGrid.setPulseCount(1);
@@ -110,12 +112,16 @@ public class GridGeneration {
         ) {
             grids.add(grid);
             for (int j = 0; j < priceListM3.size(); j++) {
-                if (priceListM3.get(j).getDateValue().after(priceList.get(i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2).getDateValue())) {
-                    if (priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
-                        List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
-                        workM3 = processM3(m3);
-                        break;
+                try {
+                    if (priceListM3.get(j).getDateValue().after(priceList.get(i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2).getDateValue())) {
+                        if (priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
+                            List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
+                            workM3 = processM3(m3);
+                            break;
+                        }
                     }
+                } catch (Exception e) {
+//                    System.out.println(e);
                 }
             }
             if (workM3) {

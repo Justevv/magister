@@ -98,8 +98,7 @@ public class Result {
     }
 
     private void step1(Grid grid) {
-        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() >
-                price.getMinPrice()) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() > price.getMinPrice()) {
             MOFibo38[currentTransaction] = 1;
             grid.setStep(6);
             printStep();

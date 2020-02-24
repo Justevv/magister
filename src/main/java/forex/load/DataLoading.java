@@ -8,10 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class DataLoading {
     private static final Logger LOGGER = LogManager.getLogger(DataLoading.class);
@@ -33,17 +30,17 @@ public class DataLoading {
         boolean stop = false;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.ENGLISH);
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
+            Date parsingDate = null;
             while ((line = br.readLine()) != null) {
                 if (line.contains(filterYearString) || !filter) {
                     stop = true;
                     String[] row = line.split(CVS_SPLIT_BY);
-                    Calendar calendar = Calendar.getInstance();
                     try {
-                        calendar.setTime(dateFormat.parse(row[0].concat(" ").concat(row[1])));
+                        parsingDate = dateFormat.parse(row[0].concat(" ").concat(row[1]));
                     } catch (ParseException e) {
                         System.out.println("Нераспаршена с помощью " + dateFormat);
                     }
-                    priceM1.add(new Price(calendar, Float.parseFloat(row[3]), Float.parseFloat(row[4])));
+                    priceM1.add(new Price(parsingDate, Float.parseFloat(row[3]), Float.parseFloat(row[4])));
                 } else if (stop) {
                     break;
                 }
