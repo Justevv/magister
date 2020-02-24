@@ -10,9 +10,12 @@ import forex.processing.Result;
 import java.util.List;
 
 public class Main extends Thread {
+    public static int size = 400000;    //Размер массивов
+    private static final boolean filter = true;
     private static final String eurUSD1 = "eurUSD1.csv";
     private static final String audUSD1 = "audUSD1.csv";
     private static final String gbpUSD1 = "gbpUSD1.csv";
+    private static final String filterYearString = "2018.";
     private String CSV_FILE;
     private static long startTime;
 
@@ -22,6 +25,9 @@ public class Main extends Thread {
 
     public static void main(String[] args) {
         startTime = System.currentTimeMillis();    //время выполнения программы
+        if (!filter) {
+            size = 4000000;
+        }
         Main main1 = new Main(audUSD1);
         main1.start();
         Main main = new Main(eurUSD1);
@@ -38,7 +44,7 @@ public class Main extends Thread {
         GridGeneration gridGeneration = new GridGeneration();
         ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
         ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
-        DataLoading dataLoading = new DataLoading();
+        DataLoading dataLoading = new DataLoading(filterYearString, filter);
         Result result = new Result();
         long timeSpent;
         List<Price> priceM1s = dataLoading.run(CSV_FILE);

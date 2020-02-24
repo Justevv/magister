@@ -1,5 +1,6 @@
 package forex.load;
 
+import forex.Main;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,21 +9,24 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class DataLoading {
     private static final Logger LOGGER = LogManager.getLogger(DataLoading.class);
     private static final String CVS_SPLIT_BY = ",";
-    private static final boolean filter = true;
-    public static int size = 400000;    //Размер массивов
-    private String filterYearString = "2018.";
-    private List<Price> priceM1 = new ArrayList<>(size);
+    private List<Price> priceM1 = new ArrayList<>(Main.size);
+    private String filterYearString;
+    private boolean filter = false;
 
     public DataLoading() {
     }
 
-    public DataLoading(String filterYearString) {
+    public DataLoading(String filterYearString, boolean filter) {
         this.filterYearString = filterYearString;
+        this.filter = filter;
     }
 
     public List<Price> run(String CSV_FILE) {
