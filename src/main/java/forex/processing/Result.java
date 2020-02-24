@@ -60,37 +60,40 @@ public class Result {
     public void processing(Price price) {
         this.price = price;
         currentTransaction = 0;
-        for (Grid grid : workGrid) {
-            switch (grid.getStep()) {
+        for (int i = 0; i < workGrid.size(); i++) {
+            switch (workGrid.get(i).getStep()) {
                 case 1:
-                    step1(grid);
+                    step1(workGrid.get(i));
                     break;
                 case 2:
-                    step2(grid);
+                    step2(workGrid.get(i));
                     break;
                 case 3:
-                    step3(grid);
+                    step3(workGrid.get(i));
                     break;
                 case 4:
-                    step4(grid);
+                    step4(workGrid.get(i));
                     break;
                 case 5:
-                    step5(grid);
+                    step5(workGrid.get(i));
                     break;
                 case 6:
-                    step6(grid);
+                    step6(workGrid.get(i));
                     break;
                 case 7:
-                    step7(grid);
+                    step7(workGrid.get(i));
                     break;
                 case 8:
-                    step8(grid);
+                    step8(workGrid.get(i));
                     break;
                 case 9:
-                    step9(grid);
+                    step9(workGrid.get(i));
                     break;
                 case 10:
-                    step10(grid);
+                    step10(workGrid.get(i));
+                    break;
+                case 15:
+                    workGrid.remove(workGrid.get(i));
                     break;
             }
             currentTransaction++;
