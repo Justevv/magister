@@ -20,8 +20,6 @@ public class ConvertM1ToM3 {
             newCalendar.setTime(priceM1List.get(m2).getDateValue());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(priceM1List.get(m2).getDateValue());
-            Calendar calendar1 = Calendar.getInstance();
-            calendar1.setTime(priceM1List.get(m2 + 1).getDateValue());
             Calendar calendar2 = Calendar.getInstance();
             calendar2.setTime(priceM1List.get(m2 + 2).getDateValue());
             newCalendar.add(Calendar.MINUTE, 2);
@@ -30,6 +28,8 @@ public class ConvertM1ToM3 {
                 price.setMinPrice(Math.min(priceM1List.get(m2 + 2).getMinPrice(), Math.min(priceM1List.get(m2).getMinPrice(), priceM1List.get(m2 + 1).getMinPrice())));
                 m2 += 2;
             } else {
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.setTime(priceM1List.get(m2 + 1).getDateValue());
                 Calendar newCalendar2 = new GregorianCalendar();
                 newCalendar2.setTime(priceM1List.get(m2).getDateValue());
                 newCalendar2.add(Calendar.MINUTE, 1);
