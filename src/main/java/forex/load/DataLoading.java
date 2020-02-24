@@ -19,7 +19,7 @@ public class DataLoading {
     private static final String CVS_SPLIT_BY = ",";
     private List<Price> priceM1 = new ArrayList<>(Main.size);
     private String filterYearString;
-    private boolean filter = false;
+    private boolean filter;
 
     public DataLoading() {
     }

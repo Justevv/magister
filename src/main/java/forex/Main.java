@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Main extends Thread {
     public static int size = 400000;    //Размер массивов
-    private static final boolean filter = true;
+    private static final boolean filter = false;
     private static final String eurUSD1 = "eurUSD1.csv";
     private static final String audUSD1 = "audUSD1.csv";
     private static final String gbpUSD1 = "gbpUSD1.csv";
@@ -51,8 +51,12 @@ public class Main extends Thread {
         timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
         System.out.println("download выполнялась " + timeSpent + " миллисекунд");
         gridGeneration.setResult(result);
-        gridGeneration.setPriceListM3(convertM1ToM3.convert(priceM1s));
-        gridGeneration.process(convertM1ToM2.convert(priceM1s));
+        List<Price> priceM2s = convertM1ToM2.convert(priceM1s);
+        System.out.println("convert to M2 выполнялась " + timeSpent + " миллисекунд");
+        List<Price> priceM3s = convertM1ToM3.convert(priceM1s);
+        System.out.println("convert to M3 выполнялась " + timeSpent + " миллисекунд");
+        gridGeneration.setPriceListM3(priceM3s);
+        gridGeneration.process(priceM2s);
         System.out.println("Итог1 " + result.system1Point * 1 + " пунктов");
         System.out.println("Итог2 " + result.system2Point * 1 + " пунктов");
         System.out.println("Итог3 " + result.system3Point * 1 + " пунктов");
