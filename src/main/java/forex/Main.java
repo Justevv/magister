@@ -11,7 +11,7 @@ import forex.processing.Result;
 
 public class Main extends Thread {
     public static int size = 400000;    //Размер массивов
-    private static final boolean filter = false;
+    private static final boolean filter = true;
     private static final String eurUSD1 = "eurUSD1.csv";
     private static final String audUSD1 = "audUSD1.csv";
     private static final String gbpUSD1 = "gbpUSD1.csv";
@@ -48,24 +48,20 @@ public class Main extends Thread {
         System.out.println("download выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
         gridGeneration.setResult(result);
         List<Price> priceM2s = convertM1ToM2.convert(priceM1s);
-        System.out.println("convert to M2 выполнялась " + (System.currentTimeMillis() - startTime)  + " миллисекунд");
+        System.out.println("convert to M2 выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
         List<Price> priceM3s = convertM1ToM3.convert(priceM1s);
-        System.out.println("convert to M3 выполнялась " + (System.currentTimeMillis() - startTime)  + " миллисекунд");
+        System.out.println("convert to M3 выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
         gridGeneration.setPriceListM3(priceM3s);
         gridGeneration.process(priceM2s);
-        System.out.println("Итог1 " + result.system1Point * 1 + " пунктов");
-        System.out.println("Итог2 " + result.system2Point * 1 + " пунктов");
-        System.out.println("Итог3 " + result.system3Point * 1 + " пунктов");
-        System.out.println("Итог4 " + result.system4Point * 1 + " пунктов");
-        System.out.println("Итог5 " + result.system5Point * 1 + " пунктов");
-        System.out.println("Итог6 " + result.system6Point * 1 + " пунктов");
-        System.out.println("Итог7 " + result.system7Point * 1 + " пунктов");
-        System.out.println("Итог классика " + result.systemClassicPoint * 1 + " пунктов");
-        float allResult = result.system1Point + result.system2Point + result.system3Point +
-                result.system4Point + result.system5Point + result.system6Point + result.system7Point;
+        float allResult = 0;
+        for (int i = 0; i < result.getResult().size(); i++) {
+            float currentResult = result.getResult().get(i);
+            System.out.println("Итог " + (i + 1) + " " + currentResult * 1 + " пунктов");
+            allResult += currentResult;
+        }
         System.out.println("All result " + allResult);
         System.out.println(gridGeneration.getGrids().size());
-        System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime)  + " миллисекунд");
+        System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
 }

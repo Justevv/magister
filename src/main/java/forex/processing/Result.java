@@ -1,9 +1,10 @@
 package forex.processing;
 
-import forex.load.Price;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import forex.load.Price;
 
 public class Result {
 
@@ -26,6 +27,7 @@ public class Result {
     private int BUACFibo61[] = new int[countDeal];
     private int SL[] = new int[countDeal];
     private int TP[] = new int[countDeal];
+    private List<Float> point = Arrays.asList(0f, 0f, 0f, 0f);
     public float system1Point = 0;
     public float system2Point = 0;
     public float system3Point = 0;
@@ -33,18 +35,13 @@ public class Result {
     public float system5Point = 0;
     public float system6Point = 0;
     public float system7Point = 0;
-    public float system8Point = 0;
-    public float system9Point = 0;
     public float systemClassicPoint = 0;
-    private int system4count = 0;
     private int classicOpen = 0;
     private int classicClose = 0;
     private int unprofitableDeals = 0;
     private int profitableDeals = 0;
-    private float f100 = 0;
     private float spread = 0.00020f;
     private float spreadFull = 20;
-    private float pips[] = new float[countDeal];
     private float fibonacci0382 = 0.382f;
     private float fibonacci0618 = 0.618f;
     private float fibonacci1000 = 1f;
@@ -52,6 +49,15 @@ public class Result {
     private Price price;
     private int currentTransaction;
     private List<Grid> workGrid = new ArrayList<>();
+
+    public List<Float> getPoint() {
+        return point;
+    }
+
+    public List<Float> getResult() {
+        return Arrays.asList(system1Point, system2Point, system3Point, system4Point, system5Point, system6Point,
+                system7Point, systemClassicPoint);
+    }
 
     public void addWorkGrid(Grid grid) {
         workGrid.add(grid);
@@ -134,6 +140,7 @@ public class Result {
             grid.setStep(15);
             printStep();
             system1Point += grid.getSizeGrid() * (1.618 - 0.618) - spreadFull;
+            point.set(0, point.get(0) + grid.getSizeGrid() * (fibonacci1618 - fibonacci0618) - spreadFull);
             system2Point += grid.getSizeGrid() * (1.618 - 0.618) - spreadFull;
             systemClassicPoint += grid.getSizeGrid() * (1.618 - 1.0) - spreadFull;
             profitableDeals++;
@@ -144,9 +151,9 @@ public class Result {
             grid.setStep(4);
             printStep();
             system1Point -= grid.getSizeGrid() * (fibonacci0618 - fibonacci0382) + spreadFull;
+            point.set(0, point.get(0) - grid.getSizeGrid() * (fibonacci0618 - fibonacci0382) - spreadFull);
         }
     }
-
 
     private void step4(Grid grid) {
         if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1.618 + grid.getBuyMinGrid() < price.getMaxPrice() - spread) {
@@ -158,7 +165,6 @@ public class Result {
             system2Point += grid.getSizeGrid() * (1.618 - 0.618) - spreadFull;
             system3Point += grid.getSizeGrid() * (1.618 - 0.382) - spreadFull;
             system7Point += grid.getSizeGrid() * (1.618 - 0.382) - spreadFull;
-            pips[currentTransaction] = grid.getSizeGrid() * (fibonacci1618 - fibonacci0382) - spreadFull;
             classicClose++;
         } else if (grid.getBuyMinGrid() > price.getMinPrice()) {
             SLclassic[currentTransaction] = 1;
@@ -167,7 +173,6 @@ public class Result {
             printStep();
             system2Point -= grid.getSizeGrid() * (fibonacci0618 - 0) + spreadFull;
             system7Point -= grid.getSizeGrid() * (fibonacci0382 - 0) + spreadFull;
-            pips[currentTransaction] = -(grid.getSizeGrid() * (fibonacci0382 - 0) + spreadFull);
         }
     }
 
@@ -183,7 +188,6 @@ public class Result {
             classicClose++;
             grid.setStep(15);
             printStep();
-            system4count++;
         }
     }
 
