@@ -1,13 +1,13 @@
 package forex;
 
+import java.util.List;
+
 import forex.load.ConvertM1ToM2;
 import forex.load.ConvertM1ToM3;
 import forex.load.DataLoading;
 import forex.load.Price;
 import forex.processing.GridGeneration;
 import forex.processing.Result;
-
-import java.util.List;
 
 public class Main extends Thread {
     public static int size = 400000;    //Размер массивов
@@ -34,27 +34,23 @@ public class Main extends Thread {
         main.start();
         Main main2 = new Main(gbpUSD1);
         main2.start();
-        long timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
-        System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
+        System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
     @Override
     public void run() {
-//        long startTime = System.currentTimeMillis();    //время выполнения программы
         GridGeneration gridGeneration = new GridGeneration();
         ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
         ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
         DataLoading dataLoading = new DataLoading(filterYearString, filter);
         Result result = new Result();
-        long timeSpent;
         List<Price> priceM1s = dataLoading.run(CSV_FILE);
-        timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
-        System.out.println("download выполнялась " + timeSpent + " миллисекунд");
+        System.out.println("download выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
         gridGeneration.setResult(result);
         List<Price> priceM2s = convertM1ToM2.convert(priceM1s);
-        System.out.println("convert to M2 выполнялась " + timeSpent + " миллисекунд");
+        System.out.println("convert to M2 выполнялась " + (System.currentTimeMillis() - startTime)  + " миллисекунд");
         List<Price> priceM3s = convertM1ToM3.convert(priceM1s);
-        System.out.println("convert to M3 выполнялась " + timeSpent + " миллисекунд");
+        System.out.println("convert to M3 выполнялась " + (System.currentTimeMillis() - startTime)  + " миллисекунд");
         gridGeneration.setPriceListM3(priceM3s);
         gridGeneration.process(priceM2s);
         System.out.println("Итог1 " + result.system1Point * 1 + " пунктов");
@@ -69,8 +65,7 @@ public class Main extends Thread {
                 result.system4Point + result.system5Point + result.system6Point + result.system7Point;
         System.out.println("All result " + allResult);
         System.out.println(gridGeneration.getGrids().size());
-        timeSpent = System.currentTimeMillis() - startTime;//время выполнения программы
-        System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
+        System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime)  + " миллисекунд");
     }
 
 }
