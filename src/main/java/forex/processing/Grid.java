@@ -1,8 +1,8 @@
 package forex.processing;
 
-import lombok.Data;
-
 import java.util.Calendar;
+
+import lombok.Data;
 
 @Data
 public class Grid {

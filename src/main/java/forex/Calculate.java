@@ -9,18 +9,18 @@ import forex.load.Price;
 import forex.processing.GridGeneration;
 import forex.processing.Result;
 
-public class Main extends Thread {
+public class Calculate extends Thread {
     public static int size = 400000;    //Размер массивов
     private static final boolean filter = true;
     private static final String eurUSD1 = "eurUSD1.csv";
     private static final String audUSD1 = "audUSD1.csv";
     private static final String gbpUSD1 = "gbpUSD1.csv";
     private static final String filterYearString = "2018.";
-    private String CSV_FILE;
+    private String csvFile;
     private static long startTime;
 
-    public Main(String CSV_FILE) {
-        this.CSV_FILE = CSV_FILE;
+    public Calculate(String csvFile) {
+        this.csvFile = csvFile;
     }
 
     public static void main(String[] args) {
@@ -28,12 +28,12 @@ public class Main extends Thread {
         if (!filter) {
             size = 4000000;
         }
-        Main main1 = new Main(audUSD1);
-        main1.start();
-        Main main = new Main(eurUSD1);
-        main.start();
-        Main main2 = new Main(gbpUSD1);
-        main2.start();
+        Calculate calculateAudUSD1 = new Calculate(audUSD1);
+        calculateAudUSD1.start();
+        Calculate calculateEurUSD1 = new Calculate(eurUSD1);
+        calculateEurUSD1.start();
+        Calculate calculateGbpUSD1 = new Calculate(gbpUSD1);
+        calculateGbpUSD1.start();
         System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
@@ -44,7 +44,7 @@ public class Main extends Thread {
         ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
         DataLoading dataLoading = new DataLoading(filterYearString, filter);
         Result result = new Result();
-        List<Price> priceM1s = dataLoading.run(CSV_FILE);
+        List<Price> priceM1s = dataLoading.run(csvFile);
         System.out.println("download выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
         gridGeneration.setResult(result);
         List<Price> priceM2s = convertM1ToM2.convert(priceM1s);

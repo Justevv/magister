@@ -1,6 +1,6 @@
 package forex.load;
 
-import forex.Main;
+import forex.Calculate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +17,7 @@ import java.util.Locale;
 public class DataLoading {
     private static final Logger LOGGER = LogManager.getLogger(DataLoading.class);
     private static final String CVS_SPLIT_BY = ",";
-    private List<Price> priceM1 = new ArrayList<>(Main.size);
+    private List<Price> priceM1 = new ArrayList<>(Calculate.size);
     private String filterYearString;
     private boolean filter;
 

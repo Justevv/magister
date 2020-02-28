@@ -1,16 +1,16 @@
 package forex.load;
 
-import forex.Main;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import forex.Calculate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ConvertM1ToM2 {
     private static final Logger LOGGER = LogManager.getLogger(ConvertM1ToM2.class);
-    private List<Price> prices = new ArrayList<>((int)(Main.size * 0.51));
+    private List<Price> prices = new ArrayList<>((int)(Calculate.size * 0.51));
 
     public List<Price> convert(List<Price> priceM1List) {
         for (int m2 = 0; m2 < priceM1List.size() - 1; m2++) {
