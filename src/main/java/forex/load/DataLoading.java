@@ -1,9 +1,5 @@
 package forex.load;
 
-import forex.Calculate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import forex.Calculate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DataLoading {
     private static final Logger LOGGER = LogManager.getLogger(DataLoading.class);
@@ -29,11 +29,11 @@ public class DataLoading {
         this.filter = filter;
     }
 
-    public List<Price> run(String CSV_FILE) {
+    public List<Price> run(String csvFile) {
         String line;
         boolean stop = false;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.ENGLISH);
-        try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             Date parsingDate = null;
             while ((line = br.readLine()) != null) {
                 if (line.contains(filterYearString) || !filter) {
@@ -42,7 +42,7 @@ public class DataLoading {
                     try {
                         parsingDate = dateFormat.parse(row[0].concat(" ").concat(row[1]));
                     } catch (ParseException e) {
-                        System.out.println("Нераспаршена с помощью " + dateFormat);
+                        LOGGER.warn("Error parsing date");
                     }
                     priceM1.add(new Price(parsingDate, Float.parseFloat(row[3]), Float.parseFloat(row[4])));
                 } else if (stop) {
@@ -50,7 +50,7 @@ public class DataLoading {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.fatal(e);
         }
         return priceM1;
     }
