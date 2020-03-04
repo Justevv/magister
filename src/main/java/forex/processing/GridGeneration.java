@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import forex.load.ConvertM1ToM3;
 import forex.load.Price;
 
 public class GridGeneration {
@@ -13,7 +12,7 @@ public class GridGeneration {
     private List<Price> priceList;
     private List<Price> priceListM1;
     private List<Price> priceListM3;
-    private ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
+    ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
 
     public List<Grid> getGrids() {
         return grids;
@@ -136,6 +135,10 @@ public class GridGeneration {
                 buyOpen(grid, i);
             }
         }
+    }
+
+    private void checkEma(int emaPeriod, int j, Grid grid) {
+        List<Price> m3 = priceListM3.subList(j - emaPeriod, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
     }
 
     private void buyOpen(Grid grid, int i) {
