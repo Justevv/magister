@@ -1,16 +1,19 @@
 package forex.processing;
 
-import forex.load.Price;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import forex.load.ConvertM1ToM3;
+import forex.load.Price;
 
 public class GridGeneration {
     private Result result;
     private List<Grid> grids = new ArrayList<>();
     private List<Price> priceList;
+    private List<Price> priceListM1;
     private List<Price> priceListM3;
+    private ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
 
     public List<Grid> getGrids() {
         return grids;
@@ -18,6 +21,10 @@ public class GridGeneration {
 
     public void setResult(Result result) {
         this.result = result;
+    }
+
+    public void setPriceListM1(List<Price> priceListM1) {
+        this.priceListM1 = priceListM1;
     }
 
     public void setPriceListM3(List<Price> priceListM3) {
@@ -111,9 +118,10 @@ public class GridGeneration {
 //                && ((priceList.get(i - rollbackCount).getDateValue().get(Calendar.HOUR_OF_DAY) <= 17))
         ) {
             grids.add(grid);
-            for (int j = 0; j < priceListM3.size(); j++) {
+            int m2Bar = i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2;
+            for (int j = (m2Bar) * 2 / 3; j < priceListM3.size(); j++) {
                 try {
-                    if (priceListM3.get(j).getDateValue().after(priceList.get(i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2).getDateValue())) {
+                    if (priceListM3.get(j).getDateValue().after(priceList.get(m2Bar).getDateValue())) {
                         if (priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
                             List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
                             workM3 = processM3(m3);

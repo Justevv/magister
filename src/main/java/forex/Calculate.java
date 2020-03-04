@@ -11,7 +11,7 @@ import forex.processing.Result;
 
 public class Calculate extends Thread {
     public static int size = 400000;    //Размер массивов
-    private static final boolean filter = true;
+    private static final boolean filter = false;
     private static final String eurUSD1 = "eurUSD1.csv";
     private static final String audUSD1 = "audUSD1.csv";
     private static final String gbpUSD1 = "gbpUSD1.csv";
@@ -51,6 +51,7 @@ public class Calculate extends Thread {
         System.out.println("convert to M2 выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
         List<Price> priceM3s = convertM1ToM3.convert(priceM1s);
         System.out.println("convert to M3 выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
+        gridGeneration.setPriceListM1(priceM1s);
         gridGeneration.setPriceListM3(priceM3s);
         gridGeneration.process(priceM2s);
         float allResult = 0;
