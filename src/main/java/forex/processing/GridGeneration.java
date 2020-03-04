@@ -109,9 +109,9 @@ public class GridGeneration {
     private void buy(Grid grid, int i) {
         boolean workM3 = false;
         if (grid.getSizeGrid() >= 300
-//                && sizeGrid[transactionCount] <= 600
-//                && buyPulseCount[transactionCount] >= 2
-//                && buyPulseCount[transactionCount] <= 90
+//                && grid.getSizeGrid() <= 600
+//                && grid.getBuyPulseCount() >= 2
+//                && grid.getBuyPulseCount() <= 90
 //                && ((grid.getBuyDataValue().get(Calendar.HOUR_OF_DAY) <= 17))
 //                && ((priceList.get(i - rollbackCount).getDateValue().get(Calendar.HOUR_OF_DAY) >= 7))
 //                && ((grid.getBuyDataValue().get(Calendar.HOUR_OF_DAY) >= 7 - (grid.getBuyRollbackCount() / 30)))
