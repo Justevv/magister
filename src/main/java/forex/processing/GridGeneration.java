@@ -157,7 +157,7 @@ public class GridGeneration {
         double[] arr = new double[m2.size()];
         double[] ema = null;
         for (int i = 0; i < m2.size(); i++) {
-            arr[i] = m2.get(i).getMaxPrice();
+            arr[i] = m2.get(i).getClosePrice();
         }
         try {
             ema = exponentialMovingAverage.calculate(arr, emaPeriod);

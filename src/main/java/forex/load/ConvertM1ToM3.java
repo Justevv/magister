@@ -1,13 +1,13 @@
 package forex.load;
 
-import forex.Calculate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import forex.Calculate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ConvertM1ToM3 {
     private static final Logger LOGGER = LogManager.getLogger(ConvertM1ToM3.class);
@@ -27,6 +27,7 @@ public class ConvertM1ToM3 {
             if ((calendar.get(Calendar.MINUTE) % 3) == 0 && newCalendar.equals(calendar2)) {
                 price.setMaxPrice(Math.max(priceM1List.get(m2 + 2).getMaxPrice(), Math.max(priceM1List.get(m2).getMaxPrice(), priceM1List.get(m2 + 1).getMaxPrice())));
                 price.setMinPrice(Math.min(priceM1List.get(m2 + 2).getMinPrice(), Math.min(priceM1List.get(m2).getMinPrice(), priceM1List.get(m2 + 1).getMinPrice())));
+                price.setClosePrice(priceM1List.get(m2 + 2).getClosePrice());
                 m2 += 2;
             } else {
                 Calendar calendar1 = Calendar.getInstance();
@@ -39,10 +40,12 @@ public class ConvertM1ToM3 {
                         newCalendar2.equals(calendar1))) {
                     price.setMaxPrice(Math.max(priceM1List.get(m2).getMaxPrice(), priceM1List.get(m2 + 1).getMaxPrice()));
                     price.setMinPrice(Math.min(priceM1List.get(m2).getMinPrice(), priceM1List.get(m2 + 1).getMinPrice()));
+                    price.setClosePrice(priceM1List.get(m2 + 1).getClosePrice());
                     m2++;
                 } else {
                     price.setMaxPrice(priceM1List.get(m2).getMaxPrice());
                     price.setMinPrice(priceM1List.get(m2).getMinPrice());
+                    price.setClosePrice(priceM1List.get(m2).getClosePrice());
                 }
             }
             prices.add(price);

@@ -44,7 +44,7 @@ public class DataLoading {
                     } catch (ParseException e) {
                         LOGGER.warn("Error parsing date");
                     }
-                    priceM1.add(new Price(parsingDate, Float.parseFloat(row[3]), Float.parseFloat(row[4])));
+                    priceM1.add(new Price(parsingDate, Float.parseFloat(row[3]), Float.parseFloat(row[4]), Float.parseFloat(row[5])));
                 } else if (stop) {
                     break;
                 }

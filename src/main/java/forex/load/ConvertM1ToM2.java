@@ -23,10 +23,12 @@ public class ConvertM1ToM2 {
             if ((calendar.get(Calendar.MINUTE) % 2) == 0 && (calendar1.get(Calendar.MINUTE) % 2) != 0) {
                 price.setMaxPrice(Math.max(priceM1List.get(m2).getMaxPrice(), priceM1List.get(m2 + 1).getMaxPrice()));
                 price.setMinPrice(Math.min(priceM1List.get(m2).getMinPrice(), priceM1List.get(m2 + 1).getMinPrice()));
+                price.setClosePrice(priceM1List.get(m2 + 1).getClosePrice());
                 m2++;
             } else {
                 price.setMaxPrice(priceM1List.get(m2).getMaxPrice());
                 price.setMinPrice(priceM1List.get(m2).getMinPrice());
+                price.setClosePrice(priceM1List.get(m2).getClosePrice());
             }
             prices.add(price);
             LOGGER.debug(price);
