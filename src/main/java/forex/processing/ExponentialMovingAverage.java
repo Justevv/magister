@@ -14,7 +14,7 @@ public class ExponentialMovingAverage {
     private double smoothingConstant;
     private double[] periodEma;
 
-    public ExponentialMovingAverage calculate(double[] prices, int period) throws Exception {
+    public double[] calculate(double[] prices, int period) throws Exception {
 
         if (period >= prices.length)
             throw new Exception("Given period is bigger then given set of prices");
@@ -46,29 +46,7 @@ public class ExponentialMovingAverage {
             this.periodEma[i] = NumberFormatter.round(this.periodEma[i]);
         }
 
-        return this;
-    }
-
-    public double[] getEMA() {
         return this.periodEma;
     }
 
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < this.prices.length; i++) {
-            sb.append(String.format("%02.5f", this.prices[i]));
-            sb.append(" ");
-            sb.append(String.format("%02.5f", this.periodSma[i]));
-            sb.append(" ");
-            sb.append(String.format("%02.5f", this.smoothingConstant));
-            sb.append(" ");
-            sb.append(String.format("%02.5f", this.periodEma[i]));
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
 }

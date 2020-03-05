@@ -124,6 +124,7 @@ public class GridGeneration {
                         if (priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
                             List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
                             workM3 = processM3(m3);
+                            checkEma(34, j, grid);
                             break;
                         }
                     }
@@ -137,8 +138,29 @@ public class GridGeneration {
         }
     }
 
-    private void checkEma(int emaPeriod, int j, Grid grid) {
+    private boolean checkEma(int emaPeriod, int j, Grid grid) {
+        boolean intersection = false;
         List<Price> m3 = priceListM3.subList(j - emaPeriod, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
+        double[] arr = new double[m3.size()];
+        double[] ema = null;
+        for (int i = 0; i < m3.size(); i++) {
+            arr[i] = m3.get(i).getMaxPrice();
+        }
+        try {
+            ema = exponentialMovingAverage.calculate(arr, emaPeriod);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < m3.size(); i++) {
+            if (priceList.get(j + i).getMaxPrice() >= ema[i] && priceList.get(j + i).getMinPrice() <= ema[i]) {
+                intersection = true;
+                System.out.println(ema[i]);
+                System.out.println(priceList.get(j + i));
+                break;
+            }
+        }
+//        System.out.println(Arrays.toString(ema));
+        return intersection;
     }
 
     private void buyOpen(Grid grid, int i) {
