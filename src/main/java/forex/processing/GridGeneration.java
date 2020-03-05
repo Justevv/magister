@@ -123,7 +123,7 @@ public class GridGeneration {
                     if (priceListM3.get(j).getDateValue().after(priceList.get(m2Bar).getDateValue())) {
                         if (priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
                             List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
-                            if (processM3(m3) && checkEma2(j, grid)) {
+                            if (processM3(m3) && checkEma(j, grid, priceListM3) && checkEma(i, grid, priceList)) {
                                 workM3 = true;
                             }
                             break;
@@ -139,11 +139,11 @@ public class GridGeneration {
         }
     }
 
-    private boolean checkEma2(int j, Grid grid) {
+    private boolean checkEma(int j, Grid grid, List<Price> priceList) {
         int[] emaPeriods = {34, 55, 89, 144, 233};
         boolean intersectionEma = false;
         for (int ema : emaPeriods) {
-            if (checkEma(ema, j, grid)) {
+            if (checkEmaBase(ema, j, grid, priceList)) {
                 intersectionEma = true;
                 break;
             }
@@ -151,30 +151,28 @@ public class GridGeneration {
         return intersectionEma;
     }
 
-    private boolean checkEma(int emaPeriod, int j, Grid grid) {
+    private boolean checkEmaBase(int emaPeriod, int j, Grid grid, List<Price> priceList) {
         boolean intersection = false;
-        List<Price> m3 = priceListM3.subList(j - emaPeriod, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
-        double[] arr = new double[m3.size()];
+        List<Price> m2 = priceList.subList(j - emaPeriod, j + grid.getBuyPulseCount());
+        double[] arr = new double[m2.size()];
         double[] ema = null;
-        for (int i = 0; i < m3.size(); i++) {
-            arr[i] = m3.get(i).getMaxPrice();
+        for (int i = 0; i < m2.size(); i++) {
+            arr[i] = m2.get(i).getMaxPrice();
         }
         try {
             ema = exponentialMovingAverage.calculate(arr, emaPeriod);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < m3.size(); i++) {
-            if (priceListM3.get(j + i).getMaxPrice() >= ema[i] && priceListM3.get(j + i).getMinPrice() <= ema[i]) {
+        for (int i = 0; i < m2.size(); i++) {
+            if (priceList.get(j + i).getMaxPrice() >= ema[i] && priceList.get(j + i).getMinPrice() <= ema[i]) {
                 intersection = true;
-//                System.out.println(ema[i]);
-//                System.out.println(priceList.get(j + i));
                 break;
             }
         }
-//        System.out.println(Arrays.toString(ema));
         return intersection;
     }
+
 
     private void buyOpen(Grid grid, int i) {
         grid.setStep(1);
