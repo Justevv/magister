@@ -6,10 +6,6 @@ import java.util.Arrays;
  * Exponential Moving Average
  */
 public class ExponentialMovingAverage {
-
-    private double[] prices;
-    private int period;
-
     private double[] periodSma;
     private double smoothingConstant;
     private double[] periodEma;
@@ -19,19 +15,17 @@ public class ExponentialMovingAverage {
         if (period >= prices.length)
             throw new Exception("Given period is bigger then given set of prices");
 
-        this.prices = prices;
-        this.period = period;
 
-        this.smoothingConstant = 2d / (this.period + 1);
+        this.smoothingConstant = 2d / (period + 1);
 
-        this.periodSma = new double[this.prices.length];
-        this.periodEma = new double[this.prices.length];
+        this.periodSma = new double[prices.length];
+        this.periodEma = new double[prices.length];
 
         SimpleMovingAverage sma = new SimpleMovingAverage();
 
-        for (int i = (period - 1); i < this.prices.length; i++) {
-            double[] slice = Arrays.copyOfRange(this.prices, 0, i + 1);
-            double[] smaResults = sma.calculate(slice, this.period).getSMA();
+        for (int i = (period - 1); i < prices.length; i++) {
+            double[] slice = Arrays.copyOfRange(prices, 0, i + 1);
+            double[] smaResults = sma.calculate(slice, period).getSMA();
             this.periodSma[i] = smaResults[smaResults.length - 1];
 
             if (i == (period - 1)) {
@@ -39,7 +33,7 @@ public class ExponentialMovingAverage {
             } else if (i > (period - 1)) {
                 // Formula: (Close - EMA(previous day)) x multiplier +
                 // EMA(previous day)
-                this.periodEma[i] = (this.prices[i] - periodEma[i - 1]) * this.smoothingConstant
+                this.periodEma[i] = (prices[i] - periodEma[i - 1]) * this.smoothingConstant
                         + this.periodEma[i - 1];
             }
 
