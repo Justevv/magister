@@ -106,7 +106,6 @@ public class GridGeneration {
     }
 
     private void buy(Grid grid, int i) {
-        boolean workM3 = false;
         if (grid.getSizeGrid() >= 300
 //                && grid.getSizeGrid() <= 600
 //                && grid.getBuyPulseCount() >= 2
@@ -118,23 +117,16 @@ public class GridGeneration {
         ) {
             grids.add(grid);
             int m2Bar = i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2;
-            for (int j = (m2Bar) * 2 / 3; j < priceListM3.size(); j++) {
-                try {
-                    if (priceListM3.get(j).getDateValue().after(priceList.get(m2Bar).getDateValue())) {
-                        if (priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
-                            List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
-                            if (processM3(m3) && checkEma(j, grid, priceListM3) && checkEma(i, grid, priceList)) {
-                                workM3 = true;
-                            }
-                            break;
+            if (m2Bar >= 0) {
+                for (int j = (m2Bar) * 2 / 3; j < priceListM3.size(); j++) {
+                    if (priceListM3.get(j).getDateValue().after(priceList.get(m2Bar).getDateValue()) && priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
+                        List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
+                        if (processM3(m3) && checkEma(j, grid, priceListM3) && checkEma(i, grid, priceList)) {
+                            buyOpen(grid, i);
                         }
+                        break;
                     }
-                } catch (Exception e) {
-//                    System.out.println(e);
                 }
-            }
-            if (workM3) {
-                buyOpen(grid, i);
             }
         }
     }
@@ -142,8 +134,8 @@ public class GridGeneration {
     private boolean checkEma(int j, Grid grid, List<Price> priceList) {
         int[] emaPeriods = {34, 55, 89, 144, 233};
         boolean intersectionEma = false;
-        for (int ema : emaPeriods) {
-            if (checkEmaBase(ema, j, grid, priceList)) {
+        for (int emaPeriod : emaPeriods) {
+            if (j - emaPeriod >= 0 && checkEmaBase(emaPeriod, j, grid, priceList)) {
                 intersectionEma = true;
                 break;
             }
