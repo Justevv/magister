@@ -1,5 +1,6 @@
 package forex;
 
+import java.util.Arrays;
 import java.util.List;
 
 import forex.load.ConvertM1ToM2;
@@ -16,7 +17,7 @@ public class Calculate extends Thread {
     private static final String eurUSD1 = "eurUSD1.csv";
     private static final String audUSD1 = "audUSD1.csv";
     private static final String gbpUSD1 = "gbpUSD1.csv";
-    private static final String filterYearString = "2018.";
+    private static final String filterYearString = "2015.";
     private String csvFile;
     private static long startTime;
 
@@ -31,10 +32,10 @@ public class Calculate extends Thread {
         }
         Calculate calculateAudUSD1 = new Calculate(audUSD1);
         calculateAudUSD1.start();
-//        Calculate calculateEurUSD1 = new Calculate(eurUSD1);
-//        calculateEurUSD1.start();
-//        Calculate calculateGbpUSD1 = new Calculate(gbpUSD1);
-//        calculateGbpUSD1.start();
+        Calculate calculateEurUSD1 = new Calculate(eurUSD1);
+        calculateEurUSD1.start();
+        Calculate calculateGbpUSD1 = new Calculate(gbpUSD1);
+        calculateGbpUSD1.start();
         System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
@@ -63,12 +64,11 @@ public class Calculate extends Thread {
         }
         System.out.println("All result " + allResult);
         System.out.println(gridGeneration.getGrids().size());
-        ema(priceM1s);
+//        ema(priceM1s);
         System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
-
-    void ema(List<Price> list) {
+        void ema(List<Price> list) {
         int count = 15;
         double[] arr = new double[count];
 
@@ -78,7 +78,7 @@ public class Calculate extends Thread {
         }
         ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
         try {
-            System.out.println(exponentialMovingAverage.calculate(arr, 5));
+            System.out.println(Arrays.toString(exponentialMovingAverage.calculate(arr, 5)));
         } catch (Exception e) {
             e.printStackTrace();
         }
