@@ -51,7 +51,7 @@ public class GridGeneration {
                 buy(grid, i);
                 simpleGrid.setMinGrid(simpleGrid.getRecLow());  // reset
                 simpleGrid.setPulseCount(1);
-                i = i - simpleGrid.getRollbackCount();
+                i -= simpleGrid.getRollbackCount();
                 simpleGrid.setRollbackCount(0);
                 simpleGrid.setMaxGrid(0);
             }
@@ -147,20 +147,19 @@ public class GridGeneration {
         boolean intersection = false;
         List<Price> m2 = priceList.subList(j - emaPeriod, j + grid.getBuyPulseCount());
         double[] arr = new double[m2.size()];
-        float[] ema = null;
         for (int i = 0; i < m2.size(); i++) {
             arr[i] = m2.get(i).getClosePrice();
         }
         try {
-            ema = exponentialMovingAverage.calculate(arr, emaPeriod);
+            float[] ema = exponentialMovingAverage.calculate(arr, emaPeriod);
+            for (int i = 0; i < m2.size(); i++) {
+                if (priceList.get(j + i).getMaxPrice() >= ema[i] && priceList.get(j + i).getMinPrice() <= ema[i]) {
+                    intersection = true;
+                    break;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        for (int i = 0; i < m2.size(); i++) {
-            if (priceList.get(j + i).getMaxPrice() >= ema[i] && priceList.get(j + i).getMinPrice() <= ema[i]) {
-                intersection = true;
-                break;
-            }
         }
         return intersection;
     }
