@@ -12,7 +12,7 @@ public class GridGeneration {
     private List<Price> priceList;
     private List<Price> priceListM1;
     private List<Price> priceListM3;
-    ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
+    private ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
 
     public List<Grid> getGrids() {
         return grids;
