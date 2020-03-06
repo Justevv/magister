@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class SimpleMovingAverage {
 
-    private double[] results;
+    private float[] results;
 
     public SimpleMovingAverage calculate(double[] price, int period) throws Exception {
 
@@ -15,19 +15,19 @@ public class SimpleMovingAverage {
         if (price.length < period)
             throw new Exception("Not enough data points, given data size less then the indicated period");
 
-        this.results = new double[price.length];
+        this.results = new float[price.length];
 
         int maxLength = price.length - period;
 
         for (int i = 0; i <= maxLength; i++) {
             this.results[(i + period - 1)] = NumberFormatter
-                    .round((Arrays.stream(Arrays.copyOfRange(price, i, (i + period))).sum()) / period);
+                    .round((float) ((Arrays.stream(Arrays.copyOfRange(price, i, (i + period))).sum()) / period));
         }
 
         return this;
     }
 
-    public double[] getSMA() {
+    public float[] getSMA() {
         return this.results;
     }
 

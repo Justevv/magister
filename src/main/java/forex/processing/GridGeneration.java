@@ -147,7 +147,7 @@ public class GridGeneration {
         boolean intersection = false;
         List<Price> m2 = priceList.subList(j - emaPeriod, j + grid.getBuyPulseCount());
         double[] arr = new double[m2.size()];
-        double[] ema = null;
+        float[] ema = null;
         for (int i = 0; i < m2.size(); i++) {
             arr[i] = m2.get(i).getClosePrice();
         }
