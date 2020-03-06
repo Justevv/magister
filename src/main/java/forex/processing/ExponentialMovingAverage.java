@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Exponential Moving Average
  */
 public class ExponentialMovingAverage {
-    SimpleMovingAverage sma = new SimpleMovingAverage();
+    private SimpleMovingAverage sma = new SimpleMovingAverage();
 
     public float[] calculate(double[] prices, int period) throws Exception {
 
@@ -25,10 +25,8 @@ public class ExponentialMovingAverage {
                 // Formula: (Close - EMA(previous day)) x multiplier + EMA(previous day)
                 periodEma[i] = (float) ((prices[i] - periodEma[i - 1]) * smoothingConstant + periodEma[i - 1]);
             }
-
             periodEma[i] = NumberFormatter.round(periodEma[i]);
         }
-
         return periodEma;
     }
 
