@@ -1,18 +1,18 @@
 package forex.load;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import forex.Calculate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class DataLoading {
     private static final Logger LOGGER = LogManager.getLogger(DataLoading.class);
@@ -32,18 +32,14 @@ public class DataLoading {
     public List<Price> run(String csvFile) {
         String line;
         boolean stop = false;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.ENGLISH);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            Date parsingDate = null;
+            LocalDateTime parsingDate = null;
             while ((line = br.readLine()) != null) {
                 if (line.contains(filterYearString) || !filter) {
                     stop = true;
                     String[] row = line.split(CVS_SPLIT_BY);
-                    try {
-                        parsingDate = dateFormat.parse(row[0].concat(" ").concat(row[1]));
-                    } catch (ParseException e) {
-                        LOGGER.warn("Error parsing date");
-                    }
+                    parsingDate = LocalDateTime.parse(row[0].concat(" ").concat(row[1]), formatter);
                     priceM1.add(new Price(parsingDate, Float.parseFloat(row[3]), Float.parseFloat(row[4]), Float.parseFloat(row[5])));
                 } else if (stop) {
                     break;

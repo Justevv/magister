@@ -1,10 +1,10 @@
 package forex.processing;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import forex.load.Price;
+
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GridGeneration {
     private Result result;
@@ -34,12 +34,11 @@ public class GridGeneration {
         this.priceList = priceList;
         SimpleGrid simpleGrid = new SimpleGrid();
         for (int i = 0; i < priceList.size(); i++) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(priceList.get(i).getDateValue());
-            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {                       //во вторник ставим ожидание понедельника
+            var localDateTime = priceList.get(i).getDateValue();
+            if (localDateTime.getDayOfWeek() == DayOfWeek.TUESDAY) {                           //во вторник ставим ожидание понедельника
                 simpleGrid.setFirstDay(true);
             }
-            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && simpleGrid.isFirstDay()) {    //сброс в понедельник
+            if (localDateTime.getDayOfWeek() == DayOfWeek.MONDAY && simpleGrid.isFirstDay()) {    //сброс в понедельник
                 simpleGrid.setMinGrid(priceList.get(i).getMinPrice());
                 simpleGrid.setMaxGrid(0);
                 simpleGrid.setPulseCount(1);
@@ -47,7 +46,7 @@ public class GridGeneration {
                 simpleGrid.setFirstDay(false);
             }
             if (processGrid(simpleGrid, priceList.get(i))) {
-                Grid grid = new Grid(calendar, simpleGrid.getMaxGrid(), simpleGrid.getMinGrid(), simpleGrid.getPulseCount(), simpleGrid.getRollbackCount());
+                Grid grid = new Grid(localDateTime, simpleGrid.getMaxGrid(), simpleGrid.getMinGrid(), simpleGrid.getPulseCount(), simpleGrid.getRollbackCount());
                 buy(grid, i);
                 simpleGrid.setMinGrid(simpleGrid.getRecLow());  // reset
                 simpleGrid.setPulseCount(1);
@@ -119,7 +118,7 @@ public class GridGeneration {
             int m2Bar = i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2;
             if (m2Bar >= 0) {
                 for (int j = (m2Bar) * 2 / 3; j < priceListM3.size(); j++) {
-                    if (priceListM3.get(j).getDateValue().after(priceList.get(m2Bar).getDateValue()) && priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
+                    if (priceListM3.get(j).getDateValue().isAfter(priceList.get(m2Bar).getDateValue()) && priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
                         List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
                         if (processM3(m3) && checkEma(j, grid, priceListM3) && checkEma(i, grid, priceList)) {
                             buyOpen(grid, i);

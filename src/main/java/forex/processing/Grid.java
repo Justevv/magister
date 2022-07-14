@@ -1,12 +1,12 @@
 package forex.processing;
 
-import java.util.Calendar;
-
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class Grid {
-    private Calendar buyDataValue;
+    private LocalDateTime buyDataValue;
     private float buyMaxGrid;
     private float buyMinGrid;
     private int buyPulseCount;
@@ -14,7 +14,7 @@ public class Grid {
     private float sizeGrid;
     private int step;
 
-    public Grid(Calendar buyDataValue, float buyMaxGrid, float buyMinGrid, int buyPulseCount, int buyRollbackCount) {
+    public Grid(LocalDateTime buyDataValue, float buyMaxGrid, float buyMinGrid, int buyPulseCount, int buyRollbackCount) {
         this.buyDataValue = buyDataValue;
         this.buyMaxGrid = buyMaxGrid;
         this.buyMinGrid = buyMinGrid;
