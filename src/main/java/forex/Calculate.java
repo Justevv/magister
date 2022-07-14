@@ -1,15 +1,16 @@
 package forex;
 
-import java.util.Arrays;
-import java.util.List;
-
 import forex.load.ConvertM1ToM2;
 import forex.load.ConvertM1ToM3;
 import forex.load.DataLoading;
 import forex.load.Price;
 import forex.processing.ExponentialMovingAverage;
 import forex.processing.GridGeneration;
+import forex.processing.Order;
 import forex.processing.Result;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Calculate extends Thread {
     public static int size = 400000;    //Размер массивов
@@ -62,13 +63,16 @@ public class Calculate extends Thread {
             System.out.println("Итог " + (i + 1) + " " + currentResult * 1 + " пунктов");
             allResult += currentResult;
         }
+        var classic = result.getClassicOrders().stream().mapToDouble(Order::getProfit).sum();
+        System.out.println("Итог " + result.getClassicOrders().get(0).getStrategy() + " " + classic * 1 + " пунктов");
         System.out.println("All result " + allResult);
         System.out.println(gridGeneration.getGrids().size());
 //        ema(priceM1s);
+//        System.out.println(result.getClassicOrders());
         System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
-        void ema(List<Price> list) {
+    void ema(List<Price> list) {
         int count = 15;
         double[] arr = new double[count];
 
