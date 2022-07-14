@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ConvertM1ToM3 extends Converter {
     private static final Logger LOGGER = LogManager.getLogger(ConvertM1ToM3.class);
-    private List<Price> prices = new ArrayList<>((int) (Calculate.size * 0.34));
+    private List<Price> prices = new ArrayList<>((int) (Calculate.countLines * 0.34));
 
     public List<Price> convert(List<Price> priceM1List) {
         for (int m2 = 0; m2 < priceM1List.size() - 2; m2++) {

@@ -7,17 +7,15 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class DataLoading {
     private static final Logger LOGGER = LogManager.getLogger(DataLoading.class);
     private static final String CVS_SPLIT_BY = ",";
-    private List<Price> priceM1 = new ArrayList<>(Calculate.size);
+    private List<Price> priceM1 = new ArrayList<>(Calculate.countLines);
     private String filterYearString;
     private boolean filter;
 

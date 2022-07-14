@@ -10,6 +10,5 @@ import java.time.LocalDateTime;
 public class Order {
     private Strategy strategy;
     private LocalDateTime openTime;
-    private Grid grid;
     private double profit;
 }

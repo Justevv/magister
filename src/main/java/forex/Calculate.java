@@ -11,10 +11,11 @@ import forex.processing.Result;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Calculate extends Thread {
-    public static int size = 400000;    //Размер массивов
-    private static final boolean filter = true;
+    public static int countLines = 400000;    //Размер массивов
+    private static final boolean FILTER = true;
     private static final String eurUSD1 = "eurUSD1.csv";
     private static final String audUSD1 = "audUSD1.csv";
     private static final String gbpUSD1 = "gbpUSD1.csv";
@@ -28,8 +29,8 @@ public class Calculate extends Thread {
 
     public static void main(String[] args) {
         startTime = System.currentTimeMillis();    //время выполнения программы
-        if (!filter) {
-            size = 4000000;
+        if (!FILTER) {
+            countLines = 4000000;
         }
         Calculate calculateAudUSD1 = new Calculate(audUSD1);
         calculateAudUSD1.start();
@@ -45,7 +46,7 @@ public class Calculate extends Thread {
         GridGeneration gridGeneration = new GridGeneration();
         ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
         ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
-        DataLoading dataLoading = new DataLoading(filterYearString, filter);
+        DataLoading dataLoading = new DataLoading(filterYearString, FILTER);
         Result result = new Result();
         List<Price> priceM1s = dataLoading.run(csvFile);
         System.out.println("download выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
@@ -57,18 +58,14 @@ public class Calculate extends Thread {
         gridGeneration.setPriceListM1(priceM1s);
         gridGeneration.setPriceListM3(priceM3s);
         gridGeneration.process(priceM2s);
-        float allResult = 0;
-        for (int i = 0; i < result.getResult().size(); i++) {
-            float currentResult = result.getResult().get(i);
-            System.out.println("Итог " + (i + 1) + " " + currentResult * 1 + " пунктов");
-            allResult += currentResult;
-        }
-        var classic = result.getClassicOrders().stream().mapToDouble(Order::getProfit).sum();
-        System.out.println("Итог " + result.getClassicOrders().get(0).getStrategy() + " " + classic * 1 + " пунктов");
-        System.out.println("All result " + allResult);
-        System.out.println(gridGeneration.getGrids().size());
+
+        var profit = result.getClassicOrders().stream()
+                .flatMap(x -> x.getOrders().stream())
+                .collect(Collectors.groupingBy(Order::getStrategy, Collectors.summarizingDouble(Order::getProfit)));
+        System.out.println(profit);
+
 //        ema(priceM1s);
-//        System.out.println(result.getClassicOrders());
+//        result.getClassicOrders().forEach(System.out::println);
         System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
