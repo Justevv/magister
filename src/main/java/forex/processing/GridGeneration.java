@@ -32,15 +32,13 @@ public class GridGeneration {
         SimpleGrid simpleGrid = new SimpleGrid();
         for (int i = 0; i < priceList.size(); i++) {
             var localDateTime = priceList.get(i).getDateValue();
-            if (localDateTime.getDayOfWeek() == DayOfWeek.TUESDAY) {                           //во вторник ставим ожидание понедельника
-                simpleGrid.setFirstDay(true);
-            }
-            if (localDateTime.getDayOfWeek() == DayOfWeek.MONDAY && simpleGrid.isFirstDay()) {    //сброс в понедельник
+
+            if (localDateTime.getDayOfWeek() == DayOfWeek.MONDAY
+                    && priceList.get(i - 1).getDateValue().getDayOfWeek() != DayOfWeek.MONDAY) {    //сброс в понедельник
                 simpleGrid.setMinGrid(priceList.get(i).getMinPrice());
                 simpleGrid.setMaxGrid(0);
                 simpleGrid.setPulseCount(1);
                 simpleGrid.setRollbackCount(0);
-                simpleGrid.setFirstDay(false);
             }
             if (processGrid(simpleGrid, priceList.get(i))) {
                 Grid grid = new Grid(localDateTime, simpleGrid.getMaxGrid(), simpleGrid.getMinGrid(), simpleGrid.getPulseCount(), simpleGrid.getRollbackCount());
