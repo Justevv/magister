@@ -10,10 +10,10 @@ import java.util.List;
 
 public class GridGeneration {
     private Result result;
-    private List<Grid> grids = new ArrayList<>();
+    private final List<Grid> grids = new ArrayList<>();
     private List<Price> priceList;
     private List<Price> priceListM3;
-    private ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
+    private final ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
 
     public List<Grid> getGrids() {
         return grids;
@@ -136,15 +136,17 @@ public class GridGeneration {
     }
 
     private boolean checkEmaBase(int emaPeriod, int j, Grid grid, List<Price> priceList) {
-        List<Price> m2 = priceList.subList(j - emaPeriod, j + grid.getBuyPulseCount());
-        double[] arr = new double[m2.size()];
+        var m2 = priceList.subList(j - emaPeriod, j + grid.getBuyPulseCount());
+        List<Float> arr = new ArrayList<>(m2.size());
         for (int i = 0; i < m2.size(); i++) {
-            arr[i] = m2.get(i).getClosePrice();
+            arr.add(m2.get(i).getClosePrice());
         }
+
         try {
-            double[] ema = exponentialMovingAverage.calculate(arr, emaPeriod);
-            for (int i = emaPeriod - 1; i < m2.size(); i++) {
-                if (priceList.get(j + i).getMaxPrice() >= ema[i] && priceList.get(j + i).getMinPrice() <= ema[i]) {
+            var ema = exponentialMovingAverage.calculate(arr, emaPeriod);
+            var emaCount = emaPeriod - 1;
+            for (int i = 0; i < m2.size() - emaCount; i++) {
+                if (priceList.get(j + i + emaCount).getMaxPrice() >= ema.get(i) && priceList.get(j + i + emaCount).getMinPrice() <= ema.get(i)) {
                     return true;
                 }
             }
