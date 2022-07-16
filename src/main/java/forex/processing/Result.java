@@ -16,15 +16,9 @@ public class Result {
     private static final float FIBONACCI_0618 = 0.618f;
     private static final float FIBONACCI_1000 = 1f;
     private static final float FIBONACCI_1618 = 1.618f;
-    public static int countDeal = 50000;
-    private int ACopen[] = new int[countDeal];
-    private int SLFibo38[] = new int[countDeal];
-    private int ACclassic[] = new int[countDeal];
-    private int TPAC[] = new int[countDeal];
-    private int BUACFibo61[] = new int[countDeal];
-    private List<Grid> workGrid = new ArrayList<>();
+    private final List<Grid> workGrid = new ArrayList<>();
     @Getter
-    private List<Grid> orders = new ArrayList<>();
+    private final List<Grid> orders = new ArrayList<>();
 
     public void addWorkGrid(Grid grid) {
         workGrid.add(grid);
@@ -38,15 +32,16 @@ public class Result {
                 case 3 -> calculate100To61(workGrid.get(i), price);
                 case 4 -> calculate100To61To38(workGrid.get(i), price);
                 case 5 -> calculate100To38ToZero(workGrid.get(i), price);
-                case 6 -> calculate61To38(workGrid.get(i), price, i);
-                case 7 -> calculate61To38To61(workGrid.get(i), price, i);
-                case 8 -> calculate61To38To100(workGrid.get(i), price, i);
+                case 6 -> calculate61To38(workGrid.get(i), price);
+                case 7 -> calculate61To38To61(workGrid.get(i), price);
+                case 8 -> calculate61To38To100(workGrid.get(i), price);
                 case 9 -> calculate61To38To61To38(workGrid.get(i), price);
                 case 10 -> calculate61To38To100To61(workGrid.get(i), price);
                 case 15 -> {
                     orders.add(workGrid.get(i));
                     workGrid.remove(workGrid.get(i));
                 }
+                default -> throw new IllegalStateException("Unexpected value: " + workGrid.get(i).getStep());
             }
         }
     }
@@ -195,11 +190,11 @@ public class Result {
         }
     }
 
-    private void calculate61To38(Grid grid, Price price, int currentTransaction) {
+    private void calculate61To38(Grid grid, Price price) {
         if (isFibonacci0618ReachedLow(grid, price)) {
             openOrder(grid, Strategy.ACSL0CLASSIC1, price);
             openOrder(grid, Strategy.ACSL38CLASSIC1, price);
-            ACopen[currentTransaction] = 1;
+//            ACopen[currentTransaction] = 1;
             grid.setStep(7);
             printStep();
         } else if (isFibonacci0Reached(grid, price)) {
@@ -210,23 +205,23 @@ public class Result {
         }
     }
 
-    private void calculate61To38To61(Grid grid, Price price, int currentTransaction) {
+    private void calculate61To38To61(Grid grid, Price price) {
         if (isFibonacci100ReachedHigh(grid, price)) {
-            ACclassic[currentTransaction] = 1;
+//            ACclassic[currentTransaction] = 1;
             grid.setStep(8);
             printStep();
             openOrder(grid, Strategy.CLASSIC, price);
         } else if (isFibonacci0382ReachedLow(grid, price)) {
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0618 - FIBONACCI_0382), Strategy.ACSL38CLASSIC1);
-            SLFibo38[currentTransaction] = 1;
+//            SLFibo38[currentTransaction] = 1;
             grid.setStep(9);
             printStep();
         }
     }
 
-    private void calculate61To38To100(Grid grid, Price price, int currentTransaction) {
+    private void calculate61To38To100(Grid grid, Price price) {
         if (isFibonacci1618Reached(grid, price)) {
-            TPAC[currentTransaction] = 1;
+//            TPAC[currentTransaction] = 1;
             grid.setStep(15);
             printStep();
             closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_0618), Strategy.ACSL38CLASSIC1);
@@ -235,7 +230,7 @@ public class Result {
             closeOrder(grid, 0, Strategy.CLASSIC);
         } else if (isFibonacci0618ReachedSpread(grid, price)) {
             closeOrder(grid, calculateProfit(grid, FIBONACCI_0618 - FIBONACCI_0382), Strategy.MR38SL0ACSL1CLASSIC62);
-            BUACFibo61[currentTransaction] = 1;
+//            BUACFibo61[currentTransaction] = 1;
             grid.setStep(10);
             printStep();
         }

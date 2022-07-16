@@ -137,10 +137,7 @@ public class GridGeneration {
 
     private boolean checkEmaBase(int emaPeriod, int j, Grid grid, List<Price> priceList) {
         var m2 = priceList.subList(j - emaPeriod, j + grid.getBuyPulseCount());
-        List<Float> arr = new ArrayList<>(m2.size());
-        for (int i = 0; i < m2.size(); i++) {
-            arr.add(m2.get(i).getClosePrice());
-        }
+        var arr = m2.stream().map(Price::getClosePrice).toList();
 
         try {
             var ema = exponentialMovingAverage.calculate(arr, emaPeriod);
