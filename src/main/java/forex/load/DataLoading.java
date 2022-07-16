@@ -1,26 +1,17 @@
 package forex.load;
 
-import forex.Calculate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DataLoading {
-    private static final Logger LOGGER = LogManager.getLogger(DataLoading.class);
     private static final String CVS_SPLIT_BY = ",";
-    private List<Price> priceM1 = new ArrayList<>(Calculate.countLines);
-    private String filterYearString;
-    private boolean filter;
+    private final String filterYearString;
+    private final boolean filter;
 
-    public DataLoading() {
-    }
 
     public DataLoading(String filterYearString, boolean filter) {
         this.filterYearString = filterYearString;
@@ -28,24 +19,27 @@ public class DataLoading {
     }
 
     public List<Price> run(String csvFile) {
-        String line;
-        boolean stop = false;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            LocalDateTime parsingDate = null;
-            while ((line = br.readLine()) != null) {
-                if (line.contains(filterYearString) || !filter) {
-                    stop = true;
-                    String[] row = line.split(CVS_SPLIT_BY);
-                    parsingDate = LocalDateTime.parse(row[0].concat(" ").concat(row[1]), formatter);
-                    priceM1.add(new Price(parsingDate, Float.parseFloat(row[3]), Float.parseFloat(row[4]), Float.parseFloat(row[5])));
-                } else if (stop) {
-                    break;
-                }
-            }
+        var formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+        var content = readFile(csvFile);
+        return content
+                .parallelStream()
+                .filter(x -> x.contains(filterYearString) || !filter)
+                .map(x -> {
+                    String[] row = x.split(CVS_SPLIT_BY);
+                    return new Price(
+                            LocalDateTime.parse(row[0].concat(" ").concat(row[1]), formatter),
+                            Float.parseFloat(row[3]),
+                            Float.parseFloat(row[4]),
+                            Float.parseFloat(row[5]));
+                })
+                .toList();
+    }
+
+    private List<String> readFile(String path) {
+        try (var lines = Files.lines(Paths.get(path))) {
+            return lines.toList();
         } catch (IOException e) {
-            LOGGER.fatal(e);
+            throw new RuntimeException(e);
         }
-        return priceM1;
     }
 }
