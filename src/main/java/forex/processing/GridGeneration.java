@@ -30,7 +30,7 @@ public class GridGeneration {
     public void process(List<Price> priceList) {
         this.priceList = priceList;
         SimpleGrid simpleGrid = new SimpleGrid();
-        for (int i = 0; i < priceList.size(); i++) {
+        for (int i = 1; i < priceList.size(); i++) {
             var localDateTime = priceList.get(i).getDateValue();
 
             if (localDateTime.getDayOfWeek() == DayOfWeek.MONDAY
@@ -113,12 +113,18 @@ public class GridGeneration {
                 for (int j = (m2Bar) * 2 / 3; j < priceListM3.size(); j++) {
                     if (priceListM3.get(j).getDateValue().isAfter(priceList.get(m2Bar).getDateValue()) && priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
                         List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
+                        grid.setM3Ok(processM3(m3));
+                        grid.getEmaIntersect().setM3(checkEma(j, grid, priceListM3));
+                        grid.getEmaIntersect().setM2(checkEma(i, grid, priceList));
                         if (processM3(m3) && checkEma(j, grid, priceListM3) && checkEma(i, grid, priceList)) {
                             buyOpen(grid, i);
                         }
                         break;
                     }
                 }
+            }
+            if (grid.getBuyDataValue().getDayOfMonth() == 5 && grid.getBuyDataValue().getHour() > 8) {
+                System.out.println(grid);
             }
         }
     }
@@ -134,14 +140,13 @@ public class GridGeneration {
     }
 
     private boolean checkEmaBase(int emaPeriod, int j, Grid grid, List<Price> priceList) {
-        var m2 = priceList.subList(j - emaPeriod, j + grid.getBuyPulseCount());
+        var m2 = priceList.subList(j - emaPeriod, j + grid.getBuyPulseCount() + 1);
         var arr = m2.stream().map(Price::getClosePrice).toList();
 
         try {
             var ema = exponentialMovingAverage.calculate(arr, emaPeriod);
-            var emaCount = emaPeriod - 1;
-            for (int i = 0; i < m2.size() - emaCount; i++) {
-                if (priceList.get(j + i + emaCount).getMaxPrice() >= ema.get(i) && priceList.get(j + i + emaCount).getMinPrice() <= ema.get(i)) {
+            for (int i = 0; i < m2.size() - emaPeriod; i++) {
+                if (m2.get(i + emaPeriod).getMaxPrice() >= ema.get(i) && m2.get(i + emaPeriod).getMinPrice() <= ema.get(i)) {
                     return true;
                 }
             }

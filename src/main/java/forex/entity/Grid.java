@@ -18,6 +18,8 @@ public class Grid {
     private MaximumRollback maximumRollback;
     private MaximumLevel maximumLevel;
     private MaximumDrawdown maximumDrawdown;
+    private EMAIntersect emaIntersect;
+    private boolean m3Ok;
     private List<Order> orders;
 
     public Grid(LocalDateTime buyDataValue, float buyMaxGrid, float buyMinGrid, int buyPulseCount, int buyRollbackCount) {
@@ -30,6 +32,7 @@ public class Grid {
         maximumDrawdown = new MaximumDrawdown();
         maximumLevel = new MaximumLevel();
         maximumRollback = new MaximumRollback();
+        emaIntersect = new EMAIntersect();
         orders = new ArrayList<>();
     }
 
