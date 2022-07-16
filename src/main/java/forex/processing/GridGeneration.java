@@ -1,5 +1,7 @@
 package forex.processing;
 
+import forex.entity.Grid;
+import forex.entity.SimpleGrid;
 import forex.load.Price;
 
 import java.time.DayOfWeek;

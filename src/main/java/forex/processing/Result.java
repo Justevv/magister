@@ -1,5 +1,8 @@
 package forex.processing;
 
+import forex.entity.Grid;
+import forex.entity.Order;
+import forex.entity.Strategy;
 import forex.load.Price;
 import lombok.Getter;
 

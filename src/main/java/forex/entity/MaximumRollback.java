@@ -1,12 +1,11 @@
-package forex.processing;
+package forex.entity;
 
 import lombok.Data;
 
 @Data
-public class MaximumDrawdown {
+public class MaximumRollback {
     private boolean level76 = false;
     private boolean level61 = false;
     private boolean level38 = false;
     private boolean level0 = false;
-    private boolean levelMinus2000 = false;
 }

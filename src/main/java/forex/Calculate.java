@@ -1,13 +1,12 @@
 package forex;
 
+import forex.entity.Order;
+import forex.entity.Statistic;
 import forex.load.ConvertM1ToM2;
 import forex.load.ConvertM1ToM3;
 import forex.load.DataLoading;
 import forex.load.Price;
-import forex.processing.ExponentialMovingAverage;
-import forex.processing.GridGeneration;
-import forex.processing.Order;
-import forex.processing.Result;
+import forex.processing.*;
 
 import java.util.Arrays;
 import java.util.List;

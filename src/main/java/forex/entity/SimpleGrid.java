@@ -1,4 +1,4 @@
-package forex.processing;
+package forex.entity;
 
 import lombok.Data;
 

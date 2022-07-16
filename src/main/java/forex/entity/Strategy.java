@@ -1,4 +1,4 @@
-package forex.processing;
+package forex.entity;
 
 public enum Strategy {
     CLASSIC("Classic"),
