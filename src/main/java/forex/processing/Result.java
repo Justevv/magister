@@ -37,6 +37,7 @@ public class Result {
                 case 8 -> calculate61To38To100(workGrid.get(i), price);
                 case 9 -> calculate61To38To61To38(workGrid.get(i), price);
                 case 10 -> calculate61To38To100To61(workGrid.get(i), price);
+                case 11 -> calculate61To38To61To38To100(workGrid.get(i), price);
                 case 15 -> {
                     orders.add(workGrid.get(i));
                     workGrid.remove(workGrid.get(i));
@@ -221,6 +222,7 @@ public class Result {
 
     private void calculate61To38To100(Grid grid, Price price) {
         if (isFibonacci1618Reached(grid, price)) {
+            grid.getMaximumLevel().setLevel161(true);
 //            TPAC[currentTransaction] = 1;
             grid.setStep(15);
             printStep();
@@ -237,10 +239,24 @@ public class Result {
     }
 
     private void calculate61To38To61To38(Grid grid, Price price) {
+        if (isFibonacci100Reached(grid, price)) {
+            grid.setStep(11);
+            printStep();
+            openOrder(grid, Strategy.CLASSIC, price);
+        } else if (isFibonacci0Reached(grid, price)) {
+            closeOrder(grid, calculateExpense(grid, FIBONACCI_0618 - 0), Strategy.ACSL0CLASSIC1);
+            grid.setStep(15);
+            printStep();
+        }
+    }
+
+    private void calculate61To38To61To38To100(Grid grid, Price price) {
         if (isFibonacci1618Reached(grid, price)) {
+            grid.getMaximumLevel().setLevel161(true);
             grid.setStep(15);
             printStep();
             closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_0618), Strategy.ACSL0CLASSIC1);
+            closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_1000), Strategy.CLASSIC);
         } else if (isFibonacci0Reached(grid, price)) {
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0618 - 0), Strategy.ACSL0CLASSIC1);
             grid.setStep(15);
@@ -250,6 +266,7 @@ public class Result {
 
     private void calculate61To38To100To61(Grid grid, Price price) {
         if (isFibonacci1618Reached(grid, price)) {
+            grid.getMaximumLevel().setLevel161(true);
             grid.setStep(15);
             printStep();
             closeOrder(grid, 0, Strategy.CLASSIC);
