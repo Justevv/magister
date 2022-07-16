@@ -12,7 +12,6 @@ public class GridGeneration {
     private Result result;
     private List<Grid> grids = new ArrayList<>();
     private List<Price> priceList;
-    private List<Price> priceListM1;
     private List<Price> priceListM3;
     private ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
 
@@ -22,10 +21,6 @@ public class GridGeneration {
 
     public void setResult(Result result) {
         this.result = result;
-    }
-
-    public void setPriceListM1(List<Price> priceListM1) {
-        this.priceListM1 = priceListM1;
     }
 
     public void setPriceListM3(List<Price> priceListM3) {
@@ -61,15 +56,13 @@ public class GridGeneration {
     }
 
     private boolean processM3(List<Price> priceList) {
-        boolean work = false;
         SimpleGrid simpleGrid = new SimpleGrid();
-        for (int i = 0; i < priceList.size(); i++) {
-            if (processGrid(simpleGrid, priceList.get(i))) {
-                work = true;
-                break;
+        for (Price price : priceList) {
+            if (processGrid(simpleGrid, price)) {
+                return true;
             }
         }
-        return work;
+        return false;
     }
 
     private boolean processGrid(SimpleGrid grid, Price priceList) {
@@ -133,19 +126,16 @@ public class GridGeneration {
     }
 
     private boolean checkEma(int j, Grid grid, List<Price> priceList) {
-        int[] emaPeriods = {34, 55, 89, 144, 233};
-        boolean intersectionEma = false;
+        var emaPeriods = List.of(34, 55, 89, 144, 233);
         for (int emaPeriod : emaPeriods) {
             if (j - emaPeriod >= 0 && checkEmaBase(emaPeriod, j, grid, priceList)) {
-                intersectionEma = true;
-                break;
+                return true;
             }
         }
-        return intersectionEma;
+        return false;
     }
 
     private boolean checkEmaBase(int emaPeriod, int j, Grid grid, List<Price> priceList) {
-        boolean intersection = false;
         List<Price> m2 = priceList.subList(j - emaPeriod, j + grid.getBuyPulseCount());
         double[] arr = new double[m2.size()];
         for (int i = 0; i < m2.size(); i++) {
@@ -155,14 +145,13 @@ public class GridGeneration {
             float[] ema = exponentialMovingAverage.calculate(arr, emaPeriod);
             for (int i = 0; i < m2.size(); i++) {
                 if (priceList.get(j + i).getMaxPrice() >= ema[i] && priceList.get(j + i).getMinPrice() <= ema[i]) {
-                    intersection = true;
-                    break;
+                    return true;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return intersection;
+        return false;
     }
 
 
