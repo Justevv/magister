@@ -8,7 +8,6 @@ import forex.load.DataLoading;
 import forex.load.Price;
 import forex.processing.GridGeneration;
 import forex.processing.Result;
-import forex.processing.TestResult;
 
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
@@ -44,7 +43,7 @@ public class Calculate extends Thread {
         GridGeneration gridGeneration = new GridGeneration();
         ConvertM1ToM2 convertM1ToM2 = new ConvertM1ToM2();
         ConvertM1ToM3 convertM1ToM3 = new ConvertM1ToM3();
-        DataLoading dataLoading = new DataLoading(filterYearString, FILTER);
+        DataLoading dataLoading = new DataLoading(FILTER_YEAR_STRING, FILTER);
         Result result = new Result();
         List<Price> priceM1s = dataLoading.run(csvFile);
         System.out.println("download выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
@@ -66,23 +65,25 @@ public class Calculate extends Thread {
                 .forEachOrdered(System.out::println);
         var pr = profit.values().stream().mapToDouble(DoubleSummaryStatistics::getSum).sum();
         System.out.println(pr);
-//        test(priceM2s, priceM3s);
 
 //        ema(priceM1s);
 //        result.getOrders().forEach(System.out::println);
         System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
-    private void test(List<Price> priceM2s, List<Price> priceM3s){
-                GridGeneration gridGeneration2 = new GridGeneration();
-        TestResult testResult = new TestResult();
-        gridGeneration2.setResult(testResult);
-        gridGeneration2.setPriceListM3(priceM3s);
-        gridGeneration2.process(priceM2s);
-        var profit2 = testResult.getOrders().stream()
-                .flatMap(x -> x.getOrders().stream())
-                .collect(Collectors.groupingBy(x -> new Statistic(x.getStrategy(), x.getOpenTime().getYear()), Collectors.summarizingDouble(Order::getProfit)));
-        var pr2 = profit2.values().stream().mapToDouble(DoubleSummaryStatistics::getSum).sum();
-        System.out.println(pr2);
-    }
+//    void ema(List<Price> list) {
+//        int count = 15;
+//        double[] arr = new double[count];
+//
+//        // ArrayList to Array Conversion
+//        for (int i = 0; i < count; i++) {
+//            arr[i] = list.get(i).getMaxPrice();
+//        }
+//        ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
+//        try {
+//            System.out.println(exponentialMovingAverage.calculate(arr, 5));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
