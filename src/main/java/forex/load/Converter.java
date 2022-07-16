@@ -15,10 +15,10 @@ public class Converter {
         return m2;
     }
 
-    void setPriceOneCoincidences(List<Price> priceM1List, int m2, Price price) {
-        price.setMaxPrice(priceM1List.get(m2).getMaxPrice());
-        price.setMinPrice(priceM1List.get(m2).getMinPrice());
-        price.setClosePrice(priceM1List.get(m2).getClosePrice());
+    void setPriceOneCoincidences(Price m1Price, Price price) {
+        price.setMaxPrice(m1Price.getMaxPrice());
+        price.setMinPrice(m1Price.getMinPrice());
+        price.setClosePrice(m1Price.getClosePrice());
     }
 
     void settingCalendarPlus1(List<Price> priceM1List, int m2) {

@@ -9,9 +9,9 @@ import java.util.List;
 
 public class ConvertM1ToM3 extends Converter {
     private static final Logger LOGGER = LogManager.getLogger(ConvertM1ToM3.class);
-    private List<Price> prices = new ArrayList<>((int) (Calculate.countLines * 0.34));
 
     public List<Price> convert(List<Price> priceM1List) {
+        List<Price> prices = new ArrayList<>((int) (Calculate.countLines * 0.34));
         for (int m2 = 0; m2 < priceM1List.size() - 2; m2++) {
             Price price = new Price();
             price.setDateValue(priceM1List.get(m2).getDateValue());
@@ -29,7 +29,7 @@ public class ConvertM1ToM3 extends Converter {
                         datePlus1Minutes.equals(datePlus1Bar)) {
                     m2 = setPriceTwoCoincidences(priceM1List, m2, price);
                 } else {
-                    setPriceOneCoincidences(priceM1List, m2, price);
+                    setPriceOneCoincidences(priceM1List.get(m2), price);
                 }
             }
             prices.add(price);
