@@ -142,8 +142,8 @@ public class GridGeneration {
             arr[i] = m2.get(i).getClosePrice();
         }
         try {
-            float[] ema = exponentialMovingAverage.calculate(arr, emaPeriod);
-            for (int i = 0; i < m2.size(); i++) {
+            double[] ema = exponentialMovingAverage.calculate(arr, emaPeriod);
+            for (int i = emaPeriod - 1; i < m2.size(); i++) {
                 if (priceList.get(j + i).getMaxPrice() >= ema[i] && priceList.get(j + i).getMinPrice() <= ema[i]) {
                     return true;
                 }
