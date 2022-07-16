@@ -1,6 +1,5 @@
 package forex.load;
 
-import forex.Calculate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,7 +10,7 @@ public class ConvertM1ToM3 extends Converter {
     private static final Logger LOGGER = LogManager.getLogger(ConvertM1ToM3.class);
 
     public List<Price> convert(List<Price> priceM1List) {
-        List<Price> prices = new ArrayList<>((int) (Calculate.countLines * 0.34));
+        List<Price> prices = new ArrayList<>((int) (priceM1List.size() * 0.34));
         for (int m2 = 0; m2 < priceM1List.size() - 2; m2++) {
             Price price = new Price();
             price.setDateValue(priceM1List.get(m2).getDateValue());

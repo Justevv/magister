@@ -6,20 +6,22 @@ import forex.load.ConvertM1ToM2;
 import forex.load.ConvertM1ToM3;
 import forex.load.DataLoading;
 import forex.load.Price;
-import forex.processing.*;
+import forex.processing.GridGeneration;
+import forex.processing.Result;
+import forex.processing.TestResult;
 
-import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Calculate extends Thread {
-    public static int countLines = 400000;    //Размер массивов
     private static final boolean FILTER = true;
-    private static final String eurUSD1 = "eurUSD1.csv";
-    private static final String audUSD1 = "audUSD1.csv";
-    private static final String gbpUSD1 = "gbpUSD1.csv";
-    private static final String filterYearString = "2015.";
-    private String csvFile;
+    private static final String EUR_USD_1 = "eurUSD1.csv";
+    private static final String AUD_USD_1 = "audUSD1.csv";
+    private static final String GBP_USD_1 = "gbpUSD1.csv";
+    private static final String FILTER_YEAR_STRING = "2015.";
+    private final String csvFile;
     private static long startTime;
 
     public Calculate(String csvFile) {
@@ -28,14 +30,11 @@ public class Calculate extends Thread {
 
     public static void main(String[] args) {
         startTime = System.currentTimeMillis();    //время выполнения программы
-        if (!FILTER) {
-            countLines = 4000000;
-        }
-        Calculate calculateAudUSD1 = new Calculate(audUSD1);
+        Calculate calculateAudUSD1 = new Calculate(AUD_USD_1);
+        Calculate calculateEurUSD1 = new Calculate(EUR_USD_1);
+        Calculate calculateGbpUSD1 = new Calculate(GBP_USD_1);
         calculateAudUSD1.start();
-        Calculate calculateEurUSD1 = new Calculate(eurUSD1);
         calculateEurUSD1.start();
-        Calculate calculateGbpUSD1 = new Calculate(gbpUSD1);
         calculateGbpUSD1.start();
         System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
@@ -54,33 +53,36 @@ public class Calculate extends Thread {
         System.out.println("convert to M2 выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
         List<Price> priceM3s = convertM1ToM3.convert(priceM1s);
         System.out.println("convert to M3 выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
-        gridGeneration.setPriceListM1(priceM1s);
         gridGeneration.setPriceListM3(priceM3s);
         gridGeneration.process(priceM2s);
 
-        var profit = result.getClassicOrders().stream()
+        var profit = result.getOrders().stream()
                 .flatMap(x -> x.getOrders().stream())
-                .collect(Collectors.groupingBy(Order::getStrategy, Collectors.summarizingDouble(Order::getProfit)));
-        System.out.println(profit);
+                .collect(Collectors.groupingBy(x -> new Statistic(x.getStrategy(), x.getOpenTime().getYear()), Collectors.summarizingDouble(Order::getProfit)));
+        System.out.println(csvFile);
+        profit.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEachOrdered(System.out::println);
+        var pr = profit.values().stream().mapToDouble(DoubleSummaryStatistics::getSum).sum();
+        System.out.println(pr);
+//        test(priceM2s, priceM3s);
 
 //        ema(priceM1s);
-//        result.getClassicOrders().forEach(System.out::println);
+//        result.getOrders().forEach(System.out::println);
         System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
-    void ema(List<Price> list) {
-        int count = 15;
-        double[] arr = new double[count];
-
-        // ArrayList to Array Conversion
-        for (int i = 0; i < count; i++) {
-            arr[i] = list.get(i).getMaxPrice();
-        }
-        ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
-        try {
-            System.out.println(Arrays.toString(exponentialMovingAverage.calculate(arr, 5)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void test(List<Price> priceM2s, List<Price> priceM3s){
+                GridGeneration gridGeneration2 = new GridGeneration();
+        TestResult testResult = new TestResult();
+        gridGeneration2.setResult(testResult);
+        gridGeneration2.setPriceListM3(priceM3s);
+        gridGeneration2.process(priceM2s);
+        var profit2 = testResult.getOrders().stream()
+                .flatMap(x -> x.getOrders().stream())
+                .collect(Collectors.groupingBy(x -> new Statistic(x.getStrategy(), x.getOpenTime().getYear()), Collectors.summarizingDouble(Order::getProfit)));
+        var pr2 = profit2.values().stream().mapToDouble(DoubleSummaryStatistics::getSum).sum();
+        System.out.println(pr2);
     }
 }
