@@ -14,7 +14,7 @@ public class Grid {
     private int buyPulseCount;
     private int buyRollbackCount;
     private float sizeGrid;
-    private int step;
+    private List<Integer> steps;
     private MaximumRollback maximumRollback;
     private MaximumLevel maximumLevel;
     private MaximumDrawdown maximumDrawdown;
@@ -33,6 +33,7 @@ public class Grid {
         maximumLevel = new MaximumLevel();
         maximumRollback = new MaximumRollback();
         emaIntersect = new EMAIntersect();
+        steps = new ArrayList<>();
         orders = new ArrayList<>();
     }
 

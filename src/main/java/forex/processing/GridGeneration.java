@@ -158,9 +158,9 @@ public class GridGeneration {
 
 
     private void buyOpen(Grid grid, int i) {
-        grid.setStep(1);
+        grid.getSteps().add(1);
         if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() > priceList.get(i).getMinPrice()) {
-            grid.setStep(6);
+            grid.getSteps().add(6);
         }
         result.addWorkGrid(grid);
     }
