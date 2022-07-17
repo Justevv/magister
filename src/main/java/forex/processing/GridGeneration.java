@@ -98,14 +98,14 @@ public class GridGeneration {
     }
 
     private void buy(Grid grid, int i) {
-        if (grid.getSizeGrid() >= 300
-//                && grid.getSizeGrid() <= 600
-//                && grid.getBuyPulseCount() >= 2
-//                && grid.getBuyPulseCount() <= 90
-//                && ((grid.getBuyDataValue().get(Calendar.HOUR_OF_DAY) <= 17))
-//                && ((priceList.get(i - rollbackCount).getDateValue().get(Calendar.HOUR_OF_DAY) >= 7))
-//                && ((grid.getBuyDataValue().get(Calendar.HOUR_OF_DAY) >= 7 - (grid.getBuyRollbackCount() / 30)))
-//                && ((priceList.get(i - rollbackCount).getDateValue().get(Calendar.HOUR_OF_DAY) <= 17))
+        if (grid.getSizeGrid() >= 250
+                && grid.getSizeGrid() <= 600
+                && grid.getBuyPulseCount() >= 2
+                && grid.getBuyPulseCount() <= 90
+                && grid.getBuyDataValue().getHour() <= 17
+                && priceList.get(i - grid.getBuyRollbackCount()).getDateValue().getHour() >= 7
+                && grid.getBuyDataValue().getHour() >= 7 - (grid.getBuyRollbackCount() / 30)
+                && priceList.get(i - grid.getBuyRollbackCount()).getDateValue().getHour() <= 17
         ) {
             grids.add(grid);
             int m2Bar = i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2;
