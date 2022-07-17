@@ -53,10 +53,9 @@ public class Result {
             openOrder(grid, Strategy.MR38SL0ACSL1CLASSIC62, price);
             grid.getMaximumRollback().setLevel38(true);
             grid.getSteps().add(6);
-            printStep();
         } else if (grid.getBuyMaxGrid() < price.getMaxPrice() - SPREAD) {
+            grid.getMaximumLevel().setLevel100(true);
             grid.getSteps().add(2);
-            printStep();
             openOrder(grid, Strategy.CLASSIC, price);
         }
     }
@@ -126,15 +125,12 @@ public class Result {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(15);
-            printStep();
-            var profit = calculateProfit(grid, FIBONACCI_1618 - 1.0);
-            closeOrder(grid, profit, Strategy.CLASSIC);
+            closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - 1.0), Strategy.CLASSIC);
         } else if (isFibonacci0618Reached(grid, price)) {
             openOrder(grid, Strategy.MD61SL38, price);
             openOrder(grid, Strategy.MD61SL0, price);
             grid.getMaximumDrawdown().setLevel61(true);
             grid.getSteps().add(3);
-            printStep();
         }
     }
 
@@ -142,17 +138,14 @@ public class Result {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(15);
-            printStep();
             closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_0618), Strategy.MD61SL38);
             closeOrder(grid, calculateProfit(grid, 1.618 - 0.618), Strategy.MD61SL0);
-            var profit = grid.getSizeGrid() * (1.618 - 1.0) - SPREAD_FULL;
-            closeOrder(grid, profit, Strategy.CLASSIC);
+            closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_1000), Strategy.CLASSIC);
         } else if (isFibonacci0382Reached(grid, price)) {
             openOrder(grid, Strategy.MD38SLO, price);
             openOrder(grid, Strategy.MD38SL2000, price);
             grid.getMaximumDrawdown().setLevel38(true);
             grid.getSteps().add(4);
-            printStep();
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0618 - FIBONACCI_0382), Strategy.MD61SL38);
         }
     }
@@ -161,7 +154,6 @@ public class Result {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(15);
-            printStep();
             closeOrder(grid, calculateProfit(grid, 1.618 - 0.618), Strategy.MD61SL0);
             closeOrder(grid, calculateProfit(grid, 1.618 - 0.382), Strategy.MD38SL2000);
             closeOrder(grid, calculateProfit(grid, 1.618 - 0.382), Strategy.MD38SLO);
@@ -170,7 +162,6 @@ public class Result {
         } else if (isFibonacci0Reached(grid, price)) {
             grid.getMaximumDrawdown().setLevel0(true);
             grid.getSteps().add(5);
-            printStep();
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0618 - 0), Strategy.MD61SL0);
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0382 - 0), Strategy.MD38SLO);
         }
@@ -179,16 +170,14 @@ public class Result {
     private void calculate100To38ToZero(Grid grid, Price price) {
         if (isFibonacci100Reached(grid, price)) {
             grid.getSteps().add(15);
-            printStep();
             closeOrder(grid, calculateProfit(grid, FIBONACCI_1000 - FIBONACCI_0382), Strategy.MD38SL2000);
-            closeOrder(grid, 0, Strategy.CLASSIC);
+            closeOrder(grid, 1, Strategy.CLASSIC);
         } else if (isFibonacci0Minus2000Reached(grid, price)) {
             grid.getMaximumDrawdown().setLevelMinus2000(true);
             var profit = calculateExpense(grid, 1) - 2000;
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0382 - 0) - 2000, Strategy.MD38SL2000);
             closeOrder(grid, profit, Strategy.CLASSIC);
             grid.getSteps().add(15);
-            printStep();
         }
     }
 
@@ -198,56 +187,50 @@ public class Result {
             openOrder(grid, Strategy.ACSL38CLASSIC1, price);
 //            ACopen[currentTransaction] = 1;
             grid.getSteps().add(7);
-            printStep();
         } else if (isFibonacci0Reached(grid, price)) {
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0382 - 0), Strategy.MR38SL0ACSL1CLASSIC62);
             grid.getMaximumRollback().setLevel0(true);
             grid.getSteps().add(15);
-            printStep();
         }
     }
 
     private void calculate61To38To61(Grid grid, Price price) {
         if (isFibonacci100ReachedHigh(grid, price)) {
-//            ACclassic[currentTransaction] = 1;
+            grid.getMaximumLevel().setLevel100(true);
             grid.getSteps().add(8);
-            printStep();
             openOrder(grid, Strategy.CLASSIC, price);
         } else if (isFibonacci0382ReachedLow(grid, price)) {
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0618 - FIBONACCI_0382), Strategy.ACSL38CLASSIC1);
-//            SLFibo38[currentTransaction] = 1;
+            grid.getMaximumRollback().setLevelAC38(true);
             grid.getSteps().add(9);
-            printStep();
         }
     }
 
     private void calculate61To38To100(Grid grid, Price price) {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
-//            TPAC[currentTransaction] = 1;
             grid.getSteps().add(15);
-            printStep();
             closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_0618), Strategy.ACSL38CLASSIC1);
             closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_0618), Strategy.ACSL0CLASSIC1);
             closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_0382), Strategy.MR38SL0ACSL1CLASSIC62);
-            closeOrder(grid, 0, Strategy.CLASSIC);
+            closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_1000), Strategy.CLASSIC);
         } else if (isFibonacci0618ReachedSpread(grid, price)) {
+            grid.getMaximumDrawdown().setLevel61(true);
             closeOrder(grid, calculateProfit(grid, FIBONACCI_0618 - FIBONACCI_0382), Strategy.MR38SL0ACSL1CLASSIC62);
 //            BUACFibo61[currentTransaction] = 1;
             grid.getSteps().add(10);
-            printStep();
         }
     }
 
     private void calculate61To38To61To38(Grid grid, Price price) {
         if (isFibonacci100Reached(grid, price)) {
+            grid.getMaximumLevel().setLevel100(true);
             grid.getSteps().add(11);
-            printStep();
             openOrder(grid, Strategy.CLASSIC, price);
         } else if (isFibonacci0Reached(grid, price)) {
+            grid.getMaximumRollback().setLevel0(true);
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0618 - 0), Strategy.ACSL0CLASSIC1);
             grid.getSteps().add(15);
-            printStep();
         }
     }
 
@@ -255,13 +238,12 @@ public class Result {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(15);
-            printStep();
             closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_0618), Strategy.ACSL0CLASSIC1);
             closeOrder(grid, calculateProfit(grid, FIBONACCI_1618 - FIBONACCI_1000), Strategy.CLASSIC);
         } else if (isFibonacci0Reached(grid, price)) {
+            grid.getMaximumDrawdown().setLevel0(true);
             closeOrder(grid, calculateExpense(grid, FIBONACCI_0618 - 0), Strategy.ACSL0CLASSIC1);
             grid.getSteps().add(15);
-            printStep();
         }
     }
 
@@ -269,15 +251,12 @@ public class Result {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(15);
-            printStep();
-            closeOrder(grid, 0, Strategy.CLASSIC);
+            closeOrder(grid, 1, Strategy.CLASSIC);
         } else if (isFibonacci0Reached(grid, price)) {
+            grid.getMaximumDrawdown().setLevel0(true);
             grid.getSteps().add(15);
-            printStep();
             closeOrder(grid, calculateExpense(grid, FIBONACCI_1000 - 0), Strategy.CLASSIC);
         }
     }
 
-    private void printStep() {
-    }
 }
