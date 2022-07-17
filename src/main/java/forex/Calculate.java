@@ -66,24 +66,8 @@ public class Calculate extends Thread {
         var pr = profit.values().stream().mapToDouble(DoubleSummaryStatistics::getSum).sum();
         System.out.println(pr);
 
-//        ema(priceM1s);
 //        result.getOrders().forEach(System.out::println);
         System.out.println("программа выполнялась " + (System.currentTimeMillis() - startTime) + " миллисекунд");
     }
 
-//    void ema(List<Price> list) {
-//        int count = 15;
-//        double[] arr = new double[count];
-//
-//        // ArrayList to Array Conversion
-//        for (int i = 0; i < count; i++) {
-//            arr[i] = list.get(i).getMaxPrice();
-//        }
-//        ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
-//        try {
-//            System.out.println(exponentialMovingAverage.calculate(arr, 5));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
