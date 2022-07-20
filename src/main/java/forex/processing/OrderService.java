@@ -29,11 +29,11 @@ public class OrderService {
     }
 
     private float calculateOpenPrice(Grid grid, Strategy strategy) {
-        return switch (strategy) {
-            case CLASSIC -> grid.getBuyMaxGrid() + SPREAD + FILTER;
-            case ACSL0CLASSIC1, ACSL38CLASSIC1, MD61SL0, MD61SL38 ->
+        return switch (strategy.getStrategy()) {
+            case FIBONACCI1000 -> grid.getBuyMaxGrid() + SPREAD + FILTER;
+            case FIBONACCI0618 ->
                     grid.getBuyMinGrid() + (grid.getSizeGrid() * FIBONACCI_0618) / PRICE_MULTIPLIER + SPREAD + FILTER;
-            case MD38SL2000, MD38SLO, MR38SL0ACSL1CLASSIC62 ->
+            case FIBONACCI0382 ->
                     grid.getBuyMinGrid() + (grid.getSizeGrid() * FIBONACCI_0382) / PRICE_MULTIPLIER + SPREAD + FILTER;
         };
     }

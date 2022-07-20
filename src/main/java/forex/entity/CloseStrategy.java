@@ -8,13 +8,4 @@ public enum CloseStrategy {
     FIBONACCI0,
     FIBONACCI0MINUS2000;
 
-    private String description;
-
-//    CloseStrategy(String description) {
-//        this.description = description;
-//    }
-
-    public String getDescription() {
-        return description;
-    }
 }
