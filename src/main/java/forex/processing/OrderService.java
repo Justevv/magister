@@ -28,7 +28,7 @@ public class OrderService {
 
     }
 
-    public void closeOrder(Grid grid, List<Strategy> strategies, ClosePriceType closePriceType) {
+    public void closeOrders(Grid grid, List<Strategy> strategies, ClosePriceType closePriceType) {
         strategies.forEach(strategy -> closeOrder(grid, strategy, closePriceType));
     }
 
