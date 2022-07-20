@@ -1,5 +1,7 @@
 package forex.load;
 
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -7,23 +9,19 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Service
 public class DataLoading {
     private static final String CVS_SPLIT_BY = ",";
-    private final String filterYearString;
-    private final boolean filter;
+    private static final String FILTER_YEAR_STRING = "2015.";
+    private static final boolean FILTER = false;
 
-
-    public DataLoading(String filterYearString, boolean filter) {
-        this.filterYearString = filterYearString;
-        this.filter = filter;
-    }
 
     public List<Price> run(String csvFile) {
         var formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
         var content = readFile(csvFile);
         return content
                 .parallelStream()
-                .filter(x -> x.contains(filterYearString) || !filter)
+                .filter(x -> x.contains(FILTER_YEAR_STRING) || !FILTER)
                 .map(x -> {
                     String[] row = x.split(CVS_SPLIT_BY);
                     return new Price(
@@ -32,6 +30,7 @@ public class DataLoading {
                             Float.parseFloat(row[4]),
                             Float.parseFloat(row[5]));
                 })
+//                .filter(x->x.getDateValue().getMonth()== Month.FEBRUARY)
                 .toList();
     }
 

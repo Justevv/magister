@@ -1,10 +1,13 @@
 package forex.processing;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
  * Simple Moving Average
  */
+@Service
 public class SimpleMovingAverage {
     public double calculate(List<Float> price, int period) throws Exception {
 

@@ -1,13 +1,14 @@
 package forex.load;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
+@Slf4j
 public class ConvertM1ToM3 extends Converter {
-    private static final Logger LOGGER = LogManager.getLogger(ConvertM1ToM3.class);
 
     public List<Price> convert(List<Price> priceM1List) {
         List<Price> prices = new ArrayList<>((int) (priceM1List.size() * 0.34));
@@ -32,8 +33,9 @@ public class ConvertM1ToM3 extends Converter {
                 }
             }
             prices.add(price);
-            LOGGER.debug(price);
+            log.trace("Price {}", price);
         }
+        log.info("Price count {}", prices.size());
         return prices;
     }
 

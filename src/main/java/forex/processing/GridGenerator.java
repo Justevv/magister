@@ -3,53 +3,46 @@ package forex.processing;
 import forex.entity.Grid;
 import forex.entity.SimpleGrid;
 import forex.load.Price;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
-
-public class GridGeneration {
-    private Result result;
+@Service
+public class GridGenerator {
+    @Autowired
+    private GridService gridService;
     private final List<Grid> grids = new ArrayList<>();
-    private List<Price> priceList;
-    private List<Price> priceListM3;
-    private final ExponentialMovingAverage exponentialMovingAverage = new ExponentialMovingAverage();
+    @Autowired
+    private ExponentialMovingAverage exponentialMovingAverage;
 
     public List<Grid> getGrids() {
         return grids;
     }
 
-    public void setResult(Result result) {
-        this.result = result;
-    }
-
-    public void setPriceListM3(List<Price> priceListM3) {
-        this.priceListM3 = priceListM3;
-    }
-
-    public void process(List<Price> priceList) {
-        this.priceList = priceList;
+    public void process(List<Price> priceListM2, List<Price> priceListM3) {
         SimpleGrid simpleGrid = new SimpleGrid();
-        for (int i = 1; i < priceList.size(); i++) {
-            var localDateTime = priceList.get(i).getDateValue();
+        for (int i = 1; i < priceListM2.size(); i++) {
+            var localDateTime = priceListM2.get(i).getDateValue();
 
             if (localDateTime.getDayOfWeek() == DayOfWeek.MONDAY
-                    && priceList.get(i - 1).getDateValue().getDayOfWeek() != DayOfWeek.MONDAY) {    //сброс в понедельник
-                simpleGrid.setMinGrid(priceList.get(i).getMinPrice());
+                    && priceListM2.get(i - 1).getDateValue().getDayOfWeek() != DayOfWeek.MONDAY) {    //сброс в понедельник
+                simpleGrid.setMinGrid(priceListM2.get(i).getMinPrice());
                 simpleGrid.setMaxGrid(0);
                 simpleGrid.setPulseCount(1);
                 simpleGrid.setRollbackCount(0);
             }
-            if (processGrid(simpleGrid, priceList.get(i))) {
+            if (processGrid(simpleGrid, priceListM2.get(i))) {
                 Grid grid = new Grid(localDateTime, simpleGrid.getMaxGrid(), simpleGrid.getMinGrid(), simpleGrid.getPulseCount(), simpleGrid.getRollbackCount());
-                buy(grid, i);
+                buy(grid, i, priceListM2, priceListM3);
                 simpleGrid.setMinGrid(simpleGrid.getRecLow());  // reset
                 simpleGrid.setPulseCount(1);
                 i -= simpleGrid.getRollbackCount();
                 simpleGrid.setRollbackCount(0);
                 simpleGrid.setMaxGrid(0);
             }
-            result.processing(priceList.get(i));
+            gridService.processing(priceListM2.get(i));
         }
     }
 
@@ -97,7 +90,7 @@ public class GridGeneration {
         return work;
     }
 
-    private void buy(Grid grid, int i) {
+    private void buy(Grid grid, int i, List<Price> priceList, List<Price> priceListM3) {
         if (grid.getSizeGrid() >= 250
                 && grid.getSizeGrid() <= 600
                 && grid.getBuyPulseCount() >= 2
@@ -117,14 +110,11 @@ public class GridGeneration {
                         grid.getEmaIntersect().setM3(checkEma(j, grid, priceListM3));
                         grid.getEmaIntersect().setM2(checkEma(i, grid, priceList));
                         if (processM3(m3) && checkEma(j, grid, priceListM3) && checkEma(i, grid, priceList)) {
-                            buyOpen(grid, i);
+                            buyOpen(grid, priceList.get(i).getMinPrice());
                         }
                         break;
                     }
                 }
-            }
-            if (grid.getBuyDataValue().getDayOfMonth() == 5 && grid.getBuyDataValue().getHour() > 8) {
-                System.out.println(grid);
             }
         }
     }
@@ -157,11 +147,11 @@ public class GridGeneration {
     }
 
 
-    private void buyOpen(Grid grid, int i) {
+    private void buyOpen(Grid grid, float minPrice) {
         grid.getSteps().add(1);
-        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() > priceList.get(i).getMinPrice()) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() > minPrice) {
             grid.getSteps().add(6);
         }
-        result.addWorkGrid(grid);
+        gridService.addWorkGrid(grid);
     }
 }

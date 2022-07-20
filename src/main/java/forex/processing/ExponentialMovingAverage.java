@@ -1,13 +1,18 @@
 package forex.processing;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Exponential Moving Average
  */
+@Service
 public class ExponentialMovingAverage {
-    private final SimpleMovingAverage sma = new SimpleMovingAverage();
+    @Autowired
+    private SimpleMovingAverage sma;
 
     public List<Float> calculate(List<Float> prices, int period) throws Exception {
 
