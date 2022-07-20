@@ -1,6 +1,6 @@
 package forex.processing;
 
-import forex.entity.CloseStrategy;
+import forex.entity.ClosePriceType;
 import forex.entity.Grid;
 import forex.entity.Order;
 import forex.entity.Strategy;
@@ -23,19 +23,19 @@ public class OrderService {
         grid.getOrders().add(order);
     }
 
-    public void closeOrder(Grid grid, List<Strategy> strategies, CloseStrategy closeStrategy) {
-        strategies.forEach(strategy -> closeOrder(grid, strategy, closeStrategy));
+    public void closeOrder(Grid grid, List<Strategy> strategies, ClosePriceType closePriceType) {
+        strategies.forEach(strategy -> closeOrder(grid, strategy, closePriceType));
     }
 
-    public void closeOrder(Grid grid, Strategy strategy, CloseStrategy closeStrategy) {
+    public void closeOrder(Grid grid, Strategy strategy, ClosePriceType closePriceType) {
         var order = grid.getOrders().stream().filter(x -> x.getStrategy().equals(strategy)).findFirst().orElseThrow();
-        order.setCloseStrategy(closeStrategy);
-        order.setClosePrice(calculateClosePrice(grid, closeStrategy));
+        order.setClosePriceType(closePriceType);
+        order.setClosePrice(calculateClosePrice(grid, closePriceType));
         order.setProfit((order.getClosePrice() - order.getOpenPrice()) * PRICE_MULTIPLIER);
     }
 
     private float calculateOpenPrice(Grid grid, Strategy strategy) {
-        return switch (strategy.getStrategy()) {
+        return switch (strategy.getOpenPrice()) {
             case FIBONACCI1000 -> grid.getBuyMaxGrid() + SPREAD + FILTER;
             case FIBONACCI0618 ->
                     grid.getBuyMinGrid() + (grid.getSizeGrid() * FIBONACCI_0618) / PRICE_MULTIPLIER + SPREAD + FILTER;
@@ -44,8 +44,8 @@ public class OrderService {
         };
     }
 
-    private float calculateClosePrice(Grid grid, CloseStrategy closeStrategy) {
-        return switch (closeStrategy) {
+    private float calculateClosePrice(Grid grid, ClosePriceType closePriceType) {
+        return switch (closePriceType) {
             case FIBONACCI1618 -> grid.getBuyMaxGrid() + (grid.getSizeGrid() * (FIBONACCI_1618 - 1)) / PRICE_MULTIPLIER;
             case FIBONACCI1000 -> grid.getBuyMaxGrid() + SPREAD + FILTER;
             case FIBONACCI0618 ->

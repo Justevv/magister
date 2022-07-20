@@ -1,8 +1,11 @@
 package forex.entity;
 
 public enum OpenStrategy {
-    FIBONACCI1000,
-    FIBONACCI0618,
-    FIBONACCI0382;
+    CLASSIC,
+    AC,
+    MAXIMUM_ROLLBACK_38,
+    MAXIMUM_ROLLBACK_61,
+    MAXIMUM_DRAWDOWN_38,
+    MAXIMUM_DRAWDOWN_61,
 
 }

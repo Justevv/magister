@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Order {
     private Strategy strategy;
-    private CloseStrategy closeStrategy;
+    private ClosePriceType closePriceType;
     private LocalDateTime openTime;
     private double openPrice;
     private double closePrice;

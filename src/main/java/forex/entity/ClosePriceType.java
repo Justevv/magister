@@ -1,6 +1,6 @@
 package forex.entity;
 
-public enum CloseStrategy {
+public enum ClosePriceType {
     FIBONACCI1618,
     FIBONACCI1000,
     FIBONACCI0618,
