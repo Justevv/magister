@@ -7,6 +7,8 @@ import forex.entity.Strategy;
 import forex.load.Price;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static forex.constant.Constant.*;
 
 @Service
@@ -19,6 +21,10 @@ public class OrderService {
                 .openPrice(calculateOpenPrice(grid, strategy))
                 .build();
         grid.getOrders().add(order);
+    }
+
+    public void closeOrder(Grid grid, List<Strategy> strategies, CloseStrategy closeStrategy) {
+        strategies.forEach(strategy -> closeOrder(grid, strategy, closeStrategy));
     }
 
     public void closeOrder(Grid grid, Strategy strategy, CloseStrategy closeStrategy) {
@@ -42,8 +48,10 @@ public class OrderService {
         return switch (closeStrategy) {
             case FIBONACCI1618 -> grid.getBuyMaxGrid() + (grid.getSizeGrid() * (FIBONACCI_1618 - 1)) / PRICE_MULTIPLIER;
             case FIBONACCI1000 -> grid.getBuyMaxGrid() + SPREAD + FILTER;
-            case FIBONACCI0618 -> grid.getBuyMinGrid() + (grid.getSizeGrid() * FIBONACCI_0618) / PRICE_MULTIPLIER + SPREAD + FILTER;
-            case FIBONACCI0382 -> grid.getBuyMinGrid() + (grid.getSizeGrid() * FIBONACCI_0382) / PRICE_MULTIPLIER + SPREAD + FILTER;
+            case FIBONACCI0618 ->
+                    grid.getBuyMinGrid() + (grid.getSizeGrid() * FIBONACCI_0618) / PRICE_MULTIPLIER + SPREAD + FILTER;
+            case FIBONACCI0382 ->
+                    grid.getBuyMinGrid() + (grid.getSizeGrid() * FIBONACCI_0382) / PRICE_MULTIPLIER + SPREAD + FILTER;
             case FIBONACCI0 -> grid.getBuyMinGrid() + (grid.getSizeGrid() * 0) / PRICE_MULTIPLIER;
             case FIBONACCI0MINUS2000 -> grid.getBuyMinGrid() + (grid.getSizeGrid() * 0) / PRICE_MULTIPLIER - 0.02f;
         };
