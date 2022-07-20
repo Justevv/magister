@@ -1,11 +1,16 @@
 package forex.entity;
 
-public enum OpenStrategy {
-    CLASSIC,
-    AC,
-    MAXIMUM_ROLLBACK_38,
-    MAXIMUM_ROLLBACK_61,
-    MAXIMUM_DRAWDOWN_38,
-    MAXIMUM_DRAWDOWN_61,
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
+public enum OpenStrategy {
+    CLASSIC(OpenPrice.FIBONACCI1000),
+    AC(OpenPrice.FIBONACCI0618),
+    MAXIMUM_ROLLBACK_38(OpenPrice.FIBONACCI0382),
+    MAXIMUM_ROLLBACK_61(OpenPrice.FIBONACCI0618),
+    MAXIMUM_DRAWDOWN_38(OpenPrice.FIBONACCI0382),
+    MAXIMUM_DRAWDOWN_61(OpenPrice.FIBONACCI0618);
+    @Getter
+    private final OpenPrice openPrice;
 }

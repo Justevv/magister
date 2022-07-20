@@ -35,7 +35,7 @@ public class OrderService {
     }
 
     private float calculateOpenPrice(Grid grid, Strategy strategy) {
-        return switch (strategy.getOpenPrice()) {
+        return switch (strategy.getOpenStrategy().getOpenPrice()) {
             case FIBONACCI1000 -> grid.getBuyMaxGrid() + SPREAD + FILTER;
             case FIBONACCI0618 ->
                     grid.getBuyMinGrid() + (grid.getSizeGrid() * FIBONACCI_0618) / PRICE_MULTIPLIER + SPREAD + FILTER;
