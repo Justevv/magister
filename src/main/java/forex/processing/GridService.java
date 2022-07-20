@@ -44,17 +44,13 @@ public class GridService {
                 case 9 -> calculate61To38To61To38(workGrid.get(i), price);
                 case 10 -> calculate61To38To100To61(workGrid.get(i), price);
                 case 11 -> calculate61To38To61To38To100(workGrid.get(i), price);
-                case FINAL_STEP -> {
-                    orders.add(workGrid.get(i));
-//                    if (workGrid.get(i).getBuyDataValue().getDayOfMonth() == 5 && workGrid.get(i).getBuyDataValue().getHour()>8) {
-//                    System.out.println("close");
-//                    System.out.println(workGrid.get(i));
-//                    }
-                    workGrid.remove(workGrid.get(i));
-                }
                 case 20 -> resolveStepAfter18(workGrid.get(i), price);
                 case 21 -> calculateAfter18Low(workGrid.get(i), price);
                 case 22 -> calculateAfter18High(workGrid.get(i), price);
+                case FINAL_STEP -> {
+                    orders.add(workGrid.get(i));
+                    workGrid.remove(workGrid.get(i));
+                }
                 default -> throw new IllegalStateException("Unexpected value: " + steps.get(steps.size() - 1));
             }
         }
