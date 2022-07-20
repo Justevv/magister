@@ -1,12 +1,10 @@
 package forex.processing;
 
-import forex.entity.ClosePriceType;
-import forex.entity.Grid;
-import forex.entity.Order;
-import forex.entity.Strategy;
+import forex.entity.*;
 import forex.load.Price;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static forex.constant.Constant.*;
@@ -14,20 +12,27 @@ import static forex.constant.Constant.*;
 @Service
 public class OrderService {
 
-    public void openOrder(Grid grid, Strategy strategy, Price price) {
+    public void openOrders(Grid grid, OpenStrategy openStrategy, Price price) {
+        Arrays.stream(Strategy.values())
+                .filter(x -> x.getOpenStrategy().equals(openStrategy))
+                .forEach(x -> openOrder(grid, x, price));
+    }
+
+    private void openOrder(Grid grid, Strategy strategy, Price price) {
         var order = Order.builder()
                 .strategy(strategy)
                 .openTime(price.getDateValue())
                 .openPrice(calculateOpenPrice(grid, strategy))
                 .build();
         grid.getOrders().add(order);
+
     }
 
     public void closeOrder(Grid grid, List<Strategy> strategies, ClosePriceType closePriceType) {
         strategies.forEach(strategy -> closeOrder(grid, strategy, closePriceType));
     }
 
-    public void closeOrder(Grid grid, Strategy strategy, ClosePriceType closePriceType) {
+    private void closeOrder(Grid grid, Strategy strategy, ClosePriceType closePriceType) {
         var order = grid.getOrders().stream().filter(x -> x.getStrategy().equals(strategy)).findFirst().orElseThrow();
         order.setClosePriceType(closePriceType);
         order.setClosePrice(calculateClosePrice(grid, closePriceType));

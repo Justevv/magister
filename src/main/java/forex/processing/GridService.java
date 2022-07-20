@@ -72,17 +72,13 @@ public class GridService {
 
     private void calculateStart(Grid grid, Price price) {
         if (isFibonacci0382Reached(grid, price)) {
-            Arrays.stream(Strategy.values())
-                    .filter(x -> x.getOpenStrategy().equals(OpenStrategy.MAXIMUM_ROLLBACK_38))
-                    .forEach(x -> orderService.openOrder(grid, x, price));
+            orderService.openOrders(grid, OpenStrategy.MAXIMUM_ROLLBACK_38, price);
             grid.getMaximumRollback().setLevel38(true);
             grid.getSteps().add(6);
         } else if (isFibonacci100Reached(grid, price)) {
             grid.getMaximumLevel().setLevel100(true);
             grid.getSteps().add(2);
-            Arrays.stream(Strategy.values())
-                    .filter(x -> x.getOpenStrategy().equals(OpenStrategy.CLASSIC))
-                    .forEach(x -> orderService.openOrder(grid, x, price));
+            orderService.openOrders(grid, OpenStrategy.CLASSIC, price);
         }
     }
 
@@ -92,9 +88,7 @@ public class GridService {
             grid.getSteps().add(FINAL_STEP);
             orderService.closeOrder(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI1618);
         } else if (isFibonacci0618Reached(grid, price)) {
-            Arrays.stream(Strategy.values())
-                    .filter(x -> x.getOpenStrategy().equals(OpenStrategy.MAXIMUM_DRAWDOWN_61))
-                    .forEach(x -> orderService.openOrder(grid, x, price));
+            orderService.openOrders(grid, OpenStrategy.MAXIMUM_DRAWDOWN_61, price);
             grid.getMaximumDrawdown().setLevel61(true);
             grid.getSteps().add(3);
         }
@@ -106,9 +100,7 @@ public class GridService {
             grid.getSteps().add(FINAL_STEP);
             orderService.closeOrder(grid, List.of(Strategy.MD61SL38, Strategy.MD61SL0, Strategy.CLASSIC), ClosePriceType.FIBONACCI1618);
         } else if (isFibonacci0382Reached(grid, price)) {
-            Arrays.stream(Strategy.values())
-                    .filter(x -> x.getOpenStrategy().equals(OpenStrategy.MAXIMUM_DRAWDOWN_38))
-                    .forEach(x -> orderService.openOrder(grid, x, price));
+            orderService.openOrders(grid, OpenStrategy.MAXIMUM_DRAWDOWN_38, price);
             grid.getMaximumDrawdown().setLevel38(true);
             grid.getSteps().add(4);
             orderService.closeOrder(grid, List.of(Strategy.MD61SL38), ClosePriceType.FIBONACCI0382);
@@ -140,9 +132,7 @@ public class GridService {
 
     private void calculate61To38(Grid grid, Price price) {
         if (isFibonacci0618ReachedLow(grid, price)) {
-            Arrays.stream(Strategy.values())
-                    .filter(x -> x.getOpenStrategy().equals(OpenStrategy.AC))
-                    .forEach(x -> orderService.openOrder(grid, x, price));
+            orderService.openOrders(grid, OpenStrategy.AC, price);
             grid.getSteps().add(7);
         } else if (isFibonacci0Reached(grid, price)) {
             orderService.closeOrder(grid, List.of(Strategy.MR38SL0ACSL1CLASSIC62), ClosePriceType.FIBONACCI0);
@@ -155,9 +145,7 @@ public class GridService {
         if (isFibonacci100ReachedHigh(grid, price)) {
             grid.getMaximumLevel().setLevel100(true);
             grid.getSteps().add(8);
-            Arrays.stream(Strategy.values())
-                    .filter(x -> x.getOpenStrategy().equals(OpenStrategy.CLASSIC))
-                    .forEach(x -> orderService.openOrder(grid, x, price));
+            orderService.openOrders(grid, OpenStrategy.CLASSIC, price);
         } else if (isFibonacci0382ReachedLow(grid, price)) {
             orderService.closeOrder(grid, List.of(Strategy.ACSL38CLASSIC1), ClosePriceType.FIBONACCI0382);
             grid.getMaximumRollback().setLevelAC38(true);
@@ -182,9 +170,7 @@ public class GridService {
         if (isFibonacci100Reached(grid, price)) {
             grid.getMaximumLevel().setLevel100(true);
             grid.getSteps().add(11);
-            Arrays.stream(Strategy.values())
-                    .filter(x -> x.getOpenStrategy().equals(OpenStrategy.CLASSIC))
-                    .forEach(x -> orderService.openOrder(grid, x, price));
+            orderService.openOrders(grid, OpenStrategy.CLASSIC, price);
         } else if (isFibonacci0Reached(grid, price)) {
             grid.getMaximumRollback().setLevel0(true);
             orderService.closeOrder(grid, List.of(Strategy.ACSL0CLASSIC1), ClosePriceType.FIBONACCI0);
