@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class GridGenerator {
     @Autowired
@@ -48,13 +49,8 @@ public class GridGenerator {
 
     private boolean processM3(List<Price> priceList) {
         SimpleGrid simpleGrid = new SimpleGrid();
-        for (Price price : priceList) {
-            if (processGrid(simpleGrid, price)) {
-                return true;
-            }
-        }
-        return false;
-    }
+        return priceList.stream().anyMatch(x -> processGrid(simpleGrid, x));
+}
 
     private boolean processGrid(SimpleGrid grid, Price priceList) {
         boolean work = false;
