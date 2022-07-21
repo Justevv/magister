@@ -1,24 +1,17 @@
 package forex.load;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Price {
-    private LocalDateTime dateValue;  //Массив дат
-    private float minPrice;  //Массив минимума
-    private float maxPrice;  //Массив максимума
-    private float closePrice;  //Массив максимума
-    private float EMA;
-
-    public Price() {
-    }
-
-    public Price(LocalDateTime parsingDate, float maxPrice, float minPrice, float closePrice) {
-        this.dateValue = parsingDate;
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
-        this.closePrice = closePrice;
-    }
+    private LocalDateTime dateValue;
+    private float maxPrice;
+    private float minPrice;
+    private float closePrice;
 }
