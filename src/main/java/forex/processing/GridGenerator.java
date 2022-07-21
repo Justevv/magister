@@ -24,6 +24,7 @@ public class GridGenerator {
 
     public void process(List<Price> priceListM2, List<Price> priceListM3) {
         SimpleGrid simpleGrid = new SimpleGrid();
+        var iMax = 0;
         for (int i = 1; i < priceListM2.size(); i++) {
             var localDateTime = priceListM2.get(i).getDateValue();
 
@@ -37,7 +38,10 @@ public class GridGenerator {
                 i -= simpleGrid.getRollbackCount();
                 resetSimpleGrid(simpleGrid, simpleGrid.getRecLow());
             }
-            gridService.processing(priceListM2.get(i));
+            if (i > iMax) {
+                iMax = i;
+                gridService.processing(priceListM2.get(i));
+            }
         }
     }
 
