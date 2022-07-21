@@ -12,6 +12,8 @@ public enum Strategy {
     ACSL38CLASSIC1("AC sl 38 classic sl +1", OpenStrategy.AC),
     ACSL0CLASSIC1("AC sl 0 classic sl +1", OpenStrategy.AC),
     MR38SL0ACSL1CLASSIC62("38 МО sl 0 ac sl +1 classic sl .618", OpenStrategy.MAXIMUM_ROLLBACK_38),
+    MR38SL0ACSL1("38 МО sl 0 ac sl +1", OpenStrategy.MAXIMUM_ROLLBACK_38),
+    MR38SL0("38 МО sl 0", OpenStrategy.MAXIMUM_ROLLBACK_38),
     MD38SLO("38 мп sl 0", OpenStrategy.MAXIMUM_DRAWDOWN_38);
     @Getter
     private final String description;

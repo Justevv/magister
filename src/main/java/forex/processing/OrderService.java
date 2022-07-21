@@ -33,10 +33,12 @@ public class OrderService {
     }
 
     private void closeOrder(Grid grid, Strategy strategy, ClosePriceType closePriceType) {
-        var order = grid.getOrders().stream().filter(x -> x.getStrategy().equals(strategy)).findFirst().orElseThrow();
+        var order2 = grid.getOrders().stream().filter(x -> x.getStrategy().equals(strategy)).findFirst();
+        if (order2.isPresent()){
+           var order = order2.get();
         order.setClosePriceType(closePriceType);
         order.setClosePrice(calculateClosePrice(grid, closePriceType));
-        order.setProfit((order.getClosePrice() - order.getOpenPrice()) * PRICE_MULTIPLIER);
+        order.setProfit((order.getClosePrice() - order.getOpenPrice()) * PRICE_MULTIPLIER);}
     }
 
     private float calculateOpenPrice(Grid grid, Strategy strategy) {

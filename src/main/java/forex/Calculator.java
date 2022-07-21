@@ -26,6 +26,7 @@ public class Calculator implements CommandLineRunner {
     private static final String AUD_USD_1 = "audUSD1.csv";
     private static final String GBP_USD_1 = "gbpUSD1.csv";
     private static final List<String> currencies = List.of(EUR_USD_1);
+//    private static final List<String> currencies = List.of(EUR_USD_1, AUD_USD_1, GBP_USD_1);
     @Autowired
     private GridService gridService;
     @Autowired
@@ -68,7 +69,13 @@ public class Calculator implements CommandLineRunner {
                 .forEachOrdered(x -> log.debug("Statistic {}", x));
         var pr = profit.values().stream().mapToDouble(DoubleSummaryStatistics::getSum).sum();
         log.info("Current currency profit is {}", pr);
-
+        var strategyProfit = gridService.getOrders().stream()
+                .flatMap(x -> x.getOrders().stream())
+                .collect(Collectors.groupingBy(Order::getStrategy, Collectors.summarizingDouble(Order::getProfit)));
+        strategyProfit.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEachOrdered(x -> log.debug("Strategy {}", x));
 //        gridService.getOrders().forEach(System.out::println);
         log.info("Currency execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
     }
