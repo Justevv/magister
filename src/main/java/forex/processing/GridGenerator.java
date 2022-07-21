@@ -29,40 +29,37 @@ public class GridGenerator {
 
             if (localDateTime.getDayOfWeek() == DayOfWeek.MONDAY
                     && priceListM2.get(i - 1).getDateValue().getDayOfWeek() != DayOfWeek.MONDAY) {    //сброс в понедельник
-                simpleGrid.setMinGrid(priceListM2.get(i).getMinPrice());
-                simpleGrid.setMaxGrid(0);
-                simpleGrid.setPulseCount(1);
-                simpleGrid.setRollbackCount(0);
+                resetSimpleGrid(simpleGrid, priceListM2.get(i).getMinPrice());
             }
             if (processGrid(simpleGrid, priceListM2.get(i))) {
                 Grid grid = new Grid(localDateTime, simpleGrid.getMaxGrid(), simpleGrid.getMinGrid(), simpleGrid.getPulseCount(), simpleGrid.getRollbackCount());
                 buy(grid, i, priceListM2, priceListM3);
-                simpleGrid.setMinGrid(simpleGrid.getRecLow());  // reset
-                simpleGrid.setPulseCount(1);
                 i -= simpleGrid.getRollbackCount();
-                simpleGrid.setRollbackCount(0);
-                simpleGrid.setMaxGrid(0);
+                resetSimpleGrid(simpleGrid, simpleGrid.getRecLow());
             }
             gridService.processing(priceListM2.get(i));
         }
     }
 
+    private void resetSimpleGrid(SimpleGrid simpleGrid, float minGrid) {
+        simpleGrid.setMinGrid(minGrid);
+        simpleGrid.setPulseCount(1);
+        simpleGrid.setRollbackCount(0);
+        simpleGrid.setMaxGrid(0);
+    }
+
     private boolean processM3(List<Price> priceList) {
         SimpleGrid simpleGrid = new SimpleGrid();
         return priceList.stream().anyMatch(x -> processGrid(simpleGrid, x));
-}
+    }
 
     private boolean processGrid(SimpleGrid grid, Price priceList) {
         boolean work = false;
         if (grid.getMinGrid() > priceList.getMinPrice()) { // create new min
-            grid.setMinGrid(priceList.getMinPrice());
-            grid.setMaxGrid(0);
-            grid.setPulseCount(1);
-            grid.setRollbackCount(0);
+            resetSimpleGrid(grid, priceList.getMinPrice());
         } else if (grid.getMaxGrid() < priceList.getMaxPrice() || (grid.getMaxGrid() == priceList.getMaxPrice() && grid.getRollbackCount() <= 1)) {  // create new max
             grid.setMaxGrid(priceList.getMaxPrice());
-            grid.setPulseCount(grid.getPulseCount() + 1);
-            grid.setPulseCount(grid.getPulseCount() + grid.getRollbackCount());
+            grid.setPulseCount(grid.getPulseCount() + 1 + grid.getRollbackCount());
             grid.setRecLow(0);
             grid.setRollbackCount(0);
             grid.setMaxMax(false);
