@@ -109,7 +109,7 @@ public class GridGenerator {
                         grid.setM3Ok(processM3(m3));
                         grid.getEmaIntersect().setM3(checkEma(j, grid, priceListM3));
                         grid.getEmaIntersect().setM2(checkEma(i, grid, priceList));
-                        if (processM3(m3) && checkEma(j, grid, priceListM3) && checkEma(i, grid, priceList)) {
+                        if (grid.isM3Ok() && grid.getEmaIntersect().isM3() && grid.getEmaIntersect().isM2()) {
                             buyOpen(grid, priceList.get(i).getMinPrice());
                         }
                         break;
