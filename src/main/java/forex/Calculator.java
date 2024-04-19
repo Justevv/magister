@@ -2,6 +2,7 @@ package forex;
 
 import forex.entity.Order;
 import forex.entity.Statistic;
+import forex.entity.Strategy;
 import forex.load.ConvertM1ToM2;
 import forex.load.ConvertM1ToM3;
 import forex.load.DataLoading;
@@ -58,25 +59,34 @@ public class Calculator implements CommandLineRunner {
         List<Price> priceM3s = convertM1ToM3.convert(priceM1s);
         log.info("convert to M3 execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
         gridGenerator.process(priceM2s, priceM3s);
+        log.info("generation grid execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
 
         var profit = gridService.getOrders().stream()
                 .flatMap(x -> x.getOrders().stream())
                 .collect(Collectors.groupingBy(x -> new Statistic(x.getStrategy(), x.getOpenTime().getYear()), Collectors.summarizingDouble(Order::getProfit)));
         log.info("Current currency is {}", csvFile);
-        profit.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByKey())
-                .forEachOrdered(x -> log.debug("Statistic {}", x));
+//        printStatistic(profit);
         var pr = profit.values().stream().mapToDouble(DoubleSummaryStatistics::getSum).sum();
         log.info("Current currency profit is {}", pr);
         var strategyProfit = gridService.getOrders().stream()
                 .flatMap(x -> x.getOrders().stream())
                 .collect(Collectors.groupingBy(Order::getStrategy, Collectors.summarizingDouble(Order::getProfit)));
+        printStrategyStatistic(strategyProfit);
+//        gridService.getOrders().forEach(System.out::println);
+        log.info("Currency execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
+    }
+
+    private void printStrategyStatistic(Map<Strategy, DoubleSummaryStatistics> strategyProfit) {
         strategyProfit.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByKey())
                 .forEachOrdered(x -> log.debug("Strategy {}", x));
-//        gridService.getOrders().forEach(System.out::println);
-        log.info("Currency execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
+    }
+
+    private void printStatistic(Map<Statistic, DoubleSummaryStatistics> profit) {
+        profit.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEachOrdered(x -> log.debug("Statistic {}", x));
     }
 }

@@ -1,50 +1,29 @@
-package forex.processing;
+package forex.checker;
 
-import forex.checker.BuyCheckerService;
-import forex.entity.Grid;
 import forex.entity.SimpleGrid;
 import forex.load.Price;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-@Service
-public class GridGenerator {
-    @Autowired
-    private GridService gridService;
-    @Autowired
-    private BuyCheckerService buyChecker;
-
-    public void process(List<Price> priceListM2, List<Price> priceListM3) {
-        SimpleGrid simpleGrid = new SimpleGrid();
-        var iMax = 0;
-        for (int i = 1; i < priceListM2.size(); i++) {
-            var localDateTime = priceListM2.get(i).getDateValue();
-
-            if (localDateTime.getDayOfWeek() == DayOfWeek.MONDAY
-                    && priceListM2.get(i - 1).getDateValue().getDayOfWeek() != DayOfWeek.MONDAY) {    //сброс в понедельник
-                resetSimpleGrid(simpleGrid, priceListM2.get(i).getMinPrice());
-            }
-            if (processGrid(simpleGrid, priceListM2.get(i))) {
-                Grid grid = new Grid(localDateTime, simpleGrid.getMaxGrid(), simpleGrid.getMinGrid(), simpleGrid.getPulseCount(), simpleGrid.getRollbackCount());
-                buyChecker.checkBuy(grid, i, priceListM2, priceListM3);
-                i -= simpleGrid.getRollbackCount();
-                resetSimpleGrid(simpleGrid, simpleGrid.getRecLow());
-            }
-            if (i > iMax) {
-                iMax = i;
-                gridService.processing(priceListM2.get(i));
-            }
-        }
-    }
+@Data
+@Builder
+public class M3Checker implements Callable<Boolean> {
+    private List<Price> priceList;
 
     private void resetSimpleGrid(SimpleGrid simpleGrid, float minGrid) {
         simpleGrid.setMinGrid(minGrid);
         simpleGrid.setPulseCount(1);
         simpleGrid.setRollbackCount(0);
         simpleGrid.setMaxGrid(0);
+    }
+
+    public boolean processM3(List<Price> priceList) {
+        SimpleGrid simpleGrid = new SimpleGrid();
+        return priceList.stream().anyMatch(x -> processGrid(simpleGrid, x));
     }
 
     private boolean processGrid(SimpleGrid grid, Price priceList) {
@@ -77,4 +56,8 @@ public class GridGenerator {
         return work;
     }
 
+    @Override
+    public Boolean call() throws Exception {
+        return processM3(priceList);
+    }
 }

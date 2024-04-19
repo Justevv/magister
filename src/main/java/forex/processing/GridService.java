@@ -16,38 +16,39 @@ public class GridService {
     private static final float FIBONACCI_0618 = 0.618f;
     private static final float FIBONACCI_1618 = 1.618f;
     private static final int FINAL_STEP = 25;
-    private final List<Grid> workGrid = new ArrayList<>();
+    private final List<Grid> workGrids = new ArrayList<>();
     @Getter
     private final List<Grid> orders = new ArrayList<>();
     @Autowired
     private OrderService orderService;
 
     public void addWorkGrid(Grid grid) {
-        workGrid.add(grid);
+        workGrids.add(grid);
     }
 
     public void processing(Price price) {
-        for (int i = 0; i < workGrid.size(); i++) {
-            filterByTime(workGrid.get(i), price);
-            var steps = workGrid.get(i).getSteps();
+        for (int i = 0; i < workGrids.size(); i++) {
+            Grid grid = workGrids.get(i);
+            filterByTime(grid, price);
+            var steps = grid.getSteps();
             switch (steps.get(steps.size() - 1)) {
-                case 1 -> calculateStart(workGrid.get(i), price);
-                case 2 -> calculate61To100(workGrid.get(i), price);
-                case 3 -> calculate100To61(workGrid.get(i), price);
-                case 4 -> calculate100To61To38(workGrid.get(i), price);
-                case 5 -> calculate100To38ToZero(workGrid.get(i), price);
-                case 6 -> calculate61To38(workGrid.get(i), price);
-                case 7 -> calculate61To38To61(workGrid.get(i), price);
-                case 8 -> calculate61To38To100(workGrid.get(i), price);
-                case 9 -> calculate61To38To61To38(workGrid.get(i), price);
-                case 10 -> calculate61To38To100To61(workGrid.get(i), price);
-                case 11 -> calculate61To38To61To38To100(workGrid.get(i), price);
-                case 20 -> resolveStepAfter18(workGrid.get(i), price);
-                case 21 -> calculateAfter18Low(workGrid.get(i), price);
-                case 22 -> calculateAfter18High(workGrid.get(i), price);
+                case 1 -> calculateStart(grid, price);
+                case 2 -> calculate61To100(grid, price);
+                case 3 -> calculate100To61(grid, price);
+                case 4 -> calculate100To61To38(grid, price);
+                case 5 -> calculate100To38ToZero(grid, price);
+                case 6 -> calculate61To38(grid, price);
+                case 7 -> calculate61To38To61(grid, price);
+                case 8 -> calculate61To38To100(grid, price);
+                case 9 -> calculate61To38To61To38(grid, price);
+                case 10 -> calculate61To38To100To61(grid, price);
+                case 11 -> calculate61To38To61To38To100(grid, price);
+                case 20 -> resolveStepAfter18(grid, price);
+                case 21 -> calculateAfter18Low(grid, price);
+                case 22 -> calculateAfter18High(grid, price);
                 case FINAL_STEP -> {
-                    orders.add(workGrid.get(i));
-                    workGrid.remove(workGrid.get(i));
+                    orders.add(grid);
+                    workGrids.remove(grid);
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + steps.get(steps.size() - 1));
             }
