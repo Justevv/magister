@@ -1,5 +1,6 @@
 package forex.load;
 
+import forex.constant.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class DataLoading {
-    private static final int PRICE_MULTIPLIER = 100000;
     private static final String CVS_SPLIT_BY = ",";
     private static final String FILTER_YEAR_STRING = "2015.";
     private static final boolean FILTER = false;
@@ -23,17 +23,15 @@ public class DataLoading {
         var formatter = DateTimeFormatter.ofPattern("yyyy.MM.ddHH:mm");
         var content = readFile(csvFile);
         return content
-                .stream()
+                .parallelStream()
 //                .filter(x -> x.contains(FILTER_YEAR_STRING) || !FILTER)
                 .map(x -> {
                     String[] row = x.split(CVS_SPLIT_BY);
                     return new Price(
                             LocalDateTime.parse(row[0].concat(row[1]), formatter),
-//                            null,
-//                            LocalDateTime.now(),
-                            (int) (Float.parseFloat(row[3])*PRICE_MULTIPLIER),
-                            (int) (Float.parseFloat(row[4])*PRICE_MULTIPLIER),
-                            (int) (Float.parseFloat(row[5])*PRICE_MULTIPLIER));
+                            (Integer.parseInt(row[3].replace(".", ""))),
+                            (Integer.parseInt(row[4].replace(".", ""))),
+                            (Integer.parseInt(row[5].replace(".", ""))));
                 })
 //                .filter(x->x.getDateValue().getMonth()== Month.FEBRUARY)
                 .toList();

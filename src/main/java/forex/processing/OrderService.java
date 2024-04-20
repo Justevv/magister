@@ -38,20 +38,20 @@ public class OrderService {
             var order = optionalOrder.get();
             order.setClosePriceType(closePriceType);
             order.setClosePrice(calculateClosePrice(grid, closePriceType));
-            order.setProfit((order.getClosePrice() - order.getOpenPrice()) * PRICE_MULTIPLIER);
+            order.setProfit((order.getClosePrice() - order.getOpenPrice()));
         }
     }
 
-    private double calculateOpenPrice(Grid grid, Strategy strategy) {
-        return grid.getBuyMinGrid() + (grid.getSizeGrid() * strategy.getOpenStrategy().getOpenPrice().getValue()) / PRICE_MULTIPLIER + SPREAD + FILTER;
+    private int calculateOpenPrice(Grid grid, Strategy strategy) {
+        return (int) (grid.getBuyMinGrid() + (grid.getSizeGrid() * strategy.getOpenStrategy().getOpenPrice().getValue()) + SPREAD + FILTER);
     }
 
-    private double calculateClosePrice(Grid grid, ClosePriceType closePriceType) {
-        final double price = grid.getBuyMinGrid() + (grid.getSizeGrid() * closePriceType.getValue()) / PRICE_MULTIPLIER;
+    private int calculateClosePrice(Grid grid, ClosePriceType closePriceType) {
+        final double price = grid.getBuyMinGrid() + (grid.getSizeGrid() * closePriceType.getValue());
         return switch (closePriceType) {
-            case FIBONACCI_1618, FIBONACCI_0 -> price;
-            case FIBONACCI_1000, FIBONACCI_0618, FIBONACCI_0382 -> price + SPREAD + FILTER;
-            case FIBONACCI_0_MINUS_2000 -> price - SPREAD;
+            case FIBONACCI_1618, FIBONACCI_0 -> (int) price;
+            case FIBONACCI_1000, FIBONACCI_0618, FIBONACCI_0382 -> (int) (price + SPREAD + FILTER);
+            case FIBONACCI_0_MINUS_2000 -> (int) price - MINUS_2000;
         };
     }
 

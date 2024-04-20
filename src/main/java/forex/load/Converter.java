@@ -1,11 +1,8 @@
 package forex.load;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Converter {
-    LocalDateTime datePlus1Bar;
-    LocalDateTime datePlus1Minutes;
 
     Price setPriceTwoCoincidences(Price currentPrice, Price featurePrice) {
         Price price = new Price();
@@ -25,8 +22,9 @@ public class Converter {
         return price;
     }
 
-    void settingCalendarPlus1(List<Price> priceM1List, int m2) {
-        datePlus1Bar = priceM1List.get(m2 + 1).getDateValue();
-        datePlus1Minutes = priceM1List.get(m2).getDateValue().plusMinutes(1);
+    boolean checkBar(Price currentPrice, Price featurePrice) {
+        LocalDateTime datePlus1Bar = featurePrice.getDateValue();
+        LocalDateTime datePlus1Minutes = currentPrice.getDateValue().plusMinutes(1);
+        return datePlus1Minutes.isEqual(datePlus1Bar);
     }
 }

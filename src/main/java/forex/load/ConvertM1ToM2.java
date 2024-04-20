@@ -15,8 +15,7 @@ public class ConvertM1ToM2 extends Converter {
         for (int m2 = 0; m2 < priceM1List.size() - 1; m2++) {
             Price price;
             var date = priceM1List.get(m2).getDateValue();
-            settingCalendarPlus1(priceM1List, m2);
-            if ((date.getMinute() % 2) == 0 && datePlus1Minutes.isEqual(datePlus1Bar)) {
+            if ((date.getMinute() % 2) == 0 && checkBar(priceM1List.get(m2), priceM1List.get(m2 + 1))) {
                 price = setPriceTwoCoincidences(priceM1List.get(m2), priceM1List.get(m2+1));
                 m2++;
             } else {

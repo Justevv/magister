@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static forex.constant.Constant.*;
+
 @Service
 public class GridService {
-    private static final float FIBONACCI_0382 = 0.382f;
-    private static final float FIBONACCI_0618 = 0.618f;
-    private static final float FIBONACCI_1618 = 1.618f;
     private static final int FINAL_STEP = 25;
     private final List<Grid> workGrids = new ArrayList<>();
     @Getter
@@ -246,7 +245,7 @@ public class GridService {
     }
 
     private boolean isFibonacci100Reached(Grid grid, Price price) {
-        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1 + grid.getBuyMinGrid() < price.getMaxPrice() - Constant.SPREAD;
+        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * Constant.FIBONACCI_1000 + grid.getBuyMinGrid() < price.getMaxPrice() - Constant.SPREAD;
     }
 
     private boolean isFibonacci100ReachedHigh(Grid grid, Price price) {

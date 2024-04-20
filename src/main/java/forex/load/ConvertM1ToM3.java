@@ -29,9 +29,8 @@ public class ConvertM1ToM3 extends Converter {
                 price.setClosePrice(priceM1List.get(m2 + 2).getClosePrice());
                 m2 += 2;
             } else {
-                settingCalendarPlus1(priceM1List, m2);
-                if (date.getMinute() % 3 == 0 && datePlus2Minutes.equals(datePlus1Bar) ||
-                        datePlus1Minutes.equals(datePlus1Bar)) {
+                if (date.getMinute() % 3 == 0 && datePlus2Minutes.equals(priceM1List.get(m2 + 1).getDateValue()) ||
+                        checkBar(priceM1List.get(m2), priceM1List.get(m2 + 1))) {
                     price = setPriceTwoCoincidences(priceM1List.get(m2), priceM1List.get(m2 + 1));
                     m2++;
                 } else {
