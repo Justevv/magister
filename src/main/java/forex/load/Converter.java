@@ -7,18 +7,22 @@ public class Converter {
     LocalDateTime datePlus1Bar;
     LocalDateTime datePlus1Minutes;
 
-    int setPriceTwoCoincidences(List<Price> priceM1List, int m2, Price price) {
-        price.setMaxPrice(Math.max(priceM1List.get(m2).getMaxPrice(), priceM1List.get(m2 + 1).getMaxPrice()));
-        price.setMinPrice(Math.min(priceM1List.get(m2).getMinPrice(), priceM1List.get(m2 + 1).getMinPrice()));
-        price.setClosePrice(priceM1List.get(m2 + 1).getClosePrice());
-        m2++;
-        return m2;
+    Price setPriceTwoCoincidences(Price currentPrice, Price featurePrice) {
+        Price price = new Price();
+        price.setMaxPrice(Math.max(currentPrice.getMaxPrice(), featurePrice.getMaxPrice()));
+        price.setMinPrice(Math.min(currentPrice.getMinPrice(), featurePrice.getMinPrice()));
+        price.setClosePrice(featurePrice.getClosePrice());
+        price.setDateValue(currentPrice.getDateValue());
+        return price;
     }
 
-    void setPriceOneCoincidences(Price m1Price, Price price) {
+    Price setPriceOneCoincidences(Price m1Price) {
+        Price price = new Price();
+        price.setDateValue(m1Price.getDateValue());
         price.setMaxPrice(m1Price.getMaxPrice());
         price.setMinPrice(m1Price.getMinPrice());
         price.setClosePrice(m1Price.getClosePrice());
+        return price;
     }
 
     void settingCalendarPlus1(List<Price> priceM1List, int m2) {

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class SimpleGrid {
-    private float maxGrid = 0; //максимум сетки
+    private double maxGrid = 0; //максимум сетки
     private float minGrid = 2; //минимум сетки
     private int pulseCount = 0; //счетчик импульсов
     private int rollbackCount = 0;  //счетчик откатов

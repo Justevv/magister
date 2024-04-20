@@ -42,12 +42,12 @@ public class OrderService {
         }
     }
 
-    private float calculateOpenPrice(Grid grid, Strategy strategy) {
+    private double calculateOpenPrice(Grid grid, Strategy strategy) {
         return grid.getBuyMinGrid() + (grid.getSizeGrid() * strategy.getOpenStrategy().getOpenPrice().getValue()) / PRICE_MULTIPLIER + SPREAD + FILTER;
     }
 
-    private float calculateClosePrice(Grid grid, ClosePriceType closePriceType) {
-        final float price = grid.getBuyMinGrid() + (grid.getSizeGrid() * closePriceType.getValue()) / PRICE_MULTIPLIER;
+    private double calculateClosePrice(Grid grid, ClosePriceType closePriceType) {
+        final double price = grid.getBuyMinGrid() + (grid.getSizeGrid() * closePriceType.getValue()) / PRICE_MULTIPLIER;
         return switch (closePriceType) {
             case FIBONACCI_1618, FIBONACCI_0 -> price;
             case FIBONACCI_1000, FIBONACCI_0618, FIBONACCI_0382 -> price + SPREAD + FILTER;
