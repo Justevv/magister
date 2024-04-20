@@ -1,8 +1,9 @@
 package forex.constant;
 
 public class Constant {
-    public static final float SPREAD = 0.00020f;
-    public static final float FILTER = 0.00001f;
+    public static final float SPREAD = 20;
+    public static final int MINUS_2000 = 2000;
+    public static final float FILTER = 10;
     public static final float PRICE_MULTIPLIER = 100000;
     public static final float FIBONACCI_0 = 0;
     public static final float FIBONACCI_0382 = 0.382f;

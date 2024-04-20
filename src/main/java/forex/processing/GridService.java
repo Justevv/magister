@@ -1,5 +1,6 @@
 package forex.processing;
 
+import forex.constant.Constant;
 import forex.entity.*;
 import forex.load.Price;
 import lombok.Getter;
@@ -11,7 +12,6 @@ import java.util.List;
 
 @Service
 public class GridService {
-    private static final float SPREAD = 0.00020f;
     private static final float FIBONACCI_0382 = 0.382f;
     private static final float FIBONACCI_0618 = 0.618f;
     private static final float FIBONACCI_1618 = 1.618f;
@@ -242,11 +242,11 @@ public class GridService {
     }
 
     private boolean isFibonacci1618Reached(Grid grid, Price price) {
-        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * FIBONACCI_1618 + grid.getBuyMinGrid() < price.getMaxPrice() - SPREAD;
+        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * FIBONACCI_1618 + grid.getBuyMinGrid() < price.getMaxPrice() - Constant.SPREAD;
     }
 
     private boolean isFibonacci100Reached(Grid grid, Price price) {
-        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1 + grid.getBuyMinGrid() < price.getMaxPrice() - SPREAD;
+        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 1 + grid.getBuyMinGrid() < price.getMaxPrice() - Constant.SPREAD;
     }
 
     private boolean isFibonacci100ReachedHigh(Grid grid, Price price) {
@@ -258,11 +258,11 @@ public class GridService {
     }
 
     private boolean isFibonacci0618ReachedSpread(Grid grid, Price price) {
-        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * FIBONACCI_0618 + grid.getBuyMinGrid() > price.getMinPrice() - SPREAD;
+        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * FIBONACCI_0618 + grid.getBuyMinGrid() > price.getMinPrice() - Constant.SPREAD;
     }
 
     private boolean isFibonacci0618ReachedLow(Grid grid, Price price) {
-        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * FIBONACCI_0618 + grid.getBuyMinGrid() < price.getMaxPrice() - SPREAD;
+        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * FIBONACCI_0618 + grid.getBuyMinGrid() < price.getMaxPrice() - Constant.SPREAD;
     }
 
     private boolean isFibonacci0382Reached(Grid grid, Price price) {
@@ -270,7 +270,7 @@ public class GridService {
     }
 
     private boolean isFibonacci0382ReachedLow(Grid grid, Price price) {
-        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * FIBONACCI_0382 + grid.getBuyMinGrid() > price.getMinPrice() - SPREAD;
+        return (grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * FIBONACCI_0382 + grid.getBuyMinGrid() > price.getMinPrice() - Constant.SPREAD;
     }
 
     private boolean isFibonacci0Reached(Grid grid, Price price) {
@@ -278,7 +278,7 @@ public class GridService {
     }
 
     private boolean isFibonacci0Minus2000Reached(Grid grid, Price price) {
-        return grid.getBuyMinGrid() + 0.02000 > price.getMinPrice();
+        return grid.getBuyMinGrid() + Constant.MINUS_2000 > price.getMinPrice();
     }
 
 }

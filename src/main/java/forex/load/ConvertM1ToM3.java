@@ -20,8 +20,8 @@ public class ConvertM1ToM3 extends Converter {
                 price = new Price();
                 price.setDateValue(priceM1List.get(m2).getDateValue());
                 List<Price> priceList = priceM1List.subList(m2, m2+3);
-                float maxPrice = (float) priceList.stream()
-                        .mapToDouble(Price::getMaxPrice)
+                int maxPrice = priceList.stream()
+                        .mapToInt(Price::getMaxPrice)
                         .max()
                         .orElse(0);
                 price.setMaxPrice(maxPrice);

@@ -9,11 +9,11 @@ import java.util.List;
 @Data
 public class Grid {
     private LocalDateTime buyDataValue;
-    private double buyMaxGrid;
-    private float buyMinGrid;
+    private int buyMaxGrid;
+    private int buyMinGrid;
     private int buyPulseCount;
     private int buyRollbackCount;
-    private double sizeGrid;
+    private int sizeGrid;
     private List<Integer> steps;
     private MaximumRollback maximumRollback;
     private MaximumLevel maximumLevel;
@@ -22,13 +22,13 @@ public class Grid {
     private boolean m3Ok;
     private List<Order> orders;
 
-    public Grid(LocalDateTime buyDataValue, double buyMaxGrid, float buyMinGrid, int buyPulseCount, int buyRollbackCount) {
+    public Grid(LocalDateTime buyDataValue, int buyMaxGrid, int buyMinGrid, int buyPulseCount, int buyRollbackCount) {
         this.buyDataValue = buyDataValue;
         this.buyMaxGrid = buyMaxGrid;
         this.buyMinGrid = buyMinGrid;
         this.buyPulseCount = buyPulseCount;
         this.buyRollbackCount = buyRollbackCount;
-        this.sizeGrid = (buyMaxGrid - buyMinGrid) * 100000;
+        this.sizeGrid = (buyMaxGrid - buyMinGrid);
         maximumDrawdown = new MaximumDrawdown();
         maximumLevel = new MaximumLevel();
         maximumRollback = new MaximumRollback();

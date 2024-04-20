@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Price {
     private LocalDateTime dateValue;
-    private float maxPrice;
-    private float minPrice;
-    private float closePrice;
+    private int maxPrice;
+    private int minPrice;
+    private int closePrice;
 }

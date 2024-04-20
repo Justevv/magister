@@ -39,7 +39,7 @@ public class BuyCheckerService {
 //                && priceList.get(i - grid.getBuyRollbackCount()).getDateValue().getHour() <= 17
         ) {
             grids.add(grid);
-            int m2Bar = i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2;
+            int m2Bar = Math.max(i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2,0);
             for (int j = (m2Bar) * 2 / 3; j < priceListM3.size(); j++) {
                 if (priceListM3.get(j).getDateValue().isAfter(priceList.get(m2Bar).getDateValue()) && priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
                     List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());

@@ -14,7 +14,7 @@ public class ExponentialMovingAverage {
     @Autowired
     private SimpleMovingAverage sma;
 
-    public List<Float> calculate(List<Float> prices, int period) throws Exception {
+    public List<Float> calculate(List<Integer> prices, int period) throws Exception {
 
         if (period >= prices.size())
             throw new Exception("Given period is bigger then given set of prices");

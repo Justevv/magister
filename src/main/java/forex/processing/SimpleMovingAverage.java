@@ -9,7 +9,7 @@ import java.util.List;
  */
 @Service
 public class SimpleMovingAverage {
-    public double calculate(List<Float> price, int period) throws Exception {
+    public double calculate(List<Integer> price, int period) throws Exception {
 
         // ie: if you want 50 SMA then you need 50 data points
         if (price.size() < period)

@@ -72,7 +72,7 @@ public class Calculator implements CommandLineRunner {
                 .flatMap(x -> x.getOrders().stream())
                 .collect(Collectors.groupingBy(Order::getStrategy, Collectors.summarizingDouble(Order::getProfit)));
         printStrategyStatistic(strategyProfit);
-//        gridService.getOrders().forEach(System.out::println);
+        gridService.getOrders().forEach(System.out::println);
         log.info("Currency execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
     }
 

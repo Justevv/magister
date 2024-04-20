@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class M3CheckerService {
 
-    private void resetSimpleGrid(SimpleGrid simpleGrid, float minGrid) {
+    private void resetSimpleGrid(SimpleGrid simpleGrid, int minGrid) {
         simpleGrid.setMinGrid(minGrid);
         simpleGrid.setPulseCount(1);
         simpleGrid.setRollbackCount(0);

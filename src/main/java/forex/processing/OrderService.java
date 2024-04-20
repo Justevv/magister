@@ -51,7 +51,7 @@ public class OrderService {
         return switch (closePriceType) {
             case FIBONACCI_1618, FIBONACCI_0 -> price;
             case FIBONACCI_1000, FIBONACCI_0618, FIBONACCI_0382 -> price + SPREAD + FILTER;
-            case FIBONACCI_0_MINUS_2000 -> price - 0.02f;
+            case FIBONACCI_0_MINUS_2000 -> price - SPREAD;
         };
     }
 

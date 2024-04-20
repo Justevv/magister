@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class DataLoading {
+    private static final int PRICE_MULTIPLIER = 100000;
     private static final String CVS_SPLIT_BY = ",";
     private static final String FILTER_YEAR_STRING = "2015.";
     private static final boolean FILTER = false;
@@ -22,7 +23,7 @@ public class DataLoading {
         var formatter = DateTimeFormatter.ofPattern("yyyy.MM.ddHH:mm");
         var content = readFile(csvFile);
         return content
-                .parallelStream()
+                .stream()
 //                .filter(x -> x.contains(FILTER_YEAR_STRING) || !FILTER)
                 .map(x -> {
                     String[] row = x.split(CVS_SPLIT_BY);
@@ -30,9 +31,9 @@ public class DataLoading {
                             LocalDateTime.parse(row[0].concat(row[1]), formatter),
 //                            null,
 //                            LocalDateTime.now(),
-                            Float.parseFloat(row[3]),
-                            Float.parseFloat(row[4]),
-                            Float.parseFloat(row[5]));
+                            (int) (Float.parseFloat(row[3])*PRICE_MULTIPLIER),
+                            (int) (Float.parseFloat(row[4])*PRICE_MULTIPLIER),
+                            (int) (Float.parseFloat(row[5])*PRICE_MULTIPLIER));
                 })
 //                .filter(x->x.getDateValue().getMonth()== Month.FEBRUARY)
                 .toList();
