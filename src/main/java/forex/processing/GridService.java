@@ -86,7 +86,7 @@ public class GridService {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(FINAL_STEP);
-            orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI1618);
+            orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI_1618);
         } else if (isFibonacci0618Reached(grid, price)) {
             orderService.openOrders(grid, OpenStrategy.MAXIMUM_DRAWDOWN_61, price);
             grid.getMaximumDrawdown().setLevel61(true);
@@ -98,12 +98,12 @@ public class GridService {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(FINAL_STEP);
-            orderService.closeOrders(grid, List.of(Strategy.MD61SL38, Strategy.MD61SL0, Strategy.CLASSIC), ClosePriceType.FIBONACCI1618);
+            orderService.closeOrders(grid, List.of(Strategy.MD61SL38, Strategy.MD61SL0, Strategy.CLASSIC), ClosePriceType.FIBONACCI_1618);
         } else if (isFibonacci0382Reached(grid, price)) {
             orderService.openOrders(grid, OpenStrategy.MAXIMUM_DRAWDOWN_38, price);
             grid.getMaximumDrawdown().setLevel38(true);
             grid.getSteps().add(4);
-            orderService.closeOrders(grid, List.of(Strategy.MD61SL38), ClosePriceType.FIBONACCI0382);
+            orderService.closeOrders(grid, List.of(Strategy.MD61SL38), ClosePriceType.FIBONACCI_0382);
         }
     }
 
@@ -111,21 +111,21 @@ public class GridService {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(FINAL_STEP);
-            orderService.closeOrders(grid, List.of(Strategy.MD61SL0, Strategy.MD38SL2000, Strategy.MD38SLO, Strategy.CLASSIC), ClosePriceType.FIBONACCI1618);
+            orderService.closeOrders(grid, List.of(Strategy.MD61SL0, Strategy.MD38SL2000, Strategy.MD38SLO, Strategy.CLASSIC), ClosePriceType.FIBONACCI_1618);
         } else if (isFibonacci0Reached(grid, price)) {
             grid.getMaximumDrawdown().setLevel0(true);
             grid.getSteps().add(5);
-            orderService.closeOrders(grid, List.of(Strategy.MD61SL0, Strategy.MD38SLO), ClosePriceType.FIBONACCI0);
+            orderService.closeOrders(grid, List.of(Strategy.MD61SL0, Strategy.MD38SLO), ClosePriceType.FIBONACCI_0);
         }
     }
 
     private void calculate100To38ToZero(Grid grid, Price price) {
         if (isFibonacci100Reached(grid, price)) {
             grid.getSteps().add(FINAL_STEP);
-            orderService.closeOrders(grid, List.of(Strategy.MD38SL2000, Strategy.CLASSIC), ClosePriceType.FIBONACCI1000);
+            orderService.closeOrders(grid, List.of(Strategy.MD38SL2000, Strategy.CLASSIC), ClosePriceType.FIBONACCI_1000);
         } else if (isFibonacci0Minus2000Reached(grid, price)) {
             grid.getMaximumDrawdown().setLevelMinus2000(true);
-            orderService.closeOrders(grid, List.of(Strategy.MD38SL2000, Strategy.CLASSIC), ClosePriceType.FIBONACCI0MINUS2000);
+            orderService.closeOrders(grid, List.of(Strategy.MD38SL2000, Strategy.CLASSIC), ClosePriceType.FIBONACCI_0_MINUS_2000);
             grid.getSteps().add(FINAL_STEP);
         }
     }
@@ -135,7 +135,7 @@ public class GridService {
             orderService.openOrders(grid, OpenStrategy.AC, price);
             grid.getSteps().add(7);
         } else if (isFibonacci0Reached(grid, price)) {
-            orderService.closeOrders(grid, List.of(Strategy.MR38SL0ACSL1CLASSIC62, Strategy.MR38SL0ACSL1, Strategy.MR38SL0), ClosePriceType.FIBONACCI0);
+            orderService.closeOrders(grid, List.of(Strategy.MR38SL0ACSL1CLASSIC62, Strategy.MR38SL0ACSL1, Strategy.MR38SL0), ClosePriceType.FIBONACCI_0);
             grid.getMaximumRollback().setLevel0(true);
             grid.getSteps().add(FINAL_STEP);
         }
@@ -147,7 +147,7 @@ public class GridService {
             grid.getSteps().add(8);
             orderService.openOrders(grid, OpenStrategy.CLASSIC, price);
         } else if (isFibonacci0382ReachedLow(grid, price)) {
-            orderService.closeOrders(grid, List.of(Strategy.ACSL38CLASSIC1, Strategy.MR38SL0ACSL1CLASSIC62, Strategy.MR38SL0ACSL1), ClosePriceType.FIBONACCI0382);
+            orderService.closeOrders(grid, List.of(Strategy.ACSL38CLASSIC1, Strategy.MR38SL0ACSL1CLASSIC62, Strategy.MR38SL0ACSL1), ClosePriceType.FIBONACCI_0382);
             grid.getMaximumRollback().setLevelAC38(true);
             grid.getSteps().add(9);
         }
@@ -158,10 +158,10 @@ public class GridService {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(FINAL_STEP);
             orderService.closeOrders(grid,
-                    List.of(Strategy.ACSL38CLASSIC1, Strategy.ACSL0CLASSIC1, Strategy.MR38SL0ACSL1CLASSIC62, Strategy.CLASSIC, Strategy.MR38SL0ACSL1, Strategy.MR38SL0), ClosePriceType.FIBONACCI1618);
+                    List.of(Strategy.ACSL38CLASSIC1, Strategy.ACSL0CLASSIC1, Strategy.MR38SL0ACSL1CLASSIC62, Strategy.CLASSIC, Strategy.MR38SL0ACSL1, Strategy.MR38SL0), ClosePriceType.FIBONACCI_1618);
         } else if (isFibonacci0618ReachedSpread(grid, price)) {
             grid.getMaximumDrawdown().setLevel61(true);
-            orderService.closeOrders(grid, List.of(Strategy.MR38SL0ACSL1CLASSIC62), ClosePriceType.FIBONACCI0618);
+            orderService.closeOrders(grid, List.of(Strategy.MR38SL0ACSL1CLASSIC62), ClosePriceType.FIBONACCI_0618);
 //            BUACFibo61[currentTransaction] = 1;
             grid.getSteps().add(10);
         }
@@ -174,7 +174,7 @@ public class GridService {
             orderService.openOrders(grid, OpenStrategy.CLASSIC, price);
         } else if (isFibonacci0Reached(grid, price)) {
             grid.getMaximumRollback().setLevel0(true);
-            orderService.closeOrders(grid, List.of(Strategy.ACSL0CLASSIC1), ClosePriceType.FIBONACCI0);
+            orderService.closeOrders(grid, List.of(Strategy.ACSL0CLASSIC1), ClosePriceType.FIBONACCI_0);
             grid.getSteps().add(FINAL_STEP);
         }
     }
@@ -183,10 +183,10 @@ public class GridService {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(FINAL_STEP);
-            orderService.closeOrders(grid, List.of(Strategy.ACSL0CLASSIC1, Strategy.CLASSIC), ClosePriceType.FIBONACCI1618);
+            orderService.closeOrders(grid, List.of(Strategy.ACSL0CLASSIC1, Strategy.CLASSIC), ClosePriceType.FIBONACCI_1618);
         } else if (isFibonacci0Reached(grid, price)) {
             grid.getMaximumDrawdown().setLevel0(true);
-            orderService.closeOrders(grid, List.of(Strategy.ACSL0CLASSIC1), ClosePriceType.FIBONACCI0);
+            orderService.closeOrders(grid, List.of(Strategy.ACSL0CLASSIC1), ClosePriceType.FIBONACCI_0);
             grid.getSteps().add(FINAL_STEP);
         }
     }
@@ -195,12 +195,12 @@ public class GridService {
         if (isFibonacci1618Reached(grid, price)) {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(FINAL_STEP);
-            orderService.closeOrders(grid, List.of(Strategy.CLASSIC, Strategy.MR38SL0ACSL1, Strategy.MR38SL0), ClosePriceType.FIBONACCI1618);
+            orderService.closeOrders(grid, List.of(Strategy.CLASSIC, Strategy.MR38SL0ACSL1, Strategy.MR38SL0), ClosePriceType.FIBONACCI_1618);
         } else if (isFibonacci0Reached(grid, price)) {
             grid.getMaximumDrawdown().setLevel0(true);
             grid.getSteps().add(FINAL_STEP);
-            orderService.closeOrders(grid, List.of(Strategy.CLASSIC, Strategy.MR38SL0), ClosePriceType.FIBONACCI0);
-            orderService.closeOrders(grid, List.of(Strategy.CLASSIC, Strategy.MR38SL0ACSL1), ClosePriceType.FIBONACCI0382);
+            orderService.closeOrders(grid, List.of(Strategy.CLASSIC, Strategy.MR38SL0), ClosePriceType.FIBONACCI_0);
+            orderService.closeOrders(grid, List.of(Strategy.CLASSIC, Strategy.MR38SL0ACSL1), ClosePriceType.FIBONACCI_0382);
         }
     }
 
@@ -209,16 +209,16 @@ public class GridService {
             grid.getMaximumLevel().setLevel161(true);
             grid.getSteps().add(FINAL_STEP);
             var openStrategies = grid.getOrders().stream().map(Order::getStrategy).toList();
-            orderService.closeOrders(grid, openStrategies, ClosePriceType.FIBONACCI1618);
+            orderService.closeOrders(grid, openStrategies, ClosePriceType.FIBONACCI_1618);
             if (grid.getOrders().stream().anyMatch(x -> x.getStrategy().equals(Strategy.CLASSIC))) {
-                orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI1618);
+                orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI_1618);
             }
         } else if (isFibonacci100Reached(grid, price)) {
             grid.getSteps().add(FINAL_STEP);
             var openStrategies = grid.getOrders().stream().map(Order::getStrategy).toList();
-            orderService.closeOrders(grid, openStrategies, ClosePriceType.FIBONACCI1000);
+            orderService.closeOrders(grid, openStrategies, ClosePriceType.FIBONACCI_1000);
             if (grid.getOrders().stream().anyMatch(x -> x.getStrategy().equals(Strategy.CLASSIC))) {
-                orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI1000);
+                orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI_1000);
             }
         }
     }
@@ -227,16 +227,16 @@ public class GridService {
         if (isFibonacci100Reached(grid, price)) {
             grid.getSteps().add(FINAL_STEP);
             var openStrategies = grid.getOrders().stream().map(Order::getStrategy).toList();
-            orderService.closeOrders(grid, openStrategies, ClosePriceType.FIBONACCI1000);
+            orderService.closeOrders(grid, openStrategies, ClosePriceType.FIBONACCI_1000);
             if (grid.getOrders().stream().anyMatch(x -> x.getStrategy().equals(Strategy.CLASSIC))) {
-                orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI1000);
+                orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI_1000);
             }
         } else if (isFibonacci0Reached(grid, price)) {
             grid.getSteps().add(FINAL_STEP);
             var openStrategies = grid.getOrders().stream().map(Order::getStrategy).toList();
-            orderService.closeOrders(grid, openStrategies, ClosePriceType.FIBONACCI0);
+            orderService.closeOrders(grid, openStrategies, ClosePriceType.FIBONACCI_0);
             if (grid.getOrders().stream().anyMatch(x -> x.getStrategy().equals(Strategy.CLASSIC))) {
-                orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI0);
+                orderService.closeOrders(grid, List.of(Strategy.CLASSIC), ClosePriceType.FIBONACCI_0);
             }
         }
     }

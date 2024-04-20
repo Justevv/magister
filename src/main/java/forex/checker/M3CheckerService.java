@@ -14,8 +14,6 @@ import java.util.List;
 @Data
 @Builder
 public class M3CheckerService {
-    @Autowired
-    private GridService gridService;
 
     private void resetSimpleGrid(SimpleGrid simpleGrid, float minGrid) {
         simpleGrid.setMinGrid(minGrid);
