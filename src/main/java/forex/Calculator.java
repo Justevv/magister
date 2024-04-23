@@ -1,14 +1,13 @@
 package forex;
 
+import forex.checker.M3Checker;
 import forex.entity.Order;
 import forex.entity.Statistic;
 import forex.entity.Strategy;
-import forex.load.ConvertM1ToM2;
-import forex.load.ConvertM1ToM3;
-import forex.load.DataLoading;
-import forex.load.Price;
+import forex.load.*;
 import forex.processing.GridGenerator;
 import forex.processing.GridService;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +16,8 @@ import org.springframework.stereotype.Component;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,7 +28,7 @@ public class Calculator implements CommandLineRunner {
     private static final String AUD_USD_1 = "audUSD1.csv";
     private static final String GBP_USD_1 = "gbpUSD1.csv";
     private static final List<String> currencies = List.of(EUR_USD_1);
-//    private static final List<String> currencies = List.of(EUR_USD_1, AUD_USD_1, GBP_USD_1);
+    //    private static final List<String> currencies = List.of(EUR_USD_1, AUD_USD_1, GBP_USD_1);
     @Autowired
     private GridService gridService;
     @Autowired
@@ -37,8 +38,13 @@ public class Calculator implements CommandLineRunner {
     @Autowired
     private ConvertM1ToM3 convertM1ToM3;
     @Autowired
+    private ConvertM1ToM2V2 convertM1ToM2V2;
+    @Autowired
+    private ConvertM1ToM3V2 convertM1ToM3V2;
+    @Autowired
     private GridGenerator gridGenerator;
     private long startTime;
+    private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     @Override
     public void run(String... args) {
@@ -51,15 +57,17 @@ public class Calculator implements CommandLineRunner {
         log.info("Program execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
     }
 
+    @SneakyThrows
     public void run(String csvFile) {
         List<Price> priceM1s = dataLoading.run(csvFile);
         log.info("Download execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
-        List<Price> priceM2s = convertM1ToM2.convert(priceM1s);
-        log.info("convert to M2 execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
-        List<Price> priceM3s = convertM1ToM3.convert(priceM1s);
-        log.info("convert to M3 execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
-        gridGenerator.process(priceM2s, priceM3s);
+        convertM1ToM2V2.setPriceM1List(priceM1s);
+        convertM1ToM3V2.setPriceM1List(priceM1s);
+        var priceM2 = executorService.submit(convertM1ToM2V2);
+        var priceM3 = executorService.submit(convertM1ToM3V2);
+        gridGenerator.process(priceM2.get(), priceM3.get());
         log.info("generation grid execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
+        executorService.shutdown();
 
         var profit = gridService.getOrders().stream()
                 .flatMap(x -> x.getOrders().stream())
