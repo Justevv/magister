@@ -4,6 +4,7 @@ import forex.checker.BuyCheckerService;
 import forex.entity.Grid;
 import forex.entity.SimpleGrid;
 import forex.load.Price;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.time.DayOfWeek;
 import java.util.List;
 
 @Service
+@Slf4j
 public class GridGenerator {
     @Autowired
     private GridService gridService;
@@ -18,6 +20,7 @@ public class GridGenerator {
     private BuyCheckerService buyChecker;
 
     public void process(List<Price> priceListM2, List<Price> priceListM3) {
+        long startTime = System.currentTimeMillis();
         SimpleGrid simpleGrid = new SimpleGrid();
         var iMax = 0;
         for (int i = 1; i < priceListM2.size(); i++) {
@@ -38,6 +41,7 @@ public class GridGenerator {
                 gridService.processing(priceListM2.get(i));
             }
         }
+        log.info("generation grid execution time is {} milliseconds", (System.currentTimeMillis() - startTime));
     }
 
     private void resetSimpleGrid(SimpleGrid simpleGrid, int minGrid) {

@@ -44,7 +44,7 @@ public class Calculator implements CommandLineRunner {
     @Autowired
     private GridGenerator gridGenerator;
     private long startTime;
-    private ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     @Override
     public void run(String... args) {

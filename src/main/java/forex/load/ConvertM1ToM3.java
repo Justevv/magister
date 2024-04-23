@@ -19,7 +19,7 @@ public class ConvertM1ToM3 extends Converter {
             if ((date.getMinute() % 3) == 0 && datePlus2Minutes.equals(datePlus2Bar)) {
                 price = new Price();
                 price.setDateValue(priceM1List.get(m2).getDateValue());
-                List<Price> priceList = priceM1List.subList(m2, m2+3);
+                List<Price> priceList = priceM1List.subList(m2, m2 + 3);
                 int maxPrice = priceList.stream()
                         .mapToInt(Price::getMaxPrice)
                         .max()
@@ -30,12 +30,13 @@ public class ConvertM1ToM3 extends Converter {
                         .orElse(0);
                 price.setMaxPrice(maxPrice);
                 price.setMinPrice(minPrice);
-                price.setClosePrice(priceM1List.get(m2 + 2).getClosePrice());
+                price.setClosePrice(priceList.get(priceList.size() - 1).getClosePrice());
                 m2 += 2;
             } else {
-                if (date.getMinute() % 3 == 0 && datePlus2Minutes.equals(priceM1List.get(m2 + 1).getDateValue()) ||
-                        checkBar(priceM1List.get(m2), priceM1List.get(m2 + 1))) {
-                    price = setPriceTwoCoincidences(priceM1List.get(m2), priceM1List.get(m2 + 1));
+                Price price1 = priceM1List.get(m2 + 1);
+                if (date.getMinute() % 3 == 0 && datePlus2Minutes.equals(price1.getDateValue()) ||
+                        checkBar(priceM1List.get(m2), price1)) {
+                    price = setPriceTwoCoincidences(priceM1List.get(m2), price1);
                     m2++;
                 } else {
                     price = setPriceOneCoincidences(priceM1List.get(m2));
