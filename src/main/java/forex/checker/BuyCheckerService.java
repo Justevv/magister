@@ -1,5 +1,6 @@
 package forex.checker;
 
+import forex.constant.Constant;
 import forex.entity.Grid;
 import forex.load.Price;
 import forex.processing.GridService;
@@ -50,9 +51,7 @@ public class BuyCheckerService {
                 if (grid.getBuyMinGrid() == Integer.MAX_VALUE || priceListM3.get(m3Position).getDateValue().isAfter(dateValue.plusHours(1))) {
                     return;
                 }
-                if ((priceListM3.get(m3Position).getDateValue().isEqual(dateValue)
-                        || priceListM3.get(m3Position).getDateValue().isAfter(dateValue))
-                        && priceListM3.get(m3Position).getMinPrice() == grid.getBuyMinGrid()) {
+                if (priceListM3.get(m3Position).getMinPrice() == grid.getBuyMinGrid()) {
                     List<Price> m3 = priceListM3.subList(m3Position, m3Position + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
 
 //                    var c = executorService.submit(M3Checker.builder()
@@ -110,7 +109,7 @@ public class BuyCheckerService {
 
     private void buyOpen(Grid grid, float minPrice) {
         grid.getSteps().add(1);
-        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * 0.382 + grid.getBuyMinGrid() > minPrice) {
+        if ((grid.getBuyMaxGrid() - grid.getBuyMinGrid()) * Constant.FIBONACCI_0382 + grid.getBuyMinGrid() > minPrice) {
             grid.getSteps().add(6);
         }
         gridService.addWorkGrid(grid);
