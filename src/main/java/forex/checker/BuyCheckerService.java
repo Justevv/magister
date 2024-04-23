@@ -7,6 +7,9 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -38,22 +41,30 @@ public class BuyCheckerService {
 //                && grid.getBuyDataValue().getHour() >= 7 - (grid.getBuyRollbackCount() / 30)
 //                && priceList.get(i - grid.getBuyRollbackCount()).getDateValue().getHour() <= 17
         ) {
+//            count = 0;
             grids.add(grid);
-            int m2Bar = Math.max(i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2,0);
-            for (int j = (m2Bar) * 2 / 3; j < priceListM3.size(); j++) {
-                if (priceListM3.get(j).getDateValue().isAfter(priceList.get(m2Bar).getDateValue()) && priceListM3.get(j).getMinPrice() == grid.getBuyMinGrid()) {
-                    List<Price> m3 = priceListM3.subList(j, j + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
+            int m2Bar = Math.max(i - grid.getBuyPulseCount() - grid.getBuyRollbackCount() - 2, 0);
+            LocalDateTime dateValue = priceList.get(m2Bar).getDateValue();
+            int m3Position = getM3Position(priceListM3, m2Bar, dateValue);
+            for (; m3Position < priceListM3.size(); m3Position++) {
+                if (grid.getBuyMinGrid() == Integer.MAX_VALUE || priceListM3.get(m3Position).getDateValue().isAfter(dateValue.plusHours(1))) {
+                    return;
+                }
+                if ((priceListM3.get(m3Position).getDateValue().isEqual(dateValue)
+                        || priceListM3.get(m3Position).getDateValue().isAfter(dateValue))
+                        && priceListM3.get(m3Position).getMinPrice() == grid.getBuyMinGrid()) {
+                    List<Price> m3 = priceListM3.subList(m3Position, m3Position + grid.getBuyPulseCount() + grid.getBuyRollbackCount());
 
 //                    var c = executorService.submit(M3Checker.builder()
 //                            .priceList(m3)
 //                            .build());
 //                    var d = executorService.submit(EMAChecker.builder()
-//                            .j(j)
+//                            .m3Position(m3Position)
 //                            .grid(grid)
 //                            .priceList(priceListM3)
 //                            .build());
 //                    var v = executorService.submit(EMAChecker.builder()
-//                            .j(i)
+//                            .m3Position(i)
 //                            .grid(grid)
 //                            .priceList(priceList)
 //                            .build());
@@ -63,7 +74,7 @@ public class BuyCheckerService {
 //                    grid.getEmaIntersect().setM2(v.get());
 
                     grid.setM3Ok(m3Checker.processM3(m3));
-                    grid.getEmaIntersect().setM3(emaChecker.checkEma(j, grid, priceListM3));
+                    grid.getEmaIntersect().setM3(emaChecker.checkEma(m3Position, grid, priceListM3));
                     grid.getEmaIntersect().setM2(emaChecker.checkEma(i, grid, priceList));
                     if (grid.isM3Ok() && grid.getEmaIntersect().isM3() && grid.getEmaIntersect().isM2()) {
                         buyOpen(grid, priceList.get(i).getMinPrice());
@@ -72,6 +83,29 @@ public class BuyCheckerService {
                 }
             }
         }
+    }
+
+    private int getM3Position(List<Price> priceListM3, int m2Bar, LocalDateTime dateValue) {
+        int m3Position = (m2Bar) * 2 / 3;
+        int barsCountOffset = 1000;
+        while (barsCountOffset > 2) {
+            m3Position = getM3Position(priceListM3, dateValue, m3Position, barsCountOffset);
+            barsCountOffset /= 2;
+        }
+        while (priceListM3.get(m3Position + 1).getDateValue().isBefore(dateValue.minusMinutes(10))) {
+            m3Position += 1;
+        }
+        if (priceListM3.get(m3Position).getDateValue().isAfter(dateValue)) {
+            throw new RuntimeException("fail");
+        }
+        return m3Position;
+    }
+
+    private int getM3Position(List<Price> priceListM3, LocalDateTime dateValue, int m3Position, int barsCountOffset) {
+        while (priceListM3.size() > m3Position + barsCountOffset && priceListM3.get(m3Position + barsCountOffset).getDateValue().isBefore(dateValue)) {
+            m3Position += barsCountOffset;
+        }
+        return m3Position;
     }
 
     private void buyOpen(Grid grid, float minPrice) {

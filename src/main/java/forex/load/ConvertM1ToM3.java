@@ -24,8 +24,12 @@ public class ConvertM1ToM3 extends Converter {
                         .mapToInt(Price::getMaxPrice)
                         .max()
                         .orElse(0);
+                int minPrice = priceList.stream()
+                        .mapToInt(Price::getMinPrice)
+                        .min()
+                        .orElse(0);
                 price.setMaxPrice(maxPrice);
-                price.setMinPrice(Math.min(priceM1List.get(m2 + 2).getMinPrice(), Math.min(priceM1List.get(m2).getMinPrice(), priceM1List.get(m2 + 1).getMinPrice())));
+                price.setMinPrice(minPrice);
                 price.setClosePrice(priceM1List.get(m2 + 2).getClosePrice());
                 m2 += 2;
             } else {
